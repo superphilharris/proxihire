@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
-		<title>Rent Stuff</title>
+		<title>Rent Stuff - 3m Ladder</title>
 		<meta name="generator" content="Rent Stuff" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -35,14 +35,14 @@
             <div class="input-group-btn">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-chevron-down"></span></button>
               <ul class="dropdown-menu">
-                <li><a href="#">Category 1</a></li>
-                <li><a href="#">Category 2</a></li>
-                <li><a href="#">Category 3</a></li>
+                <li><a href="#">Party</a></li>
+                <li><a href="#">Cars</a></li>
+                <li><a href="#">Construction</a></li>
                 <li><a href="#">Category 4</a></li>
                 <li><a href="#">Category 5</a></li> 
               </ul>
             </div>
-            <input type="text" class="form-control" placeholder="What are searching for?">
+            <input type="text" class="form-control" placeholder="Search">
             <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> </span>
           </div>
         </div>
@@ -55,7 +55,7 @@
   <div class="row">
   	<div class="col-xs-8" id="left">
     
-      <h2>Bootstrap Google Maps Demo</h2>
+      <h2>Construction > Ladders</h2>
       
       <!-- item list -->
       <div class="panel panel-default">
