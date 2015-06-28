@@ -22,7 +22,6 @@
 		<?php echo $this->headScript()
 			->prependFile($this->basePath('js/bootstrap.min.js'))
 			->prependFile($this->basePath('js/categories.js'))
-			->prependFile($this->basePath('js/scripts.js'))
 			->prependFile("//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js")
 			->prependFile("http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed")
 			->prependFile($this->basePath('js/html5shiv.min.js'),   'text/javascript', array('conditional' => 'lt IE 9',))
@@ -55,14 +54,11 @@
 		</nav>
 		<div class="container">
 			<?php echo $this->content; ?>
-<?php 
-require_once('public/xmlhttp/searchResults.php');
-?>
 			<hr>
 				<footer>
-					<p>&copy; 2014 - <?php echo date('Y') ?> by Rent Stuff<?php echo $this->translate('All rights reserved.') ?></p>
+					<p>&copy; 2014 - <?php echo date('Y') ?> by Rent Stuff. <?php echo $this->translate('All rights reserved.') ?></p>
 				</footer>
 			</div> <!-- /container -->
-	 	<?php echo $this->inlineScript() ?>
+	 	<?php echo $this->inlineScript()->prependFile($this->basePath('js/scripts.js')) ?>
 	</body>
 </html>

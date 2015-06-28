@@ -24,10 +24,10 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'application' => array(
+            'search' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/application',
+                    'route'    => '/search',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Index',
@@ -39,12 +39,14 @@ return array(
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/[:controller[/:action]]',
+                            'route'    => '/:category[/:location]',
                             'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'category' => '[a-z]*',
+                                'location'     => '[a-z]*',
                             ),
                             'defaults' => array(
+								'controller'    => 'Search',
+								'action'        => 'index',
                             ),
                         ),
                     ),
@@ -60,6 +62,9 @@ return array(
         'factories' => array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
         ),
+		'invokables' => array(
+			'Application\Service\AssetServiceInterface' => 'Application\Service\AssetService'
+		),
     ),
     'translator' => array(
         'locale' => 'en_US',
@@ -73,8 +78,11 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => 'Application\Controller\IndexController'
+            'Application\Controller\Index' => 'Application\Controller\IndexController',
         ),
+		'factories' => array(
+            'Application\Controller\Search' => 'Application\Factory\SearchControllerFactory'
+		),
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,
