@@ -6,10 +6,7 @@ $(document).ready(function(){
 		var returnList = [];
 		if(category.aliases){
 			for(var i in category.aliases){
-				returnList[returnList.length] = {
-					value:		category.aliases[i],
-					category:	category.aliases[0]
-				}
+				returnList[returnList.length] = category.aliases[i]
 			}
 		}
 		if(category.children){
@@ -44,14 +41,12 @@ $(document).ready(function(){
 		};
 	
 	$('#mainSearchBar').typeahead({
-		hint: 		true,
-		highlight: 	true,
-		minLength: 	1
+		hint: true,
+		highlight: true,
+		minLength: 1
 	}, {
-		display: 'value',
-		source: substringMatcher(categories),
-		name: 'categories',
-		suggestion: Handlebars.compile('<div><strong>{{value}}</strong> – {{category}}</div>')
+		source: substringMatcher(linearize(categories)),
+		name: 'categories'
 	})
 	// TODO psh send list to typeahead search box.
 });
