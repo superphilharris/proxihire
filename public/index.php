@@ -36,17 +36,21 @@
 
 <div id="map-canvas"></div>
 <div class="container-fluid" id="main">
-<?php 
-require_once('xmlhttp/searchResults.php');
-?>
+	<div class="row">
+		<div class="col-xs-8" id="left">
+			<?php 
+			require_once('xmlhttp/searchResults.php');
+			?>
+		<div class="col-xs-4"><!--map-canvas will be postioned here--></div>
+	</div>
 </div>
-<!-- end template -->
-
-	<!-- script references -->
-		<script src="js/categories.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="js/typeahead.js"></script> <!--  TODO psh: replace with min -->
+		<script src="js/typeahead.bloodhound.js"></script> <!--  TODO psh: replace with min -->
 		<script src="http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed"></script>
-		<script src="js/scripts.js"></script>
+		<script src="js/googleMaps.js"></script>
+		<script src="js/categories.js"></script>
+		<script src="js/index.js"></script>
 	</body>
 </html>

@@ -1,6 +1,14 @@
-  <div class="row">
-  	<div class="col-xs-8" id="left">
-    
+<?php 
+$request = array("category"=>"ladder", "latitude"=>null, "longitude"=>null);
+$results = array();
+
+// Construction > Ladder
+echo '<h2>'.$request['category'].'</h2>';
+
+foreach($results as $result){
+	echo '<hr>';
+}
+?>
       <h2>Construction > Ladder</h2>
       
       <!-- item list -->
@@ -58,6 +66,5 @@
       <hr>      
 
     </div>
-    <div class="col-xs-4"><!--map-canvas will be postioned here--></div>
     
-  </div>
+    

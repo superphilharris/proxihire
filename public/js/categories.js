@@ -1,4 +1,5 @@
-categories = [
+categories = {
+	children: [
 	{
 		aliases: ["construction","building"],
 		children: [
@@ -13,7 +14,7 @@ categories = [
 			}
 		]
 	},{
-		aliases: ["catering","event","party","wedding"]
+		aliases: ["catering","event","party","wedding"],
 		children: [
 		    {
 				aliases: ["speaker","sound"]
@@ -22,7 +23,7 @@ categories = [
 				aliases: ["tent","hall"]
 			},
 			{
-				aliases: ["dishes","cutlery"]
+				aliases: ["dishes","cutlery"],
 				children: [
 					{
 						aliases: ["spoon","teaspoon","tablespoon"]
@@ -66,4 +67,6 @@ categories = [
 			}
 		]
 	}
-];
+],
+aliases: [""] 
+};
