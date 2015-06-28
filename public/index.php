@@ -1,56 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<title>Rent Stuff - 3m Ladder</title>
-		<meta name="generator" content="Rent Stuff" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-		<link href="css/styles.css" rel="stylesheet">
-	</head>
-	<body>
-<!-- begin template -->
-<div class="navbar navbar-custom navbar-fixed-top">
- 	<div class="navbar-header"><a class="navbar-brand" href="#">Rent Stuff Logo</a>
-      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-    </div>
-    <div class="navbar-collapse collapse col-md-offset-2">
-      <form class="navbar-form">
-        <div class="form-group" style="display:inline;">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> </span>
-          </div>
-        </div>
-      </form>
-    </div>
-</div>
+<?php
+error_reporting(E_ALL|E_STRICT);
+ini_set('display_errors','on');
 
-<div id="map-canvas"></div>
-<div class="container-fluid" id="main">
-	<div class="row">
-		<div class="col-xs-8" id="left">
-			<?php 
-			require_once('xmlhttp/searchResults.php');
-			?>
-		<div class="col-xs-4"><!--map-canvas will be postioned here--></div>
-	</div>
-</div>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/typeahead.js"></script> <!--  TODO psh: replace with min -->
-		<script src="js/typeahead.bloodhound.js"></script> <!--  TODO psh: replace with min -->
-		<script src="http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed"></script>
-		<script src="js/googleMaps.js"></script>
-		<script src="js/categories.js"></script>
-		<script src="js/index.js"></script>
-	</body>
-</html>
+
+/**
+ * This makes our life easier when dealing with paths. Everything is relative
+ * to the application root now.
+ */
+chdir(dirname(__DIR__));
+
+// Decline static file requests back to the PHP built-in webserver
+if (php_sapi_name() === 'cli-server') {
+    $path = realpath(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    if (__FILE__ !== $path && is_file($path)) {
+        return false;
+    }
+    unset($path);
+}
+
+// Setup autoloading
+require 'init_autoloader.php';
+
+// Run the application!
+Zend\Mvc\Application::init(require 'config/application.config.php')->run();
