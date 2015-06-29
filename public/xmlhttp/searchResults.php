@@ -4,25 +4,24 @@ $results = array();
 
 // Construction > Ladder
 
-foreach($results as $result){
-	echo '<hr>';
-}
 ?>
 <ul class="breadcrumb">
-	<li class="dropdown open"><a class="dropdown-toggle" id="branches"
-		role="button" data-toggle="dropdown" href="#">default <b class="caret"></b></a>
+	<li class="dropdown">
+		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">construction <b class="caret"></b></a>
 		<ul id="branches-dropdown" class="dropdown-menu">
-			<li><a tabindex="-1" href="...8109a3a986c7">commissions - <code>8109a3a986c7</code></a></li>
-			<li><a tabindex="-1" href="...76d3a7022f9e">dashboard-integration - <code>76d3a7022f9e</code></a></li>
-			<li><a tabindex="-1" href="...4ee00eb42b72">default - <code>4ee00eb42b72</code></a></li>
-			<li><a tabindex="-1" href="...10755b086192">led-support - <code>10755b086192</code></a></li>
-			<li><a tabindex="-1" href="...298fa9e18508">stable - <code>298fa9e18508</code></a></li>
-			<li><a tabindex="-1" href="...990826c5d5df">xdm-customer-selection -
-					<code>990826c5d5df</code>
-			</a></li>
-		</ul> <span class="divider">/</span></li>
-	<li><a href="...4ee00eb42b72">aeroclub.aeroexpress</a> <span
-		class="divider">/</span></li>
+			<li><a tabindex="-1" href="catering">catering</a></li>
+			<li><a tabindex="-1" href="construction">construction</a></li>
+			<li><a tabindex="-1" href="travel">travel</a></li>
+		</ul>
+	</li>
+	<li class="dropdown">
+		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">ladder<b class="caret"></b></a>
+		<ul id="branches-dropdown" class="dropdown-menu">
+			<li><a tabindex="-1" href="ladder">ladder</a></li>
+			<li><a tabindex="-1" href="fence">fence</a></li>
+			<li><a tabindex="-1" href="portaloo">portaloo</a></li>
+		</ul>
+	</li>
 </ul>
 
 <!-- item list -->
