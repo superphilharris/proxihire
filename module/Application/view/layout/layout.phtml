@@ -53,15 +53,12 @@ echo $this->headLink(array (
 				<?php
 				require_once ('public/xmlhttp/searchResults.php');
 				?>
+				<p>&copy; 2014 - <?php echo date('Y') ?> by Rent Stuff. <?php echo $this->translate('All rights reserved.') ?></p>
 				<div class="col-xs-4">
 					<!--map-canvas will be postioned here-->
 				</div>
 			</div>
 		</div>
-		<hr>
-		<footer>
-			<p>&copy; 2014 - <?php echo date('Y') ?> by Rent Stuff. <?php echo $this->translate('All rights reserved.') ?></p>
-		</footer>
 	</div>
 	<!-- /container -->
 	 	<?php echo $this->inlineScript()?>
