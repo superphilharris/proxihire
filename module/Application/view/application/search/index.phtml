@@ -1,23 +1,8 @@
 <div class="row">
 <div class="col-xs-8" id="left">
-	<ul class="breadcrumb">
-		<li class="dropdown">
-			<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">construction <b class="caret"></b></a>
-			<ul id="branches-dropdown" class="dropdown-menu">
-				<li><a tabindex="-1" href="catering">catering</a></li>
-				<li><a tabindex="-1" href="construction">construction</a></li>
-				<li><a tabindex="-1" href="travel">travel</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">ladder<b class="caret"></b></a>
-			<ul id="branches-dropdown" class="dropdown-menu">
-				<li><a tabindex="-1" href="ladder">ladder</a></li>
-				<li><a tabindex="-1" href="fence">fence</a></li>
-				<li><a tabindex="-1" href="portaloo">portaloo</a></li>
-			</ul>
-		</li>
-	</ul>
+  <!-- category picker -->
+  <?php echo $this->category_picker ?>
+  <!-- /category picker -->
   
   <!-- item list -->
   <?php echo $this->result_list ?>

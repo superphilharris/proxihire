@@ -18,9 +18,12 @@ class SearchController extends AbstractActionController
 
     public function indexAction()
     {
-		$view = new ViewModel(array(
+		$view = new ViewModel(array());
+
+		$categoryPickerView = new ViewModel(array(
 			'category'  => $this->params()->fromRoute('category'),
 		));
+		$categoryPickerView->setTemplate('application/search/category-picker');
 
 		$resultListView = new ViewModel(array(
 			'assetList' => $this->getAssetList(),
@@ -30,7 +33,8 @@ class SearchController extends AbstractActionController
 		$mapView = new ViewModel();
 		$mapView->setTemplate('application/search/map');
 
-		$view->addChild($resultListView, 'result_list')
+		$view->addChild($categoryPickerView, 'category_picker')
+			 ->addChild($resultListView, 'result_list')
 			 ->addChild($mapView,        'map');
 
         return $view;
