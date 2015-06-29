@@ -17,10 +17,11 @@ echo $this->headMeta()	->appendName('viewport', 'width=device-width, initial-sca
 echo $this->headLink(array (
 				'rel' => 'shortcut icon',
 				'type' => 'image/x-icon',
-				'href' => $this->basePath('img/favicon.ico') 
-		))->prependStylesheet($this->basePath('css/styles.css'))->
+				'href' => $this->basePath('img/favicon.ico')))
+		->prependStylesheet($this->basePath('css/styles.css'))
+		->prependStylesheet($this->basePath('css/typeaheadjs.css'))
 		// ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
-		prependStylesheet($this->basePath('css/bootstrap.min.css'))?>
+		->prependStylesheet($this->basePath('css/bootstrap.min.css'))?>
 
 </head>
 <body>
