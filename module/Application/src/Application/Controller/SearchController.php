@@ -3,6 +3,7 @@
 namespace Application\Controller;
 
 use Application\Service\AssetServiceInterface;
+use Application\Service\CategoryAliasesServiceInterface;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -11,9 +12,11 @@ class SearchController extends AbstractActionController
 {
 	protected $assetService;
 
-	public function __construct(AssetServiceInterface $assetService)
+	public function __construct(AssetServiceInterface           $assetService,
+	                            CategoryAliasesServiceInterface $categoryAliasesService)
 	{
 		$this->assetService=$assetService;
+		$this->categoryAliasesService=$categoryAliasesService;
 	}
 
     public function indexAction()
@@ -22,6 +25,7 @@ class SearchController extends AbstractActionController
 
 		$categoryPickerView = new ViewModel(array(
 			'category'  => $this->params()->fromRoute('category'),
+			'categoryAliases' => $this->categoryAliasesService->getCategoryAliases()->get(),
 		));
 		$categoryPickerView->setTemplate('application/search/category-picker');
 

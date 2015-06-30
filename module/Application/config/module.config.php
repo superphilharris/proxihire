@@ -63,7 +63,8 @@ return array(
             'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
         ),
 		'invokables' => array(
-			'Application\Service\AssetServiceInterface' => 'Application\Service\AssetService'
+			'Application\Service\AssetServiceInterface' => 'Application\Service\AssetService',
+			'Application\Service\CategoryAliasesServiceInterface' => 'Application\Service\CategoryAliasesService'
 		),
     ),
     'translator' => array(

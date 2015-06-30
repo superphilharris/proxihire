@@ -1,72 +1,72 @@
 categories = {
-	children: [
+	"children": [
 	{
-		aliases: ["construction","building"],
-		children: [
+		"aliases": ["construction","building"],
+		"children": [
 			{
-				aliases: ["ladder"]
+				"aliases": ["ladder"]
 			},
 			{
-				aliases: ["fence","fencing"]
+				"aliases": ["fence","fencing"]
 			},
 			{
-				aliases: ["portaloo","loo","toilet"]
+				"aliases": ["portaloo","loo","toilet"]
 			}
 		]
 	},{
-		aliases: ["catering","event","party","wedding"],
-		children: [
+		"aliases": ["catering","event","party","wedding"],
+		"children": [
 		    {
-				aliases: ["speaker","sound"]
+				"aliases": ["speaker","sound"]
 			},
 			{
-				aliases: ["tent","hall"]
+				"aliases": ["tent","hall"]
 			},
 			{
-				aliases: ["dishes","cutlery"],
-				children: [
+				"aliases": ["dishes","cutlery"],
+				"children": [
 					{
-						aliases: ["spoon","teaspoon","tablespoon"]
+						"aliases": ["spoon","teaspoon","tablespoon"]
 					},
 					{
-						aliases: ["plate","platter"]
+						"aliases": ["plate","platter"]
 					}
 				]
 			},
 			{
-				aliases: ["decoration"],
-				children: [
+				"aliases": ["decoration"],
+				"children": [
 					{
-						aliases: ["vase"]
+						"aliases": ["vase"]
 					},
 					{
-						aliases: ["flower"]
+						"aliases": ["flower"]
 					}
 				]
 			}
 		]
 	},{
-		aliases: ["travel","tourism"],
-		children: [
+		"aliases": ["travel","tourism"],
+		"children": [
 			{
-				aliases: ["bike"]
+				"aliases": ["bike"]
 			},
 			{
-				aliases: ["car","vehicle"],
-				children: [
+				"aliases": ["car","vehicle"],
+				"children": [
 					{
-						aliases: ["campervan","camper","campa"]
+						"aliases": ["campervan","camper","campa"]
 					},
 					{
-						aliases: ["van","truck"]
+						"aliases": ["van","truck"]
 					}
 				]
 			},
 			{
-				aliases: ["kayak","boat","jetski"]
+				"aliases": ["kayak","boat","jetski"]
 			}
 		]
 	}
 ],
-aliases: [""] 
+"aliases": [""] 
 };

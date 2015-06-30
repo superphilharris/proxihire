@@ -1,10 +1,18 @@
 	<ul class="breadcrumb">
 		<li class="dropdown">
-		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><?php echo $this->category ?><b class="caret"></b></a>
+		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+<?php 
+	echo $this->category // WARNING: In the future, this will be converted to an object rather than a string.
+?>
+			<b class="caret"></b></a>
 			<ul id="branches-dropdown" class="dropdown-menu">
-				<li><a tabindex="-1" href="catering">catering</a></li>
-				<li><a tabindex="-1" href="construction">construction</a></li>
-				<li><a tabindex="-1" href="travel">travel</a></li>
+<?php
+	foreach ( $this->categoryAliases->children as $child ){
+?>
+				<li><a tabindex="-1" href="<?php echo $child->aliases[0] ?>"><?php echo $child->aliases[0] ?></a></li>
+<?php
+	}
+?>
 			</ul>
 		</li>
 		<li class="dropdown">
