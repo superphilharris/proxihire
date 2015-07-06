@@ -1,13 +1,21 @@
 <?php
 namespace Application\Model;
 
+use Application\Helper\ClassHelper;
+
+use Application\Model\CategoryInterface;
+use Application\Model\LessorInterface;
+use Application\Model\AssetRateInterface;
+use Application\Model\AssetPropertyInterface;
+use Application\Model\UrlInterface;
+
 class Asset implements AssetInterface
 {
 	public $category;
 	public $clicks;
 	public $id;
 	public $lessor;
-	public $price;
+	public $rate;
 	public $properties;
 	public $url;
 
@@ -16,110 +24,134 @@ class Asset implements AssetInterface
 	 */
 	public function exchangeArray($data)
 	{
-		$this->setCategory(  (!empty($data['category']))   ? $data['category']   : null);
+		//$this->setCategory(  (!empty($data['category']))   ? $data['category']   : null);
 		$this->setClicks(    (!empty($data['clicks']))     ? $data['clicks']     : null);
 		$this->setId(        (!empty($data['id']))         ? $data['id']         : null);
-		$this->setLessor(    (!empty($data['lessor']))     ? $data['lessor']     : null);
-		$this->setPrice(     (!empty($data['price']))      ? $data['price']      : null);
-		$this->setProperties((!empty($data['properties'])) ? $data['properties'] : null);
-		$this->setUrl(       (!empty($data['url']))        ? $data['url']        : null);
+		//$this->setLessor(    (!empty($data['lessor']))     ? $data['lessor']     : null);
+		//$this->setRate(      (!empty($data['rate']))      ? $data['rate']      : null);
+		//$this->setProperties((!empty($data['properties'])) ? $data['properties'] : null);
+		//$this->setUrl(       (!empty($data['url']))        ? $data['url']        : null);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setCategory($category){
+	public function setCategory(CategoryInterface $category)
+	{
 		$this->category=$category;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getCategory(){
+	public function getCategory()
+	{
 		return $this->category;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setClicks($clicks){
+	public function incrementClicks()
+	{
+		$this->clicks=$this->clicks+1;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setClicks($clicks)
+	{
+		ClassHelper::checkAllArguments(__METHOD__,func_get_args(),array("integer"));
 		$this->clicks=$clicks;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getClicks(){
+	public function getClicks()
+	{
 		return $this->clicks;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setId($id){
+	public function setId($id)
+	{
+		ClassHelper::checkAllArguments(__METHOD__,func_get_args(),array("integer"));
 		$this->id=$id;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getId(){
+	public function getId()
+	{
 		return $this->id;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setLessor($lessor){
+	public function setLessor(LessorInterface $lessor)
+	{
 		$this->lessor=$lessor;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getLessor(){
+	public function getLessor()
+	{
 		return $this->lessor;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setPrice($price){
-		$this->price=$price;
+	public function setRate(AssetRateInterface $rate)
+	{
+		$this->rate=$rate;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getPrice(){
-		return $this->price;
+	public function getRate()
+	{
+		return $this->rate;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setProperties($properties){
+	public function setProperties(array $properties)
+	{
 		$this->properties=$properties;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getProperties(){
+	public function getProperties()
+	{
 		return $this->properties;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setUrl($url){
+	public function setUrl(UrlInterface $url)
+	{
 		$this->url=$url;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getUrl(){
+	public function getUrl()
+	{
 		return $this->url;
 	}
 }

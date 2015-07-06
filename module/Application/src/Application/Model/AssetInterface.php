@@ -1,6 +1,12 @@
 <?php
 namespace Application\Model;
 
+use Application\Model\CategoryInterface;
+use Application\Model\LessorInterface;
+use Application\Model\AssetRateInterface;
+use Application\Model\AssetPropertyInterface;
+use Application\Model\UrlInterface;
+
 interface AssetInterface
 {
 	/**
@@ -15,7 +21,7 @@ interface AssetInterface
 	 *
 	 * @param Application\Model\CategoryInterface $category The category
 	 */
-	public function setCategory($category);
+	public function setCategory(CategoryInterface $category);
 
 	/**
 	 * Returns the asset's category
@@ -23,6 +29,11 @@ interface AssetInterface
 	 * @return Application\Model\CategoryInterface
 	 */
 	public function getCategory();
+
+	/**
+	 * Increments the number of clickthroughs
+	 */
+	public function incrementClicks();
 
 	/**
 	 * Sets the number of clickthroughs
@@ -57,7 +68,7 @@ interface AssetInterface
 	 *
 	 * @param Application\Model\LessorInterface $lessor The asset's lessor
 	 */
-	public function setLessor($lessor);
+	public function setLessor(LessorInterface $lessor);
 
 	/**
 	 * Returns the asset's lessor
@@ -67,18 +78,18 @@ interface AssetInterface
 	public function getLessor();
 
 	/**
-	 * Sets the asset's price
+	 * Sets the asset's rate
 	 *
-	 * @param Application\Model\AssetPriceInterface $price The asset's price
+	 * @param Application\Model\AssetRateInterface $rate The asset's rate
 	 */
-	public function setPrice($price);
+	public function setRate(AssetRateInterface $rate);
 
 	/**
-	 * Returns the asset's price
+	 * Returns the asset's rate
 	 *
-	 * @return Application\Model\AssetPriceInterface
+	 * @return Application\Model\AssetRateInterface
 	 */
-	public function getPrice();
+	public function getRate();
 
 	/**
 	 * Sets the asset's properties
@@ -86,7 +97,7 @@ interface AssetInterface
 	 * @param array|Application\Model\AssetPropertyInterface $properties The 
 	 *        asset's properties
 	 */
-	public function setProperties($properties);
+	public function setProperties(array $properties);
 
 	/**
 	 * Returns the asset's properties
@@ -98,14 +109,14 @@ interface AssetInterface
 	/**
 	 * Sets the URL of the lessor's listing.
 	 *
-	 * @param string $url The asset's URL
+	 * @param Application\Model\UrlInterface $url The asset's URL
 	 */
-	public function setUrl($url);
+	public function setUrl(UrlInterface $url);
 
 	/**
 	 * Returns the URL of the lessor's listing.
 	 *
-	 * @return string
+	 * @return Application\Model\UrlInterface
 	 */
 	public function getUrl();
 }
