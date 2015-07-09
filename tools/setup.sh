@@ -246,8 +246,8 @@ mysql -u apache $MYSQL_APACHE_PASSOPT <<< "quit" || exit 1
 #-------------------------------------------------------------------------------
 # # DBV SET-UP
 
-MYSQL_APACHE_PASSWORD=${MYSQL_APACHE_PASSOPT// -p/}
-while ! grep -F "define('DB_PASSWORD', '$MYSQL_APACHE_PASSWORD');" "public/dbv/config.php" > /dev/null 2>&1;
+MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSOPT// -p/}
+while ! grep -F "define('DB_PASSWORD', '$MYSQL_ROOT_PASSWORD');" "public/dbv/config.php" > /dev/null 2>&1;
 do
 	if [ ! -e "public/dbv/config.php" ]
 	then
@@ -255,7 +255,7 @@ do
 		echo "You will need to enter the MYSQL root password into the dbv config file."
 		cp public/dbv/config.php.sample public/dbv/config.php
 	else
-		echo "It appears as though the apache password in the dbv config file is incorrect."
+		echo "It appears as though the root password in the dbv config file is incorrect."
 	fi
 	read -p "Press [enter] to config it." -s
 	vim -c ":set hlsearch" -c "/'DB_PASSWORD', '[^']*'" public/dbv/config.php
