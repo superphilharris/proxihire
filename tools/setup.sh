@@ -322,7 +322,7 @@ return array(
 		'driver'         => 'Pdo',
 		'username'       => 'apache',
 		'password'       => '$MYSQL_APACHE_PASSWORD',
-		'dsn'            => 'mysql:dbname=blog;host=localhost',
+		'dsn'            => 'mysql:dbname=RentStuff;host=localhost',
 		'driver_options' => array(
 			\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \\'UTF8\\''
 		)
