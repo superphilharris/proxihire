@@ -1,0 +1,1 @@
+INSERT INTO category ( name_fulnam ) VALUES ( 'construction' );
