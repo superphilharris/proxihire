@@ -1,6 +1,7 @@
 #!/bin/bash
 
 APACHE_CONFIG=${APACHE_CONFIG:-/etc/apache2/apache2.conf}
+APACHE_ENVVARS=${APACHE_ENVVARS:-/etc/apache2/envvars}
 APACHE_SITE_CONFIG=${APACHE_SITE_CONFIG:-/etc/apache2/sites-available/rentstuff.conf}
 APACHE_PHP_CONFIG=${APACHE_PHP_CONFIG:-/etc/php5/apache2/php.ini}
 
@@ -197,6 +198,7 @@ sudo a2enmod php5
 sudo a2enmod rewrite
 
 check_config "$APACHE_CONFIG" || exit 1
+check_config "$APACHE_ENVVARS" || exit 1
 check_config "$APACHE_SITE_CONFIG" || exit 1
 check_config "$APACHE_PHP_CONFIG" || exit 1
 
@@ -204,14 +206,14 @@ create_symbolic_link "${PWD}/public" "/var/www"
 
 # disable all sites
 for site in $(ls /etc/apache2/sites-enabled); do
-	sudo a2dissite $site
+	sudo a2dissite $site || exit 1
 done
 
 # enable rentstuff
-sudo a2ensite rentstuff.conf
+sudo a2ensite rentstuff.conf || exit 1
 
 # reload apache
-sudo service apache2 reload
+sudo service apache2 reload || exit 1
 
 #-------------------------------------------------------------------------------
 # # MYSQL SET-UP
@@ -262,3 +264,7 @@ do
 	echo
 	echo
 done
+
+# Give apache write permissions to the data folder
+find public/dbv/data -type d | xargs sudo chown -R $USER:www-data || exit 1
+find public/dbv/data -type d | xargs sudo chmod -R g+s || exit 1
