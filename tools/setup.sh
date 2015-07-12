@@ -218,13 +218,57 @@ sudo service apache2 reload || exit 1
 #-------------------------------------------------------------------------------
 # # MYSQL SET-UP
 
-source ${SCRIPT_DIR}/get_mysql_password_option root MYSQL_ROOT_PASSOPT
-# check the root password
-mysql -u root $MYSQL_ROOT_PASSOPT <<< "quit" || exit 1
+function get_mysql_passopt_from_file
+{
+	file="$1"
+	user="$2"
+	grep_arg_for_line="$3"
+	sed_arg_for_line="$4"
 
-source ${SCRIPT_DIR}/get_mysql_password_option apache MYSQL_APACHE_PASSOPT
-[ -n "$MYSQL_APACHE_PASSOPT" ] && \
-    mysql_apache_password="${MYSQL_APACHE_PASSOPT// -p/}"
+	if [ -e "$file" ]; then
+		password="$( grep -F "$grep_arg_for_line" "$file" | sed "$sed_arg_for_line" )"
+
+		# If we found a password, then try to access the database using it
+		if [ -n "$password" ]; then
+			password_option=" -p$password"
+		fi
+
+		if mysql -u $user $password_option <<< "quit"; then
+			echo "$password_option"
+		else
+			# if we failed to log in, then prompt for password
+			echo " -p"
+		fi
+	fi
+}
+
+# ### ROOT PASSWORD
+# First, try to get the root password from dbv
+MYSQL_ROOT_PASSOPT="$( get_mysql_passopt_from_file "public/dbv/config.php" root "define('DB_PASSWORD'," "s/define('DB_PASSWORD', *['\\\"]\\([^'\\\"]*\\)['\\\"].*/\\1/" )"
+
+# if we need to prompt the user for password
+if [ "$MYSQL_ROOT_PASSOPT" == " -p" ]; then
+	source ${SCRIPT_DIR}/get_mysql_password_option root MYSQL_ROOT_PASSOPT
+	# check the root password
+	mysql -u root $MYSQL_ROOT_PASSOPT <<< "quit" || exit 1
+fi
+
+MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSOPT// -p/}
+
+# ### APACHE PASSWORD
+# First, try to get the apache password from config/autoload/db.local.php
+MYSQL_APACHE_PASSOPT="$( get_mysql_passopt_from_file "config/autoload/db.local.php" apache "'password'" "s/\\s*[\\\"']password[\\\"']\\s*=> [\\\"']\\([^\\\"']*\)[\\\"'].*/\\1/" )"
+
+# if we need to prompt the user for password
+if [ "$MYSQL_APACHE_PASSOPT" == " -p" ]; then
+	source ${SCRIPT_DIR}/get_mysql_password_option apache MYSQL_APACHE_PASSOPT
+	# check the apache password
+	mysql -u apache $MYSQL_APACHE_PASSOPT <<< "quit" || exit 1
+fi
+[ -n "$MYSQL_APACHE_PASSOPT" ] && MYSQL_APACHE_PASSWORD="${MYSQL_APACHE_PASSOPT// -p/}"
+
+
+# ### CHECK THE DATABASE
 
 # see if the database `RentStuff` is created
 if ! mysql -u root $MYSQL_ROOT_PASSOPT RentStuff <<< "quit" > /dev/null 2>&1; then
@@ -248,7 +292,6 @@ mysql -u apache $MYSQL_APACHE_PASSOPT <<< "quit" || exit 1
 #-------------------------------------------------------------------------------
 # # DBV SET-UP
 
-MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSOPT// -p/}
 while ! grep -F "define('DB_PASSWORD', '$MYSQL_ROOT_PASSWORD');" "public/dbv/config.php" > /dev/null 2>&1;
 do
 	if [ ! -e "public/dbv/config.php" ]
@@ -268,3 +311,32 @@ done
 # Give apache write permissions to the data folder
 find public/dbv/data -type d | xargs sudo chown -R $USER:www-data || exit 1
 find public/dbv/data -type d | xargs sudo chmod -R g+s || exit 1
+
+#-------------------------------------------------------------------------------
+# # Set up DB for Zend
+
+cat <<EOF > /tmp/db.local.php.$$
+<?php
+return array(
+	'db' => array(
+		'driver'         => 'Pdo',
+		'username'       => 'apache',
+		'password'       => '$MYSQL_APACHE_PASSWORD',
+		'dsn'            => 'mysql:dbname=blog;host=localhost',
+		'driver_options' => array(
+			\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \\'UTF8\\''
+		)
+	),
+);
+?>
+EOF
+
+if [ ! -e "config/autoload/db.local.php" ]; then
+	mv "/tmp/db.local.php.$$" "config/autoload/db.local.php"
+elif [ -n "$( diff "/tmp/db.local.php.$$" "config/autoload/db.local.php" )" ]; then
+	echo "The file 'config/autoload/db.local.php' differs from the standard template."
+	read -s -p "Press [enter] to compare them: "
+	$DIFF_VIEWER "config/autoload/db.local.php" "/tmp/db.local.php.$$"
+fi
+
+rm "/tmp/db.local.php.$$"
