@@ -7,10 +7,10 @@ $ancestory = getAncestory($this->category, $this->categoryAliases);
 $i = count($ancestory) - 1;
 while ($i>=0AND property_exists($ancestory[$i], 'children')) {
 ?>
-		<li class="dropdown">
+		<li class="dropdown<?php if($i===0) echo " open"?>">
 		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
 			<?php 
-				if ($i != 0) echo $ancestory[$i-1]->aliases[0]; 
+				if ($i !== 0) echo $ancestory[$i-1]->aliases[0]; 
 			?>
 			<b class="caret"></b></a>
 			<ul id="branches-dropdown" class="dropdown-menu">
