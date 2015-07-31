@@ -25,7 +25,7 @@ class AssetService implements AssetServiceInterface
 	{
 		// TODO: implement
 		$asset = new Asset();
-		$asset->setCategory("ladders");
+		// $asset->setCategory("ladders");
 		$asset->setId($id);
 		return $asset;
 	}

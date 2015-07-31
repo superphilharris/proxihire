@@ -1,26 +1,49 @@
-	<ul class="breadcrumb">
+
+<ul class="breadcrumb">
+
+<?php
+$ancestory = getAncestory($this->category, $this->categoryAliases);
+
+$i = count($ancestory) - 1;
+while ($i>=0AND property_exists($ancestory[$i], 'children')) {
+?>
 		<li class="dropdown">
 		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-<?php 
-	echo $this->category // WARNING: In the future, this will be converted to an object rather than a string.
-?>
+			<?php 
+				if ($i != 0) echo $ancestory[$i-1]->aliases[0]; 
+			?>
 			<b class="caret"></b></a>
 			<ul id="branches-dropdown" class="dropdown-menu">
 <?php
-	foreach ( $this->categoryAliases->children as $child ){
+	foreach ( $ancestory[$i]->children as $sibling ){
 ?>
-				<li><a tabindex="-1" href="<?php echo $child->aliases[0] ?>"><?php echo $child->aliases[0] ?></a></li>
+				<li><a tabindex="-1" href="<?php echo $sibling->aliases[0] ?>"><?php echo $sibling->aliases[0] ?></a></li>
 <?php
 	}
 ?>
 			</ul>
 		</li>
-		<li class="dropdown">
-			<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">ladder<b class="caret"></b></a>
-			<ul id="branches-dropdown" class="dropdown-menu">
-				<li><a tabindex="-1" href="ladder">ladder</a></li>
-				<li><a tabindex="-1" href="fence">fence</a></li>
-				<li><a tabindex="-1" href="portaloo">portaloo</a></li>
-			</ul>
-		</li>
+<?php 
+	$i--;
+}
+?>
 	</ul>
+<?php 
+
+function getAncestory($categoryName, $alias){
+	if(property_exists($alias, 'children')) {
+		foreach($alias->children as $child){
+			if(in_array($categoryName, $child->aliases)){
+				return array($child, $alias);
+			}
+			$descendants = getAncestory($categoryName, $child);
+			if($descendants !== null){
+				array_push($descendants, $alias);
+				return $descendants;
+			}
+		}
+	}
+	return null;
+}
+
+?>
