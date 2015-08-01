@@ -31,12 +31,18 @@ while ($i>=0AND property_exists($ancestory[$i], 'children')) {
 <?php 
 
 function getAncestory($categoryName, $alias){
+	$ancestory = getAncestoryRecursive($categoryName, $alias);
+	if ($ancestory === null) 	return array($alias);
+	else 						return $ancestory;
+}
+
+function getAncestoryRecursive($categoryName, $alias){
 	if(property_exists($alias, 'children')) {
 		foreach($alias->children as $child){
 			if(in_array($categoryName, $child->aliases)){
 				return array($child, $alias);
 			}
-			$descendants = getAncestory($categoryName, $child);
+			$descendants = getAncestoryRecursive($categoryName, $child);
 			if($descendants !== null){
 				array_push($descendants, $alias);
 				return $descendants;
