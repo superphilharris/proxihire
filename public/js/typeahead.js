@@ -1,3 +1,27 @@
+/**
+ * Reads in the list of all possible values and filters them out if they contain the substring supplied by the user.
+ * @author Philip Harris
+ */
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+    // an array that will be populated with substring matches
+    matches = [];
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
+    if(q.toLowerCase() == matches[0]) console.log('typed the only suggestion: '+matches[0]);
+    cb(matches);
+  };
+};
+
+
 /*!
  * typeahead.js 0.11.1
  * https://github.com/twitter/typeahead.js
