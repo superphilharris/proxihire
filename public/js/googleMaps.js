@@ -1,6 +1,6 @@
 
 var allMarkers = [];
-var googleMap = null;
+var googleMap = null, mapsBouncingTimout = null;
 function addMapsMarker(lat, long, title, url){
 	allMarkers.push(new google.maps.Marker({
 		position: 	new google.maps.LatLng(lat, long),
@@ -19,6 +19,26 @@ function removeAllMarkers(){
 	}
 	allMarkers = [];
 }
+function bounceMarker(url){
+	for(var i=0; i<allMarkers.length; i++) {
+		if(url == allMarkers[i].url) {
+			allMarkers[i].setAnimation(google.maps.Animation.BOUNCE);
+			stopBouncing(url, 2);
+		} else {
+			allMarkers[i].setAnimation(null);
+		}
+	}
+}
+function stopBouncing(url, seconds){
+	clearTimeout(mapsBouncingTimout);
+	mapsBouncingTimout = setTimeout(function(){
+		for(var i=0; i<allMarkers.length; i++) {
+			if(url == allMarkers[i].url) {
+				allMarkers[i].setAnimation(null);
+			}
+		}
+	}, seconds * 1000)
+}
 
 $(document).ready(function(){/* google maps -----------------------------------------------------*/
 	google.maps.event.addDomListener(window, 'load', initialize);
@@ -36,14 +56,7 @@ $(document).ready(function(){/* google maps ------------------------------------
 	    zoom: 13
 	  };
 	  
-	  var marker = new google.maps.Marker({
-	    position: latlng,
-	    url: '/',
-	    animation: google.maps.Animation.DROP
-	  });
-	  
 	  googleMap = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-	  marker.setMap(googleMap);
 	  showAllMarkers();
 	};
 	/* end google maps -----------------------------------------------------*/

@@ -1,12 +1,11 @@
 <?php
 foreach( $this->assetList as $asset ){
-	$latitude = -36.862043 + rand(-10,10)/10;
-	$longitude = 174.761066 + rand(-10, 10)/10;
+	$url = "http://myawesomewebsite/" . $asset->getId();
 	?>
 	
 	
-	<div class="panel panel-default">
-	<div class="panel-heading"><a href=""><?php echo $asset->getCategory() ?></a></div>
+	<div class="panel panel-default" onmouseover="bounceMarker('<?php echo $url ?>')">
+	<div class="panel-heading"><a href=""><?php echo $asset->getCategory() ?></a>
 	</div>
 	<p><?php 
 	echo "Category: " . $asset->getCategory() . "<br/>";
@@ -14,9 +13,9 @@ foreach( $this->assetList as $asset ){
 	echo "Id: " . $asset->getId() . "<br/>";
 	echo "Lessor: " . $asset->getLessor() . "<br/>";
 	// echo "Price: " . $asset->getPrice() . "<br/>";
-	echo "Properties: " . $asset->getProperties() . "<br/>";
-	echo "URL: " . $asset->getUrl() . "<br/>";
+	echo "URL: " . $url . "<br/>";
 	?></p>
+	</div>
 	<hr>
 	
 	
@@ -26,10 +25,14 @@ foreach( $this->assetList as $asset ){
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function(){ 
 	<?php 
+	// 1. Add filters
+	
+	// 1. Add all the markers to the map
 	foreach( $this->assetList as $asset ){
 		$latitude = -36.862043 + rand(-10,10)/300;
 		$longitude = 174.761066 + rand(-10, 10)/500;
-		echo 'addMapsMarker('.$latitude.','.$longitude.',"'.$asset->getLessor().'","'.$asset->getUrl().'");';
+		$url = "http://myawesomewebsite/" . $asset->getId();
+		echo 'addMapsMarker('.$latitude.','.$longitude.',"'.$asset->getLessor().'","'.$url.'");';
 	}
 	?>
 	showAllMarkers();

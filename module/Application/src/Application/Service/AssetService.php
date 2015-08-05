@@ -24,9 +24,13 @@ class AssetService implements AssetServiceInterface
 	public function getAsset($id)
 	{
 		// TODO: implement
+		$properties = array();
+		array_push($properties, array("length" => rand(1,100)/10));
+		
 		$asset = new Asset();
 		// $asset->setCategory("ladders");
 		$asset->setId($id);
+		$asset->setProperties($properties);
 		return $asset;
 	}
 }
