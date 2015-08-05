@@ -17,6 +17,12 @@ function linearize(category){
 	return returnList;
 }
 
+
+/**
+ * This will modify the url to show the category and replace the search results of the page
+ * with the ajax response for the category
+ * @param category
+ */
 function goCategory(category){
 	window.location.href = category;
  /*   document.getElementById("content").innerHTML = response.html;
