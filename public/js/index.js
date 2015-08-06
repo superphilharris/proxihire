@@ -77,7 +77,7 @@ function updateFilterBar(){
 			'<div class="filterBarPropertyColumn">'+propertyName+
 				'<div class="filterBarColumnFilter '+propertyName.replace(' ', '_')+'_columnFilter">';
 		if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
-			html += '<input type="text" data-slider-orientation="vertical"/>';
+			html += '<input type="text" data-slider-orientation="vertical" name="'+propertyName+'" data-slider-min="'+mainProperties[propertyName].min+'" data-slider-max="'+mainProperties[propertyName].max+'"/>';
 		}else{
 			html += '<div class="btn-group-vertical" data-toggle="buttons">';
 			for(var i in mainProperties[propertyName].val){
@@ -94,14 +94,12 @@ function updateFilterBar(){
 		// 2. Bind the events
 		if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
 			$('.'+propertyName.replace(' ', '_')+'_columnFilter > input').slider({
-				min: 	mainProperties[propertyName].min,
-				max: 	mainProperties[propertyName].max,
 				value: 	[mainProperties[propertyName].min, mainProperties[propertyName].max],
 				step:	((mainProperties[propertyName].max - mainProperties[propertyName].min)/10).toPrecision(1),
 				focus: 	true
-			});
+			}).on('slide', filterResults);
 		}else{
-			
+			$('.'+propertyName.replace(' ', '_')+'_columnFilter').find('input').change(filterResults);
 		}
 		
 		// 3. Hide the main properties from the summary list, and show the main properties
@@ -133,7 +131,45 @@ function hideFilters(){
 	categoryAndFilterBar.css('height', height+'px');
 	$('.categoryAndFilterPadder').css('height', (height+15)+'px');
 }
-
+var filterTimeout = null;
+function filterResults(){
+	clearTimeout(filterTimeout);
+	filterTimeout = setTimeout(function(){
+		$('.assetPanel').each(function(){
+			$(this).show();
+		});
+		$('.filterBarColumnNames').find('.filterBarColumnFilter').each(function(){
+			var inputs = $(this).find('input');
+			// If this is a number slider input then filter out
+			if (inputs.length == 1 && inputs[0].type == "text" && inputs[0].value.split(",").length == 2){
+				var minLimit 	= parseFloat(inputs[0].value.split(",")[0]);
+				var maxLimit 	= parseFloat(inputs[0].value.split(",")[1]);
+				console.log()
+				var step 	= ((parseFloat($(inputs[0]).data('slider-max')) - parseFloat($(inputs[0]).data('slider-min')))/10).toPrecision(1);
+				
+				$('.assetPanel').each(function(){
+					var value = parseFloat($(this).find('.'+inputs[0].name.toLowerCase().replace(' ', '_')+'_column').text());
+					if((value <= minLimit-0.5*step) || (value >= maxLimit+0.5*step)){
+						$(this).hide();
+					}
+				});
+				
+			// This will be a checkbox categories list
+			}else{
+				var values = [];
+				inputs.filter(':checked').each(function(){ values[values.length] = $(this).val(); });
+				if(values.length > 0 && values.length != inputs.length){
+					$('.assetPanel').each(function(){
+						var value = $(this).find('.'+inputs[0].name.toLowerCase().replace(' ', '_')+'_column').text();
+						if(values.indexOf(value) == -1){
+							$(this).hide();
+						}
+					});
+				}
+			}
+		});
+	}, 1000);
+}
 
 /**
  * This will modify the url to show the category and replace the search results of the page
