@@ -62,3 +62,73 @@ body{
     bottom:0;
     overflow:hidden;
 }
+
+
+/* Search Results */
+.assetPropertiesSummary {
+	float: left;
+}
+.assetPropertyColumn {
+	float: right;
+	width: 120px;
+	height: 90px;
+	line-height: 90px;
+	text-align: center;
+	font-size: 1.5em;
+	border-left: 1px solid #ddd;
+}
+
+/* Search Filter */
+.categoryAndFilterBarWrapper {
+	position: fixed;
+	top: 55px;
+	left: 0px;
+}
+.categoryAndFilterBar {
+	background-color: #f5f5f5;
+	border: 1px solid #aaa;
+	border-radius: 0px 0px 4px 4px;
+	border-top: none;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	margin-right: 10px;
+	padding: 8px 15px;
+}
+.filterBar {
+	display: none;
+	text-align: center;
+	float:right;
+}
+.filterBarPropertyColumn {
+	width: 120px;
+	float: right;
+	border-left: 1px solid #ddd;
+}
+.filterBarColumnFilter {
+	display: none;
+	margin-top: 10px;
+}
+.filterBarColumnFilter .slider-vertical {
+	margin: 10px 85px 20px 15px;
+}
+.slider-selection { background: #BABABA;}
+.filterBarColumnFilterName {
+	width: 120px;
+	float: left;
+	text-align: right;
+}
+.filterMinimize {
+	position: absolute;
+	top: auto;
+	bottom: 0px;
+	left: 15px;
+	width: 40px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	display: none;
+}
+.filterIcon {
+	position: absolute;
+	top: 10px;
+	right: 35px;
+}

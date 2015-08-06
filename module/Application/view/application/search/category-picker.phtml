@@ -1,5 +1,7 @@
 
-<ul class="breadcrumb">
+<div class="categoryAndFilterBarWrapper col-xs-8">
+<div class="categoryAndFilterBar" onclick="showFilters();">
+	<ul class="breadcrumb" style="float:left;padding:0px;">
 
 <?php
 $ancestory = getAncestory($this->category, $this->categoryAliases);
@@ -17,7 +19,7 @@ while ($i>=0AND property_exists($ancestory[$i], 'children')) {
 <?php
 	foreach ( $ancestory[$i]->children as $sibling ){
 ?>
-				<li><a tabindex="-1" href="<?php echo $sibling->aliases[0] ?>"><?php echo $sibling->aliases[0] ?></a></li>
+				<li><a tabindex="-1" href="#" onclick="goCategory('<?php echo $sibling->aliases[0] ?>');"><?php echo $sibling->aliases[0] ?></a></li>
 <?php
 	}
 ?>
@@ -27,7 +29,15 @@ while ($i>=0AND property_exists($ancestory[$i], 'children')) {
 	$i--;
 }
 ?>
-	</ul>
+	</ul>&nbsp;
+	<div class="filterBar">
+		<div class="filterBarColumnNames"></div>
+		<span class="glyphicon glyphicon-filter filterIcon"></span>
+	</div>
+	<div class="glyphicon glyphicon-minus filterMinimize" onclick="hideFilters()"></div>
+</div>
+</div>
+<div style="height:50px;" class="categoryAndFilterPadder">&nbsp;</div>
 <?php 
 
 function getAncestory($categoryName, $alias){

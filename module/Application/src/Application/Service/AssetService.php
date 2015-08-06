@@ -12,10 +12,11 @@ class AssetService implements AssetServiceInterface
 	public function getAssetsInCategory($category,$filters=NULL)
 	{
 		// TODO: implement
-		return array(
-			$this->getAsset(1),
-			$this->getAsset(2),
-		);
+		$assets = array();
+		for($i=1; $i<100; $i++){
+			array_push($assets, $this->getAsset($i));
+		}
+		return $assets;
 	}
 
 	/**
@@ -26,6 +27,8 @@ class AssetService implements AssetServiceInterface
 		// TODO: implement
 		$properties = array();
 		array_push($properties, array("length" => rand(1,100)/10));
+		array_push($properties, array("type" => rand(0,1)==1 ? "double":"multi"));
+		
 		
 		$asset = new Asset();
 		// $asset->setCategory("ladders");

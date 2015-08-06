@@ -19,7 +19,8 @@ echo $this->headLink(array (
 				'type' => 'image/x-icon',
 				'href' => $this->basePath('img/favicon.ico')))
 		->prependStylesheet($this->basePath('css/styles.css'))
-		->prependStylesheet($this->basePath('css/typeaheadjs.css'))
+		->prependStylesheet($this->basePath('css/bootstrap-slider.css'))
+		->prependStylesheet($this->basePath('css/styles.css'))
 		// ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
 		->prependStylesheet($this->basePath('css/bootstrap.min.css'))?>
 
@@ -67,6 +68,7 @@ echo $this->headLink(array (
 echo $this->headScript()->prependFile($this->basePath('js/index.js'))
 						->prependFile($this->basePath('js/googleMaps.js'))
 						->prependFile($this->basePath('js/categories.js'))
+						->prependFile($this->basePath('js/bootstrap-slider.js'))
 						->prependFile("http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed")
 						->prependFile($this->basePath('js/typeahead.bloodhound.js'))
 						->prependFile($this->basePath('js/typeahead.js'))
