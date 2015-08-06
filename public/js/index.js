@@ -50,21 +50,27 @@ function getMainProperties(){
 		});
 	});
 
-	// Return only the properties that 80% of the assets have
+	// Return only the properties that 80% of the assets have, and if we can display them
+	// TODO: determine better way to determine which are the best properties
+	var maxNumberOfMainProperties = Math.floor(($('.categoryAndFilterBarWrapper').width()-300)/120);
 	var mainProperties = [];
+	var i = 0;
 	for(var propertyName in allProperties){
-		if(allProperties[propertyName].count/allProperties.length >= 0.8){
+		if(allProperties[propertyName].count/allProperties.length >= 0.8 && i < maxNumberOfMainProperties){
 			mainProperties[propertyName] = allProperties[propertyName];
 		}
+		i++;
 	}
 	return mainProperties;
 }
+
 function updateFilterBar(){
 	var mainProperties = getMainProperties();
 	var filterBar = $('.filterBar');
 	var filterBarColumnNames 	= filterBar.find('.filterBarColumnNames');
 	filterBarColumnNames.html('&nbsp;');
 	
+	// A. Add the filters at the top of the page
 	for(var propertyName in mainProperties){
 		// 1. Add the html
 		var html = 
@@ -97,6 +103,10 @@ function updateFilterBar(){
 		}else{
 			
 		}
+		
+		// 3. Hide the main properties from the summary list, and show the main properties
+		$('.'+propertyName.toLowerCase().replace(' ', '_')+'_propertySummary').hide();
+		$('.'+propertyName.toLowerCase().replace(' ', '_')+'_column').show();
 	}
 	filterBarColumnNames.show();
 	filterBar.show();
