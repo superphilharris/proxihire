@@ -27,7 +27,9 @@ class AssetService implements AssetServiceInterface
 		// TODO: implement
 		$properties = array();
 		array_push($properties, array("length" => rand(1,100)/10));
-		array_push($properties, array("type" => rand(0,1)==1 ? "double":"multi"));
+		array_push($properties, array("width" => rand(1,100)/20));
+		array_push($properties, array("gender" => rand(0,1)==1 ? "male":"female"));
+		if(rand(0,2) == 1) $properties[2]["gender"] = "neither";
 		
 		
 		$asset = new Asset();

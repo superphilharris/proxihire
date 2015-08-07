@@ -1,5 +1,6 @@
+<div style="height:50px;" class="categoryAndFilterPadder">&nbsp;</div>
 
-<div class="categoryAndFilterBarWrapper col-xs-12 col-sm-8">
+<div class="categoryAndFilterBarWrapper">
 <div class="categoryAndFilterBar" onclick="showFilters();">
 	<ul class="breadcrumb" style="float:left;padding:0px;">
 
@@ -37,7 +38,7 @@ while ($i>=0AND property_exists($ancestory[$i], 'children')) {
 	<div class="glyphicon glyphicon-minus filterMinimize" onclick="hideFilters()"></div>
 </div>
 </div>
-<div style="height:50px;" class="categoryAndFilterPadder">&nbsp;</div>
+
 <?php 
 
 function getAncestory($categoryName, $alias){

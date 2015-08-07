@@ -35,7 +35,7 @@ echo $this->headLink(array (
 				class="icon-bar"></span> <span class="icon-bar"></span>
 			</a>
 		</div>
-		<div class="navbar-collapse collapse col-md-offset-2">
+		<div class="navbar-collapse collapse col-md-offset-2" style="overflow-y: visible">
 			<form class="navbar-form">
 				<div class="form-group" style="display: inline;">
 					<div class="input-group">
@@ -53,13 +53,10 @@ echo $this->headLink(array (
 	<div class="container-fluid" id="main">
 		<div class="row">
 			<div class="col-xs-12 col-sm-8" id="left">
-				<?php
-				echo $this->content;
-				echo zend_version();
-				?>
+				<?php echo $this->content; ?>
 				<p>&copy; 2014 - <?php echo date('Y') ?> by Rent Stuff. <?php echo $this->translate('All rights reserved.') ?></p>
-				<?php echo $this->map ?>
 			</div>
+			<?php echo $this->map ?>
 		</div>
 	</div>
 	<!-- /container -->
