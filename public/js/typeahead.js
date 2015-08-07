@@ -16,7 +16,7 @@ var substringMatcher = function(strs) {
         matches.push(str);
       }
     });
-    if(q.toLowerCase() == matches[0]) console.log('typed the only suggestion: '+matches[0]);
+    if(q.toLowerCase() == matches[0] && matches.length == 1) goCategory(matches[0]);
     cb(matches);
   };
 };
