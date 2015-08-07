@@ -43,14 +43,13 @@ foreach( $this->assetList as $asset ){
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function(){ 
 	<?php 
-	// 1. Add filters
 	
 	// 1. Add all the markers to the map
 	foreach( $this->assetList as $asset ){
 		$latitude = -36.862043 + rand(-10,10)/300;
 		$longitude = 174.761066 + rand(-10, 10)/500;
 		$url = "http://myawesomewebsite.com/" . $asset->getId();
-		echo 'addMapsMarker('.$latitude.','.$longitude.',"'.$asset->getLessor().'","'.$url.'");';
+		echo 'allAssets.push({id:'.$asset->getId().',lat:'.$latitude.',long:'.$longitude.',url:"'.$url.'"});';
 	}
 	?>
 	showAllMarkers();

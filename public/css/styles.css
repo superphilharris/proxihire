@@ -82,7 +82,7 @@ body{
 /* Search Filter */
 .categoryAndFilterBarWrapper {
 	position: fixed;
-	top: 55px;
+	top: 50px;
 	left: 0px;
 }
 .categoryAndFilterBar {

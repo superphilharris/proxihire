@@ -21,6 +21,7 @@ echo $this->headLink(array (
 		->prependStylesheet($this->basePath('css/styles.css'))
 		->prependStylesheet($this->basePath('css/bootstrap-slider.css'))
 		->prependStylesheet($this->basePath('css/styles.css'))
+		->prependStylesheet($this->basePath('css/typeaheadjs.css'))
 		// ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
 		->prependStylesheet($this->basePath('css/bootstrap.min.css'))?>
 
@@ -38,9 +39,10 @@ echo $this->headLink(array (
 			<form class="navbar-form">
 				<div class="form-group" style="display: inline;">
 					<div class="input-group">
-						<input type="text" class="form-control typeahead" placeholder="Search" id="mainSearchBar"> <span
+						<input type="text" class="form-control typeahead twitter-typeahead" placeholder="Search" id="mainSearchBar"> <span
 							class="input-group-addon"><span
 							class="glyphicon glyphicon-search"></span> </span>
+							
 					</div>
 				</div>
 			</form>
@@ -50,9 +52,10 @@ echo $this->headLink(array (
 	<div id="map-canvas"></div>
 	<div class="container-fluid" id="main">
 		<div class="row">
-			<div class="col-xs-8" id="left">
+			<div class="col-xs-12 col-sm-8" id="left">
 				<?php
-				echo $this->content
+				echo $this->content;
+				echo zend_version();
 				?>
 				<p>&copy; 2014 - <?php echo date('Y') ?> by Rent Stuff. <?php echo $this->translate('All rights reserved.') ?></p>
 				<?php echo $this->map ?>
@@ -69,7 +72,6 @@ echo $this->headScript()->prependFile($this->basePath('js/index.js'))
 						->prependFile($this->basePath('js/googleMaps.js'))
 						->prependFile($this->basePath('js/categories.js'))
 						->prependFile($this->basePath('js/bootstrap-slider.js'))
-						->prependFile("http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed")
 						->prependFile($this->basePath('js/typeahead.bloodhound.js'))
 						->prependFile($this->basePath('js/typeahead.js'))
 						->prependFile($this->basePath('js/bootstrap.min.js'))
