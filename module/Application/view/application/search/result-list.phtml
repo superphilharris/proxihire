@@ -25,7 +25,6 @@ foreach( $this->assetList as $asset ){
 			</div>
 			<?php 
 			foreach($asset->getProperties() as $property){
-				\Zend\Debug\Debug::dump($property); //jih: remove this
 				$propertyName 	= $property->getName();
 				$propertyValue 	= $property->getValue();
 				echo '<div class="assetPropertyColumn '.str_replace(' ','_',$propertyName).'_column"><span>'.$propertyValue.'</span></div>'; 

@@ -16,7 +16,6 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 	 */
 	public function exchangeArray($data)
 	{
-		\Zend\Debug\Debug::dump($data); //jih: remove this
 		$this->id = isset($data['id']) ? (integer) $data['id'] : NULL;
 		$this->name = isset($data['name']) ? (string) $data['name'] : NULL;
 		$this->datatype_id = isset($data['datatype_id']) ? (integer) $data['datatype_id'] : NULL;
