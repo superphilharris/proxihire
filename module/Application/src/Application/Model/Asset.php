@@ -28,7 +28,6 @@ class Asset extends AbstractModel implements AssetInterface
 	 */
 	public function exchangeArray($data)
 	{
-		\Zend\Debug\Debug::dump($data); //jih: remove this
 		$this->id = isset($data['id']) ? (int) $data['id'] : NULL;
 		$this->category_id = isset($data['category_id']) ? (int) $data['category_id'] : NULL;
 		$this->lessor_id = isset($data['lessor_id']) ? (int) $data['lessor_id'] : NULL;
