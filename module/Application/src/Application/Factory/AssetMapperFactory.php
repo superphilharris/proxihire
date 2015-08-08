@@ -43,16 +43,16 @@ class AssetMapperFactory implements FactoryInterface
 		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 		$namingStrategy = new \Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy(array());
 
-		// jih: $assetRateMapperFactory = new AssetRateMapperFactory();
-		// jih: $assetPropertyMapperFactory = new AssetPropertyMapperFactory();
+		$assetRateMapperFactory = new AssetRateMapperFactory();
+		$assetPropertyMapperFactory = new AssetPropertyMapperFactory();
 
 		return new AssetMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
 			new \Application\Model\Asset,
 			$dbStructure,
-			// jih: $assetRateMapperFactory->createService($serviceLocator),
-			// jih: $assetPropertyMapperFactory->createService($serviceLocator),
+			$assetRateMapperFactory->createService($serviceLocator),
+			$assetPropertyMapperFactory->createService($serviceLocator),
 			$namingStrategy
 		);
 	}

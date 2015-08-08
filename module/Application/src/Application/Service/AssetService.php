@@ -49,8 +49,6 @@ class AssetService implements AssetServiceInterface
 		$this->assetMapper->setPrototypeArray($assetArray);
 		$this->assetMapper->findByCategory( $category, $filters );
 		$this->assetMapper->getUrls($this->urlMapper);
-		$this->assetMapper->getAssetRates($this->assetRateMapper);
-		$this->assetMapper->getAssetProperties($this->assetPropertyMapper);
 		return $this->assetMapper->getAssets();
 	}
 
