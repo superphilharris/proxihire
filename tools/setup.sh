@@ -55,6 +55,10 @@ function install_pkg {
 	MANAGER="apt"
 	while [[ $# > 0 ]]; do
 		case "$1" in
+			-f|--flags)
+				FLAGS="$2"
+				shift
+				;;
 			-m|--manager)
 				MANAGER="$2"
 				shift
@@ -89,7 +93,7 @@ function install_pkg {
 		"composer")
 			if [ ! -d "vendor/$(sed 's/^\([^:]*\).*/\1/' <<< $PACKAGE)" ]; then
 				echo "$PACKAGE isn't installed."
-				if ! php composer.phar require "$PACKAGE"; then
+				if ! php composer.phar require $FLAGS "$PACKAGE"; then
 					echo "Could not install $PACKAGE"
 					return 1
 				fi
@@ -172,9 +176,6 @@ if ! php composer.phar > /dev/null; then
 	fi
 fi
 
-## Install npm
-#install_pkg npm || exit 1
-
 # ## Install other dependencies
 
 # install vim for vimdiff (used in this setup script).
@@ -190,6 +191,10 @@ install_pkg -m composer zendframework/zftool:dev-master || exit 1
 
 # mysql
 install_pkg mysql-server || exit 1
+
+# Install phpunit
+install_pkg phpunit || exit 1
+install_pkg -f "--dev" -m "composer" "phpunit/phpunit"
 
 #-------------------------------------------------------------------------------
 # # APACHE SET-UP
@@ -311,6 +316,7 @@ done
 # Give apache write permissions to the data folder
 find public/dbv/data -type d | xargs sudo chown -R $USER:www-data || exit 1
 find public/dbv/data -type d | xargs sudo chmod -R g+s || exit 1
+find public/dbv/data -type f | xargs sudo chmod 664 || exit 1
 
 #-------------------------------------------------------------------------------
 # # Set up DB for Zend
