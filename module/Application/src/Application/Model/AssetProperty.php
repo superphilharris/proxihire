@@ -44,6 +44,32 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getDatatypeId()
+	{
+		return $this->datatype_id;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setDatatype($datatype)
+	{
+		// jih: make sure that everythig is in the interface.
+		// jih: all of these should be classhelpered.
+		$this->datatype=$datatype;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDatatype()
+	{
+		return $this->datatype;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setAsset($asset)
 	{
 		// jih: make sure that everythig is in the interface.

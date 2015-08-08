@@ -207,7 +207,16 @@ abstract class AbstractMapper
 		}
 
 		$this->setPrototypeArray($models);
+		$this->afterRetrieval();
 		return $this->prototypeArray;
+	}
+
+	/**
+	 * A callback function that gets called after retrieval from the database
+	 */
+	protected function afterRetrieval(){
+		// jih: This should be changed to an abstract function rather than an 
+		//      empty one.
 	}
 
 	/**
@@ -260,10 +269,11 @@ abstract class AbstractMapper
 	protected function getSubObject(
 		$subObjectMapper,
 		$subObjectName,
-		$getIdMethod,
-		$getMethod,
-		$setMethod,
-		$reload=false
+		$getSubObjectId,
+		$getSubObject,
+		$setSubObject,
+		$reload=false,
+		$returnSingle=false
 	){
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"Application\Mapper\AbstractMapper",
@@ -279,23 +289,26 @@ abstract class AbstractMapper
 		// not yet been fetched since setting the prototypes, then reload them.
 		if ( $reload OR ! isset($this->isLoaded[$subObjectName]) OR ! $this->isLoaded[$subObjectName] ){
 			$idArray=array();
+			$oneToOne=true;
 			foreach( $this->prototypeArray as $key => $prototype ){
-				// jih: the below lines could be replaced by the commented out 
-				//      block, which has far fewer database calls. However, it wont 
-				//      work for many-to-one relationships
-				$id=$prototype->$getIdMethod();
-				$subObjects=$subObjectMapper->find($id);
-				$prototype->$setMethod( $subObjects );
-				//$idArray[$key]=$prototype->$getIdMethod();
-			//}
-			//$subObjects=$subObjectMapper->find( $idArray );
-			//foreach( $this->prototypeArray as $key => $prototype ){
-				//$prototype->$setMethod( $subObjects[$key] );
+				$idArray[$key]=$prototype->$getSubObjectId();
+				if( is_array( $idArray[ $key ] ) ) $oneToOne=false;
+			}
+			if( $oneToOne ){
+				$subObjects=$subObjectMapper->find( $idArray );
+			}
+			foreach( $this->prototypeArray as $key => $prototype ){
+				if( isset($subObjects[$key]) ){
+					$prototype->$setSubObject( $subObjects[$key] );
+				} else {
+					$subObjects=$subObjectMapper->find($idArray[$key]);
+					$prototype->$setSubObject( $subObjects );
+				}
 			}
 			$this->isLoaded[$subObjectName]=true;
 		} else {
 			foreach( $this->prototypeArray as $key => $prototype){
-				$subObjects[$key]=$prototype->$getMethod();
+				$subObjects[$key]=$prototype->$getSubObject();
 			}
 		}
 		return $subObjects;

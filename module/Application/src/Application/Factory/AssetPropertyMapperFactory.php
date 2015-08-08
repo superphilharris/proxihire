@@ -30,14 +30,7 @@ class AssetPropertyMapperFactory implements FactoryInterface
 				'asset_id' => 'asset_id',
 				'name_fulnam' => 'name',
 				'datatype_id' => 'datatype_id',
-				'value_mxd' => 'value'),
-			'relationships' => array(
-				(object) array(
-					'table' => 'datatype',
-					'primary_key' => 'datatype_id',
-					'match_on' =>(object) array(
-						'this_table_column' => 'datatype_id',
-						'main_table_column' => 'datatype_id'))));
+				'value_mxd' => 'value'));
 
 		$namingStrategy = new MapNamingStrategy(array());
 
