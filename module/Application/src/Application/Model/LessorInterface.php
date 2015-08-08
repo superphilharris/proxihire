@@ -20,18 +20,5 @@ interface LessorInterface extends UserInterface
 	 */
 	public function getUrl();
 
-	/**
-	 * Sets the lessor's location
-	 *
-	 * @param Application\Model\LocationInterface $location The lessor's location
-	 */
-	public function setLocation(LocationInterface $location);
-
-	/**
-	 * Returns the lessor's location
-	 *
-	 * @return Application\Model\LocationInterface
-	 */
-	public function getLocation();
 }
 ?>

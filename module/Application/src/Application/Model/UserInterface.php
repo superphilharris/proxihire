@@ -37,5 +37,19 @@ interface UserInterface
 	 * @return string
 	 */
 	public function getName();
+
+	/**
+	 * Sets the user's location
+	 *
+	 * @param Application\Model\LocationInterface $location The user's location
+	 */
+	public function setLocation(LocationInterface $location);
+
+	/**
+	 * Returns the user's location
+	 *
+	 * @return Application\Model\LocationInterface
+	 */
+	public function getLocation();
 }
 ?>

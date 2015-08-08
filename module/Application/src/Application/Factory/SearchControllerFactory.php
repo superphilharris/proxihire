@@ -18,10 +18,16 @@ class SearchControllerFactory implements FactoryInterface
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
 		$realServiceLocator     = $serviceLocator->getServiceLocator();
+
 		$assetService           = $realServiceLocator->get('Application\Service\AssetServiceInterface');
+		$categoryService        = $realServiceLocator->get('Application\Service\CategoryServiceInterface');
 		$categoryAliasesService = $realServiceLocator->get('Application\Service\CategoryAliasesServiceInterface');
 
-		return new SearchController($assetService,$categoryAliasesService);
+		return new SearchController(
+			$assetService,
+			$categoryService,
+			$categoryAliasesService
+		);
 	}
 }
 ?>

@@ -7,19 +7,14 @@ use Application\Model\AssetInterface;
 interface AssetServiceInterface
 {
 	/**
-	 * Should return the set of assets which match the specified category.
+	 * Should return the set of assets which match the specified category, 
+	 * location, and filters.
 	 *
 	 * @param  string $category The xpath of the category
+	 * @param  object $filters  How to filter the results
+	 * @param  string $location A string representation of the location
 	 * @return array|AssetInterface[]
 	 */
-	public function getAssetsInCategory($category,$filters=NULL);
-
-	/**
-	 * Returns the asset with the specified id
-	 *
-	 * @param  int $id The asset's id
-	 * @return AssetInterface
-	 */
-	public function getAsset($id);
+	public function getAssetList($category, $filters=NULL, $location=NULL);
 }
 ?>

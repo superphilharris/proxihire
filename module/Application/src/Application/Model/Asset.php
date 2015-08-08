@@ -9,36 +9,33 @@ use Application\Model\AssetRateInterface;
 use Application\Model\AssetPropertyInterface;
 use Application\Model\UrlInterface;
 
-class Asset implements AssetInterface
+class Asset extends AbstractModel implements AssetInterface
 {
-	public $category;
-	public $clicks;
-	public $id;
-	public $lessor;
-	public $rate;
-	public $properties;
-	public $url;
+	protected $id;
+	protected $category;
+	protected $category_id;
+	protected $lessor;
+	protected $lessor_id;
+	protected $rate_array;
+	protected $rate_id_array;
+	protected $property_array;
+	protected $property_id_array;
+	protected $url;
+	protected $url_id;
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function exchangeArray($data)
 	{
-		//$this->setCategory(  (!empty($data['category']))   ? $data['category']   : null);
-		$this->setClicks(    (!empty($data['clicks']))     ? $data['clicks']     : null);
-		$this->setId(        (!empty($data['id']))         ? $data['id']         : null);
-		//$this->setLessor(    (!empty($data['lessor']))     ? $data['lessor']     : null);
-		//$this->setRate(      (!empty($data['rate']))      ? $data['rate']      : null);
-		//$this->setProperties((!empty($data['properties'])) ? $data['properties'] : null);
-		//$this->setUrl(       (!empty($data['url']))        ? $data['url']        : null);
-	}
+		\Zend\Debug\Debug::dump($data); //jih: remove this
+		$this->id = isset($data['id']) ? (int) $data['id'] : NULL;
+		$this->category_id = isset($data['category_id']) ? (int) $data['category_id'] : NULL;
+		$this->lessor_id = isset($data['lessor_id']) ? (int) $data['lessor_id'] : NULL;
+		$this->rate_id_array = isset($data['rate_id_array']) ? $data['rate_id_array'] : NULL;
+		$this->property_id_array = isset($data['property_id_array']) ? $data['property_id_array'] : NULL;
+		$this->url_id = isset($data['url_id']) ? (int) $data['url_id'] : NULL;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setCategory(CategoryInterface $category)
-	{
-		$this->category=$category;
 	}
 
 	/**
@@ -52,51 +49,9 @@ class Asset implements AssetInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function incrementClicks()
-	{
-		$this->clicks=$this->clicks+1;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setClicks($clicks)
-	{
-		ClassHelper::checkAllArguments(__METHOD__,func_get_args(),array("integer"));
-		$this->clicks=$clicks;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getClicks()
-	{
-		return $this->clicks;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setId($id)
-	{
-		ClassHelper::checkAllArguments(__METHOD__,func_get_args(),array("integer"));
-		$this->id=$id;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getId()
 	{
 		return $this->id;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function setLessor(LessorInterface $lessor)
-	{
-		$this->lessor=$lessor;
 	}
 
 	/**
@@ -110,25 +65,25 @@ class Asset implements AssetInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setRate(AssetRateInterface $rate)
+	public function getRates()
 	{
-		$this->rate=$rate;
+		return $this->rate_array;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getRate()
+	public function setRates($rates)
 	{
-		return $this->rate;
+		$this->rate_array=$rates;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setProperties(array $properties)
+	public function getRateIds()
 	{
-		$this->properties=$properties;
+		return $this->rate_id_array;
 	}
 
 	/**
@@ -136,23 +91,32 @@ class Asset implements AssetInterface
 	 */
 	public function getProperties()
 	{
-		return $this->properties;
+		return $this->property_array;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setUrl(UrlInterface $url)
+	public function setUrl($url)
 	{
+		// jih: make sure in interface
+		// jih: classhelper
 		$this->url=$url;
 	}
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getUrl()
 	{
 		return $this->url;
+	}
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getUrlId()
+	{
+		// jih: make sure in interface
+		return $this->url_id;
 	}
 }
 ?>

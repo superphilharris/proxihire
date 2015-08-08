@@ -4,20 +4,6 @@ namespace Application\Model;
 interface CategoryInterface
 {
 	/**
-	 * Used by Zend\Db's TableGateway class
-	 *
-	 * @param array $data The data in $key => value pairs
-	 */
-	public function exchangeArray($data);
-
-	/**
-	 * Sets the category's id
-	 *
-	 * @param int $id The category's id
-	 */
-	public function setId(int $id);
-
-	/**
 	 * Returns the category's id
 	 *
 	 * @return int
@@ -30,6 +16,27 @@ interface CategoryInterface
 	 * @param string $name The category's name
 	 */
 	public function setName(string $name);
+
+	/**
+	 * Returns the category's aliases
+	 *
+	 * @return array|string
+	 */
+	public function getAliases();
+
+	/**
+	 * Adds an alias to this category
+	 *
+	 * @param $alias The new alias
+	 */
+	public function addAlias(string $alias);
+
+	/**
+	 * Deletes the specified alias
+	 *
+	 * @param $alias The alias to delete
+	 */
+	public function deleteAlias(string $alias);
 
 	/**
 	 * Returns the category's name
