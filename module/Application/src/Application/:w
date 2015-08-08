@@ -66,7 +66,7 @@ class Asset extends AbstractModel implements AssetInterface
 	 */
 	public function getRates()
 	{
-		if( is_null($this->rate_array) ) $this->rate_array = array();
+		if( is_null($this->rate_array) ) return array();
 		return $this->rate_array;
 	}
 
@@ -94,7 +94,7 @@ class Asset extends AbstractModel implements AssetInterface
 	 */
 	public function getProperties()
 	{
-		if( is_null($this->property_array) ) $this->property_array = array();
+		if( is_null($this->property_array) ) return array();
 		return $this->property_array;
 	}
 

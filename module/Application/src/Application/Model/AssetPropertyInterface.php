@@ -8,7 +8,7 @@ interface AssetPropertyInterface
 	 *
 	 * @param string $price The property name
 	 */
-	public function setName(string $name);
+	public function setName($name);
 
 	/**
 	 * Returns the property name
@@ -22,7 +22,7 @@ interface AssetPropertyInterface
 	 *
 	 * @param string $price The property type
 	 */
-	public function setPropertyType(string $type);
+	public function setPropertyType($type);
 
 	/**
 	 * Returns the property type
@@ -36,7 +36,7 @@ interface AssetPropertyInterface
 	 *
 	 * @param mixed $price The property value
 	 */
-	public function setValue(mixed $value);
+	public function setValue($value);
 
 	/**
 	 * Returns the property value

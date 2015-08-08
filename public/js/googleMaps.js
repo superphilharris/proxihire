@@ -1,27 +1,65 @@
 
-$(document).ready(function(){/* google maps -----------------------------------------------------*/
-google.maps.event.addDomListener(window, 'load', initialize);
+var showGoogleMap = (window.innerWidth > 768);
+var allMarkers = [], allAssets = [];
+var googleMap = null, mapsBouncingTimout = null;
+function showAllMarkers(){
+	if(googleMap == null) return;
+	for(var i in allAssets){
+		allMarkers.push(new google.maps.Marker({
+			position: 	new google.maps.LatLng(allAssets[i].lat, allAssets[i].long),
+			url: 		allAssets[i].url,
+			title: 		allAssets[i].id + ''
+		}));
+	}
+	for(var i=0; i<allMarkers.length; i++) {
+		allMarkers[i].setMap(googleMap);
+	}
+}
+function removeAllMarkers(){
+	if(googleMap == null) return;
+	for(var i=0; i<allMarkers.length; i++) {
+		allMarkers[i].setMap(null);
+	}
+	allMarkers = [];
+}
+function bounceMarker(url){
+	if(googleMap == null) return;
+	for(var i=0; i<allMarkers.length; i++) {
+		if(url == allMarkers[i].url) {
+			allMarkers[i].setAnimation(google.maps.Animation.BOUNCE);
+			stopBouncing(url, 2);
+		} else {
+			allMarkers[i].setAnimation(null);
+		}
+	}
+}
+function stopBouncing(url, seconds){
+	if(googleMap == null) return;
+	clearTimeout(mapsBouncingTimout);
+	mapsBouncingTimout = setTimeout(function(){
+		for(var i=0; i<allMarkers.length; i++) {
+			if(url == allMarkers[i].url) {
+				allMarkers[i].setAnimation(null);
+			}
+		}
+	}, seconds * 1000)
+}
 
-function initialize() {
-
-  /* position Amsterdam */
-  var latlng = new google.maps.LatLng(52.3731, 4.8922);
-
-  var mapOptions = {
-    center: latlng,
-    scrollWheel: false,
-    zoom: 13
-  };
-  
-  var marker = new google.maps.Marker({
-    position: latlng,
-    url: '/',
-    animation: google.maps.Animation.DROP
-  });
-  
-  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-  marker.setMap(map);
-
+function initializeGoogleMaps() {
+	google.maps.event.addDomListener(window, 'load', function(){
+		var latlng = new google.maps.LatLng(-36.84913134182603, 174.76234048604965);
+		var mapOptions = {
+	    	center: latlng,
+	    	scrollWheel: false,
+	    	mapTypeControl: false,
+	    	zoom: 13
+	  	};
+	  
+	  	googleMap = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+	  	showAllMarkers();
+	});
 };
-/* end google maps -----------------------------------------------------*/
-});
+
+if(showGoogleMap){
+	$.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed&callback=initializeGoogleMaps');
+}

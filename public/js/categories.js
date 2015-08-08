@@ -52,13 +52,16 @@ categories = {
 				"aliases": ["bike"]
 			},
 			{
-				"aliases": ["car","vehicle"],
+				"aliases": ["vehicle","car"],
 				"children": [
 					{
 						"aliases": ["campervan","camper","campa"]
 					},
 					{
 						"aliases": ["van","truck"]
+					},
+					{
+						"aliases": ["sedan","car"]
 					}
 				]
 			},

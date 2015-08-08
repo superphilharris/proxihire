@@ -3,6 +3,8 @@ namespace Application\Model;
 
 class AssetRate extends AbstractModel implements AssetRateInterface
 {
+	private $id;
+	private $asset_id;
 	private $price;
 	private $duration;
 
@@ -11,6 +13,10 @@ class AssetRate extends AbstractModel implements AssetRateInterface
 	 */
 	public function exchangeArray($data)
 	{
+		$this->id = isset($data['id']) ? (int) $data['id'] : NULL;
+		$this->asset_id = isset($data['asset_id']) ? (int) $data['asset_id'] : NULL;
+		$this->price = isset($data['price']) ? (int) $data['price'] : NULL;
+		$this->duration = isset($data['duration']) ? (int) $data['duration'] : NULL;
 	}
 	/**
 	 * {@inheritdoc}
@@ -24,6 +30,7 @@ class AssetRate extends AbstractModel implements AssetRateInterface
 	 */
 	public function getPrice()
 	{
+		return (integer) $this->price;
 	}
 
 	/**
@@ -38,6 +45,7 @@ class AssetRate extends AbstractModel implements AssetRateInterface
 	 */
 	public function getDuration()
 	{
+		return (integer) $this->duration;
 	}
 
 }

@@ -98,7 +98,7 @@ abstract class AbstractMapper
 	public function find( $idArray )
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("array|integer"));
-		$this->findBy( $this->primaryKey, $idArray );
+		return $this->findBy( $this->primaryKey, $idArray, true, true );
 	}
 
 	/**
@@ -206,7 +206,7 @@ abstract class AbstractMapper
 			$models=$modelsByProperty;
 		}
 
-		$this->setPrototypeArray($modelsByProperty);
+		$this->setPrototypeArray($models);
 		return $this->prototypeArray;
 	}
 
@@ -280,11 +280,17 @@ abstract class AbstractMapper
 		if ( $reload OR ! isset($this->isLoaded[$subObjectName]) OR ! $this->isLoaded[$subObjectName] ){
 			$idArray=array();
 			foreach( $this->prototypeArray as $key => $prototype ){
-				$idArray[$key]=$prototype->$getIdMethod();
-			}
-			$subObjects=$subObjectMapper->find( $idArray );
-			foreach( $this->prototypeArray as $key => $prototype ){
-				$prototype->$setMethod( $subObjects[$key] );
+				// jih: the below lines could be replaced by the commented out 
+				//      block, which has far fewer database calls. However, it wont 
+				//      work for many-to-one relationships
+				$id=$prototype->$getIdMethod();
+				$subObjects=$subObjectMapper->find($id);
+				$prototype->$setMethod( $subObjects );
+				//$idArray[$key]=$prototype->$getIdMethod();
+			//}
+			//$subObjects=$subObjectMapper->find( $idArray );
+			//foreach( $this->prototypeArray as $key => $prototype ){
+				//$prototype->$setMethod( $subObjects[$key] );
 			}
 			$this->isLoaded[$subObjectName]=true;
 		} else {

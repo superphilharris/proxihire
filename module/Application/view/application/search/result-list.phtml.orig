@@ -17,17 +17,16 @@ foreach( $this->assetList as $asset ){
 			<div class="assetPropertiesSummary">
 			<?php 
 			foreach($asset->getProperties() as $property){
-				$propertyName 	= $property->getName();
-				$propertyValue 	= $property->getValue();
+				$propertyName 	= key($property); 			// $property->getName();
+				$propertyValue 	= $property[$propertyName]; // $property->getValue();
 				echo '<div class="'.$propertyName.'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$propertyValue.'</span></div>'; 
 			}
 			?>
 			</div>
 			<?php 
 			foreach($asset->getProperties() as $property){
-				\Zend\Debug\Debug::dump($property); //jih: remove this
-				$propertyName 	= $property->getName();
-				$propertyValue 	= $property->getValue();
+				$propertyName 	= key($property); 			// $property->getName();
+				$propertyValue 	= $property[$propertyName]; // $property->getValue();
 				echo '<div class="assetPropertyColumn '.str_replace(' ','_',$propertyName).'_column"><span>'.$propertyValue.'</span></div>'; 
 			}
 			?>
@@ -58,6 +57,21 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 
+<<<<<<< HEAD
+  <div class="panel panel-default">
+  <div class="panel-heading"><a href=""><?php echo $asset->getCategory() ?></a></div>
+  </div>
+  <p><?php 
+echo "Category: " . $asset->getCategory() . "<br/>";
+echo "Id: " . $asset->getId() . "<br/>";
+echo "Lessor: " . $asset->getLessor() . "<br/>";
+echo "Rates: " . $asset->getRates() . "<br/>";
+echo "Properties: " . $asset->getProperties() . "<br/>";
+echo "URL: " . $asset->getUrl() . "<br/>";
+?></p>
+  <hr>
+=======
+>>>>>>> master
 
 
 <?php 
@@ -76,8 +90,8 @@ function getMainProperties($assetList){
 	$allProperties = array();
 	foreach($assetList as $asset){
 		foreach($asset->getProperties() as $property){
-			$propertyName 	= $property->getName();
-			$propertyValue 	= $property->getValue();
+			$propertyName 	= key($property); //$property->getName();
+			$propertyValue 	= $property[$propertyName]; // $property->getValue();
 			if(isset($allProperties[$propertyName])){
 				$allProperties[$propertyName]['count'] ++;
 				if(is_numeric($propertyValue)){
@@ -111,4 +125,6 @@ function getMainProperties($assetList){
 	}
 	return $mainProperties;
 }
+
+
 ?>

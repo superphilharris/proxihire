@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+	<ul class="breadcrumb">
+		<li class="dropdown">
+		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+<?php 
+	echo $this->category->getName();
+=======
 <div style="height:50px;" class="categoryAndFilterPadder">&nbsp;</div>
 
 <div class="categoryAndFilterBarWrapper">
@@ -9,6 +16,7 @@ $ancestory = getAncestory($this->category, $this->categoryAliases);
 
 $i = count($ancestory) - 1;
 while ($i>=0AND property_exists($ancestory[$i], 'children')) {
+>>>>>>> master
 ?>
 		<li class="dropdown<?php if($i===0) echo " open"?>">
 		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">

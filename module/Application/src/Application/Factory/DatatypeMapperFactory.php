@@ -1,7 +1,7 @@
 <?php
 namespace Application\Factory;
 
-use Application\Mapper\AssetPropertyMapper;
+use Application\Mapper\DatatypeMapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -10,7 +10,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 //      factories
 use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class AssetPropertyMapperFactory implements FactoryInterface
+class DatatypeMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -23,34 +23,22 @@ class AssetPropertyMapperFactory implements FactoryInterface
 		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 
 		$dbStructure=(object) array(
-			'table' => 'asset_property',
-			'primary_key' => 'asset_property_id',
+			'table' => 'datatype',
+			'primary_key' => 'datatype_id',
 			'columns' => array(
-				'asset_property_id' => 'id',
-				'asset_id' => 'asset_id',
-				'name_fulnam' => 'name',
-				'datatype_id' => 'datatype_id',
-				'value_mxd' => 'value'),
-			'relationships' => array(
-				(object) array(
-					'table' => 'datatype',
-					'primary_key' => 'datatype_id',
-					'match_on' =>(object) array(
-						'this_table_column' => 'datatype_id',
-						'main_table_column' => 'datatype_id'))));
+				'datatype_id'   => 'id',
+				'datatype_abbr' => 'datatype'));
 
 		$namingStrategy = new MapNamingStrategy(array());
 
-		$datatypeMapperFactory = new DatatypeMapperFactory();
-
-		return new AssetPropertyMapper(
+		return new DatatypeMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
-			new \Application\Model\AssetProperty,
+			new \Application\Model\Datatype, // jih: move this (and in all mappers) to begining
 			$dbStructure,
-			$datatypeMapperFactory->createService($serviceLocator),
 			$namingStrategy
 		);
 	}
 }
 ?>
+

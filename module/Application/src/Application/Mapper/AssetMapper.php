@@ -18,10 +18,12 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 	 * @param AdapterInterface $assetPrototypeArray
 	 */
 	public function __construct(
-		AdapterInterface $dbAdapter,
-		HydratorInterface $hydrator,
+		$dbAdapter,
+		$hydrator,
 		$assetPrototypeArray,
 		$dbStructure,
+		// jih: $assetRateMapper,
+		// jih: $assetPropertyMapper,
 		$namingStrategy=null
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
@@ -29,7 +31,13 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface", 
 			"array|Application\Model\AssetInterface",
 			"object",
+			// jih: "Application\Mapper\AssetRateMapper",
+			// jih: "Application\Mapper\AssetPropertyMapper",
 			"null|Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy"));
+		
+		// jih: $this->assetRateMapper=$assetRateMapper;
+		// jih: $this->assetPropertyMapper=$assetPropertyMapper;
+		// jih: make sure that these subobjects get populated when needed.
 
 		parent::construct( $dbAdapter, $hydrator, $assetPrototypeArray, $dbStructure, $namingStrategy );
 	}
@@ -45,6 +53,19 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 		// jih: filter by $filters
 		
 		return $this->findBy('category_id',$category->getId());
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getAssetProperties($assetPropertyMapper,$reload=false)
+	{
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
+			"Application\Mapper\AssetPropertyMapperInterface",
+			"boolean"
+		));
+
+		return $this->getSubObject($assetPropertyMapper,'asset_property','getPropertyIds','getProperties','setProperties');
 	}
 
 	/**
