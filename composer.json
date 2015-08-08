@@ -1,5 +1,8 @@
 {
     "require": {
         "zendframework/zftool": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7"
     }
 }
