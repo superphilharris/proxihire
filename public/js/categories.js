@@ -1,7 +1,7 @@
 categories = {
 	"children": [
 	{
-		"aliases": ["construction","building"],
+		"aliases": ["construction","building","renovation"],
 		"children": [
 			{
 				"aliases": ["ladder"]
