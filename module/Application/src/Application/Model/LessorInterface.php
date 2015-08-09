@@ -1,8 +1,8 @@
 <?php
 namespace Application\Model;
 
-use Application\Model\LocationInterface
-use Application\Model\UrlInterface
+use Application\Model\LocationInterface;
+use Application\Model\UrlInterface;
 
 interface LessorInterface extends UserInterface
 {
