@@ -81,7 +81,7 @@ abstract class AbstractMapper
 		$this->hydrator         = $hydrator;
 
 
-		$this->isLoaded         = array(); // jih: remove and replace with otherTable STructureArray->isLoaded
+		$this->isLoaded         = array(); 
 
 		$this->setDbTableStructure( $dbTableStructure );
 		$this->setHydratorAndNamingStrategy( $hydrator, $namingStrategy );
@@ -145,9 +145,6 @@ abstract class AbstractMapper
 			$matchArray=array($matchArray);
 		}
 
-		// jih: what if the current prototypeArray already has real prototypes in 
-		//      it? We should clear them all out and set them to blank prototypes.
-
 		// When creating a new model, use the last item of the prototype array as 
 		// the prototype.
 		$prototype=array_pop($this->prototypeArray);
@@ -178,7 +175,7 @@ abstract class AbstractMapper
 						$result2 = $this->runSelect( $structure->table, $where );
 						$resultArrays[$i][$structure->table]=array();
 						while( $result2->current() ){
-							$resultArrays[$i][$structure->table][]=$result2->current()[$structure->primary_key]; // jih: should this just be the primary key, or should it be the entire row?
+							$resultArrays[$i][$structure->table][]=$result2->current()[$structure->primary_key];
 							$result2->next();
 						}
 					} catch( \Exception $e ){
@@ -206,6 +203,9 @@ abstract class AbstractMapper
 			$models=$modelsByProperty;
 		}
 
+		// jih: what if the current prototypeArray already has real prototypes in 
+		//      it? We should clear them all out and set them to blank prototypes.
+
 		$this->setPrototypeArray($models);
 		$this->afterRetrieval();
 		return $this->prototypeArray;
@@ -215,8 +215,8 @@ abstract class AbstractMapper
 	 * A callback function that gets called after retrieval from the database
 	 */
 	protected function afterRetrieval(){
-		// jih: This should be changed to an abstract function rather than an 
-		//      empty one.
+		// do nothing, as this should be implemented where necessary by the child 
+		// objects.
 	}
 
 	/**
@@ -246,8 +246,13 @@ abstract class AbstractMapper
 	}
 
 	/**
-	 * Sets the prototype array
-	 * jih: update this
+	 * Sets the mappers prototype(s).
+	 *
+	 * When this is called, it also forces a reload of the subobjects when they 
+	 * next are requested.
+	 *
+	 * @param array|Application\Model\AbstractModel $prototype 
+	 *        Can be either a scalar or an array
 	 */
 	public function setPrototypeArray( $prototype ){
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array( "array|Application\Model\AbstractModel" ));
@@ -264,7 +269,27 @@ abstract class AbstractMapper
 
 	/**
 	 * Gets the subobject.
-	 * jih: update this
+	 * 
+	 * Will only reload them from the database if they haven't been loaded, or if 
+	 * the `$reload` parameter is set to true.
+	 * 
+	 * @param Application\Mapper\AbstractMapper $subObjectMapper
+	 *        The mapper used to populate the subobject.
+	 * @param string $subObjectName
+	 *        A unique name of the subobject. Used as a key to the array that 
+	 *        stores info on this subobject.
+	 * @param string $getSubObjectId
+	 *        The name of the method of this mapper (not the subobject mapper) 
+	 *        that gets the subobject IDs
+	 * @param string $getSubObject
+	 *        The name of the method of this mapper (not the subobject mapper) 
+	 *        that gets the subobject itself.
+	 * @param string $setSubObject
+	 *        The name of the method of this mapper (not the subobject mapper) 
+	 *        that sets the subobject.
+	 * @param boolean $reload=false
+	 *        Forces a reload from the database even if the models are 
+	 *        up-to-date.
 	 */
 	protected function getSubObject(
 		$subObjectMapper,
@@ -272,8 +297,7 @@ abstract class AbstractMapper
 		$getSubObjectId,
 		$getSubObject,
 		$setSubObject,
-		$reload=false,
-		$returnSingle=false
+		$reload=false
 	){
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"Application\Mapper\AbstractMapper",
@@ -354,9 +378,7 @@ abstract class AbstractMapper
 				try{
 					$this->checkPropertiesExist( $relationship, array( "table", "primary_key", "match_on" ) );
 					$this->checkPropertiesExist( $relationship->match_on, array( "this_table_column", "main_table_column" ) );
-					$relationship=(array) $relationship;
-					$relationship['isLoaded'] = false;
-					$this->otherTableStructureArray[$index]=(object) $relationship;
+					$this->otherTableStructureArray[$index] = $relationship;
 				}catch(\Exception $e){
 					trigger_error($e->getMessage());
 				}
