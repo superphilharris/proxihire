@@ -43,6 +43,7 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("string"));
 		$result = $this->runSelect( $this->dbTable, array(
 			$this->namingStrategy->extract('name')." = ?" => $categoryName,
+			// jih: once removed namingStrategy, also remove it from AbstractMapper
 		));
 
 		$categoryArray=$result->current();
