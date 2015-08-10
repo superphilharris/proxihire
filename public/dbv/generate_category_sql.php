@@ -10,7 +10,11 @@ foreach($categories->children as $category){
 }
 
 function printOutSqlForCategory($category, $parent=null){
-	echo "INSERT IGNORE INTO category (name_fulnam) VALUES ('".$category->aliases[0]."'); \n";
+	if( $parent == null ){
+		echo "INSERT IGNORE INTO category (name_fulnam) VALUES ('".$category->aliases[0]."'); \n";
+	} else {
+		echo "INSERT IGNORE INTO category (name_fulnam,parent_category_id) SELECT '".$category->aliases[0]."',category_id FROM category WHERE name_fulnam='$parent'; \n";
+	}
 	foreach($category->aliases as $alias){
 		echo "INSERT IGNORE INTO category_alias (category_id, alias_fulnam) \n".
 		"	SELECT category.category_id, '".$alias."'\n".
