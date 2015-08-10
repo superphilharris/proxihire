@@ -110,6 +110,8 @@ function updateFilterBar(){
 		$('.'+propertyName.toLowerCase().replace(' ', '_')+'_propertySummary').hide();
 		$('.'+propertyName.toLowerCase().replace(' ', '_')+'_column').show();
 	}
+	
+	$('.categoryAndFilterBar').css('margin-right', getScrollBarWidth()+'px')
 	filterBarColumnNames.show();
 	filterBar.show();
 }
@@ -208,3 +210,29 @@ $(document).ready(function(){
 
 	updateFilterBar();
 });
+
+
+/**
+ * @see http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
+ */
+function getScrollBarWidth () {
+	  var inner = document.createElement('p');
+	  inner.style.width = "100%";
+	  inner.style.height = "200px";
+	  var outer = document.createElement('div');
+	  outer.style.position = "absolute";
+	  outer.style.top = "0px";
+	  outer.style.left = "0px";
+	  outer.style.visibility = "hidden";
+	  outer.style.width = "200px";
+	  outer.style.height = "150px";
+	  outer.style.overflow = "hidden";
+	  outer.appendChild (inner);
+	  document.body.appendChild (outer);
+	  var w1 = inner.offsetWidth;
+	  outer.style.overflow = 'scroll';
+	  var w2 = inner.offsetWidth;
+	  if (w1 == w2) w2 = outer.clientWidth;
+	  document.body.removeChild (outer);
+	  return (w1 - w2);
+	};
