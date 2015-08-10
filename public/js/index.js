@@ -76,36 +76,42 @@ function updateFilterBar(){
 		var html = 
 			'<div class="filterBarPropertyColumn">'+propertyName+
 				'<div class="filterBarColumnFilter '+propertyName.replace(' ', '_')+'_columnFilter">';
-		if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
-			html += '<input type="text" data-slider-orientation="vertical" name="'+propertyName+'" data-slider-min="'+mainProperties[propertyName].min+'" data-slider-max="'+mainProperties[propertyName].max+'"/>';
-		}else{
-			html += '<div class="btn-group-vertical" data-toggle="buttons">';
-			for(var i in mainProperties[propertyName].val){
-				html += '<label class="btn btn-default">'+
-							'<input type="checkbox" name="'+propertyName+'" value="'+mainProperties[propertyName].val[i]+'">'+mainProperties[propertyName].val[i]+
-						'</label>';
+		if(mainProperties[propertyName].count > 1){
+			if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
+				html += '<input type="text" data-slider-orientation="vertical" name="'+propertyName+'" data-slider-min="'+mainProperties[propertyName].min+'" data-slider-max="'+mainProperties[propertyName].max+'"/>';
+			}else{
+				html += '<div class="btn-group-vertical" data-toggle="buttons">';
+				for(var i in mainProperties[propertyName].val){
+					html += '<label class="btn btn-default">'+
+								'<input type="checkbox" name="'+propertyName+'" value="'+mainProperties[propertyName].val[i]+'">'+mainProperties[propertyName].val[i]+
+							'</label>';
+				}
+				html += '</div>';
 			}
-			html += '</div>';
 		}
 		html += '</div>'+
 			'</div>';
 		filterBarColumnNames.append(html);
 		
 		// 2. Bind the events
-		if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
-			$('.'+propertyName.replace(' ', '_')+'_columnFilter > input').slider({
-				value: 	[mainProperties[propertyName].min, mainProperties[propertyName].max],
-				step:	((mainProperties[propertyName].max - mainProperties[propertyName].min)/10).toPrecision(1),
-				focus: 	true
-			}).on('slide', filterResults);
-		}else{
-			$('.'+propertyName.replace(' ', '_')+'_columnFilter').find('input').change(filterResults);
+		if(mainProperties[propertyName].count > 1){
+			if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
+				$('.'+propertyName.replace(' ', '_')+'_columnFilter > input').slider({
+					value: 	[mainProperties[propertyName].min, mainProperties[propertyName].max],
+					step:	((mainProperties[propertyName].max - mainProperties[propertyName].min)/10).toPrecision(1),
+					focus: 	true
+				}).on('slide', filterResults);
+			}else{
+				$('.'+propertyName.replace(' ', '_')+'_columnFilter').find('input').change(filterResults);
+			}
 		}
 		
 		// 3. Hide the main properties from the summary list, and show the main properties
 		$('.'+propertyName.toLowerCase().replace(' ', '_')+'_propertySummary').hide();
 		$('.'+propertyName.toLowerCase().replace(' ', '_')+'_column').show();
 	}
+	
+	$('.categoryAndFilterBar').css('margin-right', getScrollBarWidth()+'px')
 	filterBarColumnNames.show();
 	filterBar.show();
 }
@@ -204,3 +210,29 @@ $(document).ready(function(){
 
 	updateFilterBar();
 });
+
+
+/**
+ * @see http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
+ */
+function getScrollBarWidth () {
+	  var inner = document.createElement('p');
+	  inner.style.width = "100%";
+	  inner.style.height = "200px";
+	  var outer = document.createElement('div');
+	  outer.style.position = "absolute";
+	  outer.style.top = "0px";
+	  outer.style.left = "0px";
+	  outer.style.visibility = "hidden";
+	  outer.style.width = "200px";
+	  outer.style.height = "150px";
+	  outer.style.overflow = "hidden";
+	  outer.appendChild (inner);
+	  document.body.appendChild (outer);
+	  var w1 = inner.offsetWidth;
+	  outer.style.overflow = 'scroll';
+	  var w2 = inner.offsetWidth;
+	  if (w1 == w2) w2 = outer.clientWidth;
+	  document.body.removeChild (outer);
+	  return (w1 - w2);
+	};
