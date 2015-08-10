@@ -4,7 +4,13 @@ categories = {
 		"aliases": ["construction","building","renovation"],
 		"children": [
 			{
+				"aliases": ["compaction"]
+			},
+			{
 				"aliases": ["ladder"]
+			},
+			{
+				"aliases": ["air_tools","pneumatics"]
 			},
 			{
 				"aliases": ["fence","fencing"]
@@ -16,7 +22,7 @@ categories = {
 	},{
 		"aliases": ["catering","event","party","wedding"],
 		"children": [
-		    {
+			{
 				"aliases": ["speaker","sound"]
 			},
 			{

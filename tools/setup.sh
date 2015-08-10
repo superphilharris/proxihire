@@ -191,6 +191,7 @@ install_pkg -m composer zendframework/zftool:dev-master || exit 1
 
 # mysql
 install_pkg mysql-server || exit 1
+install_pkg mysql-workbench || exit 1
 
 # Install phpunit
 install_pkg phpunit || exit 1
@@ -294,6 +295,51 @@ fi
 # check the apache password
 mysql -u apache $MYSQL_APACHE_PASSOPT <<< "quit" || exit 1
 
+# jih: compare db schemas and use mwb to create/update
+
+# Set up the categories table
+php ${SCRIPT_DIR}/generate_category_sql.php > /tmp/categories.sql
+category_changes="$(diff /tmp/categories.sql "${SCRIPT_DIR}/categories.sql" 2>&1)"
+if [ ! -f "${SCRIPT_DIR}/categories.sql" -o -n "$category_changes" ]; then
+	# There should only be new records, not changed records. Therefore, there
+	# should not be any records in the local copy of `categories` that aren't in
+	# the newly-generated list.
+	echo
+	merge_the_changes=false
+	if grep "^>" <<< "$category_changes" > /dev/null; then
+		echo
+		echo "ERROR: There have been changes to existing categories. This may "
+		echo "       require running of custom scripts."
+		echo "       Check dbv."
+		echo
+		echo "Please merge the changes that you want (Press [enter] to continue)."
+		merge_the_changes=true
+		read
+	else
+		echo "The categories have changed since last running this script."
+		if confirm "Do you wish to merge the changes before applying them?" n; then
+			merge_the_changes=true
+		fi
+	fi
+
+	if $merge_the_changes; then
+		$DIFF_VIEWER "${SCRIPT_DIR}/categories.sql" /tmp/categories.sql
+		if ! confirm "Was the merge successful?" n; then
+			exit 1
+		fi
+	else
+		cp /tmp/categories.sql "${SCRIPT_DIR}/categories.sql"
+	fi
+
+	echo "Adding new categories."
+	if ! mysql -u root $MYSQL_ROOT_PASSOPT < ${SCRIPT_DIR}/categories.sql; then
+		echo
+		echo "Could not add categories."
+		echo
+		exit 1
+	fi
+fi
+
 #-------------------------------------------------------------------------------
 # # DBV SET-UP
 
@@ -346,3 +392,25 @@ elif [ -n "$( diff "/tmp/db.local.php.$$" "config/autoload/db.local.php" )" ]; t
 fi
 
 rm "/tmp/db.local.php.$$"
+
+#-------------------------------------------------------------------------------
+# # Set up git post-merge hook
+
+cat <<EOF > /tmp/post-merge
+#!/bin/bash
+SCRIPT_DIR="\$(cd "\$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+source \$SCRIPT_DIR/../../.githooks/post-merge
+EOF
+chmod 444 /tmp/post-merge
+
+if [ ! -f ${SCRIPT_DIR}/../.git/hooks/post-merge ] || ! diff ${SCRIPT_DIR}/../.git/hooks/post-merge /tmp/post-merge >/dev/null; then
+	echo "$(dirname ${SCRIPT_DIR})/.git/hooks/post-merge is not up to date."
+	echo "Press [enter] to merge the changes."
+	read
+	$DIFF_VIEWER "${SCRIPT_DIR}/../.git/hooks/post-merge" /tmp/post-merge
+	chmod +x "${SCRIPT_DIR}/../.git/hooks/post-merge" 
+fi
+
+chmod 644 /tmp/post-merge
+rm /tmp/post-merge
+
