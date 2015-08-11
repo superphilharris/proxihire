@@ -5,6 +5,7 @@ use Application\Model\AssetInterface;
 
 interface AssetMapperInterface
 {
+	// jih: Make sure that all of these interfaces are correct
 	/**
 	 * Finds all of the assets in the specified category, with optional filters.
 	 *

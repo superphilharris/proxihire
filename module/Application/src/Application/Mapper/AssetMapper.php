@@ -39,6 +39,7 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 		parent::construct( $dbAdapter, $hydrator, $assetPrototypeArray, $dbStructure );
 	}
 
+	// jih: do we need all of these subroutines?
 	/**
 	 * {@inheritdoc}
 	 */

@@ -7,18 +7,25 @@ use Application\Model\UrlInterface;
 interface LessorInterface extends UserInterface
 {
 	/**
-	 * Sets the lessor's home URL
-	 *
-	 * @param Application\Model\UrlInterface $url The lessor's URL
+	 * {@inheritdoc}
 	 */
-	public function setUrl(UrlInterface $url);
+	public function getUrlId()
+	{
+	}
 
 	/**
-	 * Returns the lessor's home URL
-	 *
-	 * @return Application\Model\UrlInterface
+	 * {@inheritdoc}
 	 */
-	public function getUrl();
+	public function getUrl()
+	{
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setUrl($url)
+	{
+	}
 
 }
 ?>
