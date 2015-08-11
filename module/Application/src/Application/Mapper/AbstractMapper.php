@@ -21,10 +21,6 @@ abstract class AbstractMapper
 	 */
 	protected $hydrator;
 	/**
-	 * @var \Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface
-	 */
-	protected $namingStrategy;
-	/**
 	 * @var array|Application\Model\AbstractModel
 	 */
 	protected $prototypeArray;
@@ -65,15 +61,13 @@ abstract class AbstractMapper
 		$dbAdapter,
 		$hydrator,
 		$prototypeArray,
-		$dbTableStructure,
-		$namingStrategy=null
+		$dbTableStructure
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
 			"Zend\Db\Adapter\AdapterInterface", 
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface",
 			"array|Application\Model\AbstractModel",
-			"object", 
-			"null|Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy"
+			"object"
 		));
 
 
@@ -84,7 +78,7 @@ abstract class AbstractMapper
 		$this->isLoaded         = array(); 
 
 		$this->setDbTableStructure( $dbTableStructure );
-		$this->setHydratorAndNamingStrategy( $hydrator, $namingStrategy );
+		$this->hydrator=$hydrator;
 
 		$this->setPrototypeArray( $prototypeArray );
 	}
@@ -408,30 +402,5 @@ abstract class AbstractMapper
 		}
 	}
 
-	/**
-	 * Sets the naming strategy and hydrator
-	 */
-	private function setHydratorAndNamingStrategy( $hydrator, $namingStrategy ){
-
-		$this->hydrator=$hydrator;
-		// Set the naming strategy using the following priority:
-		//
-		// 1. If the hydrator already has a naming strategy, use that
-		// 2. If $namingStrategy is not null use that
-		//
-		// If neither of the above fit, then throw an exception.
-		if( $this->hydrator->hasNamingStrategy() ){
-			// jih: remove the references to $this->namingStrategy, if not used by 
-			//      inherited objects
-			$this->namingStrategy   = $this->hydrator->getNamingStrategy();
-		}elseif( ! is_null($namingStrategy) ){
-			$this->namingStrategy = new $namingStrategy($this->columnMap);
-			$this->hydrator->setNamingStrategy($this->namingStrategy);
-		}else{
-			throw new \InvalidArgumentException(
-				"Either the hydrator must have a naming strategy, or else a naming strategy must be passed in.");
-		}
-
-	}
 }
 ?>

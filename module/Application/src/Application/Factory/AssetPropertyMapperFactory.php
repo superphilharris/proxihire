@@ -20,7 +20,6 @@ class AssetPropertyMapperFactory implements FactoryInterface
 	 */
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 
 		$dbStructure=(object) array(
 			'table' => 'asset_property',
@@ -32,7 +31,9 @@ class AssetPropertyMapperFactory implements FactoryInterface
 				'datatype_id' => 'datatype_id',
 				'value_mxd' => 'value'));
 
-		$namingStrategy = new MapNamingStrategy(array());
+		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
+		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
+		$hydrator->setNamingStrategy($namingStrategy);
 
 		$datatypeMapperFactory = new DatatypeMapperFactory();
 
@@ -41,8 +42,7 @@ class AssetPropertyMapperFactory implements FactoryInterface
 			$hydrator,
 			new \Application\Model\AssetProperty,
 			$dbStructure,
-			$datatypeMapperFactory->createService($serviceLocator),
-			$namingStrategy
+			$datatypeMapperFactory->createService($serviceLocator)
 		);
 	}
 }

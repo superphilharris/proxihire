@@ -20,7 +20,6 @@ class DatatypeMapperFactory implements FactoryInterface
 	 */
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 
 		$dbStructure=(object) array(
 			'table' => 'datatype',
@@ -29,14 +28,15 @@ class DatatypeMapperFactory implements FactoryInterface
 				'datatype_id'   => 'id',
 				'datatype_abbr' => 'datatype'));
 
-		$namingStrategy = new MapNamingStrategy(array());
+		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
+		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
+		$hydrator->setNamingStrategy($namingStrategy);
 
 		return new DatatypeMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
 			new \Application\Model\Datatype, // jih: move this (and in all mappers) to begining
-			$dbStructure,
-			$namingStrategy
+			$dbStructure
 		);
 	}
 }

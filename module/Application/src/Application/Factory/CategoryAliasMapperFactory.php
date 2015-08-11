@@ -20,7 +20,6 @@ class CategoryAliasMapperFactory implements FactoryInterface
 	 */
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 
 		$dbStructure=(object) array(
 			'table' => 'category_alias',
@@ -30,14 +29,15 @@ class CategoryAliasMapperFactory implements FactoryInterface
 				'category_id'         => 'category_id',
 				'alias_fulnam'        => 'alias'));
 
-		$namingStrategy = new MapNamingStrategy(array());
+		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
+		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
+		$hydrator->setNamingStrategy($namingStrategy);
 
 		return new CategoryAliasMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
 			new \Application\Model\CategoryAlias, // jih: move this (and in all mappers) to begining
-			$dbStructure,
-			$namingStrategy
+			$dbStructure
 		);
 	}
 }

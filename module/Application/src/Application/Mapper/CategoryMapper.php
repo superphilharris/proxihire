@@ -24,18 +24,17 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 		HydratorInterface $hydrator,
 		CategoryInterface $categoryPrototype,
 		$dbStructure,
-		$categoryAliasMapper,
-		$namingStrategy
+		$categoryAliasMapper
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
 			"Zend\Db\Adapter\AdapterInterface", 
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface", 
 			"Application\Model\CategoryInterface",
 			"object",
-			"Application\Mapper\CategoryAliasMapper",
-			"null|Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy"));
+			"Application\Mapper\CategoryAliasMapper"));
+
 		$this->categoryAliasMapper=$categoryAliasMapper;
-		parent::construct($dbAdapter,$hydrator,$categoryPrototype, $dbStructure, $namingStrategy);
+		parent::construct($dbAdapter,$hydrator,$categoryPrototype, $dbStructure );
 	}
 
 	/**

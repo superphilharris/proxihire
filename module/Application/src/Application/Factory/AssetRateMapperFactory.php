@@ -20,7 +20,6 @@ class AssetRateMapperFactory implements FactoryInterface
 	 */
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 
 		$dbStructure=(object) array(
 			'table' => 'asset_rate',
@@ -31,14 +30,15 @@ class AssetRateMapperFactory implements FactoryInterface
 				'price_dlr' => 'price',
 				'asset_id' => 'asset_id'));
 
-		$namingStrategy = new MapNamingStrategy(array());
+		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
+		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
+		$hydrator->setNamingStrategy($namingStrategy);
 
 		return new AssetRateMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
 			new \Application\Model\AssetRate,
-			$dbStructure,
-			$namingStrategy
+			$dbStructure
 		);
 	}
 }

@@ -20,7 +20,6 @@ class CategoryMapperFactory implements FactoryInterface
 	 */
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 
 		$dbStructure=(object) array(
 			'table' => 'category',
@@ -38,7 +37,9 @@ class CategoryMapperFactory implements FactoryInterface
 						'this_table_column' => 'category_id',
 						'main_table_column' => 'category_id'))));
 
-		$namingStrategy = new MapNamingStrategy(array());
+		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
+		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
+		$hydrator->setNamingStrategy($namingStrategy);
 		$categoryAliasMapperFactory = new CategoryAliasMapperFactory();
 
 		return new CategoryMapper(
@@ -46,8 +47,7 @@ class CategoryMapperFactory implements FactoryInterface
 			$hydrator,
 			new \Application\Model\Category,
 			$dbStructure,
-			$categoryAliasMapperFactory->createService( $serviceLocator ),
-			$namingStrategy
+			$categoryAliasMapperFactory->createService( $serviceLocator )
 		);
 	}
 }

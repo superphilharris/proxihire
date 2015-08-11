@@ -19,19 +19,17 @@ class AssetPropertyMapper extends AbstractMapper implements AssetPropertyMapperI
 		$hydrator,
 		$assetPropertyPrototypeArray,
 		$dbStructure,
-		$datatypeMapper,
-		$namingStrategy=null
+		$datatypeMapper
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
 			"Zend\Db\Adapter\AdapterInterface", 
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface", 
 			"array|Application\Model\AssetPropertyInterface",
 			"object",
-			"Application\Mapper\DatatypeMapperInterface",
-			"null|Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy"));
+			"Application\Mapper\DatatypeMapperInterface"));
 
 		$this->datatypeMapper=$datatypeMapper; // jih: make sure that this is actually populating things
-		parent::construct( $dbAdapter, $hydrator, $assetPropertyPrototypeArray, $dbStructure, $namingStrategy );
+		parent::construct( $dbAdapter, $hydrator, $assetPropertyPrototypeArray, $dbStructure );
 	}
 
 	/**

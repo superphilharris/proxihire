@@ -22,7 +22,6 @@ class UrlMapperFactory implements FactoryInterface
 	{
 		// jih: put the following in a 'AbstractMapperFactory', and clean up the 
 		//      existing mapper factories
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 
 		$dbStructure=(object) array(
 			'table' => 'url',
@@ -32,14 +31,15 @@ class UrlMapperFactory implements FactoryInterface
 				'path_url' => 'path',
 				'title_desc' => 'title',
 				'clicks_cnt' => 'clicks'));
-		$namingStrategy = new MapNamingStrategy(array());
+		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
+		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
+		$hydrator->setNamingStrategy($namingStrategy);
 
 		return new UrlMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
 			new \Application\Model\Url,
-			$dbStructure,
-			$namingStrategy
+			$dbStructure
 		);
 	}
 }

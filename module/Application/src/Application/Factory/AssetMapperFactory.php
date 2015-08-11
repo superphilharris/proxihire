@@ -41,7 +41,8 @@ class AssetMapperFactory implements FactoryInterface
 						'main_table_column' => 'asset_id'))));
 
 		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new \Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy(array());
+		$namingStrategy = new \Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy($dbStructure->columns);
+		$hydrator->setNamingStrategy($namingStrategy);
 
 		$assetRateMapperFactory = new AssetRateMapperFactory();
 		$assetPropertyMapperFactory = new AssetPropertyMapperFactory();
@@ -52,8 +53,7 @@ class AssetMapperFactory implements FactoryInterface
 			new \Application\Model\Asset,
 			$dbStructure,
 			$assetRateMapperFactory->createService($serviceLocator),
-			$assetPropertyMapperFactory->createService($serviceLocator),
-			$namingStrategy
+			$assetPropertyMapperFactory->createService($serviceLocator)
 		);
 	}
 }

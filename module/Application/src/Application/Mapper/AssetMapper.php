@@ -23,8 +23,7 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 		$assetPrototypeArray,
 		$dbStructure,
 		$assetRateMapper,
-		$assetPropertyMapper,
-		$namingStrategy=null
+		$assetPropertyMapper
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
 			"Zend\Db\Adapter\AdapterInterface", 
@@ -32,13 +31,12 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 			"array|Application\Model\AssetInterface",
 			"object",
 			"Application\Mapper\AssetRateMapper",
-			"Application\Mapper\AssetPropertyMapper",
-			"null|Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy"));
+			"Application\Mapper\AssetPropertyMapper"));
 		
 		$this->assetRateMapper=$assetRateMapper;
 		$this->assetPropertyMapper=$assetPropertyMapper;
 
-		parent::construct( $dbAdapter, $hydrator, $assetPrototypeArray, $dbStructure, $namingStrategy );
+		parent::construct( $dbAdapter, $hydrator, $assetPrototypeArray, $dbStructure );
 	}
 
 	/**

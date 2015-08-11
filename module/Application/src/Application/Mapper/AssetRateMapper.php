@@ -16,17 +16,15 @@ class AssetRateMapper extends AbstractMapper implements AssetRateMapperInterface
 		$dbAdapter,
 		$hydrator,
 		$assetRatePrototypeArray,
-		$dbStructure,
-		$namingStrategy
+		$dbStructure
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
 			"Zend\Db\Adapter\AdapterInterface", 
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface", 
 			"array|Application\Model\AssetRateInterface",
-			"object",
-			"null|Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy"));
+			"object"));
 
-		parent::construct( $dbAdapter, $hydrator, $assetRatePrototypeArray, $dbStructure, $namingStrategy );
+		parent::construct( $dbAdapter, $hydrator, $assetRatePrototypeArray, $dbStructure );
 	}
 
 	/**
