@@ -111,6 +111,7 @@ class ClassHelper implements ClassHelperInterface
 			}else{
 				$errorString=$errorString.".";
 			}
+			$errorString=$errorString."\narg = ".var_export($arg,true);
 			 throw new \InvalidArgumentException( $errorString );
 		}
 

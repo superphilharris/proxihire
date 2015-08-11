@@ -1,21 +1,21 @@
 <?php
 namespace Application\Model;
 
-interface DatatypeInterface
+interface CategoryAliasInterface
 {
 	/**
-	 * Returns the datatype's id
+	 * Returns the category alias's id
 	 *
 	 * @return int
 	 */
 	public function getId();
 
 	/**
-	 * Returns the datatype
+	 * Returns the category alias
 	 *
 	 * @return string
 	 */
-	public function getDatatype();
+	public function getAlias();
 
 }
 ?>

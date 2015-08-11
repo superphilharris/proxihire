@@ -12,6 +12,7 @@ use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 {
 	protected static $dbAliasTable = 'category_alias';
+	private $categoryAliasMapper;
 
 	/**
 	 * @param AdapterInterface $dbAdapter
@@ -23,6 +24,7 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 		HydratorInterface $hydrator,
 		CategoryInterface $categoryPrototype,
 		$dbStructure,
+		$categoryAliasMapper,
 		$namingStrategy
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
@@ -30,7 +32,9 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface", 
 			"Application\Model\CategoryInterface",
 			"object",
+			"Application\Mapper\CategoryAliasMapper",
 			"null|Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy"));
+		$this->categoryAliasMapper=$categoryAliasMapper;
 		parent::construct($dbAdapter,$hydrator,$categoryPrototype, $dbStructure, $namingStrategy);
 	}
 
@@ -41,40 +45,26 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 	{
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("string"));
-		$result = $this->runSelect( $this->dbTable, array(
-			$this->namingStrategy->extract('name')." = ?" => $categoryName,
-			// jih: once removed namingStrategy, also remove it from AbstractMapper
-		));
-
-		$categoryArray=$result->current();
-		if( isset($categoryArray[$this->namingStrategy->extract('id')]) )
-		{
-			$categoryArray['aliases'] = $this->findAlias($categoryArray[$this->namingStrategy->extract('id')]);
-		}
-		return $this->hydrator->hydrate($categoryArray, $this->prototypeArray[0]);
-	}
-
-	private function findAlias($id)
-	{
-		$result = $this->runSelect( self::$dbAliasTable, array(
-			$this->namingStrategy->extract('id')." = ?" => $id
-		));
-
-		$aliases=array();
-		$current=$result->current();
-		while ( $current ){
-			if( isset($current[$this->namingStrategy->extract('alias.name')]) ){
-				$aliases[]=$current[$this->namingStrategy->extract('alias.name')]; 
+		$nameColumn="";
+		foreach( $this->columnMap  AS $column => $variable ){
+			if( $variable == 'name' ){
+				$nameColumn = $column;
 			}
-			$result->next();
-			$current=$result->current();
 		}
-
-		if( empty($aliases) ){
-			return false;
-		}
-		return $aliases;
+		return parent::findBy( $nameColumn, $categoryName );
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function afterRetrieval()
+	{
+		$aliases=$this->getSubObject(
+			$this->categoryAliasMapper,
+			'category_alias',
+			'getAliasIds',
+			'getAliases',
+			'setAliases' );
+	}
 }
 ?>

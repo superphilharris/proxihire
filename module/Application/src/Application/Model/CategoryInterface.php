@@ -20,23 +20,23 @@ interface CategoryInterface
 	/**
 	 * Returns the category's aliases
 	 *
-	 * @return array|string
+	 * @return array|Application\Model\CategoryAlias
 	 */
 	public function getAliases();
 
 	/**
-	 * Adds an alias to this category
+	 * Sets the aliases
 	 *
-	 * @param $alias The new alias
+	 * @param $aliases The new aliases
 	 */
-	public function addAlias(string $alias);
+	public function setAliases($aliases);
 
 	/**
-	 * Deletes the specified alias
+	 * Gets the category's alias IDs
 	 *
-	 * @param $alias The alias to delete
+	 * @return array|integer an array of the alias ids
 	 */
-	public function deleteAlias(string $alias);
+	public function getAliasIds();
 
 	/**
 	 * Returns the category's name

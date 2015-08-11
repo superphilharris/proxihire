@@ -6,6 +6,7 @@ class Category extends AbstractModel implements CategoryInterface
 	protected $id;
 	protected $name;
 	protected $alias_array;
+	protected $alias_id_array;
 	protected $parent_id;
 
 	/**
@@ -13,15 +14,10 @@ class Category extends AbstractModel implements CategoryInterface
 	 */
 	public function exchangeArray($data)
 	{
-		$this->id = isset($data['id']) ? $data['id'] : NULL;
-		$this->name = isset($data['name']) ? $data['name'] : NULL;
-		$this->parent_id = isset($data['parent_id']) ? $data['parent_id'] : NULL;
-
-		if( ! empty($data['aliases']) ){
-			foreach( $data['aliases'] as $alias ){
-				$this->alias_array[]=$alias;
-			}
-		}
+		$this->id = isset($data['id']) ? (integer) $data['id'] : NULL;
+		$this->name = isset($data['name']) ? (string) $data['name'] : NULL;
+		$this->parent_id = isset($data['parent_id']) ? (integer) $data['parent_id'] : NULL;
+		$this->alias_id_array = isset($data['alias_id_array']) ? $data['alias_id_array'] : array();
 	}
 
 	/**
@@ -44,21 +40,29 @@ class Category extends AbstractModel implements CategoryInterface
 	 */
 	public function getAliases()
 	{
+		if( ! is_array($this->alias_array) ) $this->alias_array=array();
 		return $this->alias_array;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function addAlias(string $alias)
+	public function setAliases($aliases)
 	{
+		// jih: classhelper
+		$this->alias_array=$aliases;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function deleteAlias(string $alias)
+	public function getAliasIds()
 	{
+		if( ! is_array($this->alias_id_array) ) $this->alias_id_array=array();
+		foreach( $this->alias_id_array as $key => $alias_id ){
+			$this->alias_id_array[$key] = (integer) $alias_id;
+		}
+		return $this->alias_id_array;
 	}
 
 	/**

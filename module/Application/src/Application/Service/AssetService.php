@@ -33,10 +33,18 @@ class AssetService implements AssetServiceInterface
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getAssetList($category, $filters=NULL, $location=NULL, $number=50)
+	public function getAssetList(
+		$category, 
+		$filters=NULL, 
+		$location=NULL, 
+		$number=50)
 	{
 		// Validate arguments
-		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("Application\Model\CategoryInterface","object|null","string|null","integer"));
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
+			"array|Application\Model\CategoryInterface",
+			"object|null",
+			"string|null",
+			"integer"));
 
 		// jih: accumulate location into filters, if not already there
 

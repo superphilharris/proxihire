@@ -56,11 +56,22 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 	public function findByCategory( $category, $filters=NULL)
 	{
 		// Validate arguments
-		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("Application\Model\CategoryInterface","object|null"));
-		
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
+			"array|Application\Model\CategoryInterface",
+			"object|null"));
+
+		$category_ids=array();
+		if( is_array($category) ){
+			foreach( $category AS $key => $value ){
+				$category_ids[$key] = $value->getId();
+			}
+		} else {
+			$category_ids[]=$category->getId();
+		}
+
 		// jih: filter by $filters
 		
-		return $this->findBy('category_id',$category->getId());
+		return $this->findBy( 'category_id', $category_ids );
 	}
 
 	/**

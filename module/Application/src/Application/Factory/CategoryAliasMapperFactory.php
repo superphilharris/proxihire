@@ -1,7 +1,7 @@
 <?php
 namespace Application\Factory;
 
-use Application\Mapper\CategoryMapper;
+use Application\Mapper\CategoryAliasMapper;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -10,7 +10,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 //      factories
 use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class CategoryMapperFactory implements FactoryInterface
+class CategoryAliasMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -23,32 +23,23 @@ class CategoryMapperFactory implements FactoryInterface
 		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 
 		$dbStructure=(object) array(
-			'table' => 'category',
-			'primary_key' => 'category_id',
+			'table' => 'category_alias',
+			'primary_key' => 'category_alias_id',
 			'columns' => array(
-				'category_id' => 'id',
-				'name_fulnam' => 'name',
-				'parent_category_id' => 'parent_id',
-				'category_alias' => 'alias_id_array'),
-			'relationships' => array(
-				(object) array(
-					'table' => 'category_alias',
-					'primary_key' => 'category_alias_id',
-					'match_on' =>(object) array(
-						'this_table_column' => 'category_id',
-						'main_table_column' => 'category_id'))));
+				'category_alias_id'   => 'id',
+				'category_id'         => 'category_id',
+				'alias_fulnam'        => 'alias'));
 
 		$namingStrategy = new MapNamingStrategy(array());
-		$categoryAliasMapperFactory = new CategoryAliasMapperFactory();
 
-		return new CategoryMapper(
+		return new CategoryAliasMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
-			new \Application\Model\Category,
+			new \Application\Model\CategoryAlias, // jih: move this (and in all mappers) to begining
 			$dbStructure,
-			$categoryAliasMapperFactory->createService( $serviceLocator ),
 			$namingStrategy
 		);
 	}
 }
 ?>
+

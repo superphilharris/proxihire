@@ -159,7 +159,10 @@ abstract class AbstractMapper
 		$resultArrays=array();
 		$modelsByProperty=array();
 		$i=0;
-		while( $result->current() && $i < count($this->prototypeArray)){
+		while( $result->current() 
+		       AND ( $i < count($this->prototypeArray) 
+		             OR $createNewPrototypesArray ))
+		{
 			// this allows population of more data
 			$resultArrays[$i]=$result->current(); 
 
@@ -279,13 +282,13 @@ abstract class AbstractMapper
 	 *        A unique name of the subobject. Used as a key to the array that 
 	 *        stores info on this subobject.
 	 * @param string $getSubObjectId
-	 *        The name of the method of this mapper (not the subobject mapper) 
+	 *        The name of the method of this model (not the subobject model) 
 	 *        that gets the subobject IDs
 	 * @param string $getSubObject
-	 *        The name of the method of this mapper (not the subobject mapper) 
+	 *        The name of the method of this model (not the subobject model) 
 	 *        that gets the subobject itself.
 	 * @param string $setSubObject
-	 *        The name of the method of this mapper (not the subobject mapper) 
+	 *        The name of the method of this model (not the subobject model) 
 	 *        that sets the subobject.
 	 * @param boolean $reload=false
 	 *        Forces a reload from the database even if the models are 
