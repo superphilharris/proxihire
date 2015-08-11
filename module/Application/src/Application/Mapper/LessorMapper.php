@@ -2,9 +2,9 @@
 namespace Application\Mapper;
 
 use Application\Helper\ClassHelper;
-use Application\Model\UserInterface;
+use Application\Model\LessorInterface;
 
-class UserMapper extends AbstractMapper implements UserMapperInterface
+class LessorMapper extends AbstractMapper implements LessorMapperInterface
 {
 	/**
 	 * @param AdapterInterface $dbAdapter
@@ -19,7 +19,7 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
 			"Zend\Db\Adapter\AdapterInterface", 
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface", 
-			"array|Application\Model\UserInterface",
+			"array|Application\Model\LessorInterface",
 			"object"));
 		
 		parent::construct( $dbAdapter, $hydrator, $userPrototypeArray, $dbStructure );
@@ -28,8 +28,7 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	// jih: assetmapper should be changed to getUrl as well.
-	public function getUrl($urlMapper,$reload=false)
+	public function getUrls($urlMapper,$reload=false)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"Application\Mapper\UrlMapperInterface",
@@ -42,7 +41,7 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getUsers($reload=false)
+	public function getLessors($reload=false)
 	{
 		// jih: reload the users if $reload is set
 		return $this->prototypeArray;
@@ -52,7 +51,7 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
 	 * {@inheritdoc}
 	 */
 	public function setPrototypeArray( $prototypeArray ){ 
-		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("array|Application\Model\UserInterface"));
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("array|Application\Model\LessorInterface"));
 		parent::setPrototypeArray( $prototypeArray );
 	}
 }
