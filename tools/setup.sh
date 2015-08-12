@@ -245,6 +245,9 @@ function get_mysql_passopt_from_file
 			# if we failed to log in, then prompt for password
 			echo " -p"
 		fi
+	else
+		# if we failed to log in, then prompt for password
+		echo " -p"
 	fi
 }
 
@@ -384,7 +387,7 @@ return array(
 EOF
 
 if [ ! -e "config/autoload/db.local.php" ]; then
-	mv "/tmp/db.local.php.$$" "config/autoload/db.local.php"
+	cp "/tmp/db.local.php.$$" "config/autoload/db.local.php"
 elif [ -n "$( diff "/tmp/db.local.php.$$" "config/autoload/db.local.php" )" ]; then
 	echo "The file 'config/autoload/db.local.php' differs from the standard template."
 	read -s -p "Press [enter] to compare them: "
