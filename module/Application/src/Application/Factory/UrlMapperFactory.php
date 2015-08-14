@@ -2,12 +2,10 @@
 namespace Application\Factory;
 
 use Application\Mapper\UrlMapper;
+use Application\Model\Url;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-// jih: this should really be in its own factory. However, it will be 
-//      specific to this factory, so one will need to be created for all Mapper 
-//      factories
 use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
 class UrlMapperFactory implements FactoryInterface
@@ -38,7 +36,7 @@ class UrlMapperFactory implements FactoryInterface
 		return new UrlMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
-			new \Application\Model\Url,
+			new Url,
 			$dbStructure
 		);
 	}

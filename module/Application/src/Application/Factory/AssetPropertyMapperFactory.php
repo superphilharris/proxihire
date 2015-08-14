@@ -2,12 +2,10 @@
 namespace Application\Factory;
 
 use Application\Mapper\AssetPropertyMapper;
+use Application\Model\AssetProperty;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-// jih: this should really be in its own factory. However, it will be 
-//      specific to this factory, so one will need to be created for all Mapper 
-//      factories
 use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
 class AssetPropertyMapperFactory implements FactoryInterface
@@ -40,7 +38,7 @@ class AssetPropertyMapperFactory implements FactoryInterface
 		return new AssetPropertyMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
-			new \Application\Model\AssetProperty,
+			new AssetProperty,
 			$dbStructure,
 			$datatypeMapperFactory->createService($serviceLocator)
 		);

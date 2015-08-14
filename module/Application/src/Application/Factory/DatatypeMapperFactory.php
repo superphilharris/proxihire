@@ -2,6 +2,7 @@
 namespace Application\Factory;
 
 use Application\Mapper\DatatypeMapper;
+use Application\Model\Datatype; // jih: make sure it's like this for all factories
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -35,7 +36,7 @@ class DatatypeMapperFactory implements FactoryInterface
 		return new DatatypeMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
-			new \Application\Model\Datatype, // jih: move this (and in all mappers) to begining
+			new Datatype,
 			$dbStructure
 		);
 	}
