@@ -28,7 +28,6 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	// jih: assetmapper should be changed to getUrl as well.
 	public function getUrl($urlMapper,$reload=false)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
