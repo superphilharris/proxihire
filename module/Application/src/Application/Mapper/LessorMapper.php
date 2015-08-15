@@ -28,6 +28,19 @@ class LessorMapper extends AbstractMapper implements LessorMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
+	public function getLocations($locationMapper,$reload=false)
+	{
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
+			"Application\Mapper\LocationMapperInterface",
+			"boolean"
+		));
+
+		return $this->getSubObject($locationMapper,'location','getLocationId','getLocation','setLocation');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getUrls($urlMapper,$reload=false)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(

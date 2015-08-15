@@ -194,7 +194,6 @@ abstract class AbstractMapper
 
 			// if we want the results ordered, then order them by $property
 			$key=($ordered)?$resultArrays[$i][$property]:$i;
-			\Zend\Debug\Debug::dump($resultArrays[$i]); //jih: remove this
 			$modelsByProperty[$key]=new $prototype;
 
 			$this->hydrator->hydrate( $resultArrays[$i], $modelsByProperty[$key] );
@@ -243,7 +242,6 @@ abstract class AbstractMapper
 		$select->from( $table );
 		if( !is_null($join) ){
 			$select->join( $join->table, $join->on );
-			\Zend\Debug\Debug::dump($join); //jih: remove this
 		}
 		$select->where( $where );
 

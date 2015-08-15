@@ -1,9 +1,9 @@
 <?php
 namespace Application\Mapper;
 
-use Application\Model\LessorInterface;
+use Application\Model\LocationInterface;
 
-interface LessorMapperInterface
+interface LocationMapperInterface
 {
 }
 ?>

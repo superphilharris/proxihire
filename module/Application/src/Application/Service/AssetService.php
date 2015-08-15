@@ -9,6 +9,7 @@ use Application\Mapper\AssetRateMapperInterface;
 use Application\Mapper\AssetPropertyMapperInterface;
 use Application\Mapper\UrlMapperInterface;
 use Application\Mapper\LessorMapperInterface;
+use Application\Mapper\LocationMapperInterface;
 
 class AssetService implements AssetServiceInterface
 {
@@ -16,6 +17,7 @@ class AssetService implements AssetServiceInterface
 	protected $assetPrototype;
 	protected $urlMapper;
 	protected $lessorMapper;
+	protected $locationMapper;
 	protected $assetRateMapper;
 	protected $assetPropertyMapper;
 
@@ -24,6 +26,7 @@ class AssetService implements AssetServiceInterface
 		AssetMapperInterface $assetMapper,
 		UrlMapperInterface $urlMapper,
 		LessorMapperInterface $lessorMapper,
+		LocationMapperInterface $locationMapper,
 		AssetRateMapperInterface $assetRateMapper,
 		AssetPropertyMapperInterface $assetPropertyMapper
 	){
@@ -31,6 +34,7 @@ class AssetService implements AssetServiceInterface
 		$this->assetMapper = $assetMapper;
 		$this->urlMapper = $urlMapper;
 		$this->lessorMapper = $lessorMapper;
+		$this->locationMapper = $locationMapper;
 		$this->assetRateMapper = $assetRateMapper;
 		$this->assetPropertyMapper = $assetPropertyMapper;
 	}
@@ -63,9 +67,8 @@ class AssetService implements AssetServiceInterface
 		$this->assetMapper->getUrls($this->urlMapper);
 		$this->assetMapper->getLessors($this->lessorMapper);
 
-		$toReturn=$this->assetMapper->getAssets();
-		\Zend\Debug\Debug::dump($toReturn[0]); //jih: remove this
-		return $toReturn;
+		$this->lessorMapper->getLocations( $this->locationMapper );
+		return $this->assetMapper->getAssets();
 	}
 }
 ?>
