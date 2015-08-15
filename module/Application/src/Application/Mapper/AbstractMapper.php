@@ -51,6 +51,12 @@ abstract class AbstractMapper
 	 * @var array
 	 */
 	protected $columnMap;
+	/**
+	 * A hashed array that contains the table join information, if needed.
+	 *
+	 * @var array
+	 */
+	protected $join;
 
 
 	/**
@@ -146,7 +152,8 @@ abstract class AbstractMapper
 
 		// Run the query to find all objects with one of the specified ids
 		$where=$this->wherePropertyEquals( $property, $matchArray );
-		$result = $this->runSelect( $this->dbTable, $where );
+
+		$result = $this->runSelect( $this->dbTable, $where, $this->join );
 
 
 		// Get all of the models from the database
@@ -169,7 +176,11 @@ abstract class AbstractMapper
 				if( isset( $resultArrays[$i][$structure->match_on->main_table_column] ) ){
 					try{
 						$where = $this->wherePropertyEquals( $structure->match_on->this_table_column, $resultArrays[$i][$structure->match_on->main_table_column] );
-						$result2 = $this->runSelect( $structure->table, $where );
+						if( isset( $structure->join ) ){
+							$result2 = $this->runSelect( $structure->table, $where, $structure->join );
+						} else {
+							$result2 = $this->runSelect( $structure->table, $where );
+						}
 						$resultArrays[$i][$structure->table]=array();
 						while( $result2->current() ){
 							$resultArrays[$i][$structure->table][]=$result2->current()[$structure->primary_key];
@@ -221,13 +232,17 @@ abstract class AbstractMapper
 	 *
 	 * @param string $table
 	 * @param array $where
+	 * @param array $join
 	 * @return Zend\Db\Adapter\Driver\ResultInterface
 	 */
-	protected function runSelect( $table, $where )
+	protected function runSelect( $table, $where, $join=null )
 	{
 		$sql    = new Sql($this->dbAdapter);
 		$select = $sql->select();
 		$select->from( $table );
+		if( !is_null($join) ){
+			$select->join( $join->table, $join->on );
+		}
 		$select->where( $where );
 
 		$stmt   = $sql->prepareStatementForSqlObject($select);
@@ -368,6 +383,12 @@ abstract class AbstractMapper
 		$this->dbTable    = $tableStructure->table;
 		$this->primaryKey = $tableStructure->primary_key;
 		$this->columnMap  = $tableStructure->columns;
+
+		$this->join = null;
+		if( isset( $tableStructure->join ) ){
+			$this->checkPropertiesExist( $tableStructure->join, array( "table", "on" ) );
+			$this->join=$tableStructure->join;
+		}
 
 		$this->otherTableStructureArray = array();
 		if( isset( $tableStructure->relationships )){

@@ -1,14 +1,14 @@
 <?php
 namespace Application\Factory;
 
-use Application\Mapper\UrlMapper;
-use Application\Model\Url;
+use Application\Mapper\LocationMapper;
+use Application\Model\Location;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class UrlMapperFactory implements FactoryInterface
+class LocationMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -18,25 +18,24 @@ class UrlMapperFactory implements FactoryInterface
 	 */
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
-		// jih: put the following in a 'AbstractMapperFactory', and clean up the 
-		//      existing mapper factories
 
 		$dbStructure=(object) array(
-			'table' => 'url',
-			'primary_key' => 'url_id',
+			'table' => 'location',
+			'primary_key' => 'location_id',
 			'columns' => array(
-				'url_id' => 'id',
-				'path_url' => 'path',
-				'title_desc' => 'title',
-				'clicks_cnt' => 'clicks'));
+				'location_id'     => 'id',
+				'name_fulnam'     => 'name',
+				'latitude_float'  => 'latitude',
+				'longitude_float' => 'longitude'));
+
 		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
 		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
 		$hydrator->setNamingStrategy($namingStrategy);
 
-		return new UrlMapper(
+		return new LocationMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
-			new Url,
+			new Location,
 			$dbStructure
 		);
 	}

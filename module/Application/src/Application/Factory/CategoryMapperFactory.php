@@ -2,12 +2,10 @@
 namespace Application\Factory;
 
 use Application\Mapper\CategoryMapper;
+use Application\Model\Category;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-// jih: this should really be in its own factory. However, it will be 
-//      specific to this factory, so one will need to be created for all Mapper 
-//      factories
 use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
 class CategoryMapperFactory implements FactoryInterface
@@ -45,7 +43,7 @@ class CategoryMapperFactory implements FactoryInterface
 		return new CategoryMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$hydrator,
-			new \Application\Model\Category,
+			new Category,
 			$dbStructure,
 			$categoryAliasMapperFactory->createService( $serviceLocator )
 		);

@@ -2,35 +2,33 @@
 namespace Application\Mapper;
 
 use Application\Helper\ClassHelper;
-use Application\Model\UrlInterface;
+use Application\Model\LocationInterface;
 
-class UrlMapper extends AbstractMapper implements UrlMapperInterface
+class LocationMapper extends AbstractMapper implements LocationMapperInterface
 {
 	/**
-	 * @param Zend\Db\Adapter\AdapterInterface $dbAdapter
-	 * @param Zend\Stdlib\HydratorInterface $hydrator
-	 * @param AdapterInterface $urlPrototypeArray
+	 * jih: fix this for all mappers
 	 */
 	public function __construct(
 		$dbAdapter,
 		$hydrator,
-		$urlPrototypeArray,
+		$locationPrototypeArray,
 		$dbStructure
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
 			"Zend\Db\Adapter\AdapterInterface", 
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface", 
-			"array|Application\Model\UrlInterface",
+			"array|Application\Model\LocationInterface",
 			"object"));
 
-		parent::construct( $dbAdapter, $hydrator, $urlPrototypeArray, $dbStructure );
+		parent::construct( $dbAdapter, $hydrator, $locationPrototypeArray, $dbStructure );
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function setPrototypeArray( $prototypeArray ){ 
-		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("array|Application\Model\UrlInterface"));
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("array|Application\Model\LocationInterface"));
 		parent::setPrototypeArray( $prototypeArray );
 	}
 }

@@ -56,6 +56,26 @@ class Asset extends AbstractModel implements AssetInterface
 	/**
 	 * {@inheritdoc}
 	 */
+	public function setLessor($lessor)
+	{
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
+			"Application\Model\LessorInterface"
+		));
+
+		$this->lessor=$lessor;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getLessorId()
+	{
+		return $this->lessor_id;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getLessor()
 	{
 		return $this->lessor;
@@ -122,8 +142,9 @@ class Asset extends AbstractModel implements AssetInterface
 	 */
 	public function setUrl($url)
 	{
-		// jih: make sure in interface
-		// jih: classhelper
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
+			"Application\Model\UrlInterface"
+		));
 		$this->url=$url;
 	}
 	/**

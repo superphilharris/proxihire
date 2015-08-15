@@ -1,24 +1,27 @@
 <?php
 namespace Application\Model;
 
-use Application\Model\LocationInterface;
-use Application\Model\UrlInterface;
-
 interface LessorInterface extends UserInterface
 {
 	/**
-	 * Sets the lessor's home URL
+	 * Gets the lessor's Url ID
 	 *
-	 * @param Application\Model\UrlInterface $url The lessor's URL
+	 * @return integer
 	 */
-	public function setUrl(UrlInterface $url);
+	public function getUrlId();
 
 	/**
-	 * Returns the lessor's home URL
+	 * Gets the lessor's Url
 	 *
 	 * @return Application\Model\UrlInterface
 	 */
 	public function getUrl();
 
+	/**
+	 * Sets the lessor's Url
+	 *
+	 * @param Application\Model\UrlInterface $url
+	 */
+	public function setUrl($url);
 }
 ?>
