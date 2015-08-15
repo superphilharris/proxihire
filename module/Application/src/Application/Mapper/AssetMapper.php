@@ -76,27 +76,14 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getAssetProperties($assetPropertyMapper,$reload=false)
+	public function getLessors($lessorMapper,$reload=false)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
-			"Application\Mapper\AssetPropertyMapperInterface",
+			"Application\Mapper\LessorMapperInterface",
 			"boolean"
 		));
 
-		return $this->getSubObject($assetPropertyMapper,'asset_property','getPropertyIds','getProperties','setProperties');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getAssetRates($assetRateMapper,$reload=false)
-	{
-		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
-			"Application\Mapper\AssetRateMapperInterface",
-			"boolean"
-		));
-
-		return $this->getSubObject($assetRateMapper,'asset_rate','getRateIds','getRates','setRates');
+		return $this->getSubObject($lessorMapper,'lessor','getLessorId','getLessor','setLessor');
 	}
 
 	/**

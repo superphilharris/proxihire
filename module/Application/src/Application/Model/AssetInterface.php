@@ -32,6 +32,20 @@ interface AssetInterface
 	public function getLessor();
 
 	/**
+	 * Sets the asset's lessor
+	 *
+	 * @param Application\Model\LessorInterface
+	 */
+	public function setLessor($lessor);
+
+	/**
+	 * Returns the asset's lessor's ID
+	 *
+	 * @return integer
+	 */
+	public function getLessorId();
+
+	/**
 	 * Sets the asset's rates
 	 *
 	 * @param array|Application\Model\AssetRateInterface $rate
@@ -60,7 +74,21 @@ interface AssetInterface
 	public function getProperties();
 
 	/**
-	 * Returns the URL of the lessor's listing.
+	 * Sets the url of this asset.
+	 *
+	 * @param $url Application\Model\UrlInterface
+	 */
+	public function setUrl($url);
+
+	/**
+	 * Returns ID of the the URL object relating to the lessor's listing.
+	 *
+	 * @return integer
+	 */
+	public function getUrlId();
+
+	/**
+	 * Returns the URL object relating to the lessor's listing.
 	 *
 	 * @return Application\Model\UrlInterface
 	 */

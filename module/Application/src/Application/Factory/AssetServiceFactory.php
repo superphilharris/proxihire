@@ -18,12 +18,14 @@ class AssetServiceFactory implements FactoryInterface
 	{
 		$assetMapperFactory=new AssetMapperFactory();
 		$urlMapperFactory=new UrlMapperFactory();
+		$lessorMapperFactory=new LessorMapperFactory();
 		$assetRateMapperFactory=new AssetRateMapperFactory();
 		$assetPropertyMapperFactory=new AssetPropertyMapperFactory();
 		return new AssetService(
 			new \Application\Model\Asset,
 			$assetMapperFactory->createService($serviceLocator),
 			$urlMapperFactory->createService($serviceLocator),
+			$lessorMapperFactory->createService($serviceLocator),
 			$assetRateMapperFactory->createService($serviceLocator),
 			$assetPropertyMapperFactory->createService($serviceLocator)
 		);
