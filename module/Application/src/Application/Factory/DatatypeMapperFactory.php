@@ -2,16 +2,12 @@
 namespace Application\Factory;
 
 use Application\Mapper\DatatypeMapper;
-use Application\Model\Datatype; // jih: make sure it's like this for all factories
+use Application\Model\Datatype;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-// jih: this should really be in its own factory. However, it will be 
-//      specific to this factory, so one will need to be created for all Mapper 
-//      factories
-use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class DatatypeMapperFactory implements FactoryInterface
+class DatatypeMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -29,13 +25,9 @@ class DatatypeMapperFactory implements FactoryInterface
 				'datatype_id'   => 'id',
 				'datatype_abbr' => 'datatype'));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-
 		return new DatatypeMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
+			$this->getMappingHydrator( $dbStructure->columns ),
 			new Datatype,
 			$dbStructure
 		);

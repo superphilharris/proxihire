@@ -6,9 +6,8 @@ use Application\Model\Category;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class CategoryMapperFactory implements FactoryInterface
+class CategoryMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -35,14 +34,11 @@ class CategoryMapperFactory implements FactoryInterface
 						'this_table_column' => 'category_id',
 						'main_table_column' => 'category_id'))));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-		$categoryAliasMapperFactory = new CategoryAliasMapperFactory();
+		$categoryAliasMapperFactory=new CategoryAliasMapperFactory();
 
 		return new CategoryMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
+			$this->getMappingHydrator( $dbStructure->columns ),
 			new Category,
 			$dbStructure,
 			$categoryAliasMapperFactory->createService( $serviceLocator )

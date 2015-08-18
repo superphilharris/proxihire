@@ -39,7 +39,6 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 		parent::construct( $dbAdapter, $hydrator, $assetPrototypeArray, $dbStructure );
 	}
 
-	// jih: do we need all of these subroutines?
 	/**
 	 * {@inheritdoc}
 	 */
@@ -104,7 +103,6 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 	 */
 	public function getAssets($reload=false)
 	{
-		// jih: reload the assets if $reload is set
 		return $this->prototypeArray;
 	}
 

@@ -28,7 +28,7 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getUrl($urlMapper,$reload=false)
+	public function getUrls($urlMapper,$reload=false)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"Application\Mapper\UrlMapperInterface",
@@ -36,15 +36,6 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
 		));
 
 		return $this->getSubObject($urlMapper,'url','getUrlId','getUrl','setUrl');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getUsers($reload=false)
-	{
-		// jih: reload the users if $reload is set
-		return $this->prototypeArray;
 	}
 
 	/**

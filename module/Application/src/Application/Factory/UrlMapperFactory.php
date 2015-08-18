@@ -8,7 +8,7 @@ use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class UrlMapperFactory implements FactoryInterface
+class UrlMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -18,9 +18,6 @@ class UrlMapperFactory implements FactoryInterface
 	 */
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
-		// jih: put the following in a 'AbstractMapperFactory', and clean up the 
-		//      existing mapper factories
-
 		$dbStructure=(object) array(
 			'table' => 'url',
 			'primary_key' => 'url_id',
@@ -29,13 +26,10 @@ class UrlMapperFactory implements FactoryInterface
 				'path_url' => 'path',
 				'title_desc' => 'title',
 				'clicks_cnt' => 'clicks'));
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
 
 		return new UrlMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
+			$this->getMappingHydrator( $dbStructure->columns ),
 			new Url,
 			$dbStructure
 		);

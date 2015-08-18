@@ -7,7 +7,7 @@ use Application\Model\Lessor;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class LessorMapperFactory implements FactoryInterface
+class LessorMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -29,14 +29,10 @@ class LessorMapperFactory implements FactoryInterface
 				'name_fulnam' => 'name',
 				'url_id'      => 'url_id'));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new \Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-
 		return new LessorMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
-			new Lessor(),
+			$this->getMappingHydrator( $dbStructure->columns ),
+			new Lessor,
 			$dbStructure
 		);
 	}

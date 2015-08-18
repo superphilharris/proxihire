@@ -6,9 +6,8 @@ use Application\Model\AssetRate;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class AssetRateMapperFactory implements FactoryInterface
+class AssetRateMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -28,13 +27,9 @@ class AssetRateMapperFactory implements FactoryInterface
 				'price_dlr' => 'price',
 				'asset_id' => 'asset_id'));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-
 		return new AssetRateMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
+			$this->getMappingHydrator( $dbStructure->columns ),
 			new AssetRate,
 			$dbStructure
 		);

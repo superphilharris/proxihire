@@ -6,9 +6,8 @@ use Application\Model\CategoryAlias;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class CategoryAliasMapperFactory implements FactoryInterface
+class CategoryAliasMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -27,13 +26,9 @@ class CategoryAliasMapperFactory implements FactoryInterface
 				'category_id'         => 'category_id',
 				'alias_fulnam'        => 'alias'));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-
 		return new CategoryAliasMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
+			$this->getMappingHydrator( $dbStructure->columns ),
 			new CategoryAlias, 
 			$dbStructure
 		);

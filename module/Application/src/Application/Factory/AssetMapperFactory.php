@@ -2,11 +2,12 @@
 namespace Application\Factory;
 
 use Application\Mapper\AssetMapper;
+use Application\Model\Asset;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class AssetMapperFactory implements FactoryInterface
+class AssetMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -40,17 +41,13 @@ class AssetMapperFactory implements FactoryInterface
 						'this_table_column' => 'asset_id',
 						'main_table_column' => 'asset_id'))));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new \Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-
 		$assetRateMapperFactory = new AssetRateMapperFactory();
 		$assetPropertyMapperFactory = new AssetPropertyMapperFactory();
 
 		return new AssetMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
-			new \Application\Model\Asset,
+			$this->getMappingHydrator( $dbStructure->columns ),
+			new Asset,
 			$dbStructure,
 			$assetRateMapperFactory->createService($serviceLocator),
 			$assetPropertyMapperFactory->createService($serviceLocator)

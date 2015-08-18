@@ -6,9 +6,6 @@ use Application\Model\LocationInterface;
 
 class LocationMapper extends AbstractMapper implements LocationMapperInterface
 {
-	/**
-	 * jih: fix this for all mappers
-	 */
 	public function __construct(
 		$dbAdapter,
 		$hydrator,

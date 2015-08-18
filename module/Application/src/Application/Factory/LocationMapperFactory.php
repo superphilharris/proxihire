@@ -6,9 +6,8 @@ use Application\Model\Location;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class LocationMapperFactory implements FactoryInterface
+class LocationMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -28,13 +27,9 @@ class LocationMapperFactory implements FactoryInterface
 				'latitude_float'  => 'latitude',
 				'longitude_float' => 'longitude'));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-
 		return new LocationMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
+			$this->getMappingHydrator( $dbStructure->columns ),
 			new Location,
 			$dbStructure
 		);

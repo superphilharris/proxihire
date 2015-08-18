@@ -28,7 +28,8 @@ class AssetPropertyMapper extends AbstractMapper implements AssetPropertyMapperI
 			"object",
 			"Application\Mapper\DatatypeMapperInterface"));
 
-		$this->datatypeMapper=$datatypeMapper; // jih: make sure that this is actually populating things
+		$this->datatypeMapper=$datatypeMapper;
+
 		parent::construct( $dbAdapter, $hydrator, $assetPropertyPrototypeArray, $dbStructure );
 	}
 

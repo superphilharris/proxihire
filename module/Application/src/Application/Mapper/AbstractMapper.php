@@ -211,9 +211,6 @@ abstract class AbstractMapper
 			$models=$modelsByProperty;
 		}
 
-		// jih: what if the current prototypeArray already has real prototypes in 
-		//      it? We should clear them all out and set them to blank prototypes.
-
 		$this->setPrototypeArray($models);
 		$this->afterRetrieval();
 		return $this->prototypeArray;

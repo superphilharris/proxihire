@@ -2,11 +2,12 @@
 namespace Application\Factory;
 
 use Application\Mapper\UserMapper;
+use Application\Model\User;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class UserMapperFactory implements FactoryInterface
+class UserMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -24,14 +25,10 @@ class UserMapperFactory implements FactoryInterface
 				'location_id' => 'location_id',
 				'name_fulnam' => 'name'));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new \Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-
 		return new UserMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
-			new \Application\Model\User,
+			$this->getMappingHydrator( $dbStructure->columns ),
+			new User,
 			$dbStructure
 		);
 	}

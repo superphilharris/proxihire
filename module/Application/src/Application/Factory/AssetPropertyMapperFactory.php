@@ -6,9 +6,8 @@ use Application\Model\AssetProperty;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\Hydrator\NamingStrategy\MapNamingStrategy;
 
-class AssetPropertyMapperFactory implements FactoryInterface
+class AssetPropertyMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -29,15 +28,11 @@ class AssetPropertyMapperFactory implements FactoryInterface
 				'datatype_id' => 'datatype_id',
 				'value_mxd' => 'value'));
 
-		$hydrator=new \Zend\Stdlib\Hydrator\ArraySerializable;
-		$namingStrategy = new MapNamingStrategy($dbStructure->columns);
-		$hydrator->setNamingStrategy($namingStrategy);
-
 		$datatypeMapperFactory = new DatatypeMapperFactory();
 
 		return new AssetPropertyMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
-			$hydrator,
+			$this->getMappingHydrator( $dbStructure->columns ),
 			new AssetProperty,
 			$dbStructure,
 			$datatypeMapperFactory->createService($serviceLocator)

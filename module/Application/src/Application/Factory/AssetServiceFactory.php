@@ -2,6 +2,7 @@
 namespace Application\Factory;
 
 use Application\Service\AssetService;
+use Application\Model\Asset;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -23,7 +24,7 @@ class AssetServiceFactory implements FactoryInterface
 		$assetRateMapperFactory=new AssetRateMapperFactory();
 		$assetPropertyMapperFactory=new AssetPropertyMapperFactory();
 		return new AssetService(
-			new \Application\Model\Asset,
+			new Asset,
 			$assetMapperFactory->createService($serviceLocator),
 			$urlMapperFactory->createService($serviceLocator),
 			$lessorMapperFactory->createService($serviceLocator),
