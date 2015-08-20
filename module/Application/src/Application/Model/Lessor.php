@@ -16,6 +16,7 @@ class Lessor extends User implements LessorInterface
 	 */
 	public function getUrlId()
 	{
+		return (integer) $this->url_id;
 	}
 
 	/**
@@ -23,6 +24,7 @@ class Lessor extends User implements LessorInterface
 	 */
 	public function getUrl()
 	{
+		return $this->url;
 	}
 
 	/**
@@ -30,6 +32,7 @@ class Lessor extends User implements LessorInterface
 	 */
 	public function setUrl($url)
 	{
+		$this->url = $url;
 	}
 
 }
