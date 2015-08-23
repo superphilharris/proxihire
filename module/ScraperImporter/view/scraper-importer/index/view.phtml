@@ -1,0 +1,6 @@
+<ul>
+	<?php foreach( $this->assets as $asset ){ ?>
+		<li><?=$asset->getUrl()->getTitle()?></li>
+	<?php } ?>
+</ul>
+<a href="../dump/<?=$this->file?>">Dump to Database</a>

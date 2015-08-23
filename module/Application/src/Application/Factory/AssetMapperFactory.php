@@ -49,7 +49,9 @@ class AssetMapperFactory extends AbstractMapperFactory implements FactoryInterfa
 			$this->getMappingHydrator( $dbStructure->columns ),
 			new Asset,
 			$dbStructure,
-			$assetRateMapperFactory->createService($serviceLocator),
+			// jih: $serviceLocator->get('Application\Mapper\AssetRateMapperInterface'),
+			// jih: $serviceLocator->get('Application\Mapper\AssetPropertyMapperInterface')
+			$assetRateMapperFactory->createService($serviceLocator), // jih: these lines should be replaced with the above ones.
 			$assetPropertyMapperFactory->createService($serviceLocator)
 		);
 	}

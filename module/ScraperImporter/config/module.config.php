@@ -13,20 +13,40 @@ return array(
 			'scraper_importer' => array(
 				'type'    => 'Literal',
 				'options' => array(
-					'route'    => '/admin/scraper_importer',
+					'route'    => '/admin/scraper_importer/',
 					'defaults' => array(
 						'__NAMESPACE__' => 'ScraperImporter\Controller',
 						'controller'    => 'Index',
 						'action'        => 'index',
 					),
 				),
+				'may_terminate' => true,
+				'child_routes'  => array(
+					'dump' => array(
+						'type'    => 'Segment',
+						'options' => array(
+							'route' => ':action[/:file]',
+							'constraints' => array(
+								'file' => '[a-z_]*\.json'
+							),
+							'defaults' => array(
+								'controller' => 'Index'
+							),
+						),
+					),
+				),
 			),
 		),
 	),
 	'controllers' => array(
-		'invokables' => array(
-			'ScraperImporter\Controller\Index' => 'ScraperImporter\Controller\IndexController',
+		'factories' => array(
+			'ScraperImporter\Controller\Index' => 'ScraperImporter\Factory\IndexControllerFactory',
 		),
+	),
+	'service_manager' => array(
+		'factories' => array(
+			'ScraperImporter\Service\ImporterServiceInterface' => 'ScraperImporter\Factory\ImporterServiceFactory'
+		)
 	),
 	'view_manager' => array(
 		'template_map' => array(

@@ -9,14 +9,63 @@
 
 namespace ScraperImporter\Controller;
 
+use ScraperImporter\Service\ImporterServiceInterface;
+
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
+	const DATADIR='module/ScraperImporter/data';
+	protected $importerService;
+
+	/**
+	 * Class constructor
+	 *
+	 * @param ScraperImporter\Service\ImporterServiceInterface
+	 */
+	public function __construct(
+		ImporterServiceInterface $importerService
+	){
+		$this->importerService = $importerService;
+	}
+
 	public function indexAction()
 	{
 		$this->layout( 'scraper-importer/layout' );
-		return new ViewModel();
+		$view=new ViewModel(array(
+			'files' => preg_grep( "/^[a-z_]*\.json$/", scandir( self::DATADIR ) )
+		));
+		return $view;
+	}
+
+	public function viewAction()
+	{
+		$this->layout( 'scraper-importer/layout' );
+		$view=new ViewModel(array(
+			'assets' => $this->importerService->getAssets( $this->getJsonArray() ),
+			'file'   => $this->params()->fromRoute( 'file' )
+		));
+		return $view;
+	}
+
+	public function dumpAction()
+	{
+		$this->layout( 'scraper-importer/layout' );
+		$view=new ViewModel(array(
+			'assets' => $this->importerService->dumpAssets( $this->getJsonArray() ),
+			'file'   => $this->params()->fromRoute( 'file' )
+		));
+		return $view;
+	}
+
+	private function getJsonArray(){
+		$file        = $this->params()->fromRoute( 'file' );
+		$filePath    = self::DATADIR."/$file";
+		$fileContent = file_get_contents($filePath);
+		$items       = json_decode($fileContent);
+		return (array) $items;
 	}
 }
+
+?>

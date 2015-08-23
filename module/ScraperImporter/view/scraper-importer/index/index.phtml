@@ -1,1 +1,9 @@
-HI
+<ul>
+	<?php foreach( $this->files as $file ){ ?>
+		<li>
+			<a href="view/<?=$file?>">
+				<?=$file?>
+			</a>
+		</li>
+	<?php } ?>
+</ul>
