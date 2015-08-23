@@ -23,6 +23,7 @@ class AssetService implements AssetServiceInterface
 
 	public function __construct( 
 		AssetInterface $assetPrototype,
+		//$assetPrototype, // jih: importer testing
 		AssetMapperInterface $assetMapper,
 		UrlMapperInterface $urlMapper,
 		LessorMapperInterface $lessorMapper,
@@ -56,6 +57,7 @@ class AssetService implements AssetServiceInterface
 
 		// jih: accumulate location into filters, if not already there
 
+		//return array_slice($this->assetPrototype,0,30); // jih: importer testing
 		$assetArray=array();
 		for( $i=0; $i<$number; $i++){
 			$assetArray[$i]=new $this->assetPrototype;
