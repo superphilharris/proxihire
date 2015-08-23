@@ -16,14 +16,35 @@ categories = {
 				"aliases": ["fence","fencing"]
 			},
 			{
-				"aliases": ["portaloo","loo","toilet"]
+				"aliases": ["saw"],
+				"children": [
+					{
+						"aliases": ["electric saw", "combination saw", "mitre saw"]
+					}
+				]
 			}
 		]
 	},{
 		"aliases": ["catering","event","party","wedding"],
 		"children": [
+ 			{
+				"aliases": ["portaloo","loo","toilet"],
+				"children": [
+					{
+						"aliases": ["urinal"]
+					}
+				]
+			},
 			{
 				"aliases": ["speaker","sound"]
+			},
+			{
+				"aliases": ["video"],
+				"children": [
+					{
+						"aliases": ["boom","telescopic boom"]
+					}
+				]
 			},
 			{
 				"aliases": ["tent","hall"]
@@ -58,7 +79,7 @@ categories = {
 				"aliases": ["bike"]
 			},
 			{
-				"aliases": ["vehicle","car"],
+				"aliases": ["vehicle"],
 				"children": [
 					{
 						"aliases": ["campervan","camper","campa"]
@@ -77,5 +98,5 @@ categories = {
 		]
 	}
 ],
-"aliases": [""] 
+"aliases": [] 
 };

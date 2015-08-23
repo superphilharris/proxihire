@@ -1,7 +1,6 @@
 <?php 
 
 $categories_file = dirname(dirname(__FILE__)).'/public/js/categories.js';
-
 $categories_json = str_replace('categories = ', '', str_replace(';', '', file_get_contents($categories_file)));
 $categories = json_decode($categories_json);
 
