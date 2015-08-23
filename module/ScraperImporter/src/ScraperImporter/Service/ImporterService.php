@@ -83,8 +83,6 @@ class ImporterService implements ImporterServiceInterface
 	}
 
 	private function getAsset( $item ){
-		\Zend\Debug\Debug::dump($item); //jih: remove this
-
 		$asset=new $this->asset;
 		$asset->setUrl( $this->getUrl($item) );
 		$asset->setProperties( $this->getProperties($item) );
