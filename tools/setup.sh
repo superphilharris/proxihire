@@ -300,9 +300,8 @@ mysql -u apache $MYSQL_APACHE_PASSOPT <<< "quit" || exit 1
 # jih: compare db schemas and use mwb to create/update
 
 # Set up the categories table
-php ${SCRIPT_DIR}/generate_category_sql.php > /tmp/categories.sql
-category_changes="$(diff /tmp/categories.sql "${SCRIPT_DIR}/categories.sql" 2>&1)"
-if [ ! -f "${SCRIPT_DIR}/categories.sql" -o -n "$category_changes" ]; then
+category_changes="$(diff public/js/categories.js "${SCRIPT_DIR}/my_categories.js" 2>&1)"
+if [ ! -f "${SCRIPT_DIR}/my_categories.js" -o -n "$category_changes" ]; then
 	# There should only be new records, not changed records. Therefore, there
 	# should not be any records in the local copy of `categories` that aren't in
 	# the newly-generated list.
@@ -325,16 +324,18 @@ if [ ! -f "${SCRIPT_DIR}/categories.sql" -o -n "$category_changes" ]; then
 	fi
 
 	if $merge_the_changes; then
-		$DIFF_VIEWER "${SCRIPT_DIR}/categories.sql" /tmp/categories.sql
+		$DIFF_VIEWER "${SCRIPT_DIR}/my_categories.js" public/js/categories.js
 		if ! confirm "Was the merge successful?" n; then
 			exit 1
 		fi
-	else
-		cp /tmp/categories.sql "${SCRIPT_DIR}/categories.sql"
 	fi
+	chmod 664 "${SCRIPT_DIR}/my_categories.js"
+	cp public/js/categories.js "${SCRIPT_DIR}/my_categories.js"
+	chmod 444 "${SCRIPT_DIR}/my_categories.js"
 
+	php ${SCRIPT_DIR}/generate_category_sql.php > /tmp/categories.sql
 	echo "Adding new categories."
-	if ! mysql -u root $MYSQL_ROOT_PASSOPT < ${SCRIPT_DIR}/categories.sql; then
+	if ! mysql -u root $MYSQL_ROOT_PASSOPT < /tmp/categories.sql; then
 		echo
 		echo "Could not add categories."
 		echo
