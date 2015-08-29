@@ -7,19 +7,198 @@ categories = {
 				"aliases": ["compaction"]
 			},
 			{
+				"aliases": ["tarpaulin"]
+			},
+			{
 				"aliases": ["ladder"]
 			},
 			{
-				"aliases": ["air_tools","pneumatics"]
+				"aliases": ["fencing", "barrier", "delineator"]
+			},
+			{
+				"aliases": ["electrical and generators"],
+				"children": [
+					{
+						"aliases": ["splitter box", "distribution box"]
+					},
+					{
+						"aliases": ["extension lead", "power cable"]
+					},
+					{
+						"aliases": ["generator"]
+					}
+				]
+			},
+			{
+				"aliases": ["pneumatics", "air tool"],
+				"children": [
+					{
+						"aliases": ["dust gun"]
+					},
+					{
+						"aliases": ["air hose"]
+					},
+					{
+						"aliases": ["compressor"]
+					}
+				]
 			},
 			{
 				"aliases": ["fence","fencing"]
 			},
 			{
-				"aliases": ["saw"],
+				"aliases": ["water flow"],
 				"children": [
 					{
-						"aliases": ["electric saw", "combination saw", "mitre saw"]
+						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump"]
+					},
+					{
+						"aliases": ["centrifugal pump", "water pump", "rotary pump"]
+					},
+					{
+						"aliases": ["flexidrive"]
+					},
+					{
+						"aliases": ["fire hydrant"]
+					},
+					{
+						"aliases": ["hose"]
+					}
+				]
+			},
+			{
+				"aliases": ["construction tools"],
+				"children": [
+		 			{
+						"aliases": ["saw"],
+						"children": [
+							{
+								"aliases": ["electric saw", "combination saw", "mitre saw"]
+							}
+						]
+					},
+					{
+						"aliases": ["nail gun", "gas nailer", "air nailer", "air stapler"]
+					},
+					{
+						"aliases": ["screw driver"]
+					},
+					{
+						"aliases": ["crowbar"]
+					},
+					{
+						"aliases": ["sander"]
+					}
+				]
+			},
+			{
+				"aliases": ["post hole borer"]
+			},
+			{
+				"aliases": ["lino roller"]
+			},
+			{
+				"aliases": ["concrete grinder", "grinder", "concrete breaker"]
+			},
+			{
+				"aliases": ["access equipment"],
+				"children": [
+		 			{
+						"aliases": ["scissorlift", "aerial work platform", "cherry picker"]
+					},
+		 			{
+						"aliases": ["trestle"]
+					}
+				]
+			},
+			{
+				"aliases": ["measurement", "survey"],
+				"children": [
+		 			{
+						"aliases": ["survey staff", "spirit level"]
+					},
+					{
+						"aliases": ["survey laser"]
+					},
+					{
+						"aliases": ["measuring tape"]
+					},
+					{
+						"aliases": ["measuring wheel"]
+					}
+				]
+			},
+			{
+				"aliases": ["material handling"],
+				"children": [
+		 			{
+						"aliases": ["material lifter"]
+					},
+		 			{
+						"aliases": ["load trolley", "sack barrow"]
+					},
+		 			{
+						"aliases": ["pallet trolley"]
+					},
+		 			{
+						"aliases": ["mechanical ratchet", "ratchet jack"]
+					},
+		 			{
+						"aliases": ["telehandler", "telescopic handler", "teleporter"]
+					},
+					{
+						"aliases": ["jack", "hydraulic"]
+					},
+					{
+						"aliases": ["winch", "tirfor"]
+					},
+					{
+						"aliases": ["hoist"]
+					},
+					{
+						"aliases": ["load skate"]
+					}
+				]
+			}
+		]
+	},{
+		"aliases": ["garden"],
+		"children": [
+			{
+				"aliases": ["garden sprayer", "weed sprayer", "sprayers backpack"]
+			},
+			{
+				"aliases": ["fertiliser spreader", "seed spreader"]
+			},
+			{
+				"aliases": ["blower", "power broom"]
+			},
+			{
+				"aliases": ["log splitter"]
+			},
+			{
+				"aliases": ["wood chipper", "chipper", "mulcher", "mulch maker", "shredder"]
+			},
+			{
+				"aliases": ["stump grinder", "stump remover"]
+			},
+			{
+				"aliases": ["hedge trimmer", "power unit extension"]
+			},
+			{
+				"aliases": ["rotary hoe"]
+			},
+			{
+				"aliases": ["grass trimming"],
+				"children": [
+					{
+						"aliases": ["weed eater", "scrubcutter", "line trimmer", "lawn edger"]
+					},
+					{
+						"aliases": ["lawn motor", "lawn mower"]
+					},
+					{
+						"aliases": ["lawn roller"]
 					}
 				]
 			}
@@ -73,7 +252,7 @@ categories = {
 			}
 		]
 	},{
-		"aliases": ["travel","tourism"],
+		"aliases": ["travel","tourism","transport"],
 		"children": [
 			{
 				"aliases": ["bike"]
@@ -94,7 +273,27 @@ categories = {
 			},
 			{
 				"aliases": ["kayak","boat","jetski"]
+			},
+			{
+				"aliases": ["trailer"]
 			}
+		]
+	},{
+		"aliases": ["manufacturing"],
+		"children": [
+			{
+				"aliases": ["strapping machine"]
+			}
+		]
+	},{
+		"aliases": ["automotive"],
+		"children": [
+         	{
+        		"aliases": ["panel beaters"]
+        	},
+        	{
+        		"aliases": ["spray gun", "spray painting"]
+        	}
 		]
 	}
 ],
