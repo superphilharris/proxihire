@@ -25,7 +25,7 @@ categories = {
 						"aliases": ["extension lead", "power cable"]
 					},
 					{
-						"aliases": ["generator"]
+						"aliases": ["generator", "diesel skid"]
 					}
 				]
 			},
@@ -84,10 +84,30 @@ categories = {
 						"aliases": ["screw driver"]
 					},
 					{
+						"aliases": ["drill"],
+						"children": [
+							{
+								"aliases": ["drill bits"]
+							}
+						]
+					},
+					{
 						"aliases": ["crowbar"]
 					},
 					{
 						"aliases": ["sander"]
+					},
+					{
+						"aliases": ["welder"]
+					},
+					{
+						"aliases": ["cutter bender"]
+					},
+					{
+						"aliases": ["masonry breaker", "concrete breaker", "rotary breaker", "portable breaker", "air breaker"]
+					},
+					{
+						"aliases": ["pop riveter"]
 					}
 				]
 			},
@@ -171,6 +191,12 @@ categories = {
 				"aliases": ["fertiliser spreader", "seed spreader"]
 			},
 			{
+				"aliases": ["water blaster"]
+			},
+			{
+				"aliases": ["wet vacuum cleaner"]
+			},
+			{
 				"aliases": ["blower", "power broom"]
 			},
 			{
@@ -211,6 +237,17 @@ categories = {
 				"children": [
 					{
 						"aliases": ["urinal"]
+					}
+				]
+			},
+ 			{
+				"aliases": ["cleaning"],
+				"children": [
+		 			{
+						"aliases": ["vacuum cleaner"]
+					},
+					{
+						"aliases": ["extraction fan"]
 					}
 				]
 			},
@@ -293,6 +330,58 @@ categories = {
         	},
         	{
         		"aliases": ["spray gun", "spray painting"]
+        	},
+        	{
+        		"aliases": ["flashing light", "flashing lamp"]
+        	}
+		]
+	},{
+		"aliases": ["road works", "road construction", "earth moving"],
+		"children": [
+         	{
+        		"aliases": ["portable traffic lights"]
+        	},
+         	{
+        		"aliases": ["concrete laying"],
+        		"children": [
+		          	{
+		        		"aliases": ["bull float", "concrete screed", "concrete float", "concrete vibrator"]
+		        	},
+		          	{
+		        		"aliases": ["concrete scribe", "concrete cutter"]
+		        	},
+		          	{
+		        		"aliases": ["concrete mixer"]
+		        	}
+		 		]
+        	},
+         	{
+        		"aliases": ["tractor"]
+        	},
+         	{
+        		"aliases": ["loader"],
+        		"children": [
+		          	{
+		        		"aliases": ["loader attachment"],
+		    			"children": [
+				 			{
+				 				"aliases": ["levelling bar"]
+				 			},
+				 			{
+				 				"aliases": ["ground ripper"]
+				 			},
+				 			{
+				 				"aliases": ["loader bucket"]
+				 			},
+				 			{
+				 				"aliases": ["chain trencher"]
+				 			},
+				 			{
+				 				"aliases": ["grader"]
+				 			}
+				 		]
+		        	}
+		 		]
         	}
 		]
 	}

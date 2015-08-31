@@ -73,6 +73,7 @@ class ImporterService implements ImporterServiceInterface
 		$categories_file = __DIR__.'/../../../../../public/js/categories.js';
 		$categories_json = str_replace('categories = ', '', str_replace(';', '', file_get_contents($categories_file)));
 		$categories = json_decode($categories_json);
+		if(!$categories) exit("The categories.js file is not valid json: " . json_last_error_msg());
 	
 		// Read in the crawler dump
 		foreach($pages as $page){
@@ -298,7 +299,10 @@ class ImporterService implements ImporterServiceInterface
 			}elseif($unit === 'ml'){
 				$property['datatype']	= 'volume';
 				$property['value_mxd']	= floatval($number) / 1000;
-			}elseif($unit === 'hp'){
+			}elseif($unit === 'm3'){
+				$property['datatype']	= 'volume';
+				$property['value_mxd']	= floatval($number) * 1000;
+			}elseif($unit === 'hp' OR $unit === 'horsepower'){
 				$property['datatype']	= 'power';
 				$property['value_mxd']	= floatval($number) * 745.699872;
 			}elseif($unit === 'hz'){
@@ -313,13 +317,13 @@ class ImporterService implements ImporterServiceInterface
 			}elseif($unit === 'psi'){
 				$property['datatype']	= 'pressure';
 				$property['value_mxd']	= floatval($number) * 6894.75729;
-			}elseif($unit === 'km/hr'){
+			}elseif($unit === 'km/hr' OR $unit === 'km/h'){
 				$property['datatype']	= 'speed';
 				$property['value_mxd']	= floatval($number) * 1000 / 60 / 60;
 			}elseif($unit === 'm/s' OR $unit === 'm/sec'){
 				$property['datatype']	= 'speed';
 				$property['value_mxd']	= floatval($number);
-			}elseif($unit === 'amps'){
+			}elseif($unit === 'amps' OR $unit === 'amp'){
 				$property['datatype']  = 'current';
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'watts'){
@@ -328,6 +332,9 @@ class ImporterService implements ImporterServiceInterface
 			}elseif($unit === 'kw'){
 				$property['datatype']  = 'power';
 				$property['value_mxd'] = floatval($number) * 1000;
+			}elseif($unit === 'nm'){
+				$property['datatype']  = 'torque';
+				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'ltr/hr' OR $unit === 'lit/hr'){
 				$property['datatype']  = 'flow';
 				$property['value_mxd'] = floatval($number) / 60 / 60; // Convert to ltr/sec
