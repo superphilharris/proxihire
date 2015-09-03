@@ -185,6 +185,15 @@ class ImporterService implements ImporterServiceInterface
 		return null;
 	}
 
+	/**
+	 * Finds the subcategory that contains all of the words in any part of the string.
+	 * TODO: return multiple results, and the one that is the longest,
+	 * rather than the first that we find.
+	 *
+	 * @param Category $category
+	 * @param string $name
+	 * @return Category|NULL
+	 */
 	private function findCategoryMatchedWords($category, $name){
 		if(property_exists($category, 'children')) {
 			foreach($category->children as $subCategory){
@@ -208,6 +217,15 @@ class ImporterService implements ImporterServiceInterface
 		}
 		return null;
 	}
+	/**
+	 * Finds the subcategory that matches the exact name.
+	 * TODO: return multiple results, and the one that is the longest,
+	 * rather than the first that we find.
+	 * 
+	 * @param Category $category
+	 * @param string $name
+	 * @return Category|NULL
+	 */
 	private function findCategoryExactMatch($category, $name){
 		if(property_exists($category, 'children')) {
 			foreach($category->children as $subCategory){

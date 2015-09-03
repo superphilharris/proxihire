@@ -101,6 +101,9 @@ categories = {
 						"aliases": ["welder"]
 					},
 					{
+						"aliases": ["wrench"]
+					},
+					{
 						"aliases": ["cutter bender"]
 					},
 					{
@@ -266,6 +269,30 @@ categories = {
 				"aliases": ["tent","hall"]
 			},
 			{
+				"aliases": ["event heating"],
+				"children": [
+					{
+						"aliases": ["lpg heater", "diesel heater", "gas heater"]
+					}
+				]
+			},
+			{
+				"aliases": ["event cooling"],
+				"children": [
+					{
+						"aliases": ["pedistal fan"]
+					}
+				]
+			},
+			{
+				"aliases": ["event lighting"],
+				"children": [
+					{
+						"aliases": ["towable light tower"]
+					}
+				]
+			},
+			{
 				"aliases": ["dishes","cutlery"],
 				"children": [
 					{
@@ -333,6 +360,15 @@ categories = {
         	},
         	{
         		"aliases": ["flashing light", "flashing lamp"]
+        	},
+        	{
+        		"aliases": ["car ramps", "auto ramps", "automotive car ramps"]
+        	},
+        	{
+        		"aliases": ["axle stand", "auto stand"]
+        	},
+        	{
+        		"aliases": ["auto timing", "ignition timing light", "timing light"]
         	}
 		]
 	},{
@@ -353,6 +389,17 @@ categories = {
 		          	{
 		        		"aliases": ["concrete mixer"]
 		        	}
+		 		]
+        	},
+         	{
+        		"aliases": ["road compacting"],
+        		"children": [
+		          	{
+		         		"aliases": ["road roller", "drum roller", "combination roller"]
+		         	},
+		         	{
+		         		"aliases": ["tamping rammer", "tamper air rammer"]
+		         	}
 		 		]
         	},
          	{
