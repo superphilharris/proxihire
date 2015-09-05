@@ -4,9 +4,6 @@ categories = {
 		"aliases": ["construction","building","renovation"],
 		"children": [
 			{
-				"aliases": ["compaction"]
-			},
-			{
 				"aliases": ["tarpaulin"]
 			},
 			{
@@ -44,10 +41,10 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["fence","fencing"]
+				"aliases": ["fencing", "fence"]
 			},
 			{
-				"aliases": ["water flow"],
+				"aliases": ["plumbing", "water flow"],
 				"children": [
 					{
 						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump"]
@@ -63,6 +60,32 @@ categories = {
 					},
 					{
 						"aliases": ["hose"]
+					},
+					{
+						"aliases": ["pipe die", "bolt die", "pipe threader"]
+					},
+					{
+						"aliases": ["pipe vice", "pipe vise"]
+					},
+					{
+						"aliases": ["pipe cutting"],
+						"children": [
+							{
+								"aliases": ["pipe crox tool"]
+							},
+							{
+								"aliases": ["pipe crimper", "pipe crimping tool"]
+							}
+						]
+					},
+					{
+						"aliases": ["tap seat cutter", "tap reseating tool"]
+					},
+					{
+						"aliases": ["pipe bender"]
+					},
+					{
+						"aliases": ["chimney cleaner", "chimney clean brush"]
 					}
 				]
 			},
@@ -70,10 +93,37 @@ categories = {
 				"aliases": ["construction tools"],
 				"children": [
 		 			{
-						"aliases": ["saw"],
+						"aliases": ["cutting"],
 						"children": [
 							{
-								"aliases": ["electric saw", "combination saw", "mitre saw"]
+								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw"]
+							},
+							{
+								"aliases": ["sink hole cutter", "wastemaster cutter"]
+							},
+							{
+								"aliases": ["pipe cutter"]
+							},
+							{
+								"aliases": ["bolt cutter", "bolt cropper"]
+							},
+							{
+								"aliases": ["cement board cutter", "fibrolite cutter"]
+							},
+							{
+								"aliases": ["jig saw", "sabre saw"]
+							},
+							{
+								"aliases": ["hacksaw", "metal saw"]
+							},
+							{
+								"aliases": ["chainsaw"]
+							},
+							{
+								"aliases": ["pole pruner", "pruning saw", "bow saw", "pruner saw"]
+							},
+							{
+								"aliases": ["concrete saw", "road saw"]
 							}
 						]
 					},
@@ -84,7 +134,7 @@ categories = {
 						"aliases": ["screw driver"]
 					},
 					{
-						"aliases": ["drill"],
+						"aliases": ["drilling"],
 						"children": [
 							{
 								"aliases": ["drill bits"]
@@ -111,6 +161,9 @@ categories = {
 					},
 					{
 						"aliases": ["pop riveter"]
+					},
+					{
+						"aliases": ["sash clamp"]
 					}
 				]
 			},
@@ -359,6 +412,9 @@ categories = {
         		"aliases": ["spray gun", "spray painting"]
         	},
         	{
+        		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper"]
+        	},
+        	{
         		"aliases": ["flashing light", "flashing lamp"]
         	},
         	{
@@ -404,6 +460,9 @@ categories = {
         	},
          	{
         		"aliases": ["tractor"]
+        	},
+         	{
+        		"aliases": ["excavator"]
         	},
          	{
         		"aliases": ["loader"],
