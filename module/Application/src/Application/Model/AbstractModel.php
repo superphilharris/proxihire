@@ -6,7 +6,7 @@ use Application\Helper\ClassHelper;
 abstract class AbstractModel implements HydratableModelInterface
 {
 	public function __tostring(){
-		return \Zend\Debug\Debug::dump($this,null,false);
+		return \Zend\Debug\Debug::dump($this,null,false); // get_class($this);
 	}
 }
 ?>

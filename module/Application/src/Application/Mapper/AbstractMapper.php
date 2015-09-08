@@ -194,9 +194,10 @@ abstract class AbstractMapper
 
 			// if we want the results ordered, then order them by $property
 			$key=($ordered)?$resultArrays[$i][$property]:$i;
-			$modelsByProperty[$key]=new $prototype;
-
-			$this->hydrator->hydrate( $resultArrays[$i], $modelsByProperty[$key] );
+			if($prototype !== null){ // psh TODO: Some Assets do not have a AssetRate
+				$modelsByProperty[$key]=new $prototype;
+				$this->hydrator->hydrate( $resultArrays[$i], $modelsByProperty[$key] );
+			}
 			$result->next();
 			$i++;
 		}
@@ -246,8 +247,7 @@ abstract class AbstractMapper
 		$result = $stmt->execute();
 
 		if ( ! $result instanceof ResultInterface ||
-		     ! $result->isQueryResult() ||
-		     ! $result->getAffectedRows() )
+		     ! $result->isQueryResult() )
 		{
 			throw new \InvalidArgumentException( "There are no entries in the '{$table}' table which match the condition: ".print_r( $where, true ) );
 		}

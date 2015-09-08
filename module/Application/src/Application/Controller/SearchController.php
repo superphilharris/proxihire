@@ -27,13 +27,21 @@ class SearchController extends AbstractActionController
     public function indexAction()
     {
 		$view = new ViewModel(array());
-
+		$categoryAliases = $this->categoryAliasesService->getCategoryAliases();
+		$categoryName 	= $categoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
+		$ancestory		= $categoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
+		
 		// Category picker
-		$category = $this->categoryService->getCategoryByName($this->params()->fromRoute('category'));
+		if($categoryName !== null){
+			$category = $this->categoryService->getCategoryByName($categoryName);
+		}else{
+			$category = null;
+		}
 
 		$categoryPickerView = new ViewModel(array(
-			'category'  => $category,
-			'categoryAliases' => $this->categoryAliasesService->getCategoryAliases()->get(),
+			'category'  		=> $category,
+			'categoryAliases' 	=> $categoryAliases,
+			'ancestory' 		=> $ancestory
 		));
 		$categoryPickerView->setTemplate('application/search/category-picker');
 
@@ -62,6 +70,7 @@ class SearchController extends AbstractActionController
 		return $this->assetService->getAssetList($category,$filters,$location);
 	}
 
+	
 }
 
 ?>
