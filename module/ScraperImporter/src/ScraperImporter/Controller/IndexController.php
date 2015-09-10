@@ -63,7 +63,11 @@ class IndexController extends AbstractActionController
 		$file        = $this->params()->fromRoute( 'file' );
 		$filePath    = self::DATADIR."/$file";
 		$fileContent = file_get_contents($filePath);
+		if(!$fileContent) throw new \Exception("The file path does not exist: $filePath");
 		$items       = json_decode($fileContent);
+		if($items === null){
+			throw new \Exception("The $filePath is not valid json. Did you kill a scrape, and not delete the output file properly? Error message: " . json_last_error_msg());
+		}
 		return (array) $items;
 	}
 }

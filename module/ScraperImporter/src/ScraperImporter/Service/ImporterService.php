@@ -20,6 +20,7 @@ class ImporterService implements ImporterServiceInterface
 	protected $urlMapper;
 	protected $url;
 	private $haveCreatedLessor; // psh TODO: remove when we remove the manual sql statements
+	const REFRESH_ASSET_IMAGES = FALSE; // Whether we want to check to see whether they've changed the images on their server.
 
 	public function __construct(
 		$assetMapper,
@@ -84,7 +85,7 @@ class ImporterService implements ImporterServiceInterface
 		$categories_file = __DIR__.'/../../../../../public/js/categories.js';
 		$categories_json = str_replace('categories = ', '', str_replace(';', '', file_get_contents($categories_file)));
 		$categories = json_decode($categories_json);
-		if(!$categories) exit("The categories.js file is not valid json: " . json_last_error_msg());
+		if(!$categories) throw new \Exception("The categories.js file is not valid json: " . json_last_error_msg());
 		
 		echo '<code>';
 		// Read in the crawler dump
@@ -101,6 +102,8 @@ class ImporterService implements ImporterServiceInterface
 				echo "INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".$page->url."');\n";
 				echo "INSERT INTO asset (category_id, url_id, lessor_user_id) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".$categoryName."' AND u.name_fulnam='".$page->lessor."';\n";
 				echo "SET @last_asset_id = LAST_INSERT_ID();<br/>";
+				$this->syncImage($page->image);
+				// Get the properties
 				$properties = array();
 				foreach($page->properties as $propertyName => $propertyValue){
 					$properties = array_merge($properties, $this->findProperties($propertyName, $propertyValue));
@@ -144,6 +147,42 @@ class ImporterService implements ImporterServiceInterface
 			));
 		}
 		return $url;
+	}
+	/**
+	 * This fetches an image of a crawled site and puts it into the /public/img/assets/ folder
+	 * @param string $url
+	 * @return boolean
+	 */
+	private function syncImage($url){
+		if($url !== null AND $url !== ""){
+			$urlComponents = parse_url($url);
+			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
+				$localImage = __DIR__.'/../../../../../public/img/assets/'.$urlComponents['host'].$urlComponents['path'];
+				if($this::REFRESH_ASSET_IMAGES OR !file_exists($localImage)){
+					$directory = dirname($localImage);
+					$this->mkdir($directory);
+					exec("cd $directory; wget -N ".addslashes($url));
+					if(file_exists($localImage)) return true;
+				}else{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	/**
+	 * Recursively makes a directory.
+	 * As php one doesn't seem to work recursively
+	 * @param string $dir
+	 * @return boolean
+	 */
+	private function mkdir($dir){
+		if(file_exists($dir)) 				return true;
+		elseif(file_exists(dirname($dir))){
+			if(!mkdir($dir)) 				echo "Could not create directory. Please run: `sudo chown -R www-data:www-data ".dirname($dir);
+			else 							return true;
+		}else								return $this->mkdir(dirname($dir));
+		return false;
 	}
 	
 	private function getProperties( $item ){
