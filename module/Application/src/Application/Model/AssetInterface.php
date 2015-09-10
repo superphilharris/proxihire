@@ -93,5 +93,19 @@ interface AssetInterface
 	 * @return Application\Model\UrlInterface
 	 */
 	public function getUrl();
+
+	/**
+	 * Sets the image of this asset.
+	 *
+	 * @param $image string
+	 */
+	public function setImage($image);
+
+	/**
+	 * Returns the image path relating that we scraped of the lessor's listing.
+	 *
+	 * @return string
+	 */
+	public function getImage();
 }
 ?>

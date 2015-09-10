@@ -93,16 +93,18 @@ class ImporterService implements ImporterServiceInterface
 		foreach($pages as $page){
 			if($page->item_type === "asset"){
 				$this->createLessor($page->lessor);
+
+				$imageUrl = $this->syncImage($page->image);
+				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'$imageUrl'";
 				
 				$category = $this->findCategory($categories, $page->item_name);
 				if($category === null){
 					echo "</code><br/><a href=\"$page->url\" target='_blank'>$page->item_name</a>";
 					exit;
 				}else $categoryName = $category->aliases[0];
-				echo "INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".$page->url."');\n";
-				echo "INSERT INTO asset (category_id, url_id, lessor_user_id) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".$categoryName."' AND u.name_fulnam='".$page->lessor."';\n";
+				echo "INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".$page->url."'); ";
+				echo "INSERT INTO asset (category_id, url_id, lessor_user_id, image_url) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".$categoryName."' AND u.name_fulnam='".$page->lessor."'; ";
 				echo "SET @last_asset_id = LAST_INSERT_ID();<br/>";
-				$this->syncImage($page->image);
 				// Get the properties
 				$properties = array();
 				foreach($page->properties as $propertyName => $propertyValue){
@@ -157,18 +159,19 @@ class ImporterService implements ImporterServiceInterface
 		if($url !== null AND $url !== ""){
 			$urlComponents = parse_url($url);
 			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
-				$localImage = __DIR__.'/../../../../../public/img/assets/'.$urlComponents['host'].$urlComponents['path'];
+				$localImageRelativePath = $urlComponents['host'].$urlComponents['path'];
+				$localImage = __DIR__.'/../../../../../public/img/assets/'.$localImageRelativePath;
 				if($this::REFRESH_ASSET_IMAGES OR !file_exists($localImage)){
 					$directory = dirname($localImage);
 					$this->mkdir($directory);
 					exec("cd $directory; wget -N ".addslashes($url));
-					if(file_exists($localImage)) return true;
+					if(file_exists($localImage)) return $localImageRelativePath;
 				}else{
-					return true;
+					return $localImageRelativePath;
 				}
 			}
 		}
-		return false;
+		return null;
 	}
 	/**
 	 * Recursively makes a directory.

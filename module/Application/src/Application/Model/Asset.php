@@ -22,6 +22,7 @@ class Asset extends AbstractModel implements AssetInterface
 	protected $property_id_array;
 	protected $url;
 	protected $url_id;
+	protected $image_url;
 
 	/**
 	 * {@inheritdoc}
@@ -34,7 +35,7 @@ class Asset extends AbstractModel implements AssetInterface
 		$this->rate_id_array = isset($data['rate_id_array']) ? $data['rate_id_array'] : array();
 		$this->property_id_array = isset($data['property_id_array']) ? $data['property_id_array'] : array();
 		$this->url_id = isset($data['url_id']) ? (int) $data['url_id'] : NULL;
-
+		$this->image_url = isset($data['image_url']) ? $data['image_url'] : NULL;
 	}
 
 	/**
@@ -160,6 +161,21 @@ class Asset extends AbstractModel implements AssetInterface
 	public function getUrlId()
 	{
 		return (integer) $this->url_id;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setImage($image)
+	{
+		$this->image_url=$image;
+	}
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getImage()
+	{
+		return $this->image_url;
 	}
 }
 ?>

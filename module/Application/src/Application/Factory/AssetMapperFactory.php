@@ -25,6 +25,7 @@ class AssetMapperFactory extends AbstractMapperFactory implements FactoryInterfa
 				'category_id'    => 'category_id',
 				'url_id'         => 'url_id',
 				'lessor_user_id' => 'lessor_id',
+				'image_url'		 => 'image_url',
 				'asset_property' => 'property_id_array',
 				'asset_rate'     => 'rate_id_array'),
 			'relationships' => array(
