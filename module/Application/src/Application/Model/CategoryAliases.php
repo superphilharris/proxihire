@@ -55,6 +55,10 @@ class CategoryAliases implements CategoryAliasesInterface
 		}
 		return null;
 	}
+	
+	public function __toString(){
+		return json_encode($this->obj);
+	}
 }
 
 ?>

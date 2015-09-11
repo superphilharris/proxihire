@@ -105,12 +105,42 @@ function updateFilterBar(){
 				$('.'+propertyName.replace(' ', '_')+'_columnFilter').find('input').change(filterResults);
 			}
 		}
-		
-		// 3. Hide the main properties from the summary list, and show the main properties
-		$('.'+propertyName.toLowerCase().replace(' ', '_')+'_propertySummary').hide();
-		$('.'+propertyName.toLowerCase().replace(' ', '_')+'_column').show();
 	}
 	
+	// 3. Hide the main properties from the summary list, and show the main properties
+	
+	$('.assetPropertiesSummary').each(function(){
+		var propertiesSummary = $(this);
+		for(var propertyName in mainProperties){
+			var devPropertyName = propertyName.replace(' ', '_').toLowerCase();
+			var propertySummary = $(this).find('.' + devPropertyName + '_propertySummary');
+			if(propertySummary.length == 1){ 	// Show the main property
+				propertiesSummary.parent().append('<div class="assetPropertyColumn '+devPropertyName+'_column"><span>'+propertySummary.find('.propertyValue').text()+'</span></div>')
+				propertySummary.hide();
+			}else{								// Insert a placeholder instead
+				propertiesSummary.parent().append('<div class="assetPropertyColumn"><span>&nbsp;</span></div>')
+			}
+		}
+				
+//				if(propertySummary.exists()){
+//					console.log(propertyName.replace(' ', '_') + 'exists')
+//				}
+//			var propertyName 	= 
+//			var propertyValue 	= $(this).find('.propertyValue').text();
+//			if(typeof mainProperties[propertyName] != "undefined"){
+//				allProperties[propertyName].count ++;
+//				if($.isNumeric(propertyValue)){
+//					allProperties[propertyName]['min'] = Math.min(propertyValue, allProperties[propertyName].min);
+//					allProperties[propertyName]['max'] = Math.max(propertyValue, allProperties[propertyName].max);
+//				}else{
+//					if(allProperties[propertyName].val.indexOf(propertyValue) < 0){
+//						allProperties[propertyName].val.push(propertyValue);
+//					}
+//				}
+//			}
+	})
+	
+	// 4. Show the filter bar
 	$('.categoryAndFilterBar').css('margin-right', getScrollBarWidth()+'px')
 	filterBarColumnNames.show();
 	filterBar.show();

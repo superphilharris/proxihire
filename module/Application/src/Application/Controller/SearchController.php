@@ -27,9 +27,9 @@ class SearchController extends AbstractActionController
     public function indexAction()
     {
 		$view = new ViewModel(array());
-		$categoryAliases = $this->categoryAliasesService->getCategoryAliases();
-		$categoryName 	= $categoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
-		$ancestory		= $categoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
+		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
+		$categoryName 		= $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
+		$ancestory			= $allCategoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
 		
 		// Category picker
 		if($categoryName !== null){
@@ -40,14 +40,14 @@ class SearchController extends AbstractActionController
 
 		$categoryPickerView = new ViewModel(array(
 			'category'  		=> $category,
-			'categoryAliases' 	=> $categoryAliases,
+			'categoryAliases' 	=> $allCategoryAliases,
 			'ancestory' 		=> $ancestory
 		));
 		$categoryPickerView->setTemplate('application/search/category-picker');
 
 		// Asset list
 		$resultListView = new ViewModel(array(
-			'assetList' => $this->getAssetList($category),
+			'assetList' => $this->getAssetList($category, $allCategoryAliases),
 		));
 		$resultListView->setTemplate('application/search/result-list');
 
@@ -61,9 +61,11 @@ class SearchController extends AbstractActionController
 
 		return $view;
 	}
+	
 
-	private function getAssetList($category)
+	private function getAssetList($category, $allCategoryAliases)
 	{
+		// psh TODO: return the id's the category aliases and recursively get all the children aliases
 		$filters  = json_decode(urldecode($_SERVER['QUERY_STRING']));
 		$location = $this->params()->fromRoute('location');
 
