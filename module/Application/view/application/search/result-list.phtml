@@ -10,7 +10,7 @@ foreach( $this->assetList as $asset ){
 	
 	
 	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $url ?>')" data-assetid="<?php echo $asset->getId(); ?>">
-		<div class="panel-heading"><a href=""><?php echo $asset->getCategory() ?></a></div>
+		<div class="panel-heading"><a target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a></div>
 		<div class="panel-body">
 			<img src="/img/assets/<?php echo $asset->getImage() ?>" class="img-responsive" style="float:left; width:120px; margin:-15px"/>
 			
