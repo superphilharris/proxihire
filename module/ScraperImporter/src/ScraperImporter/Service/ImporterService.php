@@ -114,16 +114,24 @@ class ImporterService implements ImporterServiceInterface
 
 	private function createLessor($lessorName, $url = "https://www.hirepool.co.nz/"){
 		if(!$this->haveCreatedLessor){
-			echo '</code><h1>Create Lessor SQL:</h1><code>';
+			echo '</code><h1>Create '.ucwords($lessorName).' Lessor SQL:</h1><code>';
 			echo "INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessorName." - Auckland', '".(-36.8406+rand(-10,10)/300)."', '".(174.761066 + rand(-10, 10)/500)."'); ";
 			echo "INSERT INTO user     (name_fulnam, location_id) VALUES ('".$lessorName."', LAST_INSERT_ID()); SET @last_user_id = LAST_INSERT_ID(); ";
 			echo "INSERT INTO url      (title_desc, path_url) VALUES ('".$lessorName."', '".$url."'); ";
 			echo "INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID()); <br/><br/>";
 			
+			if(true){
+				echo '</code><h1>Update Categories SQL:</h1><code>';
+				exec('php '.__DIR__.'/../../../../../tools/generate_category_sql.php > /tmp/.tmp_category.sql');
+				$sql = file_get_contents('/tmp/.tmp_category.sql');
+				echo $sql;
+				unlink('/tmp/.tmp_category.sql');
+			}
 			echo '</code><h1>Delete '.ucwords($lessorName).' Assets SQL:</h1><code>';
 			echo 'DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN 	(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessorName.'"); ';
 			echo 'DELETE a FROM asset a WHERE lessor_user_id IN 													(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessorName.'"); ';
 			echo 'DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ';
+			
 			echo '</code><h1>New '.ucwords($lessorName).' Assets SQL:</h1><code>';
 			$this->haveCreatedLessor = true;
 		}

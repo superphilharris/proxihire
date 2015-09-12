@@ -37,7 +37,7 @@ class ImporterServiceHelper {
 			}elseif($unit === 'kg'){
 				$property['datatype']  = 'weight';
 				$property['value_mxd'] = floatval($number) * 1000;
-			}elseif($unit === 'tonne'){
+			}elseif($unit === 'tonne' OR $unit === 'tonnes'){
 				$property['datatype']  = 'weight';
 				$property['value_mxd'] = floatval($number) * 1000 * 1000;
 			}elseif($unit === 'dan'){
@@ -299,7 +299,7 @@ class ImporterServiceHelper {
 				$aliasWords = explode(' ', $alias);
 				$usesAllAliasWords = true;
 				foreach($aliasWords as $word){
-					if(! $this->isIn(strtolower($name), strtolower($word))){
+					if(! $this->isIn(strtolower($name), strtolower($word)) OR strlen($word) === 1){
 						$usesAllAliasWords = false;
 					}
 				}

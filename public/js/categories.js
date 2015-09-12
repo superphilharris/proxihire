@@ -10,6 +10,14 @@ categories = {
 				"aliases": ["ladder"]
 			},
 			{
+				"aliases": ["scaffolding"],
+				"children": [
+					{
+						"aliases": ["scaffolding stairs", "safety stairs"]
+					}
+				]
+			},
+			{
 				"aliases": ["fencing", "barrier", "delineator"]
 			},
 			{
@@ -20,6 +28,9 @@ categories = {
 					},
 					{
 						"aliases": ["extension lead", "power cable"]
+					},
+					{
+						"aliases": ["earthleakage plug"]
 					},
 					{
 						"aliases": ["generator", "diesel skid"]
@@ -99,6 +110,9 @@ categories = {
 								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw"]
 							},
 							{
+								"aliases": ["hole saw"]
+							},
+							{
 								"aliases": ["sink hole cutter", "wastemaster cutter"]
 							},
 							{
@@ -131,6 +145,12 @@ categories = {
 						"aliases": ["nail gun", "gas nailer", "air nailer", "air stapler"]
 					},
 					{
+						"aliases": ["staple gun"]
+					},
+					{
+						"aliases": ["hammer"]
+					},
+					{
 						"aliases": ["screw driver"]
 					},
 					{
@@ -145,7 +165,7 @@ categories = {
 						"aliases": ["crowbar"]
 					},
 					{
-						"aliases": ["sander"]
+						"aliases": ["sander", "air sandblaster"]
 					},
 					{
 						"aliases": ["welder"]
@@ -163,7 +183,7 @@ categories = {
 						"aliases": ["pop riveter"]
 					},
 					{
-						"aliases": ["sash clamp"]
+						"aliases": ["sash clamp", "G clamp"]
 					}
 				]
 			},
@@ -271,6 +291,9 @@ categories = {
 				"aliases": ["rotary hoe"]
 			},
 			{
+				"aliases": ["root drain cleaner"]
+			},
+			{
 				"aliases": ["grass trimming"],
 				"children": [
 					{
@@ -342,6 +365,9 @@ categories = {
 				"children": [
 					{
 						"aliases": ["towable light tower"]
+					},
+					{
+						"aliases": ["light stand set", "light set"]
 					}
 				]
 			},
@@ -403,16 +429,23 @@ categories = {
 			}
 		]
 	},{
-		"aliases": ["automotive"],
+		"aliases": ["painting"],
 		"children": [
          	{
-        		"aliases": ["panel beaters"]
-        	},
-        	{
         		"aliases": ["spray gun", "spray painting"]
         	},
         	{
         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper"]
+        	},
+			{
+				"aliases": ["paint drop sheet"]
+			}
+		]
+	},{
+		"aliases": ["automotive"],
+		"children": [
+         	{
+        		"aliases": ["panel beaters"]
         	},
         	{
         		"aliases": ["flashing light", "flashing lamp"]

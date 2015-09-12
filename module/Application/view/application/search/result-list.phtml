@@ -73,8 +73,13 @@ function getMainProperties($assetList){
 			if(isset($allProperties[$propertyName])){
 				$allProperties[$propertyName]['count'] ++;
 				if(is_numeric($propertyValue)){
-					$allProperties[$propertyName]['min'] = min($propertyValue, $allProperties[$propertyName]['min']);
-					$allProperties[$propertyName]['max'] = max($propertyValue, $allProperties[$propertyName]['max']);
+					if(isset($allProperties[$propertyName]['min'])){
+						$allProperties[$propertyName]['min'] = min($propertyValue, $allProperties[$propertyName]['min']);
+						$allProperties[$propertyName]['max'] = max($propertyValue, $allProperties[$propertyName]['max']);
+					}else{
+						$allProperties[$propertyName]['min'] = $propertyValue;
+						$allProperties[$propertyName]['max'] = $propertyValue;
+					}
 				}else{
 					if(!in_array($propertyValue, $allProperties[$propertyName]['val'])){
 						array_push($allProperties[$propertyName]['val'], $propertyValue);
@@ -85,6 +90,7 @@ function getMainProperties($assetList){
 				if(is_numeric($propertyValue)){
 					$allProperties[$propertyName]['min'] = $propertyValue;
 					$allProperties[$propertyName]['max'] = $propertyValue;
+					$allProperties[$propertyName]['val'] = array($propertyValue);
 				}else{
 					$allProperties[$propertyName]['val'] = array($propertyValue);
 				}
