@@ -104,7 +104,7 @@ class ImporterService implements ImporterServiceInterface
 					echo "INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';";
 				}
 				echo "<br/><br/>";
-				var_dump($properties);
+				// var_dump($properties);
 			}
 		}
 		echo '</code>';
@@ -114,10 +114,17 @@ class ImporterService implements ImporterServiceInterface
 
 	private function createLessor($lessorName, $url = "https://www.hirepool.co.nz/"){
 		if(!$this->haveCreatedLessor){
+			echo '</code><h1>Create Lessor SQL:</h1><code>';
 			echo "INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessorName." - Auckland', '".(-36.8406+rand(-10,10)/300)."', '".(174.761066 + rand(-10, 10)/500)."'); ";
 			echo "INSERT INTO user     (name_fulnam, location_id) VALUES ('".$lessorName."', LAST_INSERT_ID()); SET @last_user_id = LAST_INSERT_ID(); ";
 			echo "INSERT INTO url      (title_desc, path_url) VALUES ('".$lessorName."', '".$url."'); ";
 			echo "INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID()); <br/><br/>";
+			
+			echo '</code><h1>Delete '.ucwords($lessorName).' Assets SQL:</h1><code>';
+			echo 'DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN 	(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessorName.'"); ';
+			echo 'DELETE a FROM asset a WHERE lessor_user_id IN 													(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessorName.'"); ';
+			echo 'DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ';
+			echo '</code><h1>New '.ucwords($lessorName).' Assets SQL:</h1><code>';
 			$this->haveCreatedLessor = true;
 		}
 	}
