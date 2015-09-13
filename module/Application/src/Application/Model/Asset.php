@@ -177,5 +177,16 @@ class Asset extends AbstractModel implements AssetInterface
 	{
 		return $this->image_url;
 	}
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getImageForSize($x, $y)
+	{
+		if($this->image_url !== null){
+			$imagePathParts = explode('.', $this->image_url);
+			return implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
+		}
+		return null;
+	}
 }
 ?>

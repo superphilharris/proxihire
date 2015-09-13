@@ -52,7 +52,8 @@ function getMainProperties(){
 
 	// Return only the properties that 80% of the assets have, and if we can display them
 	// TODO: determine better way to determine which are the best properties
-	var maxNumberOfMainProperties = Math.floor(($('.categoryAndFilterBarWrapper').width()-300)/120);
+	var widthOfBreadCrumb = Math.max(300, $('.categoryAndFilterBarWrapper .breadcrumb').width());
+	var maxNumberOfMainProperties = Math.floor(($('.categoryAndFilterBarWrapper').width()-widthOfBreadCrumb-30)/120);
 	var mainProperties = [];
 	var i = 0;
 	for(var propertyName in allProperties){
@@ -108,7 +109,6 @@ function updateFilterBar(){
 	}
 	
 	// 3. Hide the main properties from the summary list, and show the main properties
-	
 	$('.assetPropertiesSummary').each(function(){
 		var propertiesSummary = $(this);
 		for(var propertyName in mainProperties){
@@ -121,24 +121,7 @@ function updateFilterBar(){
 				propertiesSummary.parent().append('<div class="assetPropertyColumn"><span>&nbsp;</span></div>')
 			}
 		}
-				
-//				if(propertySummary.exists()){
-//					console.log(propertyName.replace(' ', '_') + 'exists')
-//				}
-//			var propertyName 	= 
-//			var propertyValue 	= $(this).find('.propertyValue').text();
-//			if(typeof mainProperties[propertyName] != "undefined"){
-//				allProperties[propertyName].count ++;
-//				if($.isNumeric(propertyValue)){
-//					allProperties[propertyName]['min'] = Math.min(propertyValue, allProperties[propertyName].min);
-//					allProperties[propertyName]['max'] = Math.max(propertyValue, allProperties[propertyName].max);
-//				}else{
-//					if(allProperties[propertyName].val.indexOf(propertyValue) < 0){
-//						allProperties[propertyName].val.push(propertyValue);
-//					}
-//				}
-//			}
-	})
+	});
 	
 	// 4. Show the filter bar
 	$('.categoryAndFilterBar').css('margin-right', getScrollBarWidth()+'px')

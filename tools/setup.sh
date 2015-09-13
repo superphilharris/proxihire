@@ -196,6 +196,9 @@ install_pkg mysql-workbench || exit 1
 install_pkg phpunit || exit 1
 install_pkg -f "--dev" -m "composer" "phpunit/phpunit"
 
+# Install imagemagick for converting scraped images into squares
+install_pkg imagemagick
+
 #-------------------------------------------------------------------------------
 # # APACHE SET-UP
 # enable required modules

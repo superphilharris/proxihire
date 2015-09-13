@@ -171,6 +171,29 @@ class ImporterServiceHelper {
 		}
 		return null;
 	}
+	
+	/**
+	 * Resizes and crops an image 
+	 * @param string $imagePath
+	 * @param integer $x
+	 * @param integer $y
+	 * @return string 	- the new image url
+	 */
+	public function resizeAndCropImage($imagePath, $x=120, $y=120){
+		if($imagePath !== null){
+			$imagePathParts = explode('.', $imagePath);
+			$newImagePath = implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
+			if(!file_exists($newImagePath) OR $this::REFRESH_ASSET_IMAGES){
+				// Remove whitespace from image
+				exec("convert -trim $imagePath $newImagePath");
+				// Resize the image to the desired size
+				exec("convert -define jpeg:size=".($x*2)."x".($y*2)." $newImagePath -thumbnail ".$x."x".$y."^ -gravity center -extent ".$x."x".$y." $newImagePath"); 
+			}
+			return $newImagePath;
+		}
+		return null;
+	}
+	
 	/**
 	 * Recursively makes a directory.
 	 * As php one doesn't seem to work recursively
@@ -228,10 +251,10 @@ class ImporterServiceHelper {
 	}
 	
 	private function fixSpelling($string){
+		$string = str_replace('hight', 		'high',		$string);
 		$string = str_replace('lenght', 	'length', 	$string);
-		$string = str_replace('widht', 		'width', 	$string);
 		$string = str_replace('rptation', 	'rotation', $string);
-		$string = str_replace('lenght', 	'length',	$string);
+		$string = str_replace('widht', 		'width', 	$string);
 		return $string;
 	}
 	private function fixValue($string){

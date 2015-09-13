@@ -10,6 +10,9 @@ categories = {
 				"aliases": ["ladder"]
 			},
 			{
+				"aliases": ["floor stripper", "tile stripper", "carpet stripper"]
+			},
+			{
 				"aliases": ["scaffolding"],
 				"children": [
 					{
@@ -312,7 +315,7 @@ categories = {
 		"aliases": ["catering","event","party","wedding"],
 		"children": [
  			{
-				"aliases": ["portaloo","loo","toilet"],
+				"aliases": ["portaloo","toilet"],
 				"children": [
 					{
 						"aliases": ["urinal"]
