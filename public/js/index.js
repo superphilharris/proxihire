@@ -75,7 +75,7 @@ function updateFilterBar(){
 	for(var propertyName in mainProperties){
 		// 1. Add the html
 		var html = 
-			'<div class="filterBarPropertyColumn">'+propertyName+
+			'<div class="filterBarPropertyColumn"><div class="filterBarPropertyColumnName">'+propertyName+'</div>'+
 				'<div class="filterBarColumnFilter '+propertyName.replace(' ', '_')+'_columnFilter">';
 		if(mainProperties[propertyName].count > 1){
 			if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
