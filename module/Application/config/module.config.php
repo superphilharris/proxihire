@@ -37,8 +37,8 @@ return array(
 						'options' => array(
 							'route'    => '/:category[/:location]',
 							'constraints' => array(
-								'category' => '[a-z]*',
-								'location'     => '[a-z]*',
+								'category' => '([a-z][a-z]*(%20)*)*',
+								'location' => '([a-z][a-z]*(%20)*)*',
 							),
 							'defaults' => array(
 								'controller'    => 'Search',
