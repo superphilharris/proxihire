@@ -331,11 +331,15 @@ abstract class AbstractMapper
 				$subObjects=$subObjectMapper->find( $idArray );
 			}
 			foreach( $this->prototypeArray as $key => $prototype ){
-				if( isset($subObjects[$key]) ){
-					$prototype->$setSubObject( $subObjects[$key] );
+
+				// This is needed as $subObjects can be modified by reference.
+				$subObjectsCopy=$subObjects; 
+
+				if( isset($subObjectsCopy[$key]) ){
+					$prototype->$setSubObject( $subObjectsCopy[$key] );
 				} else {
-					$subObjects=$subObjectMapper->find($idArray[$key]);
-					$prototype->$setSubObject( $subObjects );
+					$subObjectsCopy=$subObjectMapper->find($idArray[$key]);
+					$prototype->$setSubObject( $subObjectsCopy );
 				}
 			}
 			$this->isLoaded[$subObjectName]=true;
