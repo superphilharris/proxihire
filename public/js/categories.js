@@ -345,7 +345,54 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["tent","hall"]
+				"aliases": ["seating"],
+				"children": [
+					{
+						"aliases": ["bar leaner"]
+					},
+					{
+						"aliases": ["bar stool"]
+					}, 
+					{
+						"aliases": ["sofa", "couch"]
+					}
+				]
+			},
+			{
+				"aliases": ["tent","hall"],
+				"children": [
+					{
+						"aliases": ["marquee", "framed marquee", "gala tent" ]
+					}
+				]
+			},
+			{
+				"aliases": ["temporary shelter"],
+				"children": [
+		 			{
+						"aliases": ["patio umbrella", "market umbrella"]
+					},
+					{
+						"aliases": ["umbrella base", "parasol base"]
+					}, 
+					{
+						"aliases": ["plain umbrella"]
+					},
+					{
+						"aliases": ["umbrella stand"]
+					}
+	 			]
+			},
+			{
+				"aliases": ["atmosphere"],
+				"children": [
+		 			{
+						"aliases": ["bubble machine"]
+					},
+		 			{
+						"aliases": ["smoke machine"]
+					}
+				]
 			},
 			{
 				"aliases": ["event heating"],
@@ -371,17 +418,62 @@ categories = {
 					},
 					{
 						"aliases": ["light stand set", "light set"]
+					},
+					{
+						"aliases": ["flood light"]
+					},
+					{
+						"aliases": ["parcan light LED", "stage light LED"]
 					}
 				]
 			},
 			{
-				"aliases": ["dishes","cutlery"],
+				"aliases": ["decorative lighting"],
+				"children": [
+					{
+						"aliases": ["black light", "flourescent black light"]
+					},
+					{
+						"aliases": ["strobe light", "strobe", "stroboscopic lamp"]
+					},
+					{
+						"aliases": ["icicle light curtain", "fairy lights", "wedding light curtain", "LED light curtain"]
+					}, 
+					{
+						"aliases": ["round rope light ball"]
+					},
+					{
+						"aliases": ["disco light"]
+					},
+					{
+						"aliases": ["chandelier"]
+					}
+					
+				]
+			},
+			{
+				"aliases": ["dishes", "cutlery", "crockery"],
 				"children": [
 					{
 						"aliases": ["spoon","teaspoon","tablespoon"]
 					},
 					{
 						"aliases": ["plate","platter"]
+					},
+					{
+						"aliases": ["dipping dish"]
+					},
+					{
+						"aliases": ["dessert bowl", "royal thai bowl"]
+					},
+					{
+						"aliases": ["butter dish"]
+					},
+					{
+						"aliases": ["coffee mug", "cup", "mug"]
+					},
+					{
+						"aliases": ["coffee pot"]
 					}
 				]
 			},
@@ -393,8 +485,23 @@ categories = {
 					},
 					{
 						"aliases": ["flower"]
+					},
+					{
+						"aliases": ["bouquet"]
+					},
+					{
+						"aliases": ["mirror ball"]
+					},
+					{
+						"aliases": ["balloon"]
+					},
+					{
+						"aliases": ["helium filler", "helium gas"]
 					}
 				]
+			},
+			{
+				"aliases": ["not available", "rose ball"]
 			}
 		]
 	},{
