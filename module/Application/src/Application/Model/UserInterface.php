@@ -15,20 +15,20 @@ interface UserInterface
 	 *
 	 * @return integer
 	 */
-	public function getLocationId();
+	public function getBranchIds();
 
 	/**
 	 * Returns the user's location
 	 *
-	 * @return Application\Model\LocationInterface
+	 * @return Application\Model\BranchInterface
 	 */
-	public function getLocation();
+	public function getBranches();
 
 	/**
 	 * Sets the user's location
 	 *
-	 * @param Application\Model\LocationInterface $location The user's location
+	 * @param Application\Model\BranchInterface $location The user's location
 	 */
-	public function setLocation($location);
+	public function setBranches($branchArray);
 }
 ?>

@@ -6,10 +6,10 @@ use Application\Model\LessorInterface;
 interface LessorMapperInterface
 {
 	/**
-	 * Gets the locations associated with this mapper's lessors.
+	 * Gets the url associated with this mapper's lessors.
 	 *
-	 * @return array|Application\Model\LocationInterface
+	 * @return Application\Model\UrlInterface
 	 */
-	public function getLocations($locationMapper,$reload=false);
+	public function getUrl($urlapper,$reload=false);
 }
 ?>

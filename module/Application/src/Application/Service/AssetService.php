@@ -7,6 +7,7 @@ use Application\Model\AssetInterface;
 use Application\Mapper\AssetMapperInterface;
 use Application\Mapper\AssetRateMapperInterface;
 use Application\Mapper\AssetPropertyMapperInterface;
+use Application\Mapper\BranchMapperInterface;
 use Application\Mapper\UrlMapperInterface;
 use Application\Mapper\LessorMapperInterface;
 use Application\Mapper\LocationMapperInterface;
@@ -20,16 +21,17 @@ class AssetService implements AssetServiceInterface
 	protected $locationMapper;
 	protected $assetRateMapper;
 	protected $assetPropertyMapper;
+	protected $branchMapper;
 
 	public function __construct( 
 		AssetInterface $assetPrototype,
-		//$assetPrototype, // jih: importer testing
 		AssetMapperInterface $assetMapper,
 		UrlMapperInterface $urlMapper,
 		LessorMapperInterface $lessorMapper,
 		LocationMapperInterface $locationMapper,
 		AssetRateMapperInterface $assetRateMapper,
-		AssetPropertyMapperInterface $assetPropertyMapper
+		AssetPropertyMapperInterface $assetPropertyMapper,
+		BranchMapperInterface $branchMapper
 	){
 		$this->assetPrototype = $assetPrototype;
 		$this->assetMapper = $assetMapper;
@@ -38,6 +40,7 @@ class AssetService implements AssetServiceInterface
 		$this->locationMapper = $locationMapper;
 		$this->assetRateMapper = $assetRateMapper;
 		$this->assetPropertyMapper = $assetPropertyMapper;
+		$this->branchMapper = $branchMapper;
 	}
 	/**
 	 * {@inheritDoc}
@@ -57,7 +60,6 @@ class AssetService implements AssetServiceInterface
 
 		// jih: accumulate location into filters, if not already there
 
-		//return array_slice($this->assetPrototype,0,30); // jih: importer testing
 		$assetArray=array();
 		for( $i=0; $i<$number; $i++){
 			$assetArray[$i]=new $this->assetPrototype;
@@ -69,7 +71,9 @@ class AssetService implements AssetServiceInterface
 		$this->assetMapper->getUrls($this->urlMapper);
 		$this->assetMapper->getLessors($this->lessorMapper);
 
-		$this->lessorMapper->getLocations( $this->locationMapper );
+		$this->lessorMapper->getBranches( $this->branchMapper );
+		$this->branchMapper->getLocation( $this->locationMapper );
+
 		return $this->assetMapper->getAssets();
 	}
 }

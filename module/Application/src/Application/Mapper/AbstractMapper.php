@@ -255,7 +255,16 @@ abstract class AbstractMapper
 	}
 
 	/**
-	 * Sets the mappers prototype(s).
+	 * Gets the mapper's prototypes.
+	 *
+	 * @return array|Application\Model\AbstractModel
+	 */
+	public function getPrototypeArray(){
+		return $this->prototypeArray;
+	}
+
+	/**
+	 * Sets the mapper's prototype(s).
 	 *
 	 * When this is called, it also forces a reload of the subobjects when they 
 	 * next are requested.

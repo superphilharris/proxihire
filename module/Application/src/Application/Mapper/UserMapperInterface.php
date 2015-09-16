@@ -6,11 +6,11 @@ use Application\Model\UserInterface;
 interface UserMapperInterface
 {
 	/**
-	 * Gets the urls associated with this mapper's users.
+	 * Gets the branches associated with this mapper's users.
 	 *
-	 * @return array|Application\Model\UrlInterface
+	 * @return array|Application\Model\BranchInterface
 	 */
-	public function getUrls($urlMapper,$reload=false);
+	public function getBranches($branchMapper,$reload=false);
 
 }
 ?>

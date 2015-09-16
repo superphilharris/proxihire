@@ -5,8 +5,8 @@ class User extends AbstractModel implements UserInterface
 {
 	protected $id;
 	protected $name;
-	protected $location_id;
-	protected $location;
+	protected $branch_id_array;
+	protected $branches;
 
 	/**
 	 * {@inheritdoc}
@@ -15,7 +15,7 @@ class User extends AbstractModel implements UserInterface
 	{
 		$this->id = isset($data['id']) ? (integer) $data['id'] : NULL;
 		$this->name = isset($data['name']) ? (string) $data['name'] : NULL;
-		$this->location_id = isset($data['location_id']) ? (integer) $data['location_id'] : NULL;
+		$this->branch_id_array = isset($data['branch_id_array']) ? $data['branch_id_array'] : array();
 	}
 
 	/**
@@ -29,26 +29,32 @@ class User extends AbstractModel implements UserInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getLocationId()
+	public function getBranchIds()
 	{
-		return (integer) $this->location_id;
+		if( !is_array( $this->branch_id_array ) ){
+			$this->branch_id_array = array($this->branch_id_array);
+		}
+		foreach( $this->branch_id_array as $key => $id ){
+			$this->branch_id_array[$key] = (integer) $id;
+		}
+		return $this->branch_id_array;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getLocation()
+	public function getBranches()
 	{
-		return $this->location;
+		return $this->branches;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setLocation($location)
+	public function setBranches($branches)
 	{
 		// jih: classhelper
-		$this->location = $location;
+		$this->branches = $branches;
 	}
 }
 ?>

@@ -2,9 +2,9 @@
 namespace Application\Mapper;
 
 use Application\Helper\ClassHelper;
-use Application\Model\LessorInterface;
+use Application\Model\BranchInterface;
 
-class LessorMapper extends UserMapper implements LessorMapperInterface
+class BranchMapper extends AbstractMapper implements BranchMapperInterface
 {
 	/**
 	 * @param AdapterInterface $dbAdapter
@@ -19,7 +19,7 @@ class LessorMapper extends UserMapper implements LessorMapperInterface
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
 			"Zend\Db\Adapter\AdapterInterface", 
 			"Zend\Stdlib\Hydrator\HydratorInterface&Zend\Stdlib\Hydrator\NamingStrategyEnabledInterface", 
-			"array|Application\Model\LessorInterface",
+			"array|Application\Model\BranchInterface",
 			"object"));
 		
 		parent::construct( $dbAdapter, $hydrator, $userPrototypeArray, $dbStructure );
@@ -28,21 +28,21 @@ class LessorMapper extends UserMapper implements LessorMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getUrl($urlMapper,$reload=false)
+	public function getLocation($urlMapper,$reload=false)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
-			"Application\Mapper\UrlMapperInterface",
+			"Application\Mapper\LocationMapperInterface",
 			"boolean"
 		));
 
-		return $this->getSubObject($urlMapper,'url','getUrlId','getUrl','setUrl');
+		return $this->getSubObject($urlMapper,'url','getLocationId','getLocation','setLocation');
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function setPrototypeArray( $prototypeArray ){ 
-		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("array|Application\Model\LessorInterface"));
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("array|Application\Model\BranchInterface"));
 		parent::setPrototypeArray( $prototypeArray );
 	}
 }
