@@ -19,7 +19,6 @@ class ImporterService implements ImporterServiceInterface
 	protected $urlMapper;
 	protected $url;
 	private $importerServiceUtils;
-	private $haveCreatedLessor; // psh TODO: remove when we remove the manual sql statements
 
 	public function __construct(
 		$assetMapper,
@@ -71,18 +70,57 @@ class ImporterService implements ImporterServiceInterface
 	}
 	
 	public function dumpAssets( $pages ){
-		// Read in the categories
+		// 1. Read in the categories
 		$categories_file = __DIR__.'/../../../../../public/js/categories.js';
 		$categories_json = str_replace('categories = ', '', str_replace(';', '', file_get_contents($categories_file)));
 		$categories = json_decode($categories_json);
 		if(!$categories) throw new \Exception("The categories.js file is not valid json: " . json_last_error_msg());
 		
-		echo '<code>';
-		// Read in the crawler dump
-		$this->haveCreatedLessor = false;
+		// 2. Read in the crawled lessors
+		echo '<h1>Create Lessor SQL:</h1><code>';
+		$createdLessors = array();
+		foreach($pages as $lessor){
+			if($lessor->item_type === "lessor"){
+				if(! in_array($lessor->name, $createdLessors)){
+					echo "INSERT INTO user     (name_fulnam) VALUES ('".$lessor->name."'); SET @last_user_id = LAST_INSERT_ID(); ";
+					echo "INSERT INTO url      (title_desc, path_url) VALUES ('".$lessor->name."', '".$lessor->url."'); ";
+					echo "INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID()); <br/>";
+					
+					foreach($lessor->location as $location){
+						echo "INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessor->name."', '".$location->lat."', '".$location->long."'); ";
+						echo "INSERT INTO branch (user_id, location_id) VALUES (@last_user_id, LAST_INSERT_ID()); <br/>";
+					}
+
+					array_push($createdLessors, $lessor->name);
+				}
+			}
+		}
+		
+		// 3. Delete any existing assets
+		echo '</code><h1>Delete Existing Assets SQL:</h1><code>';
+		$createdLessors = array();
+		foreach($pages as $lessor){
+			if($lessor->item_type === "lessor"){
+				if(! in_array($lessor->name, $createdLessors)){
+					echo 'DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN 	(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ';
+					echo 'DELETE a FROM asset a WHERE lessor_user_id IN 													(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ';
+					echo 'DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ';
+				}
+			}
+		}
+		
+		// 4. Update any missing categories
+		echo '</code><h1>New Assets SQL:</h1><code>';
+		if(true){ // Create new categories
+			exec('php '.__DIR__.'/../../../../../tools/generate_category_sql.php > /tmp/.tmp_category.sql');
+			$sql = file_get_contents('/tmp/.tmp_category.sql');
+			echo $sql.'<br/><br/><br/>';
+			unlink('/tmp/.tmp_category.sql');
+		}
+		
+		// 5. Read in the crawled assets
 		foreach($pages as $page){
 			if($page->item_type === "asset"){
-				$this->createLessor($page->lessor);
 
 				$imageUrl = $this->helper->syncImage($page->image);
 				$this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
@@ -111,30 +149,6 @@ class ImporterService implements ImporterServiceInterface
 		echo '</code>';
 		$assets=$this->getAssets( $jsonArray );
 		return $assets;
-	}
-
-	private function createLessor($lessorName, $url = "https://www.hirepool.co.nz/"){
-		if(!$this->haveCreatedLessor){
-			echo '</code><h1>Create '.ucwords($lessorName).' Lessor SQL:</h1><code>';
-			echo "INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessorName." - Auckland', '".(-36.8406+rand(-10,10)/300)."', '".(174.761066 + rand(-10, 10)/500)."'); ";
-			echo "INSERT INTO user     (name_fulnam, location_id) VALUES ('".$lessorName."', LAST_INSERT_ID()); SET @last_user_id = LAST_INSERT_ID(); ";
-			echo "INSERT INTO url      (title_desc, path_url) VALUES ('".$lessorName."', '".$url."'); ";
-			echo "INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID()); <br/><br/>";
-			
-			echo '</code><h1>Delete '.ucwords($lessorName).' Assets SQL:</h1><code>';
-			echo 'DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN 	(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessorName.'"); ';
-			echo 'DELETE a FROM asset a WHERE lessor_user_id IN 													(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessorName.'"); ';
-			echo 'DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ';
-			
-			echo '</code><h1>New '.ucwords($lessorName).' Assets SQL:</h1><code>';
-			if(true){ // Create new categories
-				exec('php '.__DIR__.'/../../../../../tools/generate_category_sql.php > /tmp/.tmp_category.sql');
-				$sql = file_get_contents('/tmp/.tmp_category.sql');
-				echo $sql.'<br/><br/><br/>';
-				unlink('/tmp/.tmp_category.sql');
-			}
-			$this->haveCreatedLessor = true;
-		}
 	}
 	
 	public function getAssets( $jsonArray ){
