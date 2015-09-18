@@ -23,6 +23,7 @@ class AssetServiceFactory implements FactoryInterface
 		$locationMapperFactory=new LocationMapperFactory();
 		$assetRateMapperFactory=new AssetRateMapperFactory();
 		$assetPropertyMapperFactory=new AssetPropertyMapperFactory();
+		$branchMapperFactory=new BranchMapperFactory();
 		return new AssetService(
 			new Asset,
 			//$serviceLocator->get('ScraperImporter\Service\ImporterServiceInterface')->getAssets((array) json_decode(file_get_contents('module/ScraperImporter/data/items.json'))), // jih: importer testing
@@ -31,7 +32,8 @@ class AssetServiceFactory implements FactoryInterface
 			$lessorMapperFactory->createService($serviceLocator),
 			$locationMapperFactory->createService($serviceLocator),
 			$assetRateMapperFactory->createService($serviceLocator),
-			$assetPropertyMapperFactory->createService($serviceLocator)
+			$assetPropertyMapperFactory->createService($serviceLocator),
+			$branchMapperFactory->createService($serviceLocator)
 		);
 	}
 }

@@ -104,6 +104,9 @@ class Asset extends AbstractModel implements AssetInterface
 	 */
 	public function getRateIds()
 	{
+		if( !is_array( $this->rate_id_array ) ){
+			$this->rate_id_array = array($this->rate_id_array);
+		}
 		foreach( $this->rate_id_array as $key => $id ){
 			$this->rate_id_array[$key] = (integer) $id;
 		}
@@ -132,6 +135,9 @@ class Asset extends AbstractModel implements AssetInterface
 	 */
 	public function getPropertyIds()
 	{
+		if( !is_array( $this->property_id_array ) ){
+			$this->property_id_array = array($this->property_id_array);
+		}
 		foreach( $this->property_id_array as $key => $id ){
 			$this->property_id_array[$key] = (integer) $id;
 		}

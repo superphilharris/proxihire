@@ -1,13 +1,13 @@
 <?php
 namespace Application\Factory;
 
-use Application\Mapper\UserMapper;
-use Application\Model\User;
+use Application\Mapper\BranchMapper;
+use Application\Model\Branch;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class UserMapperFactory extends AbstractMapperFactory implements FactoryInterface
+class BranchMapperFactory extends AbstractMapperFactory implements FactoryInterface
 {
 	/**
 	 * Create service
@@ -18,16 +18,16 @@ class UserMapperFactory extends AbstractMapperFactory implements FactoryInterfac
 	public function createService(ServiceLocatorInterface $serviceLocator)
 	{
 		$dbStructure=(object) array(
-			'table'         => 'user',
-			'primary_key'   => 'user_id',
+			'table'         => 'branch',
+			'primary_key'   => 'branch_id',
 			'columns'       => array(
-				'user_id'     => 'id',
-				'name_fulnam' => 'name'));
+				'branch_id'     => 'id',
+				'location_id' => 'location_id'));
 
-		return new UserMapper(
+		return new BranchMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),
 			$this->getMappingHydrator( $dbStructure->columns ),
-			new User,
+			new Branch,
 			$dbStructure
 		);
 	}

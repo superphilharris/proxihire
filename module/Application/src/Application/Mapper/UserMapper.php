@@ -28,14 +28,14 @@ class UserMapper extends AbstractMapper implements UserMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getUrls($urlMapper,$reload=false)
+	public function getBranches($branchMapper,$reload=false)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
-			"Application\Mapper\UrlMapperInterface",
+			"Application\Mapper\BranchMapperInterface",
 			"boolean"
 		));
 
-		return $this->getSubObject($urlMapper,'url','getUrlId','getUrl','setUrl');
+		return $this->getSubObject($branchMapper,'branch','getBranchIds','getBranches','setBranches');
 	}
 
 	/**
