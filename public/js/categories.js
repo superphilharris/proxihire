@@ -501,7 +501,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["not available", "rose ball"]
+				"aliases": ["not available", "rose ball", "helium fill 11"]
 			}
 		]
 	},{

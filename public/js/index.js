@@ -196,7 +196,7 @@ function filterResults(){
  * @param category
  */
 function goCategory(category){
-	window.location.href = category;
+	window.location.href = "/search/" + category;
  /*   document.getElementById("content").innerHTML = response.html;
     document.title = response.pageTitle;
     window.history.pushState({"html":response.html,"pageTitle":response.pageTitle},"", urlPath);*/
