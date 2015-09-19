@@ -147,7 +147,18 @@ class ImporterServiceHelper {
 		$this->propertyAliases = array_map('str_getcsv', file(__DIR__.'/PropertyAliases.csv'));
 	}
 	
-	
+
+
+	public function jsonDecode($json){
+		$array = json_decode($json);
+		if(! $array){
+			file_put_contents('/tmp/test.json', $json);
+			exec('jsonlint /tmp/test.json 2> /tmp/result.jsonlint');
+			$result = file_get_contents('/tmp/result.jsonlint');
+			throw new \Exception($result);
+		}
+		return $array;
+	}
 	/**
 	 * This fetches an image of a crawled site and puts it into the /public/img/assets/ folder
 	 * @param string $url

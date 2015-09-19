@@ -73,8 +73,7 @@ class ImporterService implements ImporterServiceInterface
 		// 1. Read in the categories
 		$categories_file = __DIR__.'/../../../../../public/js/categories.js';
 		$categories_json = str_replace('categories = ', '', str_replace(';', '', file_get_contents($categories_file)));
-		$categories = json_decode($categories_json);
-		if(!$categories) throw new \Exception("The categories.js file is not valid json: " . json_last_error_msg());
+		$categories = $this->helper->jsonDecode($categories_json);
 		
 		// 2. Read in the crawled lessors
 		echo '<h1>Create Lessor SQL:</h1><code>';
