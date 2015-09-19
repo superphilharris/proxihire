@@ -5,11 +5,9 @@ $mainProperties = getMainProperties($this->assetList);
 
 // 2. Display each of the assets
 foreach( $this->assetList as $asset ){
-	$url = "http://myawesomewebsite.com/" . $asset->getId();
 	?>
 	
-	
-	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $url ?>')" data-assetid="<?php echo $asset->getId(); ?>">
+	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getUrl()->getPath() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
 		<div class="panel-heading"><a target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a></div>
 		<div class="panel-body">
 			<div class="assetImageWrapper"><img src="/img/assets/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
@@ -41,8 +39,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	foreach( $this->assetList as $asset ){
 		$latitude = -36.862043 + rand(-10,10)/300;
 		$longitude = 174.761066 + rand(-10, 10)/500;
-		$url = "http://myawesomewebsite.com/" . $asset->getId();
-		echo 'allAssets.push({id:'.$asset->getId().',lat:'.$latitude.',long:'.$longitude.',url:"'.$url.'"});';
+		echo 'allAssets.push({id:'.$asset->getId().',lat:'.$latitude.',long:'.$longitude.',url:"'.$asset->getUrl()->getPath().'"});';
 	}
 	?>
 	showAllMarkers();

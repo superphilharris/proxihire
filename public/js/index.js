@@ -204,7 +204,6 @@ function goCategory(category){
 
 
 $(document).ready(function(){
-	
 	$('#mainSearchBar').typeahead({
 		hint: true,
 		highlight: true,
