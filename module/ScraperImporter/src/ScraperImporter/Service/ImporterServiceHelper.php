@@ -148,13 +148,20 @@ class ImporterServiceHelper {
 	}
 	
 
-
+	/**
+	 * Throws an exception that displays the problem a bit better when decoding json
+	 * @param unknown $json
+	 * @throws \Exception
+	 * @return mixed
+	 */
 	public function jsonDecode($json){
 		$array = json_decode($json);
 		if(! $array){
 			file_put_contents('/tmp/test.json', $json);
 			exec('jsonlint /tmp/test.json 2> /tmp/result.jsonlint');
 			$result = file_get_contents('/tmp/result.jsonlint');
+			unlink('/tmp/test.json');
+			unlink('/tmp/result.jsonlint');
 			throw new \Exception($result);
 		}
 		return $array;

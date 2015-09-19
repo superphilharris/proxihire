@@ -110,11 +110,13 @@ class ImporterService implements ImporterServiceInterface
 		
 		// 4. Update any missing categories
 		echo '</code><h1>New Assets SQL:</h1><code>';
-		if(true){ // Create new categories
+		if(true){ // Create new categories and datatypes
 			exec('php '.__DIR__.'/../../../../../tools/generate_category_sql.php > /tmp/.tmp_category.sql');
 			$sql = file_get_contents('/tmp/.tmp_category.sql');
-			echo $sql.'<br/><br/><br/>';
+			echo $sql.'<br/><br/>';
 			unlink('/tmp/.tmp_category.sql');
+			$sql = file_get_contents(__DIR__.'/../../../../../public/dbv/data/5/datatype.sql');
+			echo $sql.'<br/><br/><br/>';
 		}
 		
 		// 5. Read in the crawled assets

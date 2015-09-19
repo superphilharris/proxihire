@@ -80,15 +80,16 @@ function install_pkg {
 				fi
 			fi
 			;;
-		#"npm")
-			#if [ ! -d "node_modules/$PACKAGE" ]; then
-				#echo "$PACKAGE isn't installed."
-				#if ! sudo npm install "$PACKAGE"; then
-					#echo "Could not install $PACKAGE."
-					#return 1
-				#fi
-			#fi
-			#;;
+		"npm")
+			echo "if [ `npm list -g $PACKAGE | grep $PACKAGE | wc -l` == "0" ]; then"
+			if [ `npm list -g $PACKAGE | grep $PACKAGE | wc -l` == "0" ]; then
+				echo "$PACKAGE isn't installed."
+				if ! sudo npm install -g "$PACKAGE"; then
+					echo "Could not install $PACKAGE."
+					return 1
+				fi
+			fi
+			;;
 		"composer")
 			if [ ! -d "vendor/$(sed 's/^\([^:]*\).*/\1/' <<< $PACKAGE)" ]; then
 				echo "$PACKAGE isn't installed."
@@ -197,7 +198,10 @@ install_pkg phpunit || exit 1
 install_pkg -f "--dev" -m "composer" "phpunit/phpunit"
 
 # Install imagemagick for converting scraped images into squares
-install_pkg imagemagick
+install_pkg imagemagick || exit 1
+
+# Install jsonlint for printing out a nice json message when a json file is not valid
+install_pkg -m npm jsonlint || exit 1
 
 #-------------------------------------------------------------------------------
 # # APACHE SET-UP
