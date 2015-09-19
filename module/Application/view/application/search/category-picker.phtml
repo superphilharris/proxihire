@@ -12,14 +12,14 @@ while ($i>=0AND property_exists($this->ancestory[$i], 'children')) {
 		<li class="dropdown<?php if($i===0) echo " open"?>">
 		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
 			<?php 
-				if ($i !== 0) echo $this->ancestory[$i-1]->aliases[0]; 
+				if ($i !== 0) echo ucwords($this->ancestory[$i-1]->aliases[0]); 
 			?>
 			<b class="caret"></b></a>
 			<ul id="branches-dropdown" class="dropdown-menu">
 <?php
 	foreach ( $ancestory[$i]->children as $sibling ){
 ?>
-				<li><a tabindex="-1" href="#" onclick="goCategory('<?php echo $sibling->aliases[0] ?>');"><?php echo $sibling->aliases[0] ?></a></li>
+				<li><a tabindex="-1" href="#" onclick="goCategory('<?php echo $sibling->aliases[0] ?>');"><?php echo ucwords($sibling->aliases[0]) ?></a></li>
 <?php
 	}
 ?>
