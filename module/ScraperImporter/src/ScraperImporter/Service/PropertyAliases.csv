@@ -1,2 +1,5 @@
 category,before,after
+extension lead,lengths,length
+fencing,heights,panel height
+fencing,lengths,panel length
 ladder,open height,total height

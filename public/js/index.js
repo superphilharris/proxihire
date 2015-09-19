@@ -53,7 +53,7 @@ function getMainProperties(){
 	// Return only the properties that 80% of the assets have, and if we can display them
 	// TODO: determine better way to determine which are the best properties
 	var widthOfBreadCrumb = Math.max(300, $('.categoryAndFilterBarWrapper .breadcrumb').width());
-	var maxNumberOfMainProperties = Math.floor(($('.categoryAndFilterBarWrapper').width()-widthOfBreadCrumb-30)/120);
+	var maxNumberOfMainProperties = Math.floor(($('.categoryAndFilterBarWrapper').width()-widthOfBreadCrumb-30-30)/120);
 	var mainProperties = [];
 	var i = 0;
 	for(var propertyName in allProperties){
