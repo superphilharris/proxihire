@@ -81,7 +81,6 @@ function install_pkg {
 			fi
 			;;
 		"npm")
-			echo "if [ `npm list -g $PACKAGE | grep $PACKAGE | wc -l` == "0" ]; then"
 			if [ `npm list -g $PACKAGE | grep $PACKAGE | wc -l` == "0" ]; then
 				echo "$PACKAGE isn't installed."
 				if ! sudo npm install -g "$PACKAGE"; then
