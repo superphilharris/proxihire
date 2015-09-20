@@ -398,7 +398,7 @@ categories = {
 				"aliases": ["event heating"],
 				"children": [
 					{
-						"aliases": ["lpg heater", "diesel heater", "gas heater"]
+						"aliases": ["LPG heater", "diesel heater", "gas heater"]
 					}
 				]
 			},
