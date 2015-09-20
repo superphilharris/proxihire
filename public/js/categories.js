@@ -27,16 +27,22 @@ categories = {
 				"aliases": ["electrical and generators"],
 				"children": [
 					{
-						"aliases": ["splitter box", "distribution box"]
+						"aliases": ["power splitter box", "distribution box", "phase splitter box"]
 					},
 					{
-						"aliases": ["extension lead", "power cable"]
+						"aliases": ["extension lead", "power cable", "3ph elec cable"]
 					},
 					{
-						"aliases": ["earthleakage plug"]
+						"aliases": ["plug board", "earthleakage plug"]
 					},
 					{
 						"aliases": ["generator", "diesel skid"]
+					},
+					{
+						"aliases": ["transformer"]
+					},
+					{
+						"aliases": ["electrical adaptor"]
 					}
 				]
 			},
@@ -51,6 +57,9 @@ categories = {
 					},
 					{
 						"aliases": ["compressor"]
+					},
+					{
+						"aliases": ["desiccant air dryer"]
 					}
 				]
 			},
@@ -161,6 +170,15 @@ categories = {
 						"children": [
 							{
 								"aliases": ["drill bits"]
+							},
+							{
+								"aliases": ["core drill"]
+							},
+							{
+								"aliases": ["rock drill"]
+							},
+							{
+								"aliases": ["magnetic drill press", "rotabroach magnetic drill"]
 							}
 						]
 					},
@@ -194,7 +212,21 @@ categories = {
 				"aliases": ["post hole borer"]
 			},
 			{
-				"aliases": ["lino roller"]
+				"aliases": ["flooring tools"],
+				"children": [
+		 			{
+						"aliases": ["lino roller"]
+					},
+		 			{
+						"aliases": ["flooring clamp", "floor cramp"]
+					},
+		 			{
+						"aliases": ["electric floor polisher"]
+					},
+		          	{
+		        		"aliases": ["air scabbler"]
+		        	}
+				]
 			},
 			{
 				"aliases": ["concrete grinder", "grinder", "concrete breaker"]
@@ -414,7 +446,7 @@ categories = {
 				"aliases": ["event lighting"],
 				"children": [
 					{
-						"aliases": ["towable light tower"]
+						"aliases": ["light tower"]
 					},
 					{
 						"aliases": ["light stand set", "light set"]
@@ -499,9 +531,6 @@ categories = {
 						"aliases": ["helium filler", "helium gas"]
 					}
 				]
-			},
-			{
-				"aliases": ["not available", "rose ball", "helium fill 11"]
 			}
 		]
 	},{
@@ -541,11 +570,19 @@ categories = {
 	},{
 		"aliases": ["painting"],
 		"children": [
+			{
+				"aliases": ["paint removal"],
+				"children": [
+		         	{
+		         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper"]
+		         	},
+					{
+						"aliases": ["needlegun scaler", "needle scaler"]
+					}
+				]
+			},
          	{
         		"aliases": ["spray gun", "spray painting"]
-        	},
-        	{
-        		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper"]
         	},
 			{
 				"aliases": ["paint drop sheet"]
@@ -608,6 +645,9 @@ categories = {
         		"aliases": ["excavator"]
         	},
          	{
+        		"aliases": ["trench shoring"]
+        	},
+         	{
         		"aliases": ["loader"],
         		"children": [
 		          	{
@@ -632,6 +672,25 @@ categories = {
 		        	}
 		 		]
         	}
+		]
+	},
+	{
+		"aliases": ["miscellaneous"],
+		"children": [
+         	{
+        		"aliases": ["safety equipment"],
+        		"children": [
+         			{
+        				"aliases": ["fire extinguisher"]
+        			},
+        			{
+        				"aliases": ["safety harness"]
+        			}
+        		]
+        	},
+			{
+				"aliases": ["not available", "rose ball", "helium fill 11"]
+			}
 		]
 	}
 ],

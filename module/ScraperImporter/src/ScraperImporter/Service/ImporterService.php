@@ -148,8 +148,7 @@ class ImporterService implements ImporterServiceInterface
 			}
 		}
 		echo '</code>';
-		$assets=$this->getAssets( $jsonArray );
-		return $assets;
+		return array();
 	}
 	
 	public function getAssets( $jsonArray ){
