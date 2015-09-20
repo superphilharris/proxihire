@@ -115,7 +115,7 @@ class ImporterService implements ImporterServiceInterface
 			$sql = file_get_contents('/tmp/.tmp_category.sql');
 			echo $sql.'<br/><br/>';
 			unlink('/tmp/.tmp_category.sql');
-			$sql = file_get_contents(__DIR__.'/../../../../../public/dbv/data/5/datatype.sql');
+			$sql = file_get_contents(__DIR__.'/../../../../../public/dbv/data/revisions/5/datatype.sql');
 			echo $sql.'<br/><br/><br/>';
 		}
 		
