@@ -22,7 +22,7 @@ class BranchMapperFactory extends AbstractMapperFactory implements FactoryInterf
 			'primary_key'   => 'branch_id',
 			'columns'       => array(
 				'branch_id'     => 'id',
-				'location_id' => 'location_id'));
+				'location_id'   => 'location_id'));
 
 		return new BranchMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),

@@ -22,7 +22,15 @@ class UserMapperFactory extends AbstractMapperFactory implements FactoryInterfac
 			'primary_key'   => 'user_id',
 			'columns'       => array(
 				'user_id'     => 'id',
-				'name_fulnam' => 'name'));
+				'name_fulnam' => 'name',
+				'branch'      => 'branch_id_array'),
+			'relationships' => array(
+				(object) array(
+					'table'       => 'branch',
+					'primary_key' => 'branch_id',
+					'match_on'    =>(object) array(
+						'this_table_column' => 'user_id',
+						'main_table_column' => 'user_id'))));
 
 		return new UserMapper(
 			$serviceLocator->get('Zend\Db\Adapter\AdapterInterface'),

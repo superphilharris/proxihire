@@ -70,9 +70,16 @@ class AssetService implements AssetServiceInterface
 		$this->assetMapper->findByCategory( $category, $filters );
 		$this->assetMapper->getUrls($this->urlMapper);
 		$this->assetMapper->getLessors($this->lessorMapper);
-
 		$this->lessorMapper->getBranches( $this->branchMapper );
-		$this->branchMapper->getLocation( $this->locationMapper );
+		$lessors=$this->lessorMapper->getPrototypeArray();
+
+		foreach( $lessors as $key=>$lessor ){
+			$branches=$lessors[$key]->getBranches();
+			if( $branches !== null ){
+				$this->branchMapper->setPrototypeArray( $branches );
+				$this->branchMapper->getLocation( $this->locationMapper );
+			}
+		}
 
 		return $this->assetMapper->getAssets();
 	}

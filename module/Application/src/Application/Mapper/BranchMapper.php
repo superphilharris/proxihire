@@ -13,7 +13,7 @@ class BranchMapper extends AbstractMapper implements BranchMapperInterface
 	public function __construct(
 		$dbAdapter,
 		$hydrator,
-		$userPrototypeArray,
+		$branchPrototypeArray,
 		$dbStructure
 	){
 		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
@@ -22,20 +22,20 @@ class BranchMapper extends AbstractMapper implements BranchMapperInterface
 			"array|Application\Model\BranchInterface",
 			"object"));
 		
-		parent::construct( $dbAdapter, $hydrator, $userPrototypeArray, $dbStructure );
+		parent::construct( $dbAdapter, $hydrator, $branchPrototypeArray, $dbStructure );
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getLocation($urlMapper,$reload=false)
+	public function getLocation($locationMapper,$reload=false)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"Application\Mapper\LocationMapperInterface",
 			"boolean"
 		));
 
-		return $this->getSubObject($urlMapper,'url','getLocationId','getLocation','setLocation');
+		return $this->getSubObject($locationMapper,'location','getLocationId','getLocation','setLocation');
 	}
 
 	/**
