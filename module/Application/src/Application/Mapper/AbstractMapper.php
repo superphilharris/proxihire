@@ -79,13 +79,9 @@ abstract class AbstractMapper
 
 		$this->dbAdapter        = $dbAdapter;
 		$this->hydrator         = $hydrator;
-
-
 		$this->isLoaded         = array(); 
 
 		$this->setDbTableStructure( $dbTableStructure );
-		$this->hydrator=$hydrator;
-
 		$this->setPrototypeArray( $prototypeArray );
 	}
 
@@ -205,8 +201,10 @@ abstract class AbstractMapper
 		$models=array();
 		if( $ordered ){
 			// Order the models to match the corresponding entries in $matchArray
-			foreach($matchArray as $key=>$match){
-				$models[$key] = isset($modelsByProperty[$match]) ? $modelsByProperty[$match] : new $prototype;
+			if( $prototype !== null ){
+				foreach($matchArray as $key=>$match){
+					$models[$key] = isset($modelsByProperty[$match]) ? $modelsByProperty[$match] : new $prototype;
+				}
 			}
 		}else{
 			$models=$modelsByProperty;
@@ -337,17 +335,19 @@ abstract class AbstractMapper
 				if( is_array( $idArray[ $key ] ) ) $oneToOne=false;
 			}
 			if( $oneToOne ){
-				$subObjects=$subObjectMapper->find( $idArray );
+				$subObjectMapperCopy=clone $subObjectMapper;
+				$subObjects=$subObjectMapperCopy->find( $idArray );
 			}
 			foreach( $this->prototypeArray as $key => $prototype ){
 
 				// This is needed as $subObjects can be modified by reference.
 				$subObjectsCopy=$subObjects; 
+				$subObjectMapperCopy=clone $subObjectMapper;
 
 				if( isset($subObjectsCopy[$key]) ){
 					$prototype->$setSubObject( $subObjectsCopy[$key] );
 				} else {
-					$subObjectsCopy=$subObjectMapper->find($idArray[$key]);
+					$subObjectsCopy=$subObjectMapperCopy->find($idArray[$key]);
 					$prototype->$setSubObject( $subObjectsCopy );
 				}
 			}
