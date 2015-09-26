@@ -71,6 +71,11 @@ function getMainProperties(){
 	return mainProperties;
 }
 
+function getCssPropertyName(propertyName){
+	//-?[_a-zA-Z]+[_a-zA-Z0-9-]*
+	return propertyName.replace(/[^_a-zA-Z0-9-]/g, '_').toLowerCase();
+}
+
 function updateFilterBar(){
 	var mainProperties = getMainProperties();
 	var filterBar = $('.filterBar');
@@ -82,7 +87,7 @@ function updateFilterBar(){
 		// 1. Add the html
 		var html = 
 			'<div class="filterBarPropertyColumn"><div class="filterBarPropertyColumnName">'+propertyName+'</div>'+
-				'<div class="filterBarColumnFilter '+propertyName.replace(' ', '_')+'_columnFilter">';
+				'<div class="filterBarColumnFilter '+getCssPropertyName(propertyName)+'_columnFilter">';
 		if(mainProperties[propertyName].count > 1){
 			if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
 				html += '<input type="text" data-slider-orientation="vertical" name="'+propertyName+'" data-slider-min="'+mainProperties[propertyName].min+'" data-slider-max="'+mainProperties[propertyName].max+'"/>';
@@ -103,13 +108,13 @@ function updateFilterBar(){
 		// 2. Bind the events
 		if(mainProperties[propertyName].count > 1){
 			if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
-				$('.'+propertyName.replace(' ', '_')+'_columnFilter > input').slider({
+				$('.'+getCssPropertyName(propertyName)+'_columnFilter > input').slider({
 					value: 	[mainProperties[propertyName].min, mainProperties[propertyName].max],
 					step:	((mainProperties[propertyName].max - mainProperties[propertyName].min)/10).toPrecision(1),
 					focus: 	true
 				}).on('slide', filterResults);
 			}else{
-				$('.'+propertyName.replace(' ', '_')+'_columnFilter').find('input').change(filterResults);
+				$('.'+getCssPropertyName(propertyName)+'_columnFilter').find('input').change(filterResults);
 			}
 		}
 	}
@@ -118,7 +123,7 @@ function updateFilterBar(){
 	$('.assetPropertiesSummary').each(function(){
 		var propertiesSummary = $(this);
 		for(var propertyName in mainProperties){
-			var devPropertyName = propertyName.replace(' ', '_').toLowerCase();
+			var devPropertyName = getCssPropertyName(propertyName);
 			var propertySummary = $(this).find('.' + devPropertyName + '_propertySummary');
 			if(propertySummary.length == 1){ 	// Show the main property
 				propertiesSummary.parent().append('<div class="assetPropertyColumn '+devPropertyName+'_column"><span>'+propertySummary.find('.propertyValue').text()+'</span><span class="propertyUnit">'+propertySummary.find('.propertyUnit').text()+'</span></div>');
@@ -173,7 +178,7 @@ function filterResults(){
 				var step 	= ((parseFloat($(inputs[0]).data('slider-max')) - parseFloat($(inputs[0]).data('slider-min')))/10).toPrecision(1);
 				
 				$('.assetPanel').each(function(){
-					var value = parseFloat($(this).find('.'+inputs[0].name.toLowerCase().replace(' ', '_')+'_column').text());
+					var value = parseFloat($(this).find('.'+getCssPropertyName(inputs[0].name)+'_column').text());
 					if((value <= minLimit-0.5*step) || (value >= maxLimit+0.5*step)){
 						$(this).hide();
 					}
@@ -185,7 +190,7 @@ function filterResults(){
 				inputs.filter(':checked').each(function(){ values[values.length] = $(this).val(); });
 				if(values.length > 0 && values.length != inputs.length){
 					$('.assetPanel').each(function(){
-						var value = $(this).find('.'+inputs[0].name.toLowerCase().replace(' ', '_')+'_column').text();
+						var value = $(this).find('.'+getCssPropertyName(inputs[0].name)+'_column').text();
 						if(values.indexOf(value) == -1){
 							$(this).hide();
 						}

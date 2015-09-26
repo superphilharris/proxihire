@@ -690,6 +690,9 @@ categories = {
         		"aliases": ["excavator"]
         	},
          	{
+        		"aliases": ["construction roller"]
+        	},
+         	{
         		"aliases": ["trench shoring"]
         	},
          	{

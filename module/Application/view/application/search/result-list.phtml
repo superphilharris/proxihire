@@ -17,7 +17,7 @@ foreach( $this->assetList as $asset ){
 			foreach($asset->getProperties() as $property){
 				$propertyName 	= $property->getName();
 				list($value, $unit) = $property->getValueAndUnit();
-				echo '<div class="'.str_replace(' ','_',$propertyName).'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>'; 
+				echo '<div class="'.getCssPropertyName($propertyName).'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>'; 
 			}
 			?>
 			</div>
@@ -96,5 +96,9 @@ function getAllProperties($assetList){
 		}
 	}
 	return $allProperties;
+}
+
+function getCssPropertyName($propertyName){
+	return preg_replace('/[^_a-zA-Z0-9-]/', '_', $propertyName);
 }
 ?>
