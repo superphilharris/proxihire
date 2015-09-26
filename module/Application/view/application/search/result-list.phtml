@@ -1,7 +1,7 @@
 <?php
 
 // 1. Display the properties sliders
-$mainProperties = getMainProperties($this->assetList);
+$allProperties = getAllProperties($this->assetList);
 
 // 2. Display each of the assets
 foreach( $this->assetList as $asset ){
@@ -17,7 +17,7 @@ foreach( $this->assetList as $asset ){
 			foreach($asset->getProperties() as $property){
 				$propertyName 	= $property->getName();
 				$propertyValue 	= $property->getValue();
-				echo '<div class="'.str_replace(' ','_',$propertyName).'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$propertyValue.'</span></div>'; 
+				echo '<div class="'.str_replace(' ','_',$propertyName).'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$propertyValue.'</span><span class="propertyUnit"></span></div>'; 
 			}
 			?>
 			</div>
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function(){
  * @param array $assetList
  * @return array
  */
-function getMainProperties($assetList){
+function getAllProperties($assetList){
 	/* Find the:
 	 * - total number of assets that use this property
 	 * - if numeric, then get the min and max of this property
@@ -67,43 +67,34 @@ function getMainProperties($assetList){
 		foreach($asset->getProperties() as $property){
 			$propertyName 	= $property->getName();
 			$propertyValue 	= $property->getValue();
+
 			if(isset($allProperties[$propertyName])){
 				$allProperties[$propertyName]['count'] ++;
-				if(is_numeric($propertyValue)){
-					if(isset($allProperties[$propertyName]['min'])){
-						$allProperties[$propertyName]['min'] = min($propertyValue, $allProperties[$propertyName]['min']);
-						$allProperties[$propertyName]['max'] = max($propertyValue, $allProperties[$propertyName]['max']);
-					}else{
-						$allProperties[$propertyName]['min'] = $propertyValue;
-						$allProperties[$propertyName]['max'] = $propertyValue;
-					}
-				}else{
-					if(!in_array($propertyValue, $allProperties[$propertyName]['val'])){
-						array_push($allProperties[$propertyName]['val'], $propertyValue);
-					}
-				}
 			}else{
-				$allProperties[$propertyName] = array('count' => 1 );
-				if(is_numeric($propertyValue)){
-					$allProperties[$propertyName]['min'] = $propertyValue;
-					$allProperties[$propertyName]['max'] = $propertyValue;
-					$allProperties[$propertyName]['val'] = array($propertyValue);
-				}else{
-					$allProperties[$propertyName]['val'] = array($propertyValue);
-				}
+				$allProperties[$propertyName] = array(
+					'count' 	=> 1,
+					'min'		=> null,
+					'max'		=> null,
+					'average'	=> null,
+					'val'		=> array()
+				);
 			}
-			
+			if(is_numeric($propertyValue)){
+				$propertyValue = floatval($propertyValue);
+				if($allProperties[$propertyName]['min'] == null){
+					$allProperties[$propertyName]['min'] 		= $propertyValue;
+					$allProperties[$propertyName]['max'] 		= $propertyValue;
+					$allProperties[$propertyName]['average'] 	= $propertyValue;
+				}else{
+					$allProperties[$propertyName]['min'] 		= min($propertyValue, $allProperties[$propertyName]['min']);
+					$allProperties[$propertyName]['max'] 		= max($propertyValue, $allProperties[$propertyName]['max']);
+					$allProperties[$propertyName]['average'] 	= $allProperties[$propertyName]['average'] + ($propertyValue - $allProperties[$propertyName]['average'])/$allProperties[$propertyName]['count'];
+				}
+			}else if(!in_array($propertyValue, $allProperties[$propertyName]['val'])){
+				array_push($allProperties[$propertyName]['val'], $propertyValue);
+			}
 		}
 	}
-
-	// Return only the properties that 80% of the assets have
-	$totalAssets = count($allProperties);
-	$mainProperties = array();
-	foreach($allProperties as $propertyName => $propertySummary){
-		if($propertySummary['count']/$totalAssets >= 0.8){
-			$mainProperties[$propertyName] =$propertySummary;
-		}
-	}
-	return $mainProperties;
+	return $allProperties;
 }
 ?>

@@ -30,22 +30,28 @@ function getMainProperties(){
 			var propertyValue 	= $(this).find('.propertyValue').text();
 			if(typeof allProperties[propertyName] != "undefined"){
 				allProperties[propertyName].count ++;
-				if($.isNumeric(propertyValue)){
-					allProperties[propertyName]['min'] = Math.min(propertyValue, allProperties[propertyName].min);
-					allProperties[propertyName]['max'] = Math.max(propertyValue, allProperties[propertyName].max);
-				}else{
-					if(allProperties[propertyName].val.indexOf(propertyValue) < 0){
-						allProperties[propertyName].val.push(propertyValue);
-					}
-				}
 			}else{
-				allProperties[propertyName] = { count: 1 };
-				if($.isNumeric(propertyValue)){
-					allProperties[propertyName].min = propertyValue;
-					allProperties[propertyName].max = propertyValue;
+				allProperties[propertyName] = { 
+					count: 1,
+					min: null,
+					max: null,
+					average: null,
+					val: []
+				};
+			}
+			if($.isNumeric(propertyValue)){
+				propertyValue = parseFloat(propertyValue);
+				if(allProperties[propertyName].min == null){
+					allProperties[propertyName].min 	= propertyValue;
+					allProperties[propertyName].max 	= propertyValue;
+					allProperties[propertyName].average = propertyValue;
 				}else{
-					allProperties[propertyName].val = [propertyValue];
+					allProperties[propertyName].min 	= Math.min(propertyValue, allProperties[propertyName].min);
+					allProperties[propertyName].max 	= Math.max(propertyValue, allProperties[propertyName].max);
+					allProperties[propertyName].average = allProperties[propertyName].average + (propertyValue - allProperties[propertyName].average)/allProperties[propertyName].count;
 				}
+			}else if(allProperties[propertyName].val.indexOf(propertyValue) < 0){
+				allProperties[propertyName].val.push(propertyValue);
 			}
 		});
 	});

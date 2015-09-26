@@ -355,6 +355,45 @@ categories = {
 				]
 			},
  			{
+				"aliases": ["food preparation"],
+				"children": [
+		 			{
+						"aliases": ["refrigeration"],
+						"children": [
+				 			{
+								"aliases": ["bar fridge"]
+							},
+							{
+								"aliases": ["single door fridge"]
+							},
+							{
+								"aliases": ["freezer"]
+							},
+							{
+								"aliases": ["portable coolroom"]
+							}
+			 			]
+					},
+					{
+						"aliases": ["cooking", "food heating"],
+						"children": [
+				 			{
+								"aliases": ["hotbox", "mobile boiler"]
+							},
+				 			{
+								"aliases": ["thermowave oven"]
+							},
+				 			{
+								"aliases": ["gas burner"]
+							},
+							{
+								"aliases": ["bain marie", "water bath", "bain-marie"]
+							}
+			 			]
+					}
+				]
+			},
+			{
 				"aliases": ["cleaning"],
 				"children": [
 		 			{
@@ -430,7 +469,13 @@ categories = {
 				"aliases": ["event heating"],
 				"children": [
 					{
-						"aliases": ["LPG heater", "diesel heater", "gas heater"]
+						"aliases": ["LPG heater", "diesel heater", "gas heater", "patio heater"]
+					},
+					{
+						"aliases": ["wrought iron gas flare"]
+					},
+					{
+						"aliases": ["brazier"]
 					}
 				]
 			},
@@ -438,7 +483,7 @@ categories = {
 				"aliases": ["event cooling"],
 				"children": [
 					{
-						"aliases": ["pedistal fan"]
+						"aliases": ["pedestal fan"]
 					}
 				]
 			},
@@ -685,6 +730,9 @@ categories = {
         			},
         			{
         				"aliases": ["safety harness"]
+        			},
+        			{
+        				"aliases": ["retactable barrier","crowd control retractable", "crowd control bollard", "stainless steel crowd control"]
         			}
         		]
         	},
