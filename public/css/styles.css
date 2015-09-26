@@ -79,7 +79,6 @@ body{
 	height: 90px;
 	font-size: 12.5px;
 	overflow-y: hidden;
-	width: 200px;
 	margin-left: 5px;
 }
 .assetPropertyColumn {
@@ -110,6 +109,9 @@ body{
 @media (min-width: 768px) {
 	.categoryAndFilterBarWrapper {
 		width: 66.67%;
+	}
+	.assetPropertiesSummary {
+		width: 200px;
 	}
 }
 .categoryAndFilterBar {
