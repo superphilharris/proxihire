@@ -74,6 +74,12 @@ body{
 .assetImageWrapper img{
 	border-radius: 0px 0px 0px 4px;
 }
+.propertyUnit {
+	color: #555555;
+	font-size: 0.85em;
+	margin: 2px 0px 0px 1px;;
+	font-weight: bold;
+}
 .assetPropertiesSummary {
 	float: left;
 	height: 90px;

@@ -134,5 +134,29 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 		return $this->value;
 	}
 
+	/**
+	 * Gets the value and unit for the asset property
+	 * @param string $referenceValue	- number that we can use as a reference
+	 * so that we are converting to a standard unit. (typically the average in a list)
+	 * @return array(string|float, string)	- the value and string
+	 */
+	public function getValueAndUnit($referenceValue=null){
+		$referenceValue = ($referenceValue===null)? $this->value : $referenceValue;
+		if(is_numeric($referenceValue) AND is_numeric($this->value)) {
+			list($factor, $unit) = $this->datatype->getFactorAndUnit($referenceValue);
+			if($unit !== ""){
+				return array($this->roundTo3SF($this->value/$factor), $unit);
+			}
+		}
+		return array($this->value, "");
+	}
+	
+	private function roundTo3SF($number){
+		$number = floatval($number);
+		if($number == 0.0) return 0;
+		$digits = (int)(log10($number));
+		return (pow(10, $digits)) * round($number/(pow(10, $digits)), 3);
+	}
+	
 }
 ?>

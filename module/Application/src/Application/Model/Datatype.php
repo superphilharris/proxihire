@@ -45,7 +45,13 @@ class Datatype extends AbstractModel implements DatatypeInterface
 		return (string) $this->datatype;
 	}
 	
-	public function getUnit($value){
+	/**
+	 * This gets the appropriate unit and factor for a value for this datatype
+	 * @param float $value
+	 * @throws \Exception				- if there is a datatype that we cannot convert
+	 * @return array(number, string)	- returns the factor and unit
+	 */
+	public function getFactorAndUnit($value){
 		$base = null;
 		switch ($this->datatype) {
 			case $this::ANGLE:
@@ -62,7 +68,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				}elseif($value < 2592000){
 					return 	array(86400,	"days");
 				}else{
-					return 	array(2.62974*10^6,	"months");
+					return 	array(2.62974*pow(10, 6),	"months");
 				}
 				return "";
 				
@@ -85,6 +91,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				$base = "L";
 				break;
 			case $this::WEIGHT:
+				if($value > pow(10, 6)) return array(pow(10, 6), 'ton');
 				$base = "g";
 				break;
 				
@@ -93,25 +100,26 @@ class Datatype extends AbstractModel implements DatatypeInterface
 		}
 		// Metric Units
 		if($base !== null){
-			if($value < 0.001){
-				return 	array(10^-6, "μ" + $base);
-			}elseif($value < 1){
-				return 	array(10^-3, "m" + $base);
-			}elseif($value < 1){
-				return 	array(10^0,  ""  + $base);
-			}elseif($value < 1){
-				return 	array(10^3,  "k" + $base);
-			}elseif($value < 1){
-				return 	array(10^6,  "M" + $base);
-			}elseif($value < 1){
-				return 	array(10^9,  "G" + $base);
-			}elseif($value < 1){
-				return 	array(10^12, "T" + $base);
+			$value = floatval($value);
+			if(		$value <  pow(10, -3)){
+				return 	array(pow(10, -6), "μ" . $base);
+			}elseif($value <  pow(10, 0)){
+				return 	array(pow(10, -3), "m" . $base);
+			}elseif($value <  pow(10, 3)){
+				return 	array(pow(10, 0),  ""  . $base);
+			}elseif($value <  pow(10, 6)){
+				return 	array(pow(10, 3),  "k" . $base);
+			}elseif($value <  pow(10, 9)){
+				return 	array(pow(10, 6),  "M" . $base);
+			}elseif($value <  pow(10, 12)){
+				return 	array(pow(10, 9),  "G" . $base);
+			}elseif($value <  pow(10, 15)){
+				return 	array(pow(10, 12), "T" . $base);
 			}else{
-				return "";
+				return array(1, "");
 			}
 		}
-		return "";
+		return array(1, "");
 	}
 
 }

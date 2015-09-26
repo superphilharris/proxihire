@@ -16,8 +16,8 @@ foreach( $this->assetList as $asset ){
 			<?php 
 			foreach($asset->getProperties() as $property){
 				$propertyName 	= $property->getName();
-				$propertyValue 	= $property->getValue();
-				echo '<div class="'.str_replace(' ','_',$propertyName).'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$propertyValue.'</span><span class="propertyUnit"></span></div>'; 
+				list($value, $unit) = $property->getValueAndUnit();
+				echo '<div class="'.str_replace(' ','_',$propertyName).'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>'; 
 			}
 			?>
 			</div>

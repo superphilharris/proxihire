@@ -121,7 +121,7 @@ function updateFilterBar(){
 			var devPropertyName = propertyName.replace(' ', '_').toLowerCase();
 			var propertySummary = $(this).find('.' + devPropertyName + '_propertySummary');
 			if(propertySummary.length == 1){ 	// Show the main property
-				propertiesSummary.parent().append('<div class="assetPropertyColumn '+devPropertyName+'_column"><span>'+propertySummary.find('.propertyValue').text()+'</span></div>')
+				propertiesSummary.parent().append('<div class="assetPropertyColumn '+devPropertyName+'_column"><span>'+propertySummary.find('.propertyValue').text()+'</span><span class="propertyUnit">'+propertySummary.find('.propertyUnit').text()+'</span></div>');
 				propertySummary.hide();
 			}else{								// Insert a placeholder instead
 				propertiesSummary.parent().append('<div class="assetPropertyColumn"><span>&nbsp;</span></div>')
