@@ -329,12 +329,12 @@ if [ ! -f "${SCRIPT_DIR}/my_categories.js" -o -n "$category_changes" ]; then
 		fi
 	fi
 
-	if $merge_the_changes; then
-		$DIFF_VIEWER "${SCRIPT_DIR}/my_categories.js" public/js/categories.js
-		if ! confirm "Was the merge successful?" n; then
-			exit 1
-		fi
-	fi
+	#if $merge_the_changes; then
+		#$DIFF_VIEWER "${SCRIPT_DIR}/my_categories.js" public/js/categories.js
+		#if ! confirm "Was the merge successful?" n; then
+			#exit 1
+		#fi
+	#fi
 	chmod 664 "${SCRIPT_DIR}/my_categories.js"
 	cp public/js/categories.js "${SCRIPT_DIR}/my_categories.js"
 	chmod 444 "${SCRIPT_DIR}/my_categories.js"
