@@ -43,6 +43,31 @@ class AssetService implements AssetServiceInterface
 		$this->branchMapper = $branchMapper;
 	}
 	/**
+	 * {@inheritDoc} jih: make sure that this is in the interface
+	 */
+	public function getLessorsForAssets(
+		$assetList
+	){
+		// Validate argument
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
+			"array|Application\Model\AssetInterface"));
+
+		$lessorIds = array();
+		foreach( $assetList as $key=>$asset ){
+			$lessorId = $asset->getLessorId();
+			if( $lessorId > 0 AND ! isset( $lessorIds[$lessorId] ) ){
+				$lessorIds[$lessorId] = $lessorId;
+			}
+		}
+		$lessorList = $this->lessorMapper->find( $lessorIds );
+		$branchListList=$this->lessorMapper->getBranches( $this->branchMapper );
+		foreach( $branchListList as $key=>$branches ){
+			$this->branchMapper->setPrototypeArray( $branches );
+			$this->branchMapper->getLocation( $this->locationMapper );
+		}
+		return $lessorList;
+	}
+	/**
 	 * {@inheritDoc}
 	 */
 	public function getAssetList(
@@ -69,17 +94,14 @@ class AssetService implements AssetServiceInterface
 		$this->assetMapper->setPrototypeArray($assetArray);
 		$this->assetMapper->findByCategory( $category, $filters );
 		$this->assetMapper->getUrls($this->urlMapper);
-		$this->assetMapper->getLessors($this->lessorMapper);
-		$this->lessorMapper->getBranches( $this->branchMapper );
-		$lessors=$this->lessorMapper->getPrototypeArray();
 
-		foreach( $lessors as $key=>$lessor ){
-			$branches=$lessors[$key]->getBranches();
-			if( $branches !== null ){
-				$this->branchMapper->setPrototypeArray( $branches );
-				$this->branchMapper->getLocation( $this->locationMapper );
-			}
-		}
+		//foreach( $lessors as $key=>$lessor ){
+			//$branches=$lessors[$key]->getBranches();
+			//if( $branches !== null ){
+				//$this->branchMapper->setPrototypeArray( $branches );
+				//$this->branchMapper->getLocation( $this->locationMapper );
+			//}
+		//}
 
 		return $this->assetMapper->getAssets();
 	}

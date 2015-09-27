@@ -143,8 +143,7 @@ abstract class AbstractMapper
 
 		// When creating a new model, use the last item of the prototype array as 
 		// the prototype.
-		$prototype=array_pop($this->prototypeArray);
-		array_push($this->prototypeArray,$prototype);
+		$prototype=array_values($this->prototypeArray)[0];
 
 		// Run the query to find all objects with one of the specified ids
 		$where=$this->wherePropertyEquals( $property, $matchArray );
@@ -352,12 +351,12 @@ abstract class AbstractMapper
 				}
 			}
 			$this->isLoaded[$subObjectName]=true;
-		} else {
-			foreach( $this->prototypeArray as $key => $prototype){
-				$subObjects[$key]=$prototype->$getSubObject();
-			}
 		}
-		return $subObjects;
+		$arrayToReturn=array();
+		foreach( $this->prototypeArray as $key => $prototype){
+			$arrayToReturn[$key]=$prototype->$getSubObject();
+		}
+		return $arrayToReturn;
 	}
 	private function wherePropertyEquals( $property, $matchArray ){
 		$where = new Where();

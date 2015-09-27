@@ -3,6 +3,12 @@
 // 1. Display the properties sliders
 $allProperties = getAllProperties($this->assetList);
 
+// psh: The following lines are an example of how you might get the lessors for 
+//      an asset, and from there get the branches.
+$exampleAsset      = array_values( $this->assetList )[0];
+$exampleLessor     = $this->lessorList[ $exampleAsset->getLessorId() ];
+$exampleBranchList = $exampleLessor->getBranches();
+
 // 2. Display each of the assets
 foreach( $this->assetList as $asset ){
 	?>
@@ -37,9 +43,15 @@ document.addEventListener('DOMContentLoaded', function(){
 	
 	// 1. Add all the markers to the map
 	foreach( $this->assetList as $asset ){
-		$latitude = -36.862043 + rand(-10,10)/300;
-		$longitude = 174.761066 + rand(-10, 10)/500;
-		echo 'allAssets.push({id:'.$asset->getId().',lat:'.$latitude.',long:'.$longitude.',url:"'.$asset->getUrl()->getPath().'"});';
+		if(isset( $this->lessorList[ $asset->getLessorId() ] )){
+			$lessor = $this->lessorList[ $asset->getLessorId() ];
+			foreach( $lessor->getBranches() as $branch ){
+				$location=$branch->getLocation();
+				$latitude = $location->getLatitude();
+				$longitude = $location->getLongitude();
+				echo 'allAssets.push({id:'.$asset->getId().',lat:'.$latitude.',long:'.$longitude.',url:"'.$asset->getUrl()->getPath().'"});';
+			}
+		}
 	}
 	?>
 	showAllMarkers();
