@@ -10,11 +10,11 @@ $i = count($this->ancestory) - 1;
 while ($i>=0AND property_exists($this->ancestory[$i], 'children')) {
 ?>
 		<li class="dropdown<?php if($i===0) echo " open"?>">
-		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span>
 			<?php 
 				if ($i !== 0) echo ucwords($this->ancestory[$i-1]->aliases[0]); 
 			?>
-			<b class="caret"></b></a>
+			</span><b class="caret"></b></a>
 			<ul id="branches-dropdown" class="dropdown-menu">
 <?php
 	foreach ( $ancestory[$i]->children as $sibling ){

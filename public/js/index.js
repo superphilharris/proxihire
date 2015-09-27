@@ -71,8 +71,12 @@ function getMainProperties(){
 	return mainProperties;
 }
 
+/**
+ * Replaces invalid characters from the property name to use as a css selector
+ * @param propertyName
+ * @returns
+ */
 function getCssPropertyName(propertyName){
-	//-?[_a-zA-Z]+[_a-zA-Z0-9-]*
 	return propertyName.replace(/[^_a-zA-Z0-9-]/g, '_').toLowerCase();
 }
 
@@ -232,30 +236,41 @@ $(document).ready(function(){
 	});
 
 	updateFilterBar();
+	adjustOverflowingCategoryPicker();
 });
 
+function adjustOverflowingCategoryPicker(){
+	var breadcrumb = $('.categoryAndFilterBar > .breadcrumb');
+	if(breadcrumb.height() > 20){
+		breadcrumb.find('.dropdown > .dropdown-toggle > span').each(function(){
+			if(breadcrumb.height() > 20 && !$(this).parent().is(':last-child')){
+				$(this).hide();
+			}
+		});
+	}
+}
 
 /**
  * @see http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes
  */
 function getScrollBarWidth () {
-	  var inner = document.createElement('p');
-	  inner.style.width = "100%";
-	  inner.style.height = "200px";
-	  var outer = document.createElement('div');
-	  outer.style.position = "absolute";
-	  outer.style.top = "0px";
-	  outer.style.left = "0px";
-	  outer.style.visibility = "hidden";
-	  outer.style.width = "200px";
-	  outer.style.height = "150px";
-	  outer.style.overflow = "hidden";
-	  outer.appendChild (inner);
-	  document.body.appendChild (outer);
-	  var w1 = inner.offsetWidth;
-	  outer.style.overflow = 'scroll';
-	  var w2 = inner.offsetWidth;
-	  if (w1 == w2) w2 = outer.clientWidth;
-	  document.body.removeChild (outer);
-	  return (w1 - w2);
-	};
+	var inner = document.createElement('p');
+	inner.style.width = "100%";
+	inner.style.height = "200px";
+	var outer = document.createElement('div');
+	outer.style.position = "absolute";
+	outer.style.top = "0px";
+	outer.style.left = "0px";
+	outer.style.visibility = "hidden";
+	outer.style.width = "200px";
+	outer.style.height = "150px";
+	outer.style.overflow = "hidden";
+	outer.appendChild (inner);
+	document.body.appendChild (outer);
+	var w1 = inner.offsetWidth;
+	outer.style.overflow = 'scroll';
+	var w2 = inner.offsetWidth;
+	if (w1 == w2) w2 = outer.clientWidth;
+	document.body.removeChild (outer);
+	return (w1 - w2);
+};
