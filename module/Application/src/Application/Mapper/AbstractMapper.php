@@ -140,6 +140,9 @@ abstract class AbstractMapper
 		if( !is_array($matchArray) ){
 			$matchArray=array($matchArray);
 		}
+		if( empty($matchArray) ){
+			return NULL;
+		}
 
 		// When creating a new model, use the last item of the prototype array as 
 		// the prototype.
