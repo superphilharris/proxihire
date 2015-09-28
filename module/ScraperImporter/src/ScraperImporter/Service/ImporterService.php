@@ -76,7 +76,7 @@ class ImporterService implements ImporterServiceInterface
 		$categories = $this->helper->jsonDecode($categories_json);
 		
 		// 2. Read in the crawled lessors
-		echo '<h1>Create Lessor SQL:</h1><code>';
+		echo '<h1>-- Create Lessor SQL:</h1><code>';
 		$createdLessors = array();
 		foreach($pages as $lessor){
 			if($lessor->item_type === "lessor"){
@@ -96,7 +96,7 @@ class ImporterService implements ImporterServiceInterface
 		}
 		
 		// 3. Delete any existing assets
-		echo '</code><h1>Delete Existing Assets SQL:</h1><code>';
+		echo '</code><h1>-- Delete Existing Assets SQL:</h1><code>';
 		$createdLessors = array();
 		foreach($pages as $lessor){
 			if($lessor->item_type === "lessor"){
@@ -109,7 +109,7 @@ class ImporterService implements ImporterServiceInterface
 		}
 		
 		// 4. Update any missing categories
-		echo '</code><h1><span style="color: white;">-- </span>New Assets SQL:</h1><code>';
+		echo '</code><h1><span style="color: white;">-- </span>-- New Assets SQL:</h1><code>';
 		if(true){ // Create new categories and datatypes
 			exec('php '.__DIR__.'/../../../../../tools/generate_category_sql.php > /tmp/.tmp_category.sql');
 			$sql = file_get_contents('/tmp/.tmp_category.sql');
