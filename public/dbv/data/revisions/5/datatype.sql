@@ -6,6 +6,7 @@ INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( 'lineal' );
 INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( 'power' );
 INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( 'pressure' );
 INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( 'speed' );
+INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( 'string' );
 INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( 'time' );
 INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( 'voltage' );
 INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( 'volume' );

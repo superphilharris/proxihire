@@ -14,6 +14,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 	const POWER 	= 'power';
 	const PRESSURE 	= 'pressure';
 	const SPEED 	= 'speed';
+	const STRING 	= 'string';
 	const TIME 		= 'time';
 	const VOLTAGE 	= 'voltage';
 	const VOLUME 	= 'volume';
@@ -94,7 +95,8 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				if($value > pow(10, 6)) return array(pow(10, 6), 'ton');
 				$base = "g";
 				break;
-				
+			case $this::STRING:
+				return array(null, "");
 			default:
 				throw new \Exception("There are no units defined for the $this->datatype datatype. Please add one.");
 		}
