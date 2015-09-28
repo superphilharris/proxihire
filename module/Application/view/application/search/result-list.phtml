@@ -25,7 +25,11 @@ foreach( $this->assetList as $asset ){
 			foreach($asset->getProperties() as $property){
 				$propertyName 	= $property->getName();
 				list($value, $unit) = $property->getValueAndUnit();
-				echo '<div class="'.getCssPropertyName($propertyName).'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>'; 
+				if($propertyName === ""){
+					echo '<div class="unnamedPropertySummary"><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>';
+				}else{
+					echo '<div class="'.getCssPropertyName($propertyName).'_propertySummary"><span class="propertyName">'.ucwords($propertyName).'</span>:&nbsp;<span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>';
+				} 
 			}
 			?>
 			</div>

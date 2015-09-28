@@ -63,7 +63,7 @@ function getMainProperties(){
 	var mainProperties = [];
 	var i = 0;
 	for(var propertyName in allProperties){
-		if(allProperties[propertyName].count/allProperties.length >= 0.8 && i < maxNumberOfMainProperties){
+		if(allProperties[propertyName].count/allProperties.length >= 0.8 && i < maxNumberOfMainProperties && propertyName != ""){
 			mainProperties[propertyName] = allProperties[propertyName];
 		}
 		i++;

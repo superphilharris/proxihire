@@ -58,7 +58,7 @@ class ImporterServiceHelper {
 			}elseif($unit === 'km'){
 				$property['datatype']  = 'lineal';
 				$property['value_mxd'] = floatval($number) * 1000;
-			}elseif($unit === 'lit'){
+			}elseif($unit === 'lit' OR $unit === 'litre'){
 				$property['datatype']	= 'volume';
 				$property['value_mxd']	= floatval($number);
 			}elseif($unit === 'ml'){
@@ -138,6 +138,7 @@ class ImporterServiceHelper {
 				$property['value_mxd']	= false;
 			}
 		}
+		if($property['datatype'] !== 'string' AND $property['name_fulnam'] === "") $property['name_fulnam'] = $property['datatype'];
 		$property['name_fulnam'] = $this->fixPropertyName($property['name_fulnam'], $categoryName);
 		return $property;
 	}
@@ -293,6 +294,7 @@ class ImporterServiceHelper {
 	 * @return array 
 	 */
 	public function determineProperties($key, $value, $categoryName){
+		if($key === $value) $key = "";
 		$key   = trim(strtolower($key),   ":- ");
 		$value = trim(strtolower($value), ": ");
 	
