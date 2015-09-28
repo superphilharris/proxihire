@@ -127,7 +127,7 @@ class ImporterServiceHelper {
 				$property['datatype']	= 'lineal';
 				$property['value_mxd']	= floatval($number);
 			}
-				
+			$property['name_fulnam'] = str_replace('('.$unit.')', '', $property['name_fulnam']);
 		}else{
 			if($value === "yes"){
 				$property['datatype']	= 'boolean';

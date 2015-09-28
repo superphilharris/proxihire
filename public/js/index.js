@@ -62,14 +62,15 @@ function getMainProperties(){
 	var maxNumberOfMainProperties = Math.floor(($('.categoryAndFilterBarWrapper').width()-widthOfBreadCrumb-30-30)/120);
 	var mainProperties = [];
 	var i = 0;
-	for(var propertyName in allProperties){
-		if(allProperties[propertyName].count/allProperties.length >= 0.8 && i < maxNumberOfMainProperties && propertyName != ""){
+	for(var propertyName in allProperties.sort(function(a,b){ return a.count - b.count;	})){
+		if(i < maxNumberOfMainProperties && propertyName != ""){
 			mainProperties[propertyName] = allProperties[propertyName];
 		}
 		i++;
 	}
 	return mainProperties;
 }
+
 
 /**
  * Replaces invalid characters from the property name to use as a css selector
