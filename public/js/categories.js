@@ -426,6 +426,17 @@ categories = {
 					}, 
 					{
 						"aliases": ["sofa", "couch"]
+					},
+					{
+						"aliases": ["seat covering"],
+						"children": [
+							{
+								"aliases": ["chair bow"]
+							},
+							{
+								"aliases": ["chair cover"]
+							}
+						]
 					}
 				]
 			},
@@ -535,7 +546,32 @@ categories = {
 						"aliases": ["spoon","teaspoon","tablespoon"]
 					},
 					{
-						"aliases": ["plate","platter"]
+						"aliases": ["knives"],
+						"children": [
+							{
+								"aliases": ["table knife", "dessert knife"]
+							},
+							{
+								"aliases": ["cheese knife"]
+							},
+							{
+								"aliases": ["butter knife"]
+							}
+						]
+					},
+					{
+						"aliases": ["forks"],
+						"children": [
+							{
+								"aliases": ["dessert fork"]
+							},
+							{
+								"aliases": ["fork"]
+							}
+						]
+					},
+					{
+						"aliases": ["cake trowel", "serving trowel", "pavlova trowel"]
 					},
 					{
 						"aliases": ["dipping dish"]

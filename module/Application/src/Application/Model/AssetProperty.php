@@ -155,6 +155,7 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 		$number = floatval($number);
 		if($number == 0.0) return 0;
 		$digits = (int)(log10($number));
+		if($digits < -1000) return 0;
 		return (pow(10, $digits)) * round($number/(pow(10, $digits)), 3);
 	}
 	

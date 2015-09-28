@@ -87,7 +87,7 @@ body{
 	float: left;
 	height: 90px;
 	font-size: 12.5px;
-	overflow-y: hidden;
+	overflow: hidden;
 	margin-left: 5px;
 }
 .assetPropertyColumn {

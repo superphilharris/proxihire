@@ -72,6 +72,10 @@ class Datatype extends AbstractModel implements DatatypeInterface
 					return 	array(2.62974*pow(10, 6),	"months");
 				}
 				return "";
+			case $this::SPEED:
+				return array(1, "m/s");
+			case $this::STRING:
+				return array(null, "");
 				
 			case $this::POWER:
 				return ""; // TODO: psh
@@ -95,8 +99,6 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				if($value > pow(10, 6)) return array(pow(10, 6), 'ton');
 				$base = "g";
 				break;
-			case $this::STRING:
-				return array(null, "");
 			default:
 				throw new \Exception("There are no units defined for the $this->datatype datatype. Please add one.");
 		}
