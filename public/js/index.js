@@ -116,7 +116,7 @@ function updateFilterBar(){
 		
 		// 2. Bind the events
 		if(mainProperties[propertyName].count > 1){
-			if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
+			if(mainProperties[propertyName].max != null && mainProperties[propertyName].min != null) {
 				$('.'+getCssPropertyName(propertyName)+'_columnFilter > input').slider({
 					value: 	[mainProperties[propertyName].min, mainProperties[propertyName].max],
 					step:	((mainProperties[propertyName].max - mainProperties[propertyName].min)/10).toPrecision(1),
