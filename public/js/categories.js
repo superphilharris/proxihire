@@ -716,6 +716,9 @@ categories = {
 		         	},
 		         	{
 		         		"aliases": ["tamping rammer", "tamper air rammer"]
+		         	},
+		         	{
+		         		"aliases": ["plate compactor"]
 		         	}
 		 		]
         	},
@@ -729,7 +732,15 @@ categories = {
         		"aliases": ["construction roller"]
         	},
          	{
-        		"aliases": ["trench shoring"]
+        		"aliases": ["excavation safety"],
+        		"children": [
+		          	{
+		         		"aliases": ["trench shoring"]
+		         	},
+		          	{
+		         		"aliases": ["steel road plate"]
+		         	}
+        		]
         	},
          	{
         		"aliases": ["loader"],

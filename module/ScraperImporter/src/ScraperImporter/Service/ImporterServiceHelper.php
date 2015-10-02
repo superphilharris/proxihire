@@ -290,6 +290,7 @@ class ImporterServiceHelper {
 		$string = str_replace('hight', 		'high',		$string);
 		$string = str_replace('lenght', 	'length', 	$string);
 		$string = str_replace('panle', 		'panel', 	$string);
+		$string = str_replace('pedistal', 	'pedestal', $string);
 		$string = str_replace('rptation', 	'rotation', $string);
 		$string = str_replace('widht', 		'width', 	$string);
 		return $string;
@@ -315,7 +316,9 @@ class ImporterServiceHelper {
 		$key   = trim(strtolower($key),   ":- ");
 		$value = trim(strtolower($value), ": ");
 	
+		// If there is a min and max in the value, then strip them out.
 		if($this->isIn($value, "[0-9].* to .*[0-9]")){
+			if (!strpos($key, ' ')) $key = Porter::Stem($key);
 			$twoNumbers = explode(" to ", $value, 2);
 			$min = $twoNumbers[0];
 			$max = $twoNumbers[1];
@@ -325,7 +328,16 @@ class ImporterServiceHelper {
 			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
 				
 		}elseif($this->isIn($value, '[0-9]+ *- *[0-9]+') AND $this->isIn($key, ' range')){
-			// $key = str_replace(' range', '', $key);
+			$key = str_replace('range', 'bound', $key);
+			$twoNumbers = explode("-", $value, 2);
+			$min = trim($twoNumbers[0]);
+			$max = trim($twoNumbers[1]);
+			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
+				$min = $min.$maxUnits[1];
+			}
+			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
+		}elseif($this->isIn($value, '[0-9]+ *- *[0-9]+') AND !strpos($key, ' ')){ // psh TODO: this will not work for multi keys.
+			$key = Porter::Stem($this->fixSpelling($key));
 			$twoNumbers = explode("-", $value, 2);
 			$min = trim($twoNumbers[0]);
 			$max = trim($twoNumbers[1]);
@@ -344,10 +356,20 @@ class ImporterServiceHelper {
 	 * @return Ambigous Category|NULL
 	 */
 	public function determineCategory($category, $name){
+		if($matchedCategory = $this->determineCategory2($category, $name)) 	return $matchedCategory;
+		if($matchedCategory = $this->determineCategory2($category, $this->fixSpelling(strtolower($name)))) {
+			return $matchedCategory;
+		}
+			echo "hello".$name;
+		return null;
+	}
+	private function determineCategory2($category, $name){
 		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 	return $matchedCategory;
 		if($matchedCategory = $this->determineCategoryMatchedWords($category, $name)) 	return $matchedCategory;
 		return null;
 	}
+	
+	
 	
 	/**
 	 * Finds the subcategory that contains all of the words in any part of the string.
