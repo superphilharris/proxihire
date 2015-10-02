@@ -36,7 +36,8 @@ function getMainProperties(){
 					min: null,
 					max: null,
 					average: null,
-					val: []
+					val: [],
+					name: propertyName
 				};
 			}
 			if($.isNumeric(propertyValue)){
@@ -55,16 +56,19 @@ function getMainProperties(){
 			}
 		});
 	});
+	// Convert hashmap to sorted list by the commonality of the property
+	var allPropertiesList = [];
+	for(var i in allProperties) allPropertiesList.push(allProperties[i]);
+	allPropertiesList.sort(function(a,b){ return b.count - a.count;	});
 
-	// Return only the properties that 80% of the assets have, and if we can display them
-	// TODO: determine better way to determine which are the best properties
+	// Return only the properties that 50% of the assets have, and if we can display them
 	var widthOfBreadCrumb = Math.max(300, $('.categoryAndFilterBarWrapper .breadcrumb').width());
 	var maxNumberOfMainProperties = Math.floor(($('.categoryAndFilterBarWrapper').width()-widthOfBreadCrumb-30-30)/120);
 	var mainProperties = [];
 	var i = 0;
-	for(var propertyName in allProperties.sort(function(a,b){ return a.count - b.count;	})){
-		if(i < maxNumberOfMainProperties && propertyName != ""){
-			mainProperties[propertyName] = allProperties[propertyName];
+	for(var j in allPropertiesList){
+		if(i < maxNumberOfMainProperties && allPropertiesList[j].name != "" && allPropertiesList[j].count>=allPropertiesList.length/2){
+			mainProperties[allPropertiesList[j].name] = allPropertiesList[j];
 		}
 		i++;
 	}

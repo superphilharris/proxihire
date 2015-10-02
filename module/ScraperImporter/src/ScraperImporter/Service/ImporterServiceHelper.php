@@ -46,6 +46,15 @@ class ImporterServiceHelper {
 			}elseif($unit === 'sec'){
 				$property['datatype']  = 'time';
 				$property['value_mxd'] = floatval($number);
+			}elseif($unit === 'days' OR $unit === 'day'){
+				$property['datatype']  = 'time';
+				$property['value_mxd'] = floatval($number) * 60 * 60 * 24;
+			}elseif($unit === 'hours' OR $unit === 'hour'){
+				$property['datatype']  = 'time';
+				$property['value_mxd'] = floatval($number) * 60 * 60;
+			}elseif($unit === 'minutes' OR $unit === 'minute'){
+				$property['datatype']  = 'time';
+				$property['value_mxd'] = floatval($number) * 60;
 			}elseif($unit === 'mm'){
 				$property['datatype']  = 'lineal';
 				$property['value_mxd'] = floatval($number) / 1000;
@@ -91,12 +100,18 @@ class ImporterServiceHelper {
 			}elseif($unit === 'amps' OR $unit === 'amp'){
 				$property['datatype']  = 'current';
 				$property['value_mxd'] = floatval($number);
+			}elseif($unit === 'mamps'){
+				$property['datatype']  = 'current';
+				$property['value_mxd'] = floatval($number) / 1000;
 			}elseif($unit === 'watts'){
 				$property['datatype']  = 'power';
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'kw'){
 				$property['datatype']  = 'power';
 				$property['value_mxd'] = floatval($number) * 1000;
+			}elseif($unit === 'volt' OR $unit === 'volts'){
+				$property['datatype']  = 'voltage';
+				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'nm'){
 				$property['datatype']  = 'torque';
 				$property['value_mxd'] = floatval($number);
@@ -299,15 +314,25 @@ class ImporterServiceHelper {
 		$value = trim(strtolower($value), ": ");
 	
 		if($this->isIn($value, "[0-9].* to .*[0-9]")){
-			$twoNumbers = explode(" to ", $value);
+			$twoNumbers = explode(" to ", $value, 2);
 			$min = $twoNumbers[0];
 			$max = $twoNumbers[1];
-			if(preg_match('/[0-9\-.]+\s*([a-zA-Z\/]+)/', $max, $maxUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
+			if(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
 				$min = $min.$maxUnits[1];
 			}
 			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
 				
-		}else return array($this->determineProperty($key, $value, $categoryName));
+		}elseif($this->isIn($value, '[0-9]+ *- *[0-9]+') AND $this->isIn($key, ' range')){
+			$key = str_replace(' range', '', $key);
+			$twoNumbers = explode("-", $value, 2);
+			$min = trim($twoNumbers[0]);
+			$max = trim($twoNumbers[1]);
+			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
+				$min = $min.$maxUnits[1];
+			}
+			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
+		}
+		else return array($this->determineProperty($key, $value, $categoryName));
 	}
 
 	/**
