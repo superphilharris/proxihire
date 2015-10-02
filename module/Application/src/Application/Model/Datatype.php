@@ -76,14 +76,16 @@ class Datatype extends AbstractModel implements DatatypeInterface
 					return 	array(2.62974*pow(10, 6),	"months");
 				}
 				return "";
+			case $this::POWER_MECHANICAL:
+				return array(1, "hp");
 			case $this::SPEED:
 				return array(1, "m/s");
 			case $this::STRING:
 				return array(null, "");
-				
-			case $this::POWER:
-				return array(); // TODO: psh
-				
+
+			case $this::CURRENT:
+				$base = "A";
+				break;
 			case $this::FORCE:
 				$base = "N";
 				break;
@@ -92,6 +94,9 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				break;
 			case $this::LINEAL:
 				$base = "m";
+				break;
+			case $this::POWER_ELECTRICAL:
+				$base = "W";
 				break;
 			case $this::VOLTAGE:
 				$base = "V";
