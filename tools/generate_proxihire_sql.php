@@ -13,7 +13,6 @@ $categories_file = dirname(dirname(__FILE__)).'/public/js/categories.js';
 $categories_json = str_replace('categories = ', '', str_replace(';', '', file_get_contents($categories_file)));
 $categories = json_decode($categories_json);
 
-echo "USE RentStuff;\n";
 foreach($categories->children as $category){
 	printOutSqlForCategory($category);
 }
@@ -47,7 +46,7 @@ function printOutSqlForCategory($category, $parent=null){
 $categories_file = file_get_contents(dirname(dirname(__FILE__)).'/module/Application/src/Application/Model/Datatype.php');
 foreach(preg_split("/((\r?\n)|(\r\n?))/", $categories_file) as $line){
 	if(preg_match('/const .*= ([\'"a-zA-Z"]*)/', $line, $match)){ // find the value of the constant in the Datatype.php file
-		echo "INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( " . $match[1] ." );\n";
+		echo "INSERT IGNORE INTO datatype ( datatype_abbr ) VALUES ( '" . trim($match[1],'"\'') ."' );\n";
 	}
 }
 ?>
