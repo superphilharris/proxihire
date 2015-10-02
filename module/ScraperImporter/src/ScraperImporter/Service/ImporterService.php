@@ -111,11 +111,10 @@ class ImporterService implements ImporterServiceInterface
 		// 4. Update any missing categories
 		echo '</code><h1><span style="color: white;">-- </span>-- New Assets SQL:</h1><code>';
 		if(true){ // Create new categories and datatypes
-			exec('php '.__DIR__.'/../../../../../tools/generate_category_sql.php > /tmp/.tmp_category.sql');
+			exec('php '.__DIR__.'/../../../../../tools/generate_proxihire_sql.php > /tmp/.tmp_category.sql');
 			$sql = file_get_contents('/tmp/.tmp_category.sql');
 			echo $sql.'<br/><br/>';
 			unlink('/tmp/.tmp_category.sql');
-			$sql = file_get_contents(__DIR__.'/../../../../../public/dbv/data/revisions/5/datatype.sql');
 			echo $sql.'<br/><br/><br/>';
 		}
 		

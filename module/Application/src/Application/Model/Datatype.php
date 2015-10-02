@@ -6,19 +6,23 @@ class Datatype extends AbstractModel implements DatatypeInterface
 	private $id;
 	private $datatype;
 	
-	const ANGLE		= 'angle';
-	const FLOW		= 'flow';
-	const FORCE 	= 'force';
-	const FREQUENCY = 'frequency';
-	const LINEAL 	= 'lineal';
-	const POWER 	= 'power';
-	const PRESSURE 	= 'pressure';
-	const SPEED 	= 'speed';
-	const STRING 	= 'string';
-	const TIME 		= 'time';
-	const VOLTAGE 	= 'voltage';
-	const VOLUME 	= 'volume';
-	const WEIGHT 	= 'weight';
+	const ANGLE				= 'angle';
+	const BOOLEAN			= 'boolean';
+	const CURRENT			= 'current';
+	const FLOW				= 'flow';
+	const FORCE 			= 'force';
+	const FREQUENCY 		= 'frequency';
+	const LINEAL 			= 'lineal';
+	const POWER_ELECTRICAL 	= 'power_electrical';
+	const POWER_MECHANICAL	= 'power_mechanical';
+	const PRESSURE 			= 'pressure';
+	const SPEED 			= 'speed';
+	const STRING 			= 'string';
+	const TIME 				= 'time';
+	const TORQUE			= 'torque';
+	const VOLTAGE 			= 'voltage';
+	const VOLUME 			= 'volume';
+	const WEIGHT 			= 'weight';
 	
 
 	/**
@@ -78,7 +82,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				return array(null, "");
 				
 			case $this::POWER:
-				return ""; // TODO: psh
+				return array(); // TODO: psh
 				
 			case $this::FORCE:
 				$base = "N";

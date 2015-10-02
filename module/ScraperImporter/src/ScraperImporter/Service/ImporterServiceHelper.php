@@ -1,6 +1,8 @@
 <?php
 namespace ScraperImporter\Service;
 
+use Application\Model\Datatype;
+
 class ImporterServiceHelper {
 	const REFRESH_ASSET_IMAGES = FALSE; // Whether we want to check to see whether they've changed the images on their server.
 	
@@ -18,7 +20,7 @@ class ImporterServiceHelper {
 	private function determineProperty($key, $value, $categoryName){
 		$key 	= $this->fixSpelling($key);
 		$value 	= $this->fixValue($value);
-		$property = array("name_fulnam" => $key, "datatype"=>"string", "value_mxd"=>$value);
+		$property = array("name_fulnam" => $key, "datatype"=>Datatype::STRING, "value_mxd"=>$value);
 	
 		if($numberAndUnit = $this->getNumberAndUnit($key, $value)){
 			$number = $numberAndUnit[0];
@@ -26,134 +28,134 @@ class ImporterServiceHelper {
 				
 			// Unit Matching
 			if($unit === 'deg' OR $unit === 'degrees'){
-				$property['datatype']  = 'angle';
+				$property['datatype']  = Datatype::ANGLE;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'mg'){
-				$property['datatype']  = 'weight';
+				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) / 1000;
 			}elseif($unit === 'g'){
-				$property['datatype']  = 'weight';
+				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'kg'){
-				$property['datatype']  = 'weight';
+				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) * 1000;
 			}elseif($unit === 'tonne' OR $unit === 'tonnes'){
-				$property['datatype']  = 'weight';
+				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) * 1000 * 1000;
 			}elseif($unit === 'dan'){
-				$property['datatype']  = 'force';
+				$property['datatype']  = Datatype::FORCE;
 				$property['value_mxd'] = floatval($number) * 10;
 			}elseif($unit === 'sec'){
-				$property['datatype']  = 'time';
+				$property['datatype']  = Datatype::TIME;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'days' OR $unit === 'day'){
-				$property['datatype']  = 'time';
+				$property['datatype']  = Datatype::TIME;
 				$property['value_mxd'] = floatval($number) * 60 * 60 * 24;
 			}elseif($unit === 'hours' OR $unit === 'hour'){
-				$property['datatype']  = 'time';
+				$property['datatype']  = Datatype::TIME;
 				$property['value_mxd'] = floatval($number) * 60 * 60;
 			}elseif($unit === 'minutes' OR $unit === 'minute'){
-				$property['datatype']  = 'time';
+				$property['datatype']  = Datatype::TIME;
 				$property['value_mxd'] = floatval($number) * 60;
 			}elseif($unit === 'mm'){
-				$property['datatype']  = 'lineal';
+				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number) / 1000;
 			}elseif($unit === 'cm'){
-				$property['datatype']  = 'lineal';
+				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number) / 100;
 			}elseif($unit === 'm'){
-				$property['datatype']  = 'lineal';
+				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'km'){
-				$property['datatype']  = 'lineal';
+				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number) * 1000;
 			}elseif($unit === 'lit' OR $unit === 'litre'){
-				$property['datatype']	= 'volume';
+				$property['datatype']	= Datatype::VOLUME;
 				$property['value_mxd']	= floatval($number);
 			}elseif($unit === 'ml'){
-				$property['datatype']	= 'volume';
+				$property['datatype']	= Datatype::VOLUME;
 				$property['value_mxd']	= floatval($number) / 1000;
 			}elseif($unit === 'm3'){
-				$property['datatype']	= 'volume';
+				$property['datatype']	= Datatype::VOLUME;
 				$property['value_mxd']	= floatval($number) * 1000;
 			}elseif($unit === 'hp' OR $unit === 'horsepower'){
-				$property['datatype']	= 'power';
+				$property['datatype']	= Datatype::POWER_MECHANICAL;
 				$property['value_mxd']	= floatval($number) * 745.699872;
 			}elseif($unit === 'hz'){
-				$property['datatype']	= 'frequency';
+				$property['datatype']	= Datatype::FREQUENCY;
 				$property['value_mxd']	= floatval($number);
 			}elseif($unit === 'rpm'){
-				$property['datatype']	= 'frequency';
+				$property['datatype']	= Datatype::FREQUENCY;
 				$property['value_mxd']	= floatval($number) / 60;
 			}elseif($unit === '/min'){
-				$property['datatype']	= 'frequency';
+				$property['datatype']	= Datatype::FREQUENCY;
 				$property['value_mxd']	= floatval($number) / 60;
 			}elseif($unit === 'psi'){
-				$property['datatype']	= 'pressure';
+				$property['datatype']	= Datatype::PRESSURE;
 				$property['value_mxd']	= floatval($number) * 6894.75729;
 			}elseif($unit === 'km/hr' OR $unit === 'km/h'){
-				$property['datatype']	= 'speed';
+				$property['datatype']	= Datatype::SPEED;
 				$property['value_mxd']	= floatval($number) * 1000 / 60 / 60;
 			}elseif($unit === 'm/s' OR $unit === 'm/sec'){
-				$property['datatype']	= 'speed';
+				$property['datatype']	= Datatype::SPEED;
 				$property['value_mxd']	= floatval($number);
 			}elseif($unit === 'amps' OR $unit === 'amp'){
-				$property['datatype']  = 'current';
+				$property['datatype']  = Datatype::CURRENT;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'mamps'){
-				$property['datatype']  = 'current';
+				$property['datatype']  = Datatype::CURRENT;
 				$property['value_mxd'] = floatval($number) / 1000;
 			}elseif($unit === 'watts'){
-				$property['datatype']  = 'power';
+				$property['datatype']  = Datatype::POWER_ELECTRICAL;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'kw'){
-				$property['datatype']  = 'power';
+				$property['datatype']  = Datatype::POWER_ELECTRICAL;
 				$property['value_mxd'] = floatval($number) * 1000;
 			}elseif($unit === 'volt' OR $unit === 'volts'){
-				$property['datatype']  = 'voltage';
+				$property['datatype']  = Datatype::VOLTAGE;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'nm'){
-				$property['datatype']  = 'torque';
+				$property['datatype']  = Datatype::TORQUE;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'ltr/hr' OR $unit === 'lit/hr'){
-				$property['datatype']  = 'flow';
+				$property['datatype']  = Datatype::FLOW;
 				$property['value_mxd'] = floatval($number) / 60 / 60; // Convert to ltr/sec
 			}elseif($unit === 'ltr/min' OR $unit === 'lit/min'){
-				$property['datatype']  = 'flow';
+				$property['datatype']  = Datatype::FLOW;
 				$property['value_mxd'] = floatval($number) / 60; // Convert to ltr/sec
 			}elseif($unit === 'cfm'){
-				$property['datatype']  = 'flow';
+				$property['datatype']  = Datatype::FLOW;
 				$property['value_mxd'] = floatval($number) * 0.471947443; // Convert to ltr/sec
 	
 				// Key name matching - TODO: find better way of determining the following code
 			}elseif($this->isIn($key, 'angle')){
-				$property['datatype']  = 'angle';
+				$property['datatype']  = Datatype::ANGLE;
 				$property['value_mxd'] 	= floatval($number);
 	
 			}elseif($this->isIn($key, 'per minute')){
-				$property['datatype']  = 'frequency';
+				$property['datatype']  = Datatype::FREQUENCY;
 				$property['value_mxd'] 	= floatval($number) * 60;
 					
 			}elseif($this->isIn($key, 'volts')){
-				$property['datatype']	= 'voltage';
+				$property['datatype']	= Datatype::VOLTAGE;
 				$property['value_mxd']	= floatval($number);
 					
 			}elseif($this->isIn($key, 'mtr')){
-				$property['datatype']	= 'lineal';
+				$property['datatype']	= Datatype::LINEAL;
 				$property['value_mxd']	= floatval($number);
 			}
 			$property['name_fulnam'] = str_replace('('.$unit.')', '', $property['name_fulnam']);
 		}else{
 			if($value === "yes"){
-				$property['datatype']	= 'boolean';
+				$property['datatype']	= Datatype::BOOLEAN;
 				$property['value_mxd']	= true;
 	
 			}elseif($value === "no"){
-				$property['datatype']	= 'boolean';
+				$property['datatype']	= Datatype::BOOLEAN;
 				$property['value_mxd']	= false;
 			}
 		}
-		if($property['datatype'] !== 'string' AND $property['name_fulnam'] === "") $property['name_fulnam'] = $property['datatype'];
+		if($property['datatype'] !== Datatype::STRING AND $property['name_fulnam'] === "") $property['name_fulnam'] = $property['datatype'];
 		$property['name_fulnam'] = $this->fixPropertyName($property['name_fulnam'], $categoryName);
 		return $property;
 	}
@@ -323,7 +325,7 @@ class ImporterServiceHelper {
 			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
 				
 		}elseif($this->isIn($value, '[0-9]+ *- *[0-9]+') AND $this->isIn($key, ' range')){
-			$key = str_replace(' range', '', $key);
+			// $key = str_replace(' range', '', $key);
 			$twoNumbers = explode("-", $value, 2);
 			$min = trim($twoNumbers[0]);
 			$max = trim($twoNumbers[1]);
