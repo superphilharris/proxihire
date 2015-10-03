@@ -19,6 +19,7 @@ class ImporterService implements ImporterServiceInterface
 	protected $urlMapper;
 	protected $url;
 	private $importerServiceUtils;
+	private $outputChannel;
 
 	public function __construct(
 		$assetMapper,
@@ -76,18 +77,19 @@ class ImporterService implements ImporterServiceInterface
 		$categories = $this->helper->jsonDecode($categories_json);
 		
 		// 2. Read in the crawled lessors
-		echo '<h1><span style="color: white;">-- </span>Create Lessor SQL:</h1><code>';
+		$file = null;
+		$this->writeComment('Create Lessor SQL');
 		$createdLessors = array();
 		foreach($pages as $lessor){
 			if($lessor->item_type === "lessor"){
 				if(! in_array($lessor->name, $createdLessors)){
-					echo "INSERT INTO user     (name_fulnam) VALUES ('".$lessor->name."'); SET @last_user_id = LAST_INSERT_ID(); ";
-					echo "INSERT INTO url      (title_desc, path_url) VALUES ('".$lessor->name."', '".$lessor->url."'); ";
-					echo "INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID()); <br/>";
+					$this->writeSQL("INSERT INTO user     (name_fulnam) VALUES ('".$lessor->name."'); SET @last_user_id = LAST_INSERT_ID(); ");
+					$this->writeSQL("INSERT INTO url      (title_desc, path_url) VALUES ('".$lessor->name."', '".$lessor->url."'); ");
+					$this->writeSQL("INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID());");
 					
 					foreach($lessor->location as $location){
-						echo "INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessor->name."', '".$location->lat."', '".$location->long."'); ";
-						echo "INSERT INTO branch (user_id, location_id) VALUES (@last_user_id, LAST_INSERT_ID()); <br/>";
+						$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessor->name."', '".$location->lat."', '".$location->long."'); ");
+						$this->writeSQL("INSERT INTO branch (user_id, location_id) VALUES (@last_user_id, LAST_INSERT_ID());");
 					}
 
 					array_push($createdLessors, $lessor->name);
@@ -96,24 +98,24 @@ class ImporterService implements ImporterServiceInterface
 		}
 		
 		// 3. Delete any existing assets
-		echo '</code><h1><span style="color: white;">-- </span>Delete Existing Assets SQL:</h1><code>';
+		$this->writeComment('Delete Existing Assets SQL');
 		$createdLessors = array();
 		foreach($pages as $lessor){
 			if($lessor->item_type === "lessor"){
 				if(! in_array($lessor->name, $createdLessors)){
-					echo 'DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN 	(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ';
-					echo 'DELETE a FROM asset a WHERE lessor_user_id IN 													(SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ';
-					echo 'DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ';
+					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ');
+					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN 													 (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ');
+					$this->writeSQL('DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ');
 				}
 			}
 		}
 		
-		// 4. Update any missing categories
-		echo '</code><h1><span style="color: white;">-- </span>New Assets SQL:</h1><code>';
+		// 4. Update any missing categories and datatypes
+		$this->writeComment('New Assets SQL');
 		if(true){ // Create new categories and datatypes
 			exec('php '.__DIR__.'/../../../../../tools/generate_proxihire_sql.php > /tmp/.tmp_category.sql');
 			$sql = file_get_contents('/tmp/.tmp_category.sql');
-			echo $sql.'<br/><br/>';
+			$this->writeSQL($sql);
 			unlink('/tmp/.tmp_category.sql');
 		}
 		
@@ -127,26 +129,29 @@ class ImporterService implements ImporterServiceInterface
 				
 				$category = $this->helper->determineCategory($categories, $page->item_name);
 				if($category === null){
-					echo "</code><br/><a href=\"$page->url\" target='_blank'>$page->item_name</a>";
+					$this->writeComment("<a href=\"$page->url\" target='_blank'>$page->item_name</a>");
 					exit;
 				}else $categoryName = $category->aliases[0];
-				echo "INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".$page->url."'); ";
-				echo "INSERT INTO asset (category_id, url_id, lessor_user_id, image_url) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".$categoryName."' AND u.name_fulnam='".$page->lessor."'; ";
-				echo "SET @last_asset_id = LAST_INSERT_ID();<br/>";
+				$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".$page->url."'); ");
+				$this->writeSQL("INSERT INTO asset (category_id, url_id, lessor_user_id, image_url) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".$categoryName."' AND u.name_fulnam='".$page->lessor."'; ");
+				$this->writeSQL("SET @last_asset_id = LAST_INSERT_ID();");
 				// Get the properties
 				$properties = array();
 				foreach($page->properties as $propertyName => $propertyValue){
 					$properties = array_merge($properties, $this->helper->determineProperties($propertyName, $propertyValue, $categoryName));
 				}
 				foreach($properties as $property){
-					echo "INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';";
+					$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
 				}
-				echo "<br/><br/>";
-				// var_dump($properties);
 			}
 		}
-		echo '</code>';
 		return array();
+	}
+	private function writeComment($comment){
+		echo "<br/><h1><span style=\"color: grey; font-size: 0.5em;\">-- </span>$comment</h1>";
+	}
+	private function writeSQL($sql){
+		echo "<code>$sql</code><br/>";
 	}
 	
 	public function getAssets( $jsonArray ){

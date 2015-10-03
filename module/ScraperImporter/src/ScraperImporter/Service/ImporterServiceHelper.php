@@ -360,7 +360,6 @@ class ImporterServiceHelper {
 		if($matchedCategory = $this->determineCategory2($category, $this->fixSpelling(strtolower($name)))) {
 			return $matchedCategory;
 		}
-			echo "hello".$name;
 		return null;
 	}
 	private function determineCategory2($category, $name){
