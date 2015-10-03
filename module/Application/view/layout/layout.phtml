@@ -4,6 +4,10 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
+<meta name="msapplication-TileColor" content="#168ccc">
+<meta name="msapplication-TileImage" content="/img/mstile-144x144.png">
+<meta name="msapplication-config" content="/img/browserconfig.xml">
+<meta name="theme-color" content="#168ccc">
 		<?php echo $this->headTitle('ProxiHire');?>
 
 		<?php
@@ -14,16 +18,30 @@ echo $this->headMeta()	->appendName('viewport', 'width=device-width, initial-sca
 		<!-- Le styles -->
 		<?php
 		
-echo $this->headLink(array (
-				'rel' => 'shortcut icon',
-				'type' => 'image/x-icon',
-				'href' => $this->basePath('img/favicon.ico')))
+echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/x-icon', 'href' => $this->basePath('img/favicon.ico')))
+		->headLink(array('rel' => "apple-touch-icon", 	'sizes' => "57x57", 	'href' => $this->basePath('img/apple-touch-icon-57x57.png')))
+		->headLink(array('rel' => "apple-touch-icon", 	'sizes' => "60x60", 	'href' => $this->basePath('img/apple-touch-icon-60x60.png')))
+		->headLink(array('rel' => "apple-touch-icon", 	'sizes' => "72x72", 	'href' => $this->basePath('img/apple-touch-icon-72x72.png')))
+		->headLink(array('rel' => "apple-touch-icon",	'sizes' => "76x76", 	'href' => $this->basePath('img/apple-touch-icon-76x76.png')))
+		->headLink(array('rel' => "apple-touch-icon", 	'sizes' => "114x114", 	'href' => $this->basePath('img/apple-touch-icon-114x114.png')))
+		->headLink(array('rel' => "apple-touch-icon", 	'sizes' => "120x120", 	'href' => $this->basePath('img/apple-touch-icon-120x120.png')))
+		->headLink(array('rel' => "apple-touch-icon", 	'sizes' => "144x144", 	'href' => $this->basePath('img/apple-touch-icon-144x144.png')))
+		->headLink(array('rel' => "apple-touch-icon", 	'sizes' => "152x152", 	'href' => $this->basePath('img/apple-touch-icon-152x152.png')))
+		->headLink(array('rel' => "apple-touch-icon", 	'sizes' => "180x180", 	'href' => $this->basePath('img/apple-touch-icon-180x180.png')))
+		->headLink(array('rel' => "icon", 				'sizes' => "32x32", 	'href' => $this->basePath('img/favicon-32x32.png'), 		'type' => 'image/png'))
+		->headLink(array('rel' => "icon", 				'sizes' => "194x194", 	'href' => $this->basePath('img/favicon-194x194.png'), 		'type' => 'image/png'))
+		->headLink(array('rel' => "icon", 				'sizes' => "96x96", 	'href' => $this->basePath('img/favicon-96x96.png'), 		'type' => 'image/png'))
+		->headLink(array('rel' => "icon", 				'sizes' => "192x192", 	'href' => $this->basePath('img/android-chrome-192x192.png'),'type' => 'image/png'))
+		->headLink(array('rel' => "icon", 				'sizes' => "16x16", 	'href' => $this->basePath('img/favicon-16x16.png'),			'type' => 'image/png'))
+		->headLink(array('rel' => "manifest", 									'href' => $this->basePath('img/manifest.json')))
 		->prependStylesheet($this->basePath('css/styles.css'))
 		->prependStylesheet($this->basePath('css/bootstrap-slider.css'))
 		->prependStylesheet($this->basePath('css/styles.css'))
 		->prependStylesheet($this->basePath('css/typeaheadjs.css'))
 		// ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
-		->prependStylesheet($this->basePath('css/bootstrap.min.css'))?>
+		->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+
+?>
 
 </head>
 <body>
