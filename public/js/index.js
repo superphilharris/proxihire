@@ -24,6 +24,7 @@ function getMainProperties(){
 	 * - if non-numeric, then get all the possible values for this property
 	 */
 	var allProperties = [];
+	var numberOfAssets = 0;
 	$('.assetPropertiesSummary').each(function(){
 		$(this).children('div').each(function(){
 			var propertyName 	= $(this).find('.propertyName').text();
@@ -55,11 +56,16 @@ function getMainProperties(){
 				allProperties[propertyName].val.push(propertyValue);
 			}
 		});
+		numberOfAssets += 1;
 	});
 	// Convert hashmap to sorted list by the commonality of the property
 	var allPropertiesList = [];
 	for(var i in allProperties) allPropertiesList.push(allProperties[i]);
-	allPropertiesList.sort(function(a,b){ return b.count - a.count;	});
+	allPropertiesList.sort(function(a,b){  
+		if(a.count != b.count) 					return b.count - a.count;				// Put preference first to the number of assets that match this property,
+		else if(a.val.length != b.val.length)	return a.val.length - b.val.length;		// then to whether the property is more numeric
+		else 									return a.name.length - b.name.length;	// then to a shorter property name length
+	});
 
 	// Return only the properties that 50% of the assets have, and if we can display them
 	var widthOfBreadCrumb = Math.max(300, $('.categoryAndFilterBarWrapper .breadcrumb').width());
@@ -67,10 +73,18 @@ function getMainProperties(){
 	var mainProperties = [];
 	var i = 0;
 	for(var j in allPropertiesList){
-		if(i < maxNumberOfMainProperties && allPropertiesList[j].name != "" && allPropertiesList[j].count>=allPropertiesList.length/2){
+		if(i < maxNumberOfMainProperties && allPropertiesList[j].name != "" && allPropertiesList[j].count>=numberOfAssets/2){
 			mainProperties[allPropertiesList[j].name] = allPropertiesList[j];
 		}
 		i++;
+	}
+	
+	// If we are inserting in some property columns, then shrink the size of the existing
+	if(maxNumberOfMainProperties > 0){ 
+		var widthOfExistingProperties = $('.categoryAndFilterBarWrapper').width() - 30 - 30 - 120 - 120 * maxNumberOfMainProperties;
+		$('.assetPropertiesSummary').each(function(){
+			$(this).width(widthOfExistingProperties)
+		})
 	}
 	return mainProperties;
 }
