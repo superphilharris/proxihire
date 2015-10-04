@@ -83,6 +83,15 @@ body{
 	margin: 2px 0px 0px 1px;;
 	font-weight: bold;
 }
+.assetPropertiesSummary .propertyUnit {
+	float: right;
+}
+.assetPropertiesSummary .propertyValue {
+	float: right;
+}
+.assetPropertiesSummary div:nth-child(odd) {
+  background-color: #f5f5f5;
+}
 .assetPropertiesSummary {
 	float: left;
 	height: 90px;

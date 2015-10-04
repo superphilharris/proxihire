@@ -82,7 +82,10 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				return array(1, "m/s");
 			case $this::STRING:
 				return array(null, "");
-
+			case $this::FLOW:
+				return array(0.471947443, 'cfm');
+				break;
+				
 			case $this::CURRENT:
 				$base = "A";
 				break;
