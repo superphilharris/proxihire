@@ -43,6 +43,9 @@ categories = {
 					},
 					{
 						"aliases": ["electrical adaptor"]
+					},
+					{
+						"aliases": ["cable puller"]
 					}
 				]
 			},
@@ -105,10 +108,10 @@ categories = {
 						"aliases": ["tap seat cutter", "tap reseating tool"]
 					},
 					{
-						"aliases": ["pipe bender"]
+						"aliases": ["tap and die set"]
 					},
 					{
-						"aliases": ["chimney cleaner", "chimney clean brush"]
+						"aliases": ["pipe bender"]
 					}
 				]
 			},
@@ -120,6 +123,9 @@ categories = {
 						"children": [
 							{
 								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw"]
+							},
+							{
+								"aliases": ["bench saw"]
 							},
 							{
 								"aliases": ["hole saw"]
@@ -155,6 +161,9 @@ categories = {
 					},
 					{
 						"aliases": ["nail gun", "gas nailer", "air nailer", "air stapler"]
+					},
+					{
+						"aliases": ["secret nail gun", "porta nailer", "secret nailer"]
 					},
 					{
 						"aliases": ["staple gun"]
@@ -201,7 +210,7 @@ categories = {
 						"aliases": ["masonry breaker", "concrete breaker", "rotary breaker", "portable breaker", "air breaker"]
 					},
 					{
-						"aliases": ["pop riveter"]
+						"aliases": ["pop riveter", "pop rivet gun"]
 					},
 					{
 						"aliases": ["sash clamp", "G clamp"]
@@ -401,6 +410,12 @@ categories = {
 					},
 					{
 						"aliases": ["extraction fan"]
+					},
+					{
+						"aliases": ["chimney cleaner", "chimney clean brush"]
+					},
+					{
+						"aliases": ["electric sweeper", "walk behind sweeper"]
 					}
 				]
 			},
@@ -686,6 +701,18 @@ categories = {
         	},
         	{
         		"aliases": ["auto timing", "ignition timing light", "timing light"]
+        	},
+        	{
+        		"aliases": ["grease gun"]
+        	},
+        	{
+        		"aliases": ["snapring plier", "circlip plier"]
+        	},
+        	{
+        		"aliases": ["spanner combination set"]
+        	},
+        	{
+        		"aliases": ["socket set"]
         	}
 		]
 	},{

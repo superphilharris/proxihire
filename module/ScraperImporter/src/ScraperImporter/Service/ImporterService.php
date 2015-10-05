@@ -128,6 +128,9 @@ class ImporterService implements ImporterServiceInterface
 				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'$imageUrl'";
 				
 				$category = $this->helper->determineCategory($categories, $page->item_name);
+				if($category === null AND property_exists($page, 'description')){
+					$category = $this->helper->determineCategory($categories, $page->item_name." ".$page->description);
+				}
 				if($category === null){
 					$this->writeComment("<a href=\"$page->url\" target='_blank'>$page->item_name</a>");
 					exit;
