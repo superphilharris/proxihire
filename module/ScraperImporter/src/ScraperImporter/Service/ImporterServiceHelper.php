@@ -7,6 +7,7 @@ class ImporterServiceHelper {
 	const REFRESH_ASSET_IMAGES = FALSE; // Whether we want to check to see whether they've changed the images on their server.
 	
 	private $propertyAliases = array();
+	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
 	
 	
 	/**
@@ -208,6 +209,10 @@ class ImporterServiceHelper {
 		return null;
 	}
 	
+	public function getLatitudeAndLongitude($physicalAddress){
+		$json = json_decode(file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($physicalAddress).'&key='.$this::GOOGLE_API_KEY));
+		return $json->results[0]->geometry->location;
+	}
 	/**
 	 * Resizes and crops an image 
 	 * @param string $imagePath

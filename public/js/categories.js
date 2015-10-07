@@ -17,6 +17,17 @@ categories = {
 				"children": [
 					{
 						"aliases": ["scaffolding stairs", "safety stairs"]
+					},
+					{
+						"aliases": ["acrow prop"]
+					}
+				]
+			},
+			{
+				"aliases": ["roofing"],
+				"children": [
+					{
+						"aliases": ["roof anchor"]
 					}
 				]
 			},
@@ -160,7 +171,7 @@ categories = {
 						]
 					},
 					{
-						"aliases": ["nail gun", "gas nailer", "air nailer", "air stapler"]
+						"aliases": ["nail gun", "gas nailer", "air nailer", "air stapler", "ramset gun"]
 					},
 					{
 						"aliases": ["secret nail gun", "porta nailer", "secret nailer"]
@@ -257,6 +268,9 @@ categories = {
 		 			{
 						"aliases": ["survey staff", "spirit level"]
 					},
+		 			{
+						"aliases": ["dumpy level", "builder's auto level"]
+					},
 					{
 						"aliases": ["survey laser"]
 					},
@@ -273,6 +287,9 @@ categories = {
 				"children": [
 		 			{
 						"aliases": ["material lifter"]
+					},
+		 			{
+						"aliases": ["beam lifter"]
 					},
 		 			{
 						"aliases": ["load trolley", "sack barrow"]
@@ -297,6 +314,9 @@ categories = {
 					},
 					{
 						"aliases": ["load skate"]
+					},
+					{
+						"aliases": ["furniture moving blanket"]
 					}
 				]
 			}
@@ -794,6 +814,22 @@ categories = {
 		        	}
 		 		]
         	}
+		]
+	},
+	{
+		"aliases": ["hobbies"],
+		"children": [
+         	{
+        		"aliases": ["sport"],
+        		"children": [
+         			{
+        				"aliases": ["paddle board", "SUP board"]
+        			}
+        		]
+        	},
+			{
+				"aliases": ["music"]
+			}
 		]
 	},
 	{

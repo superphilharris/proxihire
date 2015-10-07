@@ -19,18 +19,18 @@ foreach($categories->children as $category){
 
 function printOutSqlForCategory($category, $parent=null){
 	if( $parent == null ){
-		echo "INSERT IGNORE INTO category (name_fulnam) VALUES ('".$category->aliases[0]."'); \n";
+		echo "INSERT IGNORE INTO category (name_fulnam) VALUES ('".addslashes($category->aliases[0])."'); \n";
 	} else {
 		echo "INSERT IGNORE INTO category (name_fulnam,parent_category_id) \n".
-		"	SELECT '".$category->aliases[0]."',category_id \n".
-		"	FROM category WHERE name_fulnam='$parent'; \n";
+		"	SELECT '".addslashes($category->aliases[0])."',category_id \n".
+		"	FROM category WHERE name_fulnam='".addslashes($parent)."'; \n";
 	}
 	foreach($category->aliases as $key=>$alias){
 		// Ignore the first item
 		if( $key > 0 ){
 			echo "INSERT IGNORE INTO category_alias (category_id, alias_fulnam) \n".
-			"	SELECT category.category_id, '".$alias."'\n".
-			"	FROM category WHERE category.name_fulnam = '".$category->aliases[0]."';\n";
+			"	SELECT category.category_id, '".addslashes($alias)."'\n".
+			"	FROM category WHERE category.name_fulnam = '".addslashes($category->aliases[0])."';\n";
 		}
 	}
 	if(isset($category->children)){
