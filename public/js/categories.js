@@ -167,6 +167,9 @@ categories = {
 							},
 							{
 								"aliases": ["concrete saw", "road saw"]
+							},
+							{
+								"aliases": ["tile cutter"]
 							}
 						]
 					},
@@ -352,6 +355,9 @@ categories = {
 				"aliases": ["hedge trimmer", "power unit extension"]
 			},
 			{
+				"aliases": ["garden pruner"]
+			},
+			{
 				"aliases": ["rotary hoe"]
 			},
 			{
@@ -376,10 +382,13 @@ categories = {
 		"aliases": ["catering","event","party","wedding"],
 		"children": [
  			{
-				"aliases": ["portaloo","toilet"],
+				"aliases": ["toilets"],
 				"children": [
 					{
 						"aliases": ["urinal"]
+					},
+					{
+						"aliases": ["portaloo","portable toilet"]
 					}
 				]
 			},
@@ -788,7 +797,7 @@ categories = {
 		         		"aliases": ["trench shoring"]
 		         	},
 		          	{
-		         		"aliases": ["steel road plate"]
+		         		"aliases": ["road plate"]
 		         	}
         		]
         	},

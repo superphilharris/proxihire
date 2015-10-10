@@ -292,12 +292,13 @@ class ImporterServiceHelper {
 	}
 	
 	private function fixSpelling($string){
-		$string = str_replace('hight', 		'high',		$string);
-		$string = str_replace('lenght', 	'length', 	$string);
-		$string = str_replace('panle', 		'panel', 	$string);
-		$string = str_replace('pedistal', 	'pedestal', $string);
-		$string = str_replace('rptation', 	'rotation', $string);
-		$string = str_replace('widht', 		'width', 	$string);
+		$string = str_replace('hight', 		'high',			$string);
+		$string = str_replace('lenght', 	'length', 		$string);
+		$string = str_replace('panle', 		'panel', 		$string);
+		$string = str_replace('pedistal', 	'pedestal', 	$string);
+		$string = str_replace('rptation', 	'rotation', 	$string);
+		$string = str_replace('widht', 		'width', 		$string);
+		$string = str_replace('tarpouline', 'tarpaulin',	$string);
 		return $string;
 	}
 	private function fixValue($string){
