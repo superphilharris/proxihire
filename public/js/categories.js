@@ -742,6 +742,9 @@ categories = {
         		"aliases": ["portable traffic lights"]
         	},
          	{
+        		"aliases": ["road works sign"]
+        	},
+         	{
         		"aliases": ["concrete laying"],
         		"children": [
 		          	{
@@ -811,7 +814,13 @@ categories = {
 				 				"aliases": ["grader"]
 				 			}
 				 		]
-		        	}
+		        	},
+		 			{
+		 				"aliases": ["pivot steer loader"]
+		 			},
+		 			{
+		 				"aliases": ["skid steer loader"]
+		 			}
 		 		]
         	}
 		]

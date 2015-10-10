@@ -391,7 +391,7 @@ class ImporterServiceHelper {
 				if($result !== null) return $result;
 			}
 		}
-		if(property_exists($category, 'aliases')) {
+		if(property_exists($category, 'aliases') AND !property_exists($category, 'children')) {
 			foreach($category->aliases as $alias){
 				$aliasWords = explode(' ', $alias);
 				$usesAllAliasWords = true;
@@ -423,7 +423,7 @@ class ImporterServiceHelper {
 				if($result !== null) return $result;
 			}
 		}
-		if(property_exists($category, 'aliases')) {
+		if(property_exists($category, 'aliases') AND !property_exists($category, 'children')) {
 			foreach($category->aliases as $alias){
 				if($this->isIn(strtolower($name), strtolower($alias))){
 					return $category;

@@ -123,8 +123,11 @@ class ImporterService implements ImporterServiceInterface
 		foreach($pages as $page){
 			if($page->item_type === "asset"){
 
-				$imageUrl = $this->helper->syncImage($page->image);
-				$this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
+				$imageUrl = null;
+				if(property_exists($page, 'image')){
+					$imageUrl = $this->helper->syncImage($page->image);
+					$this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
+				}
 				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'$imageUrl'";
 				
 				$category = $this->helper->determineCategory($categories, $page->item_name);
