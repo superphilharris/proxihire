@@ -44,7 +44,10 @@ categories = {
 						"aliases": ["extension lead", "power cable", "3ph elec cable"]
 					},
 					{
-						"aliases": ["plug board", "earthleakage plug"]
+						"aliases": ["plug board", "earthleakage plug", "earthleakage phase"]
+					},
+					{
+						"aliases": ["splitter box"]
 					},
 					{
 						"aliases": ["generator", "diesel skid"]
@@ -57,6 +60,9 @@ categories = {
 					},
 					{
 						"aliases": ["cable puller"]
+					},
+					{
+						"aliases": ["cable protection ramp"]
 					}
 				]
 			},
@@ -201,7 +207,16 @@ categories = {
 								"aliases": ["rock drill"]
 							},
 							{
+								"aliases": ["petrol drill"]
+							},
+							{
+								"aliases": ["right angle drill"]
+							},
+							{
 								"aliases": ["magnetic drill press", "rotabroach magnetic drill"]
+							},
+							{
+								"aliases": ["electric drill"]
 							}
 						]
 					},
@@ -212,7 +227,7 @@ categories = {
 						"aliases": ["sander", "air sandblaster"]
 					},
 					{
-						"aliases": ["welder"]
+						"aliases": ["welder", "gas welding"]
 					},
 					{
 						"aliases": ["wrench"]
@@ -292,7 +307,7 @@ categories = {
 						"aliases": ["material lifter"]
 					},
 		 			{
-						"aliases": ["beam lifter"]
+						"aliases": ["beam lifter", "wallboard lifter"]
 					},
 		 			{
 						"aliases": ["load trolley", "sack barrow"]
@@ -320,6 +335,9 @@ categories = {
 					},
 					{
 						"aliases": ["furniture moving blanket"]
+					},
+					{
+						"aliases": ["shipping container", "office block"]
 					}
 				]
 			}
@@ -328,7 +346,7 @@ categories = {
 		"aliases": ["garden"],
 		"children": [
 			{
-				"aliases": ["garden sprayer", "weed sprayer", "sprayers backpack"]
+				"aliases": ["garden sprayer", "weed sprayer", "backpack sprayer", "lawn sprayer"]
 			},
 			{
 				"aliases": ["fertiliser spreader", "seed spreader"]
@@ -349,6 +367,12 @@ categories = {
 				"aliases": ["wood chipper", "chipper", "mulcher", "mulch maker", "shredder"]
 			},
 			{
+				"aliases": ["axe"]
+			},
+			{
+				"aliases": ["garden hand tool", "hand grubber"]
+			},
+			{
 				"aliases": ["stump grinder", "stump remover"]
 			},
 			{
@@ -361,7 +385,7 @@ categories = {
 				"aliases": ["rotary hoe"]
 			},
 			{
-				"aliases": ["root drain cleaner"]
+				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker"]
 			},
 			{
 				"aliases": ["grass trimming"],
@@ -711,6 +735,9 @@ categories = {
         	},
 			{
 				"aliases": ["paint drop sheet"]
+			},
+			{
+				"aliases": ["wallpaper stripper", "wallpaper steamer"]
 			}
 		]
 	},{
@@ -752,6 +779,9 @@ categories = {
         	},
          	{
         		"aliases": ["road works sign"]
+        	},
+         	{
+        		"aliases": ["road cone"]
         	},
          	{
         		"aliases": ["concrete laying"],
@@ -869,6 +899,9 @@ categories = {
         	},
 			{
 				"aliases": ["not available", "rose ball", "helium fill 11"]
+			},
+			{
+				"aliases": ["metal detector"]
 			}
 		]
 	}
