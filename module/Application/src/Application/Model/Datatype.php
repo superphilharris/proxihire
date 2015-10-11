@@ -61,6 +61,18 @@ class Datatype extends AbstractModel implements DatatypeInterface
 		switch ($this->datatype) {
 			case $this::ANGLE:
 				return 		array(1, 	"°");
+			case $this::FLOW:
+				return array(0.471947443, 'cfm');
+				break;
+			case $this::POWER_MECHANICAL:
+				return array(1, "hp");
+			case $this::PRESSURE:
+				return array(0.000145037738, 'psi');
+				break;
+			case $this::SPEED:
+				return array(1, "m/s");
+			case $this::STRING:
+				return array(null, "");
 			case $this::TIME:
 				if($value < 1) {
 					return 	array(0.001, 	"ms");
@@ -76,15 +88,6 @@ class Datatype extends AbstractModel implements DatatypeInterface
 					return 	array(2.62974*pow(10, 6),	"months");
 				}
 				return "";
-			case $this::POWER_MECHANICAL:
-				return array(1, "hp");
-			case $this::SPEED:
-				return array(1, "m/s");
-			case $this::STRING:
-				return array(null, "");
-			case $this::FLOW:
-				return array(0.471947443, 'cfm');
-				break;
 				
 			case $this::CURRENT:
 				$base = "A";
