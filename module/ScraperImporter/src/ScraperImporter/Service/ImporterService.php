@@ -135,7 +135,9 @@ class ImporterService implements ImporterServiceInterface
 					$category = $this->helper->determineCategory($categories, $page->item_name." ".$page->description);
 				}
 				if($category === null){
-					$this->writeComment("<a href=\"$page->url\" target='_blank'>$page->item_name</a>");
+					$comment = "<a href=\"$page->url\" target='_blank'>$page->item_name</a>";
+					if (property_exists($page, 'description')) $comment .= ": " . $page->description;
+					$this->writeComment($comment);
 					exit;
 				}else $categoryName = $category->aliases[0];
 				$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".$page->url."'); ");

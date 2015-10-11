@@ -18,7 +18,7 @@ foreach( $this->assetList as $asset ){
 	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getUrl()->getPath() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
 		<div class="panel-heading"><a target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a></div>
 		<div class="panel-body">
-			<div class="assetImageWrapper"><img src="/img/assets/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
+			<div class="assetImageWrapper"><img src="/img/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
 			
 			<div class="assetPropertiesSummary">
 			<?php 
