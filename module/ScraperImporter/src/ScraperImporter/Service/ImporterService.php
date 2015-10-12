@@ -83,6 +83,11 @@ class ImporterService implements ImporterServiceInterface
 		foreach($pages as $lessor){
 			if($lessor->item_type === "lessor"){
 				if(! in_array($lessor->name, $createdLessors)){
+					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ');
+					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN 													 (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ');
+					$this->writeSQL('DELETE l FROM lessor l WHERE l.url_id IN (SELECT url_id FROM url WHERE title_desc = "'.$lessor->name.'"); ');
+						
+					$this->writeSQL('DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ');	
 					$this->writeSQL("INSERT INTO user     (name_fulnam) VALUES ('".$lessor->name."'); SET @last_user_id = LAST_INSERT_ID(); ");
 					$this->writeSQL("INSERT INTO url      (title_desc, path_url) VALUES ('".$lessor->name."', '".$lessor->url."'); ");
 					$this->writeSQL("INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID());");
