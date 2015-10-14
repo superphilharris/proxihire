@@ -209,9 +209,18 @@ class ImporterServiceHelper {
 		return null;
 	}
 	
-	public function getLatitudeAndLongitude($physicalAddress){
-		$json = json_decode(file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($physicalAddress).'&key='.$this::GOOGLE_API_KEY));
-		return $json->results[0]->geometry->location;
+	public function getLatitudeAndLongitude($location){
+		if (is_string($location)) return $this->getLatitudeAndLongitudeFromAddress($location);
+		else return $location;
+	}
+	
+	private function getLatitudeAndLongitudeFromAddress($physicalAddress){
+		$json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($physicalAddress).'&key='.$this::GOOGLE_API_KEY));
+		if(count($json->results) === 0) exit('Google could not determine the address:'.$physicalAddress.' at: https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($physicalAddress).'&key='.$this::GOOGLE_API_KEY);
+		$latLong = new \stdClass();
+		$latLong->lat  = $json->results[0]->geometry->location->lat;
+		$latLong->long = $json->results[0]->geometry->location->lng;
+		return $latLong;
 	}
 	/**
 	 * Resizes and crops an image 

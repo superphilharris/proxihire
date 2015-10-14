@@ -93,7 +93,8 @@ class ImporterService implements ImporterServiceInterface
 					$this->writeSQL("INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID());");
 					
 					foreach($lessor->location as $location){
-						$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessor->name."', '".$location->lat."', '".$location->long."'); ");
+						$latLong = $this->helper->getLatitudeAndLongitude($location);
+						$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessor->name."', '".$latLong->lat."', '".$latLong->long."'); ");
 						$this->writeSQL("INSERT INTO branch (user_id, location_id) VALUES (@last_user_id, LAST_INSERT_ID());");
 					}
 
