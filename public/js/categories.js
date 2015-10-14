@@ -117,7 +117,7 @@ categories = {
 						"aliases": ["pipe cutting"],
 						"children": [
 							{
-								"aliases": ["pipe crox tool"]
+								"aliases": ["crox tool"]
 							},
 							{
 								"aliases": ["pipe crimper", "pipe crimping tool"]
@@ -126,6 +126,9 @@ categories = {
 					},
 					{
 						"aliases": ["tap seat cutter", "tap reseating tool"]
+					},
+					{
+						"aliases": ["knockout punch", "chassis punch"]
 					},
 					{
 						"aliases": ["tap and die set"]
@@ -604,6 +607,9 @@ categories = {
 				"children": [
 					{
 						"aliases": ["pedestal fan"]
+					},
+					{
+						"aliases": ["dehumidifier"]
 					}
 				]
 			},
@@ -754,6 +760,9 @@ categories = {
 					},
 					{
 						"aliases":["single axle trailer"]
+					},
+					{
+						"aliases":["caged trailer"]
 					}
 				]
 			}
@@ -821,6 +830,9 @@ categories = {
         	},
         	{
         		"aliases": ["socket set"]
+        	},
+        	{
+        		"aliases": ["car battery charger", "automotive battery charger"]
         	}
 		]
 	},{
@@ -839,7 +851,7 @@ categories = {
 				"aliases": ["concrete laying"],
 				"children": [
 					{
-						"aliases": ["concrete scribe", "concrete cutter"]
+						"aliases": ["concrete saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw"]
 					},
 					{
 						"aliases": ["concrete mixer"]
@@ -855,6 +867,9 @@ categories = {
 							},
 							{
 								"aliases": ["concrete planer"]
+							},
+							{
+								"aliases": ["concrete rake"]
 							},
 							{
 								"aliases": ["bull float", "concrete screed", "concrete float"]
@@ -934,6 +949,9 @@ categories = {
 		 			},
 		 			{
 		 				"aliases": ["skid steer loader"]
+		 			},
+		 			{
+		 				"aliases": ["mini loader", "dingo loader"]
 		 			}
 		 		]
         	}
@@ -968,6 +986,12 @@ categories = {
         				"aliases": ["safety harness"]
         			},
         			{
+        				"aliases": ["safety glasses"]
+        			},
+        			{
+        				"aliases": ["ear plugs"]
+        			},
+        			{
         				"aliases": ["retactable barrier","crowd control retractable", "crowd control bollard", "stainless steel crowd control"]
         			}
         		]
@@ -977,6 +1001,9 @@ categories = {
 			},
 			{
 				"aliases": ["metal detector"]
+			},
+			{
+				"aliases": ["keyhole camera"]
 			}
 		]
 	}

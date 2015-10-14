@@ -209,6 +209,13 @@ class ImporterServiceHelper {
 		return null;
 	}
 	
+	/**
+	 * Gets the latitude and longitude from the scraped site.
+	 * 	This can either be a string 				- in which case we will ask google for the lat and long
+	 * 	or it can be the explicit lat and long	- in which case we will just return it
+	 * @param string|\stdClass $location
+	 * @return \stdClass
+	 */
 	public function getLatitudeAndLongitude($location){
 		if (is_string($location)) return $this->getLatitudeAndLongitudeFromAddress($location);
 		else return $location;
@@ -308,6 +315,8 @@ class ImporterServiceHelper {
 		$string = str_replace('rptation', 	'rotation', 	$string);
 		$string = str_replace('widht', 		'width', 		$string);
 		$string = str_replace('tarpouline', 'tarpaulin',	$string);
+		$string = str_replace('acroprop', 	'acrow prop',	$string);
+		$string = str_replace('crow bar', 	'crowbar',		$string);
 		return $string;
 	}
 	private function fixValue($string){
