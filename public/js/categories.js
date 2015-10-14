@@ -19,7 +19,7 @@ categories = {
 						"aliases": ["scaffolding stairs", "safety stairs"]
 					},
 					{
-						"aliases": ["acrow prop"]
+						"aliases": ["acrow prop", "construction prop"]
 					}
 				]
 			},
@@ -47,7 +47,7 @@ categories = {
 						"aliases": ["plug board", "earthleakage plug", "earthleakage phase"]
 					},
 					{
-						"aliases": ["splitter box"]
+						"aliases": ["splitter box", "distribution board"]
 					},
 					{
 						"aliases": ["generator", "diesel skid"]
@@ -73,6 +73,9 @@ categories = {
 						"aliases": ["dust gun"]
 					},
 					{
+						"aliases": ["air scaler"]
+					},
+					{
 						"aliases": ["air hose"]
 					},
 					{
@@ -90,10 +93,10 @@ categories = {
 				"aliases": ["plumbing", "water flow"],
 				"children": [
 					{
-						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump"]
+						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump", "high head pump"]
 					},
 					{
-						"aliases": ["centrifugal pump", "water pump", "rotary pump"]
+						"aliases": ["centrifugal pump", "water pump", "rotary pump", "silenced pump"]
 					},
 					{
 						"aliases": ["flexidrive"]
@@ -142,7 +145,7 @@ categories = {
 								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw"]
 							},
 							{
-								"aliases": ["bench saw"]
+								"aliases": ["bench saw", "radial arm saw"]
 							},
 							{
 								"aliases": ["hole saw"]
@@ -155,6 +158,9 @@ categories = {
 							},
 							{
 								"aliases": ["bolt cutter", "bolt cropper"]
+							},
+							{
+								"aliases": ["electric rebar cutter"]
 							},
 							{
 								"aliases": ["cement board cutter", "fibrolite cutter"]
@@ -175,7 +181,10 @@ categories = {
 								"aliases": ["concrete saw", "road saw"]
 							},
 							{
-								"aliases": ["tile cutter"]
+								"aliases": ["tile cutter", "tile saw"]
+							},
+							{
+								"aliases": ["electric nibbler"]
 							}
 						]
 					},
@@ -213,10 +222,10 @@ categories = {
 								"aliases": ["right angle drill"]
 							},
 							{
-								"aliases": ["magnetic drill press", "rotabroach magnetic drill"]
+								"aliases": ["magnetic drill press", "rotabroach magnetic drill", "broach drill", "magnetic base drill"]
 							},
 							{
-								"aliases": ["electric drill"]
+								"aliases": ["electric drill", "cordless drill"]
 							}
 						]
 					},
@@ -227,7 +236,15 @@ categories = {
 						"aliases": ["sander", "air sandblaster"]
 					},
 					{
-						"aliases": ["welder", "gas welding"]
+						"aliases": ["welding"],
+						"children": [
+							{
+								"aliases": ["welder", "gas welding"]
+							},
+							{
+								"aliases": ["welding outfit"]
+							}
+						]
 					},
 					{
 						"aliases": ["wrench"]
@@ -259,11 +276,14 @@ categories = {
 						"aliases": ["flooring clamp", "floor cramp"]
 					},
 		 			{
-						"aliases": ["electric floor polisher"]
+						"aliases": ["floor polisher"]
 					},
-		          	{
-		        		"aliases": ["air scabbler"]
-		        	}
+					{
+						"aliases": ["burnisher"]
+					},
+					{
+						"aliases": ["air scabbler"]
+					}
 				]
 			},
 			{
@@ -290,13 +310,16 @@ categories = {
 						"aliases": ["dumpy level", "builder's auto level"]
 					},
 					{
-						"aliases": ["survey laser"]
+						"aliases": ["survey laser", "laser level"]
 					},
 					{
 						"aliases": ["measuring tape"]
 					},
 					{
-						"aliases": ["measuring wheel"]
+						"aliases": ["measuring wheel", "walking measure"]
+					},
+					{
+						"aliases": ["gas monitor"]
 					}
 				]
 			},
@@ -331,13 +354,19 @@ categories = {
 						"aliases": ["hoist"]
 					},
 					{
-						"aliases": ["load skate"]
+						"aliases": ["load skate", "machine skate"]
 					},
 					{
 						"aliases": ["furniture moving blanket"]
 					},
 					{
 						"aliases": ["shipping container", "office block"]
+					},
+					{
+						"aliases": ["chainblock", "block and tackle", "lever block"]
+					},
+					{
+						"aliases": ["piano dollie"]
 					}
 				]
 			}
@@ -352,7 +381,10 @@ categories = {
 				"aliases": ["fertiliser spreader", "seed spreader"]
 			},
 			{
-				"aliases": ["water blaster"]
+				"aliases": ["water blaster","petrol pressure cleaner"]
+			},
+			{
+				"aliases": ["rotary kleen"]
 			},
 			{
 				"aliases": ["wet vacuum cleaner"]
@@ -385,19 +417,25 @@ categories = {
 				"aliases": ["rotary hoe"]
 			},
 			{
+				"aliases": ["turf cutter"]
+			},
+			{
 				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker"]
 			},
 			{
 				"aliases": ["grass trimming"],
 				"children": [
 					{
-						"aliases": ["weed eater", "scrubcutter", "line trimmer", "lawn edger"]
+						"aliases": ["weed eater", "scrubcutter", "line trimmer", "lawn edger", "scrub cutter"]
 					},
 					{
-						"aliases": ["lawn motor", "lawn mower"]
+						"aliases": ["lawn motor", "lawn mower", "grass slasher"]
 					},
 					{
-						"aliases": ["lawn roller"]
+						"aliases": ["lawn roller", "lawn corer"]
+					},
+					{
+						"aliases": ["lawn dethatcher"]
 					}
 				]
 			}
@@ -445,6 +483,9 @@ categories = {
 				 			{
 								"aliases": ["thermowave oven"]
 							},
+							{
+								"aliases": ["electric urn"]
+							},
 				 			{
 								"aliases": ["gas burner"]
 							},
@@ -459,10 +500,10 @@ categories = {
 				"aliases": ["cleaning"],
 				"children": [
 		 			{
-						"aliases": ["vacuum cleaner"]
+						"aliases": ["vacuum cleaner", "industrial vacuum dust"]
 					},
 					{
-						"aliases": ["extraction fan"]
+						"aliases": ["extraction fan", "exhaust fan"]
 					},
 					{
 						"aliases": ["chimney cleaner", "chimney clean brush"]
@@ -695,7 +736,7 @@ categories = {
 						"aliases": ["campervan","camper","campa"]
 					},
 					{
-						"aliases": ["van","truck"]
+						"aliases": ["van","truck","ute"]
 					},
 					{
 						"aliases": ["sedan","car"]
@@ -706,7 +747,15 @@ categories = {
 				"aliases": ["kayak","boat","jetski"]
 			},
 			{
-				"aliases": ["trailer"]
+				"aliases": ["trailer"],
+				"children": [
+					{
+						"aliases":["horse float"]
+					},
+					{
+						"aliases":["single axle trailer"]
+					}
+				]
 			}
 		]
 	},{
@@ -723,7 +772,7 @@ categories = {
 				"aliases": ["paint removal"],
 				"children": [
 		         	{
-		         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper"]
+		         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper", "heat gun paint removal"]
 		         	},
 					{
 						"aliases": ["needlegun scaler", "needle scaler"]
@@ -738,6 +787,9 @@ categories = {
 			},
 			{
 				"aliases": ["wallpaper stripper", "wallpaper steamer"]
+			},
+			{
+				"aliases": ["mix epoxy", "mix epoxies"]
 			}
 		]
 	},{
@@ -774,27 +826,44 @@ categories = {
 	},{
 		"aliases": ["road works", "road construction", "earth moving"],
 		"children": [
-         	{
-        		"aliases": ["portable traffic lights"]
-        	},
-         	{
-        		"aliases": ["road works sign"]
-        	},
-         	{
-        		"aliases": ["road cone"]
-        	},
-         	{
-        		"aliases": ["concrete laying"],
-        		"children": [
-		          	{
-		        		"aliases": ["bull float", "concrete screed", "concrete float", "concrete vibrator"]
-		        	},
-		          	{
-		        		"aliases": ["concrete scribe", "concrete cutter"]
-		        	},
-		          	{
-		        		"aliases": ["concrete mixer"]
-		        	}
+			{
+				"aliases": ["portable traffic lights"]
+			},
+			{
+				"aliases": ["road works sign","stop lolly pop"]
+			},
+			{
+				"aliases": ["road cone"]
+			},
+			{
+				"aliases": ["concrete laying"],
+				"children": [
+					{
+						"aliases": ["concrete scribe", "concrete cutter"]
+					},
+					{
+						"aliases": ["concrete mixer"]
+					},
+					{
+						"aliases": ["trowelling machine"]
+					},
+					{
+						"aliases": ["concrete finishing"],
+						"children": [
+							{
+								"aliases": ["concrete mower"]
+							},
+							{
+								"aliases": ["concrete planer"]
+							},
+							{
+								"aliases": ["bull float", "concrete screed", "concrete float"]
+							},
+							{
+								"aliases": [ "concrete vibrator", "concrete vibrating" ]
+							}
+						]
+					}
 		 		]
         	},
          	{
@@ -804,7 +873,7 @@ categories = {
 		         		"aliases": ["road roller", "drum roller", "combination roller"]
 		         	},
 		         	{
-		         		"aliases": ["tamping rammer", "tamper air rammer"]
+		         		"aliases": ["tamping rammer", "tamper air rammer", "upright hand rammer"]
 		         	},
 		         	{
 		         		"aliases": ["plate compactor"]
@@ -828,7 +897,10 @@ categories = {
 		         	},
 		          	{
 		         		"aliases": ["road plate"]
-		         	}
+		         	},
+						{
+							"aliases": ["ground protection mat"]
+						}
         		]
         	},
          	{
@@ -851,7 +923,10 @@ categories = {
 				 			},
 				 			{
 				 				"aliases": ["grader"]
-				 			}
+				 			},
+							{
+								"aliases": ["backfill blade"]
+							}
 				 		]
 		        	},
 		 			{
