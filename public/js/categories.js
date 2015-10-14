@@ -276,7 +276,7 @@ categories = {
 						"aliases": ["lino roller"]
 					},
 		 			{
-						"aliases": ["flooring clamp", "floor cramp"]
+						"aliases": ["flooring clamp", "floor cramp", "floor clamp"]
 					},
 		 			{
 						"aliases": ["floor polisher"]
@@ -423,7 +423,7 @@ categories = {
 				"aliases": ["turf cutter"]
 			},
 			{
-				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker"]
+				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit"]
 			},
 			{
 				"aliases": ["grass trimming"],
@@ -759,7 +759,7 @@ categories = {
 						"aliases":["horse float"]
 					},
 					{
-						"aliases":["single axle trailer"]
+						"aliases":["standard trailer", "single axle trailer", "furniture trailer"]
 					},
 					{
 						"aliases":["caged trailer"]
@@ -799,6 +799,9 @@ categories = {
 			},
 			{
 				"aliases": ["mix epoxy", "mix epoxies"]
+			},
+			{
+				"aliases": ["paint drying gun", "paint hot air gun"]
 			}
 		]
 	},{
@@ -851,7 +854,7 @@ categories = {
 				"aliases": ["concrete laying"],
 				"children": [
 					{
-						"aliases": ["concrete saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw"]
+						"aliases": ["concrete saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw", "concrete hand tool"]
 					},
 					{
 						"aliases": ["concrete mixer"]
@@ -941,6 +944,9 @@ categories = {
 				 			},
 							{
 								"aliases": ["backfill blade"]
+							},
+							{
+								"aliases": ["borer attachment", "dingo borer"]
 							}
 				 		]
 		        	},
@@ -997,7 +1003,7 @@ categories = {
         		]
         	},
 			{
-				"aliases": ["not available", "rose ball", "helium fill 11"]
+				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar"]
 			},
 			{
 				"aliases": ["metal detector"]
