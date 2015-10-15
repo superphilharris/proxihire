@@ -20,6 +20,9 @@ categories = {
 					},
 					{
 						"aliases": ["acrow prop", "construction prop"]
+					},
+					{
+						"aliases": ["mobile scaffolding", "alloy scaffold"]
 					}
 				]
 			},
@@ -333,7 +336,7 @@ categories = {
 						"aliases": ["material lifter"]
 					},
 		 			{
-						"aliases": ["beam lifter", "wallboard lifter"]
+						"aliases": ["beam lifter", "wallboard lifter", "gib lifter"]
 					},
 		 			{
 						"aliases": ["load trolley", "sack barrow"]
@@ -494,6 +497,9 @@ categories = {
 							},
 							{
 								"aliases": ["bain marie", "water bath", "bain-marie"]
+							},
+							{
+								"aliases": ["gas spit"]
 							}
 			 			]
 					}
@@ -762,7 +768,7 @@ categories = {
 						"aliases":["standard trailer", "single axle trailer", "furniture trailer"]
 					},
 					{
-						"aliases":["caged trailer"]
+						"aliases":["caged trailer","bin trailers"]
 					}
 				]
 			}
@@ -982,26 +988,26 @@ categories = {
 	{
 		"aliases": ["miscellaneous"],
 		"children": [
-         	{
-        		"aliases": ["safety equipment"],
-        		"children": [
-         			{
-        				"aliases": ["fire extinguisher"]
-        			},
-        			{
-        				"aliases": ["safety harness"]
-        			},
-        			{
-        				"aliases": ["safety glasses"]
-        			},
-        			{
-        				"aliases": ["ear plugs"]
-        			},
-        			{
-        				"aliases": ["retactable barrier","crowd control retractable", "crowd control bollard", "stainless steel crowd control"]
-        			}
-        		]
-        	},
+			{
+				"aliases": ["safety equipment"],
+				"children": [
+					{
+						"aliases": ["fire extinguisher"]
+					},
+					{
+						"aliases": ["safety harness"]
+					},
+					{
+						"aliases": ["safety glasses"]
+					},
+					{
+						"aliases": ["ear plugs"]
+					},
+					{
+						"aliases": ["retactable barrier","crowd control retractable", "crowd control bollard", "stainless steel crowd control"]
+					}
+				]
+			},
 			{
 				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar"]
 			},
@@ -1010,6 +1016,12 @@ categories = {
 			},
 			{
 				"aliases": ["keyhole camera"]
+			},
+			{
+				"aliases": ["repairs and services"]
+			},
+			{
+				"aliases": ["handyman tools"]
 			}
 		]
 	}
