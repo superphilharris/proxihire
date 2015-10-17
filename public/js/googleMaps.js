@@ -1,6 +1,6 @@
 
 var showGoogleMap = (window.innerWidth > 768);
-var allMarkers = [], allAssets = [];
+var allMarkers = [], allAssets = [], allBranches = [];
 var googleMap = null, mapsBouncingTimout = null;
 function showAllMarkers(){
 	if(googleMap == null) return;

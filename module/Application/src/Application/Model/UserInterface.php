@@ -30,5 +30,12 @@ interface UserInterface
 	 * @param Application\Model\BranchInterface $location The user's location
 	 */
 	public function setBranches($branchArray);
+
+	/**
+	 * Gets the user's id
+	 *
+	 * @return int
+	 */
+	public function getId();
 }
 ?>

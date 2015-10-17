@@ -3,13 +3,6 @@
 // 1. Display the properties sliders
 $allProperties = getAllProperties($this->assetList);
 
-// psh: The following lines are an example of how you might get the lessors for 
-//      an asset, and from there get the branches.
-if (count($this->assetList) > 0){
-	$exampleAsset      = array_values( $this->assetList )[0];
-	$exampleLessor     = $this->lessorList[ $exampleAsset->getLessorId() ];
-	$exampleBranchList = $exampleLessor->getBranches();
-}
 
 // 2. Display each of the assets
 foreach( $this->assetList as $asset ){
@@ -55,8 +48,15 @@ document.addEventListener('DOMContentLoaded', function(){
 				$location=$branch->getLocation();
 				$latitude = $location->getLatitude();
 				$longitude = $location->getLongitude();
-				echo 'allAssets.push({id:'.$asset->getId().',lat:'.$latitude.',long:'.$longitude.',url:"'.$asset->getUrl()->getPath().'"});';
+				echo 'allAssets.push({id:'.$asset->getId().',lat:'.$latitude.',long:'.$longitude.',url:"'.$asset->getUrl()->getPath().'",lessorId:'.$asset->getLessorId().'});';
 			}
+		}
+	}
+	
+	foreach( $this->lessorList as $lessor ){
+		foreach( $lessor->getBranches() as $branch ){
+			$location = $branch->getLocation();
+			echo 'allBranches.push({id:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().'}); ';
 		}
 	}
 	?>
