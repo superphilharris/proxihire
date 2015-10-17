@@ -3,3 +3,4 @@ extension lead,lengths,length
 fencing,heights,panel height
 fencing,lengths,panel length
 ladder,open height,total height
+ladder,extension size,total height
