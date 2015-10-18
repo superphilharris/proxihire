@@ -8,7 +8,7 @@ $allProperties = getAllProperties($this->assetList);
 foreach( $this->assetList as $asset ){
 	?>
 	
-	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getUrl()->getPath() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
+	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getLessorId() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
 		<div class="panel-heading"><a target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a></div>
 		<div class="panel-body">
 			<div class="assetImageWrapper"><img src="/img/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	foreach( $this->lessorList as $lessor ){
 		foreach( $lessor->getBranches() as $branch ){
 			$location = $branch->getLocation();
-			echo 'allBranches.push({id:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().'}); ';
+			echo 'allBranches.push({lessorId:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().'}); ';
 		}
 	}
 	?>

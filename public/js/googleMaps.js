@@ -4,15 +4,20 @@ var allMarkers = [], allAssets = [], allBranches = [];
 var googleMap = null, mapsBouncingTimout = null;
 function showAllMarkers(){
 	if(googleMap == null) return;
-	for(var i in allAssets){
-		allMarkers.push(new google.maps.Marker({
-			position: 	new google.maps.LatLng(allAssets[i].lat, allAssets[i].long),
-			url: 		allAssets[i].url,
-			title: 		allAssets[i].id + ''
+	for(var i in allBranches){
+		if(typeof allMarkers[allBranches[i].lessorId] == "undefined"){
+			allMarkers[allBranches[i].lessorId] = [];
+		}
+		allMarkers[allBranches[i].lessorId].push(new google.maps.Marker({
+			position: 	new google.maps.LatLng(allBranches[i].lat, allBranches[i].long),
+			// url: 		allAssets[i].url,
+			title: 		allBranches[i].lessorId + ''
 		}));
 	}
-	for(var i=0; i<allMarkers.length; i++) {
-		allMarkers[i].setMap(googleMap);
+	for(var lessorId in allMarkers) {
+		for(var i in allMarkers[lessorId]){
+			allMarkers[lessorId][i].setMap(googleMap)
+		}
 	}
 }
 function removeAllMarkers(){
@@ -22,25 +27,25 @@ function removeAllMarkers(){
 	}
 	allMarkers = [];
 }
-function bounceMarker(url){
+function bounceMarker(lessorId){
 	if(googleMap == null) return;
-	for(var i=0; i<allMarkers.length; i++) {
-		if(url == allMarkers[i].url) {
-			allMarkers[i].setAnimation(google.maps.Animation.BOUNCE);
-			stopBouncing(url, 2);
-		} else {
-			allMarkers[i].setAnimation(null);
+	for(var eachLessorId in allMarkers){
+		for(var i=0; i<allMarkers[eachLessorId].length; i++) {
+			if (eachLessorId == lessorId){
+				allMarkers[eachLessorId][i].setAnimation(google.maps.Animation.BOUNCE);
+				stopBouncing(eachLessorId, 2);
+			} else {
+				allMarkers[eachLessorId][i].setAnimation(null);
+			}
 		}
 	}
 }
-function stopBouncing(url, seconds){
+function stopBouncing(lessorId, seconds){
 	if(googleMap == null) return;
 	clearTimeout(mapsBouncingTimout);
 	mapsBouncingTimout = setTimeout(function(){
-		for(var i=0; i<allMarkers.length; i++) {
-			if(url == allMarkers[i].url) {
-				allMarkers[i].setAnimation(null);
-			}
+		for(var i=0; i<allMarkers[lessorId].length; i++) {
+			allMarkers[lessorId][i].setAnimation(null);
 		}
 	}, seconds * 1000)
 }
