@@ -308,15 +308,18 @@ class ImporterServiceHelper {
 	}
 	
 	private function fixSpelling($string){
-		$string = str_replace('hight', 		'high',			$string);
-		$string = str_replace('lenght', 	'length', 		$string);
-		$string = str_replace('panle', 		'panel', 		$string);
-		$string = str_replace('pedistal', 	'pedestal', 	$string);
-		$string = str_replace('rptation', 	'rotation', 	$string);
-		$string = str_replace('widht', 		'width', 		$string);
-		$string = str_replace('tarpouline', 'tarpaulin',	$string);
-		$string = str_replace('acroprop', 	'acrow prop',	$string);
-		$string = str_replace('crow bar', 	'crowbar',		$string);
+		$string = str_replace('acroprop', 		'acrow prop',	$string);
+		$string = str_replace('crow bar', 		'crowbar',		$string);
+		$string = str_replace('hight', 			'high',			$string);
+		$string = str_replace('lenght', 		'length', 		$string);
+		$string = str_replace('panle', 			'panel', 		$string);
+		$string = str_replace('pedistal', 		'pedestal', 	$string);
+		$string = str_replace('rptation', 		'rotation', 	$string);
+		$string = str_replace('skilsaw', 		'skillsaw',		$string);
+		$string = str_replace('tarpouline', 	'tarpaulin',	$string);
+		$string = str_replace('wall paper', 	'wallpaper',	$string);
+		$string = str_replace('wheel barrow', 	'wheelbarrow', 	$string);
+		$string = str_replace('widht', 			'width', 		$string);
 		return $string;
 	}
 	private function fixValue($string){

@@ -128,7 +128,7 @@ categories = {
 						]
 					},
 					{
-						"aliases": ["tap seat cutter", "tap reseating tool"]
+						"aliases": ["tap seat cutter", "tap reseating tool", "tap seat cutting tool"]
 					},
 					{
 						"aliases": ["knockout punch", "chassis punch"]
@@ -148,13 +148,16 @@ categories = {
 						"aliases": ["cutting"],
 						"children": [
 							{
-								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw"]
+								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw", "skillsaw"]
 							},
 							{
 								"aliases": ["bench saw", "radial arm saw"]
 							},
 							{
 								"aliases": ["hole saw"]
+							},
+							{
+								"aliases": ["silicone gun", "mastic gun", "caulk gun"]
 							},
 							{
 								"aliases": ["sink hole cutter", "wastemaster cutter"]
@@ -201,13 +204,13 @@ categories = {
 						"aliases": ["secret nail gun", "porta nailer", "secret nailer"]
 					},
 					{
-						"aliases": ["staple gun"]
+						"aliases": ["staple gun", "hand stapler"]
 					},
 					{
 						"aliases": ["hammer"]
 					},
 					{
-						"aliases": ["screw driver"]
+						"aliases": ["screw driver", "impact gun"]
 					},
 					{
 						"aliases": ["drilling"],
@@ -242,6 +245,12 @@ categories = {
 						"aliases": ["sander", "air sandblaster"]
 					},
 					{
+						"aliases": ["electric planer"]
+					},
+					{
+						"aliases": ["electric shear"]
+					},
+					{
 						"aliases": ["welding"],
 						"children": [
 							{
@@ -262,7 +271,7 @@ categories = {
 						"aliases": ["masonry breaker", "concrete breaker", "rotary breaker", "portable breaker", "air breaker"]
 					},
 					{
-						"aliases": ["pop riveter", "pop rivet gun"]
+						"aliases": ["pop riveter", "rivet gun", "lazy tong riveter", "rivnut pliers"]
 					},
 					{
 						"aliases": ["sash clamp", "G clamp"]
@@ -310,7 +319,7 @@ categories = {
 				"aliases": ["measurement", "survey"],
 				"children": [
 		 			{
-						"aliases": ["survey staff", "spirit level"]
+						"aliases": ["survey staff", "spirit level", "staff level", "tape level"]
 					},
 		 			{
 						"aliases": ["dumpy level", "builder's auto level"]
@@ -387,6 +396,9 @@ categories = {
 				"aliases": ["fertiliser spreader", "seed spreader"]
 			},
 			{
+				"aliases": ["wheelbarrow"]
+			},
+			{
 				"aliases": ["water blaster","petrol pressure cleaner"]
 			},
 			{
@@ -426,7 +438,7 @@ categories = {
 				"aliases": ["turf cutter"]
 			},
 			{
-				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit"]
+				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit", "sink cleaning kit"]
 			},
 			{
 				"aliases": ["grass trimming"],
@@ -765,10 +777,13 @@ categories = {
 						"aliases":["horse float"]
 					},
 					{
-						"aliases":["standard trailer", "single axle trailer", "furniture trailer"]
+						"aliases":["standard trailer", "single axle trailer", "furniture trailer", "tandem trailer"]
 					},
 					{
-						"aliases":["caged trailer","bin trailers"]
+						"aliases":["caged trailer","bin trailers", "rubbish trailer"]
+					},
+					{
+						"aliases":["quad trailer", "quad transporter"]
 					}
 				]
 			}
@@ -866,7 +881,7 @@ categories = {
 						"aliases": ["concrete mixer"]
 					},
 					{
-						"aliases": ["trowelling machine"]
+						"aliases": ["trowelling machine", "concrete stick trowel"]
 					},
 					{
 						"aliases": ["concrete finishing"],
@@ -943,7 +958,7 @@ categories = {
 				 				"aliases": ["loader bucket"]
 				 			},
 				 			{
-				 				"aliases": ["chain trencher"]
+				 				"aliases": ["chain trencher", "dingo trencher"]
 				 			},
 				 			{
 				 				"aliases": ["grader"]
@@ -998,6 +1013,9 @@ categories = {
 						"aliases": ["safety harness"]
 					},
 					{
+						"aliases": ["safety helmet"]
+					},
+					{
 						"aliases": ["safety glasses"]
 					},
 					{
@@ -1009,10 +1027,13 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar"]
+				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "small assorted automotive tools"]
 			},
 			{
 				"aliases": ["metal detector"]
+			},
+			{
+				"aliases": ["moisture metre"]
 			},
 			{
 				"aliases": ["keyhole camera"]
