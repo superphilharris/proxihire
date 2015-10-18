@@ -41,22 +41,10 @@ document.addEventListener('DOMContentLoaded', function(){
 	<?php 
 	
 	// 1. Add all the markers to the map
-	foreach( $this->assetList as $asset ){
-		if(isset( $this->lessorList[ $asset->getLessorId() ] )){
-			$lessor = $this->lessorList[ $asset->getLessorId() ];
-			foreach( $lessor->getBranches() as $branch ){
-				$location=$branch->getLocation();
-				$latitude = $location->getLatitude();
-				$longitude = $location->getLongitude();
-				echo 'allAssets.push({id:'.$asset->getId().',lat:'.$latitude.',long:'.$longitude.',url:"'.$asset->getUrl()->getPath().'",lessorId:'.$asset->getLessorId().'});';
-			}
-		}
-	}
-	
 	foreach( $this->lessorList as $lessor ){
 		foreach( $lessor->getBranches() as $branch ){
 			$location = $branch->getLocation();
-			echo 'allBranches.push({lessorId:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().'}); ';
+			echo 'allBranches.push({lessorId:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().',lessorName:"'.$lessor->getName().'"}); ';
 		}
 	}
 	?>
