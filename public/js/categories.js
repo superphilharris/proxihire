@@ -481,6 +481,9 @@ categories = {
 				 			{
 								"aliases": ["bar fridge"]
 							},
+				 			{
+								"aliases": ["large fridge"]
+							},
 							{
 								"aliases": ["single door fridge", "small fridge"]
 							},
@@ -1011,20 +1014,37 @@ categories = {
 	{
 		"aliases": ["home appliances and furniture"],
 		"children": [
-         	{
-        		"aliases": ["television", "TV"]
+          	{
+        		"aliases": ["home entertainment"],
+        		"children": [
+		          	{
+		        		"aliases": ["television", "TV"]
+		        	},
+	     			{
+	    				"aliases": ["clothes dryer"]
+	    			},
+		         	{
+		        		"aliases": ["data projector"]
+		        	},
+		         	{
+		        		"aliases": ["blu-ray player"]
+		        	},
+		         	{
+		        		"aliases": ["DVD player"]
+		        	},
+		         	{
+		        		"aliases": ["playstation 4 console", "playstation move"]
+		        	}
+	    		]
         	},
          	{
         		"aliases": ["laptop"]
         	},
          	{
-        		"aliases": ["data projector"]
+        		"aliases": ["laser printer"]
         	},
          	{
-        		"aliases": ["blu-ray player"]
-        	},
-         	{
-        		"aliases": ["DVD player"]
+        		"aliases": ["multi-function printer"]
         	},
          	{
         		"aliases": ["dishwasher"]
