@@ -482,7 +482,7 @@ categories = {
 								"aliases": ["bar fridge"]
 							},
 							{
-								"aliases": ["single door fridge"]
+								"aliases": ["single door fridge", "small fridge"]
 							},
 							{
 								"aliases": ["freezer"]
@@ -992,11 +992,79 @@ categories = {
         		"children": [
          			{
         				"aliases": ["paddle board", "SUP board"]
+        			},
+         			{
+        				"aliases": ["gym equipment"],
+        				"children": [
+		         			{
+		        				"aliases": ["cross-trainer"]
+		        			}
+		        		]
         			}
         		]
         	},
 			{
 				"aliases": ["music"]
+			}
+		]
+	},
+	{
+		"aliases": ["home appliances and furniture"],
+		"children": [
+         	{
+        		"aliases": ["television", "TV"]
+        	},
+         	{
+        		"aliases": ["laptop"]
+        	},
+         	{
+        		"aliases": ["data projector"]
+        	},
+         	{
+        		"aliases": ["blu-ray player"]
+        	},
+         	{
+        		"aliases": ["DVD player"]
+        	},
+         	{
+        		"aliases": ["dishwasher"]
+        	},
+         	{
+        		"aliases": ["fan heater"]
+        	},
+			{
+				"aliases": ["laundry appliances"],
+    			"children": [
+         			{
+        				"aliases": ["washing machine"]
+        			},
+         			{
+        				"aliases": ["clothes dryer"]
+        			}
+        		]
+			},
+			{
+				"aliases": ["furniture"],
+        		"children": [
+         			{
+        				"aliases": ["sofa", "couch", "lounge seater"]
+        			},
+         			{
+        				"aliases": ["coffee table"]
+        			},
+         			{
+        				"aliases": ["bedside table", "lamp table"]
+        			},
+         			{
+        				"aliases": ["dining set", "dining table and chairs"]
+        			},
+         			{
+        				"aliases": ["furniture combo"]
+        			},
+         			{
+        				"aliases": ["bed", "bedroom package"]
+        			}
+        		]
 			}
 		]
 	},
