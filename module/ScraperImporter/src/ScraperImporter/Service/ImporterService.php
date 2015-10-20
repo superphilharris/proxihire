@@ -83,19 +83,19 @@ class ImporterService implements ImporterServiceInterface
 		foreach($pages as $lessor){
 			if($lessor->item_type === "lessor"){
 				if(! in_array($lessor->name, $createdLessors)){
-					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ');
-					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN 													 (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ');
-					$this->writeSQL('DELETE l FROM lessor l WHERE l.url_id IN (SELECT url_id FROM url WHERE title_desc = "'.$lessor->name.'"); ');
+					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
+					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN 													 (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
+					$this->writeSQL('DELETE l FROM lessor l WHERE l.url_id IN (SELECT url_id FROM url WHERE title_desc = "'.addslashes($lessor->name).'"); ');
 						
 					$this->writeSQL('DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ');	
-					$this->writeSQL("INSERT INTO user     (name_fulnam) VALUES ('".$lessor->name."'); SET @last_user_id = LAST_INSERT_ID(); ");
-					$this->writeSQL("INSERT INTO url      (title_desc, path_url) VALUES ('".$lessor->name."', '".$lessor->url."'); ");
+					$this->writeSQL("INSERT INTO user     (name_fulnam) VALUES ('".addslashes($lessor->name)."'); SET @last_user_id = LAST_INSERT_ID(); ");
+					$this->writeSQL("INSERT INTO url      (title_desc, path_url) VALUES ('".addslashes($lessor->name)."', '".addslashes($lessor->url)."'); ");
 					$this->writeSQL("INSERT INTO lessor   (lessor_user_id, url_id) VALUES (@last_user_id, LAST_INSERT_ID());");
 					
 					foreach($lessor->location as $location){
-					//	$latLong = $this->helper->getLatitudeAndLongitude($location);
-					//	$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessor->name."', '".$latLong->lat."', '".$latLong->long."'); ");
-					//	$this->writeSQL("INSERT INTO branch (user_id, location_id) VALUES (@last_user_id, LAST_INSERT_ID());");
+						$latLong = $this->helper->getLatitudeAndLongitude($location);
+						$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".$lessor->name."', '".$latLong->lat."', '".$latLong->long."'); ");
+						$this->writeSQL("INSERT INTO branch (user_id, location_id) VALUES (@last_user_id, LAST_INSERT_ID());");
 					}
 
 					array_push($createdLessors, $lessor->name);
@@ -109,8 +109,8 @@ class ImporterService implements ImporterServiceInterface
 		foreach($pages as $lessor){
 			if($lessor->item_type === "lessor"){
 				if(! in_array($lessor->name, $createdLessors)){
-					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ');
-					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN 													 (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.$lessor->name.'"); ');
+					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
+					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN 													 (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
 					$this->writeSQL('DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ');
 				}
 			}
@@ -146,8 +146,8 @@ class ImporterService implements ImporterServiceInterface
 					$this->writeComment($comment);
 					exit;
 				}else $categoryName = $category->aliases[0];
-				$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".$page->url."'); ");
-				$this->writeSQL("INSERT INTO asset (category_id, url_id, lessor_user_id, image_url) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".$categoryName."' AND u.name_fulnam='".$page->lessor."'; ");
+				$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".addslashes($page->url)."'); ");
+				$this->writeSQL("INSERT INTO asset (category_id, url_id, lessor_user_id, image_url) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".addslashes($categoryName)."' AND u.name_fulnam='".addslashes($page->lessor)."'; ");
 				$this->writeSQL("SET @last_asset_id = LAST_INSERT_ID();");
 				// Get the properties
 				$properties = array();
