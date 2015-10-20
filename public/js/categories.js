@@ -1001,6 +1001,12 @@ categories = {
         				"children": [
 		         			{
 		        				"aliases": ["cross-trainer"]
+		        			},
+		         			{
+		        				"aliases": ["treadmill"]
+		        			},
+		         			{
+		        				"aliases": ["rowing machine", "exercise rower"]
 		        			}
 		        		]
         			}
@@ -1020,9 +1026,6 @@ categories = {
 		          	{
 		        		"aliases": ["television", "TV"]
 		        	},
-	     			{
-	    				"aliases": ["clothes dryer"]
-	    			},
 		         	{
 		        		"aliases": ["data projector"]
 		        	},
@@ -1034,17 +1037,37 @@ categories = {
 		        	},
 		         	{
 		        		"aliases": ["playstation 4 console", "playstation move"]
+		        	},
+		         	{
+		        		"aliases": ["xbox one console", "xbox kinect"]
+		        	}
+	    		]
+        	},
+          	{
+        		"aliases": ["office equipment"],
+        		"children": [
+		          	{
+		        		"aliases": ["office chair"]
+		        	},
+		         	{
+		        		"aliases": ["office desk"]
+		        	},
+		         	{
+		        		"aliases": ["laptop"]
+		        	},
+		         	{
+		        		"aliases": ["laser printer"]
+		        	},
+		         	{
+		        		"aliases": ["multi-function printer"]
 		        	}
 	    		]
         	},
          	{
-        		"aliases": ["laptop"]
+        		"aliases": ["mobile phone"]
         	},
          	{
-        		"aliases": ["laser printer"]
-        	},
-         	{
-        		"aliases": ["multi-function printer"]
+        		"aliases": ["tablet", "ipad"]
         	},
          	{
         		"aliases": ["dishwasher"]
@@ -1056,7 +1079,7 @@ categories = {
 				"aliases": ["laundry appliances"],
     			"children": [
          			{
-        				"aliases": ["washing machine"]
+        				"aliases": ["washing machine", "top load washer", "front load washer"]
         			},
          			{
         				"aliases": ["clothes dryer"]
