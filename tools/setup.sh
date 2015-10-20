@@ -303,52 +303,6 @@ fi
 # check the apache password
 mysql -u apache $MYSQL_APACHE_PASSOPT <<< "quit" || exit 1
 
-# jih: compare db schemas and use mwb to create/update
-
-# Set up the categories table
-category_changes="$(diff public/js/categories.js "${SCRIPT_DIR}/my_categories.js" 2>&1)"
-if [ ! -f "${SCRIPT_DIR}/my_categories.js" -o -n "$category_changes" ]; then
-	# There should only be new records, not changed records. Therefore, there
-	# should not be any records in the local copy of `categories` that aren't in
-	# the newly-generated list.
-	echo
-	merge_the_changes=false
-	if grep "^>" <<< "$category_changes" > /dev/null; then
-		echo
-		echo "ERROR: There have been changes to existing categories. This may "
-		echo "       require running of custom scripts."
-		echo "       Check dbv."
-		echo
-		echo "Please merge the changes that you want (Press [enter] to continue)."
-		merge_the_changes=true
-		read
-	else
-		echo "The categories have changed since last running this script."
-		if confirm "Do you wish to merge the changes before applying them?" n; then
-			merge_the_changes=true
-		fi
-	fi
-
-	#if $merge_the_changes; then
-		#$DIFF_VIEWER "${SCRIPT_DIR}/my_categories.js" public/js/categories.js
-		#if ! confirm "Was the merge successful?" n; then
-			#exit 1
-		#fi
-	#fi
-	chmod 664 "${SCRIPT_DIR}/my_categories.js"
-	cp public/js/categories.js "${SCRIPT_DIR}/my_categories.js"
-	chmod 444 "${SCRIPT_DIR}/my_categories.js"
-
-	php ${SCRIPT_DIR}/generate_category_sql.php > /tmp/categories.sql
-	echo "Adding new categories."
-	if ! mysql -u root $MYSQL_ROOT_PASSOPT < /tmp/categories.sql; then
-		echo
-		echo "Could not add categories."
-		echo
-		exit 1
-	fi
-fi
-
 #-------------------------------------------------------------------------------
 # # DBV SET-UP
 
