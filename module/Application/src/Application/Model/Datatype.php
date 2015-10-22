@@ -61,6 +61,9 @@ class Datatype extends AbstractModel implements DatatypeInterface
 		switch ($this->datatype) {
 			case $this::ANGLE:
 				return 		array(1, 	"°");
+			case $this::BOOLEAN:
+				if($value == "1") 		return array("yes", 	"");
+				elseif($value == "0") 	return array("no", 	"");
 			case $this::FLOW:
 				return array(0.471947443, 'cfm');
 				break;

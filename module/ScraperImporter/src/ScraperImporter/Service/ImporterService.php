@@ -162,7 +162,7 @@ class ImporterService implements ImporterServiceInterface
 		return array();
 	}
 	private function writeComment($comment){
-		echo "<br/><h1><span style=\"color: grey; font-size: 0.5em;\">-- </span>$comment</h1>";
+		echo "<br/><h1><span style=\"color: grey; font-size: 0.5em;\">-- </span>$comment\n</h1><br/>";
 	}
 	private function writeSQL($sql){
 		echo "<code>$sql</code><br/>";
