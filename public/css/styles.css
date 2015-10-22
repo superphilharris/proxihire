@@ -127,6 +127,9 @@ div.assetPanel {
 	border-width: 1px 0px;
 	margin-bottom: 0px;
 }
+div.assetPanel > .panel-heading {
+	border-bottom: 0;
+}
 @media (min-width: 768px) {
 	html,body{
 		height:100%;
