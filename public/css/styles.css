@@ -41,12 +41,16 @@ body{
 	box-shadow: inset 0 0 0;
 }
 
+#main {
+	padding: 0px;
+}
 #main, #main>.row {
 	height:100%;
 }
 
 #main>.row>div {
-    overflow-y:scroll;
+	overflow-y:scroll;
+	padding-right: 0px;
 }
 
 #left {
@@ -74,9 +78,6 @@ body{
 	width: 120px;
 	float: left;
 }
-.assetImageWrapper img{
-	border-radius: 0px 0px 0px 4px;
-}
 .propertyUnit {
 	color: #555555;
 	font-size: 0.85em;
@@ -93,7 +94,7 @@ body{
 	clear: both;
 }
 .assetPropertiesSummary {
-	height: 90px;
+	max-height: 90px;
 	float: left;
 	font-size: 12.5px;
 	overflow: hidden;
@@ -120,22 +121,44 @@ body{
 	position: fixed;
 	top: 50px;
 	left: 0px;
-	padding: 0px 15px;
+	padding: 0px;
 	max-height: 0px;
 	width: 100%;
 }
+div.assetPanel {
+	border-radius: 0px;
+	border-width: 1px 0px;
+}
 @media (min-width: 768px) {
+	#main>.row>div {
+		padding-right: 15px;
+	}
 	.categoryAndFilterBarWrapper {
 		width: 66.67%;
+		padding: 0px 15px;
+	}
+	.categoryAndFilterBar {
+		border-radius: 0px 0px 4px 4px;
 	}
 	.assetPropertiesSummary {
 		width: 200px;
 	}
+	#main {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	div.assetPanel {
+		border-radius: 4px;
+		border-width: 1px;
+	}
+	.assetImageWrapper img{
+       		border-radius: 0px 0px 0px 4px;
+	}
+
 }
 .categoryAndFilterBar {
 	background-color: #f5f5f5;
 	border: 1px solid #aaa;
-	border-radius: 0px 0px 4px 4px;
 	border-top: none;
 	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 	padding: 8px 15px;
