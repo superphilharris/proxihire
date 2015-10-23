@@ -43,6 +43,7 @@ body{
 }
 #main, #main>.row {
 	height:100%;
+	margin-right: 0px;
 }
 
 #main>.row>div {
@@ -125,7 +126,7 @@ body{
 div.assetPanel {
 	border-radius: 0px;
 	border-width: 1px 0px;
-	margin-bottom: 0px;
+	margin-bottom: -1px;
 }
 div.assetPanel > .panel-heading {
 	border-bottom: 0;
@@ -152,6 +153,9 @@ div.assetPanel > .panel-heading {
 	#main {
 		padding-left: 15px;
 		padding-right: 15px;
+	}
+	#main>.row {
+		margin-right: -15px;
 	}
 	div.assetPanel {
 		border-radius: 4px;
