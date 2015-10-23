@@ -18,11 +18,13 @@ class Datatype extends AbstractModel implements DatatypeInterface
 	const PRESSURE 			= 'pressure';
 	const SPEED 			= 'speed';
 	const STRING 			= 'string';
+	const TEMPERATURE 		= 'temperature';
 	const TIME 				= 'time';
 	const TORQUE			= 'torque';
 	const VOLTAGE 			= 'voltage';
 	const VOLUME 			= 'volume';
 	const WEIGHT 			= 'weight';
+	const WEIGHT_FLOW		= 'weight_flow';
 	
 
 	/**
@@ -74,6 +76,8 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				break;
 			case $this::SPEED:
 				return array(1, "m/s");
+			case $this::TEMPERATURE:
+				return array(1, "°C");
 			case $this::STRING:
 				return array(null, "");
 			case $this::TIME:
@@ -91,6 +95,8 @@ class Datatype extends AbstractModel implements DatatypeInterface
 					return 	array(2.62974*pow(10, 6),	"months");
 				}
 				return "";
+			case $this::WEIGHT_FLOW:
+				return array(1000/3600, "kg/hr");
 				
 			case $this::CURRENT:
 				$base = "A";

@@ -31,18 +31,24 @@ class ImporterServiceHelper {
 			if($unit === 'deg' OR $unit === 'degrees'){
 				$property['datatype']  = Datatype::ANGLE;
 				$property['value_mxd'] = floatval($number);
+			}elseif($unit === 'degrees celsius'){
+				$property['datatype']  = Datatype::TEMPERATURE;
+				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'mg'){
 				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) / 1000;
 			}elseif($unit === 'g'){
 				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number);
-			}elseif($unit === 'kg'){
+			}elseif($unit === 'kg' OR $unit === 'kgs'){
 				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) * 1000;
 			}elseif($unit === 'tonne' OR $unit === 'tonnes'){
 				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) * 1000 * 1000;
+			}elseif($unit === 'kg/hr'){
+				$property['datatype']  = Datatype::WEIGHT_FLOW;
+				$property['value_mxd'] = floatval($number) * 3600 / 1000;
 			}elseif($unit === 'dan'){
 				$property['datatype']  = Datatype::FORCE;
 				$property['value_mxd'] = floatval($number) * 10;
@@ -160,6 +166,7 @@ class ImporterServiceHelper {
 		$property['name_fulnam'] = $this->fixPropertyName($property['name_fulnam'], $categoryName);
 		return $property;
 	}
+	
 
 	
 	public function __construct(){
