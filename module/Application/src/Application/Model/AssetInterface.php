@@ -18,13 +18,6 @@ interface AssetInterface
 	public function getCategory();
 
 	/**
-	 * Returns the asset's id
-	 *
-	 * @return int
-	 */
-	public function getId();
-
-	/**
 	 * Returns the asset's lessor
 	 *
 	 * @return Application\Model\LessorInterface

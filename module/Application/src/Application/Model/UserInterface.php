@@ -31,11 +31,5 @@ interface UserInterface
 	 */
 	public function setBranches($branchArray);
 
-	/**
-	 * Gets the user's id
-	 *
-	 * @return int
-	 */
-	public function getId();
 }
 ?>

@@ -38,17 +38,17 @@ class Url extends AbstractModel implements UrlInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function incrementClicks()
-	{
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getClicks()
 	{
 		return $this->clicks;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function incrementClicks()
+	{
+		$this->clicks = $this->clicks + 1;
+	}
 }
 ?>

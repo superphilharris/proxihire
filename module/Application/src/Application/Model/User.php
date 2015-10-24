@@ -56,12 +56,5 @@ class User extends AbstractModel implements UserInterface
 		// jih: classhelper
 		$this->branches = $branches;
 	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getId(){
-		return $this->id;
-	}
 }
 ?>

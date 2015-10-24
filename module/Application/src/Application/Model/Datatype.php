@@ -37,14 +37,6 @@ class Datatype extends AbstractModel implements DatatypeInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getId()
-	{
-		return (integer) $this->id; // jih: make sure that all models are typecasting
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getDatatype()
 	{
 		return (string) $this->datatype;

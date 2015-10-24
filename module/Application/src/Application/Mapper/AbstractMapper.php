@@ -435,5 +435,46 @@ abstract class AbstractMapper
 		}
 	}
 
+
+	/** 
+	 * Commits all of the changes to the database
+	 *
+	 * Does the following:
+	 *
+	 * 1. If the ids aren't populated, then it attempts to populate them based on 
+	 *    the other fields of this object.
+	 * 2. If then the ids still aren't populated, it will create new records in 
+	 *    the database
+	 * 3. If the ids are populated, then it will try to update the existing 
+	 *    records.
+	 */
+	public function commit(){
+		// 1. If the ids aren't populated, then it attempts to populate them based on 
+		//    the other fields of this object.
+
+		// jih: If the ids aren't populated, attempt to populate them based on the 
+		//      other fields of this object
+
+		$sql = new Sql( $this->dbAdapter );
+		foreach( $this->getPrototypeArray() as $prototype ){
+			// 2. If then the ids still aren't populated, it will create new records in 
+			//    the database
+			if( $prototype->getId() > 0 ){
+				$update = $sql->update( $this->dbTable );
+				$data = $this->hydrator->extract( $prototype );
+				$update->set( $data );
+				$where = new Where();
+				$where->equalTo( $this->primaryKey, $prototype->getId() );
+				$update->where( $where );
+				$stmt = $sql->prepareStatementForSqlObject( $update );
+				$result = $stmt->execute();
+
+			// 3. If the ids are populated, then it will try to update the existing 
+			//    records.
+			} else {
+				// jih: Create new record
+			}
+		}
+	}
 }
 ?>

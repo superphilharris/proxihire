@@ -49,14 +49,6 @@ class Asset extends AbstractModel implements AssetInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getId()
-	{
-		return (integer) $this->id;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function setLessor($lessor)
 	{
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(

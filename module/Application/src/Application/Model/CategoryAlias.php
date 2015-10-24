@@ -20,14 +20,6 @@ class CategoryAlias extends AbstractModel implements CategoryAliasInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getId()
-	{
-		return (integer) $this->id; // jih: make sure that all models are typecasting
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getAlias()
 	{
 		return (string) $this->alias;
