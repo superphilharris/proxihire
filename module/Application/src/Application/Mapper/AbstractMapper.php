@@ -398,6 +398,7 @@ abstract class AbstractMapper
 	  	));
 
 		$this->checkPropertiesExist( $tableStructure, array( "table", "primary_key", "columns" ) );
+		// jih: $this->checkPropertiesExist( $tableStructure, array( "table", "primary_key", "columns", "update_key" ) );
 
 		$this->dbTable    = $tableStructure->table;
 		$this->primaryKey = $tableStructure->primary_key;
@@ -494,7 +495,7 @@ abstract class AbstractMapper
 		}
 
 		$sql = new Sql( $this->dbAdapter );
-		foreach( $this->prototypeArray as $prototype ){
+		foreach( $this->prototypeArray as &$prototype ){
 			// 2. If then the ids still aren't populated, it will create new records in 
 			//    the database
 			if( $prototype->getId() > 0 ){
@@ -510,7 +511,12 @@ abstract class AbstractMapper
 			// 3. If the ids are populated, then it will try to update the existing 
 			//    records.
 			} else {
-				// jih: Create new record
+				$insert = $sql->insert( $this->dbTable );
+				$data = $this->hydrator->extract( $prototype );
+				$insert->values( $data );
+				$stmt = $sql->prepareStatementForSqlObject( $insert );
+				$result = $stmt->execute();
+				$prototype->setId( $this->dbAdapter->getDriver()->getLastGeneratedValue() );
 			}
 		}
 	}
