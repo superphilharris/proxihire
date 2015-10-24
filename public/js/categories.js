@@ -13,7 +13,7 @@ categories = {
 				"aliases": ["floor stripper", "tile stripper", "carpet stripper"]
 			},
 			{
-				"aliases": ["scaffolding"],
+				"aliases": ["scaffolding equipment"],
 				"children": [
 					{
 						"aliases": ["scaffolding stairs", "safety stairs"]
@@ -23,6 +23,9 @@ categories = {
 					},
 					{
 						"aliases": ["mobile scaffolding", "alloy scaffold"]
+					},
+					{
+						"aliases": ["scaffolding"]
 					}
 				]
 			},
@@ -210,7 +213,7 @@ categories = {
 						"aliases": ["hammer"]
 					},
 					{
-						"aliases": ["screw driver", "impact gun"]
+						"aliases": ["screw driver", "impact gun", "impact driver"]
 					},
 					{
 						"aliases": ["drilling"],
@@ -308,7 +311,7 @@ categories = {
 				"aliases": ["access equipment"],
 				"children": [
 		 			{
-						"aliases": ["scissorlift", "aerial work platform", "cherry picker"]
+						"aliases": ["scissor lift", "aerial work platform", "cherry picker"]
 					},
 		 			{
 						"aliases": ["trestle"]
@@ -375,7 +378,10 @@ categories = {
 						"aliases": ["furniture moving blanket"]
 					},
 					{
-						"aliases": ["shipping container", "office block"]
+						"aliases": ["shipping container", "office block", "container"]
+					},
+					{
+						"aliases": ["crane"]
 					},
 					{
 						"aliases": ["chainblock", "block and tackle", "lever block"]
@@ -780,13 +786,16 @@ categories = {
 						"aliases":["horse float"]
 					},
 					{
-						"aliases":["standard trailer", "single axle trailer", "furniture trailer", "tandem trailer"]
+						"aliases":["standard trailer", "single axle trailer", "furniture trailer", "tandem trailer", "box trailer"]
 					},
 					{
 						"aliases":["caged trailer","bin trailers", "rubbish trailer"]
 					},
 					{
-						"aliases":["quad trailer", "quad transporter"]
+						"aliases":["quad trailer", "quad transporter", "equipment trailer"]
+					},
+					{
+						"aliases":["curtainsider trailer"]
 					}
 				]
 			}
@@ -858,6 +867,9 @@ categories = {
         	{
         		"aliases": ["socket set"]
         	},
+         	{
+        		"aliases": ["fuel tank"]
+        	},
         	{
         		"aliases": ["car battery charger", "automotive battery charger"]
         	}
@@ -912,7 +924,7 @@ categories = {
         		"aliases": ["road compacting"],
         		"children": [
 		          	{
-		         		"aliases": ["road roller", "drum roller", "combination roller"]
+		         		"aliases": ["road roller", "drum roller", "combination roller", "tonne roller", "construction roller"]
 		         	},
 		         	{
 		         		"aliases": ["tamping rammer", "tamper air rammer", "upright hand rammer"]
@@ -926,10 +938,10 @@ categories = {
         		"aliases": ["tractor"]
         	},
          	{
-        		"aliases": ["excavator"]
+        		"aliases": ["excavator", "digger"]
         	},
          	{
-        		"aliases": ["construction roller"]
+        		"aliases": ["dozer"]
         	},
          	{
         		"aliases": ["excavation safety"],
@@ -971,6 +983,9 @@ categories = {
 							},
 							{
 								"aliases": ["borer attachment", "dingo borer"]
+							},
+							{
+								"aliases": ["weed bucket attachment"]
 							}
 				 		]
 		        	},

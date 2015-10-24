@@ -8,6 +8,7 @@ class ImporterServiceHelper {
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
+	const GENERATE_RANDOM_LOCATIONS = true;
 	
 	
 	/**
@@ -31,18 +32,24 @@ class ImporterServiceHelper {
 			if($unit === 'deg' OR $unit === 'degrees'){
 				$property['datatype']  = Datatype::ANGLE;
 				$property['value_mxd'] = floatval($number);
+			}elseif($unit === 'degrees celsius'){
+				$property['datatype']  = Datatype::TEMPERATURE;
+				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'mg'){
 				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) / 1000;
 			}elseif($unit === 'g'){
 				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number);
-			}elseif($unit === 'kg'){
+			}elseif($unit === 'kg' OR $unit === 'kgs'){
 				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) * 1000;
 			}elseif($unit === 'tonne' OR $unit === 'tonnes'){
 				$property['datatype']  = Datatype::WEIGHT;
 				$property['value_mxd'] = floatval($number) * 1000 * 1000;
+			}elseif($unit === 'kg/hr'){
+				$property['datatype']  = Datatype::WEIGHT_FLOW;
+				$property['value_mxd'] = floatval($number) * 3600 / 1000;
 			}elseif($unit === 'dan'){
 				$property['datatype']  = Datatype::FORCE;
 				$property['value_mxd'] = floatval($number) * 10;
@@ -160,6 +167,7 @@ class ImporterServiceHelper {
 		$property['name_fulnam'] = $this->fixPropertyName($property['name_fulnam'], $categoryName);
 		return $property;
 	}
+	
 
 	
 	public function __construct(){
@@ -222,8 +230,20 @@ class ImporterServiceHelper {
 	}
 	
 	private function getLatitudeAndLongitudeFromAddress($physicalAddress){
-		$json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($physicalAddress).'&key='.$this::GOOGLE_API_KEY));
-		if(count($json->results) === 0) exit('Google could not determine the address:'.$physicalAddress.' at: https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($physicalAddress).'&key='.$this::GOOGLE_API_KEY);
+		if($this::GENERATE_RANDOM_LOCATIONS){
+			$latLong = new \stdClass();
+			$latLong->lat  = -36.862043 + rand(-10,10)/300;
+			$latLong->long = 174.761066 + rand(-10, 10)/500;
+			return $latLong;
+		}
+		$json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode(trim($physicalAddress)).'&key='.$this::GOOGLE_API_KEY));
+		if(count($json->results) === 0) $json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode(trim($physicalAddress, ' 0123456789')).'&key='.$this::GOOGLE_API_KEY));
+		while(count($json->results) === 0 AND strpos($physicalAddress, ",")){
+			$lastSpacePosition = strrpos(rtrim($physicalAddress, ", ")," ");
+			$physicalAddress =substr($physicalAddress,0,$lastSpacePosition);// Remove the last word
+			$json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode(trim($physicalAddress)).'&key='.$this::GOOGLE_API_KEY));
+		}
+		if(count($json->results) === 0) exit('Google could not determine the address:"'.$physicalAddress.'" at: https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($physicalAddress).'&key='.$this::GOOGLE_API_KEY) .' because: '.$json->error_message;
 		$latLong = new \stdClass();
 		$latLong->lat  = $json->results[0]->geometry->location->lat;
 		$latLong->long = $json->results[0]->geometry->location->lng;
@@ -310,12 +330,14 @@ class ImporterServiceHelper {
 	private function fixSpelling($string){
 		$string = str_replace('acroprop', 		'acrow prop',	$string);
 		$string = str_replace('crow bar', 		'crowbar',		$string);
+		$string = str_replace('excxavator', 	'excavator',	$string);
 		$string = str_replace('hight', 			'high',			$string);
 		$string = str_replace('lenght', 		'length', 		$string);
 		$string = str_replace('panle', 			'panel', 		$string);
 		$string = str_replace('pedistal', 		'pedestal', 	$string);
 		$string = str_replace('rptation', 		'rotation', 	$string);
 		$string = str_replace('skilsaw', 		'skillsaw',		$string);
+		$string = str_replace('scissorlift', 	'scissor lift',	$string);
 		$string = str_replace('tarpouline', 	'tarpaulin',	$string);
 		$string = str_replace('wall paper', 	'wallpaper',	$string);
 		$string = str_replace('wheel barrow', 	'wheelbarrow', 	$string);
@@ -390,7 +412,7 @@ class ImporterServiceHelper {
 		return null;
 	}
 	private function determineCategory2($category, $name){
-		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 	return $matchedCategory;
+		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 	return array_values($matchedCategory)[0];
 		if($matchedCategory = $this->determineCategoryMatchedWords($category, $name)) 	return $matchedCategory;
 		return null;
 	}
@@ -431,28 +453,38 @@ class ImporterServiceHelper {
 	}
 	/**
 	 * Finds the subcategory that matches the exact name.
-	 * TODO: return multiple results, and the one that is the longest,
-	 * rather than the first that we find.
+	 * If there are multiple results, then it will return the alias that matches with the longest name
 	 *
 	 * @param Category $category
 	 * @param string $name
-	 * @return Category|NULL
+	 * @return array(string => Category)|NULL
 	 */
 	private function determineCategoryExactMatch($category, $name){
+		$matchedAliases = array();
 		if(property_exists($category, 'children')) {
 			foreach($category->children as $subCategory){
 				$result = $this->determineCategoryExactMatch($subCategory, $name);
-				if($result !== null) return $result;
+				if($result !== null){
+					$key = key($result);
+					$matchedAliases[$key] = $result[$key];
+				}
 			}
 		}
 		if(property_exists($category, 'aliases') AND !property_exists($category, 'children')) {
 			foreach($category->aliases as $alias){
 				if($this->isIn(strtolower($name), strtolower($alias))){
-					return $category;
+					$matchedAliases[$alias] = $category;
 				}
 			}
 		}
-		return null;
+		
+		// Find and return the longest alias
+		$longestAlias = "";
+		foreach($matchedAliases as $alias => $categoryForAlias){
+			if(strlen($alias) > strlen($longestAlias)) $longestAlias = $alias;
+		}
+		if($longestAlias !== "") 	return array($longestAlias => $matchedAliases[$longestAlias]);
+		else 						return null;
 	}
 }
 ?>

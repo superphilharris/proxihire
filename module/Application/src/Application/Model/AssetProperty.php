@@ -138,6 +138,8 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 			list($factor, $unit) = $this->datatype->getFactorAndUnit($referenceValue);
 			if($unit !== ""){
 				return array($this->roundTo3SF($this->value/$factor), $unit);
+			}elseif($factor == "yes" OR $factor == "no"){
+				return array($factor, "");
 			}
 		}
 		return array($this->value, "");

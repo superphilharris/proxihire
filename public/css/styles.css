@@ -9,9 +9,6 @@ author: bootply.com
 */
 
 
-html,body{
-  	height:100%;
-}
 
 body{
   	padding-top:50px; /*padding for navbar*/
@@ -41,12 +38,17 @@ body{
 	box-shadow: inset 0 0 0;
 }
 
+#main {
+	padding: 0px;
+}
 #main, #main>.row {
 	height:100%;
+	margin-right: 0px;
 }
 
 #main>.row>div {
-    overflow-y:scroll;
+	overflow-y:scroll;
+	padding-right: 0px;
 }
 
 #left {
@@ -74,30 +76,51 @@ body{
 	width: 120px;
 	float: left;
 }
-.assetImageWrapper img{
-	border-radius: 0px 0px 0px 4px;
-}
 .propertyUnit {
 	color: #555555;
 	font-size: 0.85em;
 	margin: 2px 0px 0px 1px;
 	font-weight: bold;
 }
-.assetPropertiesSummary .propertyNameAndColon {
-	float: left;
+.assetPropertiesSummary {
+	table-layout:fixed;
+	height: 90px;
+	font-size: 12.5px;
+	line-height: 1.4em;
+	overflow: hidden;
+	display: block;
+	border-collapse: collapse;
 }
-.assetPropertiesSummary .propertyValueAndUnit {
-	float: right;
-}
-.propertyWrapper {
-	clear: both;
+.assetPropertiesSummary td {
+	text-align: center;
+	padding-bottom: 1px;
 }
 .assetPropertiesSummary {
-	height: 90px;
-	float: left;
-	font-size: 12.5px;
-	overflow: hidden;
-	background-color: rgba(255,255,255,0.7);
+  border-collapse: collapse;
+}
+.assetPropertiesSummary td {
+  border: 1px solid #ddd;
+}
+.assetPropertiesSummary tr:first-child td {
+  border-top: 0;
+}
+.assetPropertiesSummary tr:last-child td {
+  border-bottom: 0;
+}
+.assetPropertiesSummary tr td:first-child {
+  border-left: 0;
+  text-align: right;
+}
+.assetPropertiesSummary tr td:last-child{
+  border-right: 0;
+}
+.propertyNameAndColon {
+	text-align: right;
+	padding-right: 3px;
+}
+.propertyValueAndUnit {
+	text-align: left;
+	padding-left: 3px;
 }
 .assetPropertyColumn {
 	float: right;
@@ -120,23 +143,58 @@ body{
 	position: fixed;
 	top: 50px;
 	left: 0px;
-	padding: 0px 15px;
+	padding: 0px;
 	max-height: 0px;
 	width: 100%;
 }
+div.assetPanel {
+	border-radius: 0px;
+	border-width: 1px 0px;
+	margin-bottom: -1px;
+}
+div.assetPanel > .panel-heading {
+	border-bottom: 0;
+}
 @media (min-width: 768px) {
+	html,body{
+		height:100%;
+	}
+
+	#main>.row>div {
+		padding-right: 15px;
+	}
 	.categoryAndFilterBarWrapper {
 		width: 66.67%;
+		padding: 0px 15px;
+	}
+	.categoryAndFilterBar {
+		border-radius: 0px 0px 4px 4px;
+		border-width: 0px 1px 1px 1px !important;
 	}
 	.assetPropertiesSummary {
 		width: 200px;
 	}
+	#main {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	#main>.row {
+		margin-right: -15px;
+	}
+	div.assetPanel {
+		border-radius: 4px;
+		border-width: 1px;
+		margin-bottom: 20px;
+	}
+	.assetImageWrapper img{
+       		border-radius: 0px 0px 0px 4px;
+	}
+
 }
 .categoryAndFilterBar {
 	background-color: #f5f5f5;
 	border: 1px solid #aaa;
-	border-radius: 0px 0px 4px 4px;
-	border-top: none;
+	border-width: 0px 0px 1px 0px;
 	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 	padding: 8px 15px;
 	position: relative;

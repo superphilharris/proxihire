@@ -137,6 +137,9 @@ class ImporterService implements ImporterServiceInterface
 				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'$imageUrl'";
 				
 				$category = $this->helper->determineCategory($categories, $page->item_name);
+				if($category === null AND property_exists($page, 'category')){
+					$category = $this->helper->determineCategory($categories, $page->item_name." ".$page->category);
+				}
 				if($category === null AND property_exists($page, 'description')){
 					$category = $this->helper->determineCategory($categories, $page->item_name." ".$page->description);
 				}
@@ -162,7 +165,7 @@ class ImporterService implements ImporterServiceInterface
 		return array();
 	}
 	private function writeComment($comment){
-		echo "<br/><h1><span style=\"color: grey; font-size: 0.5em;\">-- </span>$comment</h1>";
+		echo "<br/><h1><span style=\"color: grey; font-size: 0.5em;\">-- </span>$comment\n</h1><br/>";
 	}
 	private function writeSQL($sql){
 		echo "<code>$sql</code><br/>";
