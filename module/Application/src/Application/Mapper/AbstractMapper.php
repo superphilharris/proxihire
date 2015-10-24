@@ -45,6 +45,13 @@ abstract class AbstractMapper
 	 */
 	protected $primaryKey;
 	/**
+	 * The column(s) that correspond with a method of identifying the object in 
+	 * the database without having the primary key. Is an array of strings
+	 *
+	 * @var string[]
+	 */
+	protected $updateKey;
+	/**
 	 * A hashed array that contains the $columnName => $variableName mapping 
 	 * pairs for this database table.
 	 *
@@ -394,6 +401,11 @@ abstract class AbstractMapper
 
 		$this->dbTable    = $tableStructure->table;
 		$this->primaryKey = $tableStructure->primary_key;
+		if( isset( $tableStructure->update_key ) ){ // jih: remove this check once all have update keys
+			$this->updateKey = $tableStructure->update_key;
+		} else {
+			$this->updateKey = array();
+		}
 		$this->columnMap  = $tableStructure->columns;
 
 		$this->join = null;
@@ -449,14 +461,40 @@ abstract class AbstractMapper
 	 *    records.
 	 */
 	public function commit(){
-		// 1. If the ids aren't populated, then it attempts to populate them based on 
-		//    the other fields of this object.
-
-		// jih: If the ids aren't populated, attempt to populate them based on the 
-		//      other fields of this object
 
 		$sql = new Sql( $this->dbAdapter );
-		foreach( $this->getPrototypeArray() as $prototype ){
+		foreach( $this->prototypeArray as &$prototype ){
+			// 1. If the ids aren't populated, then it attempts to populate them based on 
+			//    the other fields of this object.
+			if( $prototype->getId() == 0 ){
+				// Find the existing item in the database
+				$where = new Where();
+				$firstloop=true;
+				foreach( $this->updateKey as $column ){
+					if($firstloop){
+						$firstloop=false;
+					}else{
+						$where->and;
+					}
+					$where->equalTo($column,$prototype->get($this->columnMap[$column]));
+				}
+				$result = $this->runSelect( $this->dbTable, $where );
+				// If there is a match
+				if( $result->current() ){
+					$prototype->setId($result->current()[ $this->primaryKey ]);
+
+					// Ensure that there is only one match
+					$result->next();
+					if( $result->current() ){
+						$prototype->setId(0);
+						throw new \LogicException( "There are multiple entries in the database that match the update key ".var_export($update_key) );
+					}
+				}
+			}
+		}
+
+		$sql = new Sql( $this->dbAdapter );
+		foreach( $this->prototypeArray as $prototype ){
 			// 2. If then the ids still aren't populated, it will create new records in 
 			//    the database
 			if( $prototype->getId() > 0 ){

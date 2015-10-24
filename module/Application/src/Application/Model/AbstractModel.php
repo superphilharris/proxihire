@@ -18,6 +18,15 @@ abstract class AbstractModel implements HydratableModelInterface
 	}
 
 	/**
+	 * Sets the id of the model
+	 *
+	 * @param integer $id - The id of the model
+	 */
+	public function setId($id){
+		$this->id = (integer) $id;
+	}
+
+	/**
 	 * Returns the id of the model
 	 *
 	 * @return integer - The id of the model
@@ -27,6 +36,18 @@ abstract class AbstractModel implements HydratableModelInterface
 			return (integer) $this->id;
 		}
 		return 0;
+	}
+
+	/**
+	 * Returns the specified property
+	 *
+	 * @return mixed
+	 */
+	public function get( $property ){
+		if( isset( $this->$property ) ){
+			return $this->$property;
+		}
+		return NULL;
 	}
 }
 ?>
