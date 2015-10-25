@@ -23,14 +23,6 @@ class Category extends AbstractModel implements CategoryInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function setName(string $name)
 	{
 	}

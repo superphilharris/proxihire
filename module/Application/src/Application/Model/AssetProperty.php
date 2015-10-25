@@ -36,14 +36,6 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getDatatypeId()
 	{
 		return $this->datatype_id;

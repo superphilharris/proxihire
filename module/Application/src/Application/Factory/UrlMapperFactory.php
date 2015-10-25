@@ -21,6 +21,10 @@ class UrlMapperFactory extends AbstractMapperFactory implements FactoryInterface
 		$dbStructure=(object) array(
 			'table' => 'url',
 			'primary_key' => 'url_id',
+			'update_key'  => array(
+				'path_url',
+				'title_desc'
+			),
 			'columns' => array(
 				'url_id' => 'id',
 				'path_url' => 'path',

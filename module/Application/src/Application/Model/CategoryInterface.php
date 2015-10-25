@@ -4,13 +4,6 @@ namespace Application\Model;
 interface CategoryInterface
 {
 	/**
-	 * Returns the category's id
-	 *
-	 * @return int
-	 */
-	public function getId();
-
-	/**
 	 * Sets the category's name
 	 *
 	 * @param string $name The category's name

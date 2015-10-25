@@ -45,6 +45,13 @@ abstract class AbstractMapper
 	 */
 	protected $primaryKey;
 	/**
+	 * The column(s) that correspond with a method of identifying the object in 
+	 * the database without having the primary key. Is an array of strings
+	 *
+	 * @var string[]
+	 */
+	protected $updateKey;
+	/**
 	 * A hashed array that contains the $columnName => $variableName mapping 
 	 * pairs for this database table.
 	 *
@@ -391,9 +398,15 @@ abstract class AbstractMapper
 	  	));
 
 		$this->checkPropertiesExist( $tableStructure, array( "table", "primary_key", "columns" ) );
+		// jih: $this->checkPropertiesExist( $tableStructure, array( "table", "primary_key", "columns", "update_key" ) );
 
 		$this->dbTable    = $tableStructure->table;
 		$this->primaryKey = $tableStructure->primary_key;
+		if( isset( $tableStructure->update_key ) ){ // jih: remove this check once all have update keys
+			$this->updateKey = $tableStructure->update_key;
+		} else {
+			$this->updateKey = array();
+		}
 		$this->columnMap  = $tableStructure->columns;
 
 		$this->join = null;
@@ -435,5 +448,77 @@ abstract class AbstractMapper
 		}
 	}
 
+
+	/** 
+	 * Commits all of the changes to the database
+	 *
+	 * Does the following:
+	 *
+	 * 1. If the ids aren't populated, then it attempts to populate them based on 
+	 *    the other fields of this object.
+	 * 2. If then the ids still aren't populated, it will create new records in 
+	 *    the database
+	 * 3. If the ids are populated, then it will try to update the existing 
+	 *    records.
+	 */
+	public function commit(){
+
+		$sql = new Sql( $this->dbAdapter );
+		foreach( $this->prototypeArray as &$prototype ){
+			// 1. If the ids aren't populated, then it attempts to populate them based on 
+			//    the other fields of this object.
+			if( $prototype->getId() == 0 ){
+				// Find the existing item in the database
+				$where = new Where();
+				$firstloop=true;
+				foreach( $this->updateKey as $column ){
+					if($firstloop){
+						$firstloop=false;
+					}else{
+						$where->and;
+					}
+					$where->equalTo($column,$prototype->get($this->columnMap[$column]));
+				}
+				$result = $this->runSelect( $this->dbTable, $where );
+				// If there is a match
+				if( $result->current() ){
+					$prototype->setId($result->current()[ $this->primaryKey ]);
+
+					// Ensure that there is only one match
+					$result->next();
+					if( $result->current() ){
+						$prototype->setId(0);
+						throw new \LogicException( "There are multiple entries in the database that match the update key ".var_export($update_key) );
+					}
+				}
+			}
+		}
+
+		$sql = new Sql( $this->dbAdapter );
+		foreach( $this->prototypeArray as &$prototype ){
+			// 2. If then the ids still aren't populated, it will create new records in 
+			//    the database
+			if( $prototype->getId() > 0 ){
+				$update = $sql->update( $this->dbTable );
+				$data = $this->hydrator->extract( $prototype );
+				$update->set( $data );
+				$where = new Where();
+				$where->equalTo( $this->primaryKey, $prototype->getId() );
+				$update->where( $where );
+				$stmt = $sql->prepareStatementForSqlObject( $update );
+				$result = $stmt->execute();
+
+			// 3. If the ids are populated, then it will try to update the existing 
+			//    records.
+			} else {
+				$insert = $sql->insert( $this->dbTable );
+				$data = $this->hydrator->extract( $prototype );
+				$insert->values( $data );
+				$stmt = $sql->prepareStatementForSqlObject( $insert );
+				$result = $stmt->execute();
+				$prototype->setId( $this->dbAdapter->getDriver()->getLastGeneratedValue() );
+			}
+		}
+	}
 }
 ?>
