@@ -1,6 +1,14 @@
 category,before,after
+acrow prop,min,min length
+acrow prop,max,max length
 extension lead,lengths,length
-fencing,heights,panel height
-fencing,lengths,panel length
+fencing,heights,height
+fencing,lengths,length
+fencing,panel height,height
+fencing,panel length,length
+fencing,panel weight,weight
+fencing,gross weight,weight
 ladder,open height,total height
 ladder,extension size,total height
+ladder,size,total height
+

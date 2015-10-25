@@ -320,11 +320,20 @@ class ImporterServiceHelper {
 	
 	private function fixPropertyName($propertyName, $categoryName){
 		foreach($this->propertyAliases as $propertyAlias){
-			if($propertyAlias[0] === $categoryName AND $propertyName === $propertyAlias[1]){
+			if($propertyAlias[0] === $categoryName AND $this->isSamePropertyName($propertyName, $propertyAlias[1])){
 				return $propertyAlias[2];
 			}
 		}
 		return $propertyName;
+	}
+	private function isSamePropertyName($propertyName, $propertyAlias){
+		if($propertyName === $propertyAlias) return true;
+		else{
+			$shortPropertyName = str_replace('maximum', 'max', $propertyName);
+			$shortPropertyName = str_replace('minimum', 'min', $propertyName);
+			if($shortPropertyName === $propertyAlias) 	return true;
+			else 										return false;
+		}
 	}
 	
 	private function fixSpelling($string){

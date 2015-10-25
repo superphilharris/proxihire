@@ -4,10 +4,13 @@ categories = {
 		"aliases": ["construction","building","renovation"],
 		"children": [
 			{
-				"aliases": ["tarpaulin"]
+				"aliases": ["tarpaulin"],
+				"width": "lineal",
+				"length": "lineal"
 			},
 			{
-				"aliases": ["ladder"]
+				"aliases": ["ladder"],
+				"total height": "lineal"
 			},
 			{
 				"aliases": ["floor stripper", "tile stripper", "carpet stripper"]
@@ -19,7 +22,9 @@ categories = {
 						"aliases": ["scaffolding stairs", "safety stairs"]
 					},
 					{
-						"aliases": ["acrow prop", "construction prop"]
+						"aliases": ["acrow prop", "construction prop"],
+						"max length": "lineal",
+						"min length": "lineal"
 					},
 					{
 						"aliases": ["mobile scaffolding", "alloy scaffold"]
@@ -38,7 +43,9 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["fencing", "barrier", "delineator"]
+				"aliases": ["fencing", "barrier", "delineator"],
+				"length": "lineal",
+				"height": "lineal"
 			},
 			{
 				"aliases": ["electrical and generators"],
@@ -543,6 +550,9 @@ categories = {
 					},
 					{
 						"aliases": ["electric sweeper", "walk behind sweeper"]
+					},
+					{
+						"aliases": ["telewand attachment"]
 					}
 				]
 			},
@@ -828,7 +838,7 @@ categories = {
 				]
 			},
          	{
-        		"aliases": ["spray gun", "spray painting"]
+        		"aliases": ["spray gun", "spray painting", "paint sprayer"]
         	},
 			{
 				"aliases": ["paint drop sheet"]
@@ -948,6 +958,9 @@ categories = {
         	},
          	{
         		"aliases": ["excavator", "digger"]
+        	},
+         	{
+        		"aliases": ["swivel dumper"]
         	},
          	{
         		"aliases": ["dozer"]
