@@ -1,15 +1,20 @@
 <?php
+$GLOBALS['COLORS'] 				= array("blue", "red", "green", "yellow", "orange", "purple", "white", "black");
+$GLOBALS['COLOR_INDEX'] 		= 0;
+$GLOBALS['LESSORID_TO_COLOR'] 	= array();
 
 // 1. Display the properties sliders
 $allProperties = getAllProperties($this->assetList);
-
 
 // 2. Display each of the assets
 foreach( $this->assetList as $asset ){
 	?>
 	
 	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getLessorId() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
-		<div class="panel-heading"><a target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a></div>
+		<div class="panel-heading">
+			<a target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a>
+			<img class="lessorIcon" src="/img/<?php echo getIcon($asset->getLessor()) ?>" title="<?php echo $asset->getLessor()->getName() ?>"/>
+		</div>
 		<div class="panel-body">
 			<div class="assetImageWrapper"><img src="/img/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
 			
@@ -44,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	foreach( $this->lessorList as $lessor ){
 		foreach( $lessor->getBranches() as $branch ){
 			$location = $branch->getLocation();
-			echo 'allBranches.push({lessorId:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().',lessorName:"'.$lessor->getName().'"}); ';
+			echo 'allBranches.push({lessorId:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().',lessorName:"'.$lessor->getName().'",icon:"/img/'.getIcon($lessor).'_marker.ico"}); ';
 		}
 	}
 	?>
@@ -106,5 +111,18 @@ function getAllProperties($assetList){
 
 function getCssPropertyName($propertyName){
 	return preg_replace('/[^_a-zA-Z0-9-]/', '_', $propertyName);
+}
+
+// Generates a unique icon for each lessor on the page
+function getIcon($lessor){
+	if($lessor->getIcon()) return "lessors/".$lessor->getIcon();
+	else{
+		if(!isset($GLOBALS['LESSORID_TO_COLOR'][$lessor->getId()])){
+			$GLOBALS['LESSORID_TO_COLOR'][$lessor->getId()] = $GLOBALS['COLORS'][$GLOBALS['COLOR_INDEX']];
+			$GLOBALS['COLOR_INDEX'] += 1;
+			if($GLOBALS['COLOR_INDEX'] >= count($GLOBALS['COLORS'])) $GLOBALS['COLOR_INDEX'] = 0;
+		}
+		return "lessors/" . $GLOBALS['LESSORID_TO_COLOR'][$lessor->getId()].".ico";
+	}
 }
 ?>

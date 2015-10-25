@@ -23,5 +23,19 @@ interface LessorInterface extends UserInterface
 	 * @param Application\Model\UrlInterface $url
 	 */
 	public function setUrl($url);
+
+	/**
+	 * Gets the lessor's Icon
+	 *
+	 * @return string
+	 */
+	public function getIcon();
+
+	/**
+	 * Sets the lessor's Icon
+	 *
+	 * @param string
+	 */
+	public function setIcon($icon);
 }
 ?>

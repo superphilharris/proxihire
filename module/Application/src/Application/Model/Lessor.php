@@ -10,6 +10,7 @@ class Lessor extends User implements LessorInterface
 	{
 		parent::exchangeArray($data);
 		$this->url_id = isset($data['url_id']) ? (integer) $data['url_id'] : NULL;
+		$this->icon_url	= isset($data['icon_url']) ? $data['icon_url'] : NULL;
 	}
 	/**
 	 * {@inheritdoc}
@@ -33,6 +34,22 @@ class Lessor extends User implements LessorInterface
 	public function setUrl($url)
 	{
 		$this->url = $url;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getIcon()
+	{
+		return $this->icon_url;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setIcon($icon)
+	{
+		$this->icon_url = $icon;
 	}
 
 }

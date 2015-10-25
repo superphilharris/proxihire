@@ -1076,13 +1076,16 @@ categories = {
 		        		"aliases": ["blu-ray player"]
 		        	},
 		         	{
+		        		"aliases": ["home theatre", "home sterio"]
+		        	},
+		         	{
 		        		"aliases": ["DVD player"]
 		        	},
 		         	{
 		        		"aliases": ["playstation 4 console", "playstation move"]
 		        	},
 		         	{
-		        		"aliases": ["xbox one console", "xbox kinect"]
+		        		"aliases": ["xbox one console", "xbox kinect", "xbox 360"]
 		        	}
 	    		]
         	},

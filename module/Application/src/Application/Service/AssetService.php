@@ -46,7 +46,7 @@ class AssetService implements AssetServiceInterface
 	 * {@inheritDoc} jih: make sure that this is in the interface
 	 */
 	public function getLessorsForAssets(
-		$assetList
+		&$assetList
 	){
 		// Validate argument
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
@@ -65,8 +65,20 @@ class AssetService implements AssetServiceInterface
 			$this->branchMapper->setPrototypeArray( $branches );
 			$this->branchMapper->getLocation( $this->locationMapper );
 		}
+		
+		// Now go through and change the lessors to point to the assets
+		$lessorIdToLessors = array();
+		foreach($lessorList as $lessor){
+			$lessorIdToLessors[$lessor->getId()] = $lessor;
+		}
+		foreach($assetList as $asset){
+			$asset->setLessor($lessorIdToLessors[$asset->getLessorId()]);
+		}
 		return $lessorList;
 	}
+	
+	
+	
 	/**
 	 * {@inheritDoc}
 	 */

@@ -36,6 +36,7 @@ class Asset extends AbstractModel implements AssetInterface
 		$this->property_id_array = isset($data['property_id_array']) ? $data['property_id_array'] : array();
 		$this->url_id = isset($data['url_id']) ? (int) $data['url_id'] : NULL;
 		$this->image_url = isset($data['image_url']) ? $data['image_url'] : NULL;
+		$this->description_text = isset($data['description_text']) ? $data['description_text'] : NULL;
 	}
 
 	/**
@@ -185,6 +186,22 @@ class Asset extends AbstractModel implements AssetInterface
 			return 'assets/' . implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
 		}
 		return 'no_image_'.$x."x".$y.'.png';
+	}
+
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setDescription($description)
+	{
+		$this->description_text=$description;
+	}
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDescription()
+	{
+		return $this->description_text;
 	}
 }
 ?>

@@ -80,11 +80,13 @@ function getMainProperties(){
 	}
 	
 	// If we are inserting in some property columns, then shrink the size of the existing
-	if(maxNumberOfMainProperties > 0){ 
+	if(mainProperties.length > 0){ 
 		var widthOfExistingProperties = $('.categoryAndFilterBarWrapper').width() - 30 - 30 - 120 - 120 * maxNumberOfMainProperties;
 		$('.assetPropertiesSummary').each(function(){
-			$(this).width(widthOfExistingProperties)
-		})
+			$(this).width(widthOfExistingProperties);
+		});
+		$(".categoryAndFilterBar").click(showFilters);
+		$('.filterIcon').show();
 	}
 	return mainProperties;
 }

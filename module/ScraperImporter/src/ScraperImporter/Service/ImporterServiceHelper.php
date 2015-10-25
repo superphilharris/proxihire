@@ -349,6 +349,7 @@ class ImporterServiceHelper {
 		$string = str_replace('skilsaw', 		'skillsaw',		$string);
 		$string = str_replace('scissorlift', 	'scissor lift',	$string);
 		$string = str_replace('tarpouline', 	'tarpaulin',	$string);
+		$string = str_replace('x box', 			'xbox',			$string);
 		$string = str_replace('wall paper', 	'wallpaper',	$string);
 		$string = str_replace('wheel barrow', 	'wheelbarrow', 	$string);
 		$string = str_replace('widht', 			'width', 		$string);

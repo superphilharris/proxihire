@@ -10,7 +10,8 @@ function showAllMarkers(){
 		}
 		allMarkers[allBranches[i].lessorId].push(new google.maps.Marker({
 			position: 	new google.maps.LatLng(allBranches[i].lat, allBranches[i].long),
-			title: 		allBranches[i].lessorName + ''
+			title: 		allBranches[i].lessorName + '',
+			icon: 		allBranches[i].icon
 		}));
 	}
 	for(var lessorId in allMarkers) {
