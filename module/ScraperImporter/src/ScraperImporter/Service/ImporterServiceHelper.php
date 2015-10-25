@@ -4,11 +4,11 @@ namespace ScraperImporter\Service;
 use Application\Model\Datatype;
 
 class ImporterServiceHelper {
-	const REFRESH_ASSET_IMAGES = FALSE; // Whether we want to check to see whether they've changed the images on their server.
+	const REFRESH_ASSET_IMAGES 		= FALSE; // Whether we want to check to see whether they've changed the images on their server.
+	const GENERATE_RANDOM_LOCATIONS = TRUE;	// Turn on if we are overusing the google api
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
-	const GENERATE_RANDOM_LOCATIONS = true;
 	
 	
 	/**
@@ -198,12 +198,12 @@ class ImporterServiceHelper {
 	 * @param string $url
 	 * @return boolean
 	 */
-	public function syncImage($url){
+	public function syncImage($url, $type="assets"){
 		if($url !== null AND $url !== ""){
 			$urlComponents = parse_url($url);
 			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
 				$localImageRelativePath = $urlComponents['host'].$urlComponents['path'];
-				$localImage = __DIR__.'/../../../../../public/img/assets/'.$localImageRelativePath;
+				$localImage = __DIR__.'/../../../../../public/img/'.$type.'/'.$localImageRelativePath;
 				if($this::REFRESH_ASSET_IMAGES OR !file_exists($localImage)){
 					$directory = dirname($localImage);
 					$this->mkdir($directory);
