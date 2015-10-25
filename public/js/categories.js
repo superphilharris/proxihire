@@ -151,7 +151,7 @@ categories = {
 						"aliases": ["cutting"],
 						"children": [
 							{
-								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw", "skillsaw"]
+								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw", "skillsaw", "drop saw", "metal cut off saw"]
 							},
 							{
 								"aliases": ["bench saw", "radial arm saw"]
@@ -188,6 +188,9 @@ categories = {
 							},
 							{
 								"aliases": ["pole pruner", "pruning saw", "bow saw", "pruner saw"]
+							},
+							{
+								"aliases": ["demolition saw"]
 							},
 							{
 								"aliases": ["tile cutter", "tile saw"]

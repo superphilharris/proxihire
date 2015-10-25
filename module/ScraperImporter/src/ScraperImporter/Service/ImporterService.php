@@ -128,7 +128,8 @@ class ImporterService implements ImporterServiceInterface
 		// 5. Read in the crawled assets
 		foreach($pages as $page){
 			if($page->item_type === "asset"){
-
+				$itemName = ucfirst($page->item_name);
+				
 				$imageUrl = null;
 				if(property_exists($page, 'image')){
 					$imageUrl = $this->helper->syncImage($page->image);
@@ -136,20 +137,20 @@ class ImporterService implements ImporterServiceInterface
 				}
 				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'$imageUrl'";
 				
-				$category = $this->helper->determineCategory($categories, $page->item_name);
+				$category = $this->helper->determineCategory($categories, $itemName);
 				if($category === null AND property_exists($page, 'category')){
-					$category = $this->helper->determineCategory($categories, $page->item_name." ".$page->category);
+					$category = $this->helper->determineCategory($categories, $itemName." ".$page->category);
 				}
 				if($category === null AND property_exists($page, 'description')){
-					$category = $this->helper->determineCategory($categories, $page->item_name." ".$page->description);
+					$category = $this->helper->determineCategory($categories, $itemName." ".$page->description);
 				}
 				if($category === null){
-					$comment = "<a href=\"$page->url\" target='_blank'>$page->item_name</a>";
+					$comment = "<a href=\"$page->url\" target='_blank'>$itemName</a>";
 					if (property_exists($page, 'description')) $comment .= ": " . $page->description;
 					$this->writeComment($comment);
 					exit;
 				}else $categoryName = $category->aliases[0];
-				$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($page->item_name)."','".addslashes($page->url)."'); ");
+				$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($itemName)."','".addslashes($page->url)."'); ");
 				$this->writeSQL("INSERT INTO asset (category_id, url_id, lessor_user_id, image_url) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".addslashes($categoryName)."' AND u.name_fulnam='".addslashes($page->lessor)."'; ");
 				$this->writeSQL("SET @last_asset_id = LAST_INSERT_ID();");
 				// Get the properties

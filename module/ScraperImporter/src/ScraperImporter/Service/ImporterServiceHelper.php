@@ -330,6 +330,7 @@ class ImporterServiceHelper {
 	private function fixSpelling($string){
 		$string = str_replace('acroprop', 		'acrow prop',	$string);
 		$string = str_replace('crow bar', 		'crowbar',		$string);
+		$string = str_replace('chain saw', 		'chainsaw',		$string);
 		$string = str_replace('excxavator', 	'excavator',	$string);
 		$string = str_replace('hight', 			'high',			$string);
 		$string = str_replace('lenght', 		'length', 		$string);
@@ -353,6 +354,24 @@ class ImporterServiceHelper {
 		return $string;
 	}
 	
+	
+	public function determineProperties($key, $value, $categoryName){
+		$results = $this->determinePropertiesInternal($key, $value, $categoryName);
+		if(count($results) === 1 AND $key === $value){ // If we have not done anything except make it lower case, then revert the determineProperties
+			$result = $results[0];
+			if($result['datatype'] === Datatype::STRING){
+				if(strtolower($result['value_mxd']) === trim($key)){
+					$result['value_mxd'] = ucfirst(trim($this->fixSpelling($key)));
+					return array($result);
+				}else{
+					$result['value_mxd'] = ucfirst($this->fixSpelling($result['value_mxd']));
+					return array($result);
+				}
+			}
+		}
+		return $results;
+	}
+	
 	/**
 	 * Determines the properties that are for an asset
 	 * @param string $key
@@ -360,7 +379,7 @@ class ImporterServiceHelper {
 	 * @param string $categoryName
 	 * @return array 
 	 */
-	public function determineProperties($key, $value, $categoryName){
+	private function determinePropertiesInternal($key, $value, $categoryName){
 		if($key === $value) $key = "";
 		$key   = trim(strtolower($key),   ":- ");
 		$value = trim(strtolower($value), ": ");
@@ -371,26 +390,35 @@ class ImporterServiceHelper {
 			$twoNumbers = explode(" to ", $value, 2);
 			$min = $twoNumbers[0];
 			$max = $twoNumbers[1];
-			if(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
+			// If the min or max has the units, then ensure that the other one is updated too
+			if(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $min, $minUnits) AND floatval($min) == $min){
 				$min = $min.$maxUnits[1];
+			}elseif(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $min, $minUnits) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND floatval($max) == $max){
+				$max = $max.$minUnits[1];
 			}
 			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
 				
-		}elseif($this->isIn($value, '[0-9]+ *- *[0-9]+') AND $this->isIn($key, ' range')){
+		}elseif($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND $this->isIn($key, ' range')){
 			$key = str_replace('range', 'bound', $key);
 			$twoNumbers = explode("-", $value, 2);
 			$min = trim($twoNumbers[0]);
 			$max = trim($twoNumbers[1]);
-			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
+			// If the min or max has the units, then ensure that the other one is updated too
+			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND floatval($min) == $min){
+				$min = $min.$maxUnits[1];
+			}elseif(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($max) == $max){ 
 				$min = $min.$maxUnits[1];
 			}
 			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
-		}elseif($this->isIn($value, '[0-9]+ *- *[0-9]+') AND !strpos($key, ' ')){ // psh TODO: this will not work for multi keys.
+		}elseif($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND !strpos($key, ' ')){
 			$key = Porter::Stem($this->fixSpelling($key));
 			$twoNumbers = explode("-", $value, 2);
 			$min = trim($twoNumbers[0]);
 			$max = trim($twoNumbers[1]);
-			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
+			// If the min or max has the units, then ensure that the other one is updated too
+			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
+				$min = $min.$maxUnits[1];
+			}elseif(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($max) == $max){ // If the max has the units, then put the units onto the min as well
 				$min = $min.$maxUnits[1];
 			}
 			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));

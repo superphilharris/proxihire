@@ -1,5 +1,5 @@
 
-var showGoogleMap = (window.innerWidth > 768);
+var showGoogleMap = (window.innerWidth >= 768);
 var allMarkers = [], allAssets = [], allBranches = [];
 var googleMap = null, mapsBouncingTimout = null;
 function showAllMarkers(){
