@@ -190,9 +190,6 @@ categories = {
 								"aliases": ["pole pruner", "pruning saw", "bow saw", "pruner saw"]
 							},
 							{
-								"aliases": ["concrete saw", "road saw"]
-							},
-							{
 								"aliases": ["tile cutter", "tile saw"]
 							},
 							{
@@ -260,7 +257,7 @@ categories = {
 								"aliases": ["welder", "gas welding"]
 							},
 							{
-								"aliases": ["welding outfit"]
+								"aliases": ["welding outfit", "welding single phase"]
 							}
 						]
 					},
@@ -445,6 +442,9 @@ categories = {
 			},
 			{
 				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit", "sink cleaning kit"]
+			},
+			{
+				"aliases": ["rubbish bin", "skip bin"]
 			},
 			{
 				"aliases": ["grass trimming"],
@@ -796,6 +796,9 @@ categories = {
 					},
 					{
 						"aliases":["curtainsider trailer"]
+					},
+					{
+						"aliases":["low load trailer"]
 					}
 				]
 			}
@@ -890,7 +893,10 @@ categories = {
 				"aliases": ["concrete laying"],
 				"children": [
 					{
-						"aliases": ["concrete saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw", "concrete hand tool"]
+						"aliases": ["concrete saw", "road saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw", "concrete hand tool"]
+					},
+					{
+						"aliases": ["concrete diamond blade"]
 					},
 					{
 						"aliases": ["concrete mixer"]
@@ -982,10 +988,16 @@ categories = {
 								"aliases": ["backfill blade"]
 							},
 							{
-								"aliases": ["borer attachment", "dingo borer"]
+								"aliases": ["borer attachment", "dingo borer", "auger attachment"]
 							},
 							{
 								"aliases": ["weed bucket attachment"]
+							},
+							{
+								"aliases": ["multi grab bucket"]
+							},
+							{
+								"aliases": ["bucket attachment"]
 							}
 				 		]
 		        	},
