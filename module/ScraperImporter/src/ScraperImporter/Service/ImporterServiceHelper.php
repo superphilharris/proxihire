@@ -236,11 +236,16 @@ class ImporterServiceHelper {
 			$latLong->long = 174.761066 + rand(-10, 10)/500;
 			return $latLong;
 		}
+		usleep(100000); // No more than 10 requests/second
 		$json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode(trim($physicalAddress)).'&key='.$this::GOOGLE_API_KEY));
-		if(count($json->results) === 0) $json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode(trim($physicalAddress, ' 0123456789')).'&key='.$this::GOOGLE_API_KEY));
+		if(count($json->results) === 0){
+			usleep(100000); // No more than 10 requests/second
+			$json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode(trim($physicalAddress, ' 0123456789')).'&key='.$this::GOOGLE_API_KEY));
+		}
 		while(count($json->results) === 0 AND strpos($physicalAddress, ",")){
 			$lastSpacePosition = strrpos(rtrim($physicalAddress, ", ")," ");
 			$physicalAddress =substr($physicalAddress,0,$lastSpacePosition);// Remove the last word
+			usleep(100000); // No more than 10 requests/second
 			$json = json_decode(file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode(trim($physicalAddress)).'&key='.$this::GOOGLE_API_KEY));
 		}
 		if(count($json->results) === 0) exit('Google could not determine the address:"'.$physicalAddress.'" at: https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($physicalAddress).'&key='.$this::GOOGLE_API_KEY) .' because: '.$json->error_message;

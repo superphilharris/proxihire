@@ -232,7 +232,7 @@ function filterResults(){
  * @param category
  */
 function goCategory(category){
-	window.location.href = "/search/" + category;
+	window.location.href = "/search/" + category + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
  /*   document.getElementById("content").innerHTML = response.html;
     document.title = response.pageTitle;
     window.history.pushState({"html":response.html,"pageTitle":response.pageTitle},"", urlPath);*/
@@ -270,6 +270,25 @@ function adjustOverflowingCategoryPicker(){
 		});
 	}
 }
+
+
+/*
+ * --------------------------------------------------------------------------------------------
+ * Get the user location
+ */
+function getUserLocation(){
+	navigator.geolocation.getCurrentPosition(function(position){
+		CURRENT_LOCATION.lat  = position.coords.latitude;
+		CURRENT_LOCATION.long = position.coords.longitude;
+		if(googleMap){
+			var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			googleMap.setCenter(latlng);
+		}
+		
+	});
+}
+
+
 
 /**
  * @see http://stackoverflow.com/questions/986937/how-can-i-get-the-browsers-scrollbar-sizes

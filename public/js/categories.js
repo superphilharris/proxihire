@@ -799,7 +799,10 @@ categories = {
 						"aliases":["horse float"]
 					},
 					{
-						"aliases":["standard trailer", "single axle trailer", "furniture trailer", "tandem trailer", "box trailer"]
+						"aliases":["standard trailer", "single axle trailer", "tandem trailer", "box trailer"]
+					},
+					{
+						"aliases":["shuttle trailer", "furniture trailer"]
 					},
 					{
 						"aliases":["caged trailer","bin trailers", "rubbish trailer"]

@@ -189,12 +189,14 @@ install_pkg php5-mysql || exit 1
 install_pkg -m composer zendframework/zftool:dev-master || exit 1
 
 # mysql
-install_pkg mysql-server || exit 1
+install_pkg mysql-client-core-5.6 || exit 1
+install_pkg mysql-client-5.6 || exit 1
+install_pkg mysql-server-5.6 || exit 1
 install_pkg mysql-workbench || exit 1
 
 # Install phpunit
 install_pkg phpunit || exit 1
-install_pkg -f "--dev" -m "composer" "phpunit/phpunit"
+install_pkg -f "--dev" -m "composer" "phpunit/phpunit" || exit 1
 
 # Install imagemagick for converting scraped images into squares
 install_pkg imagemagick || exit 1
