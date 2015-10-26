@@ -4,7 +4,7 @@ namespace ScraperImporter\Service;
 use Application\Model\Datatype;
 
 class ImporterServiceHelper {
-	const REFRESH_ASSET_IMAGES 		= FALSE; // Whether we want to check to see whether they've changed the images on their server.
+	const REFRESH_ASSET_IMAGES 		= TRUE; // Whether we want to check to see whether they've changed the images on their server.
 	const GENERATE_RANDOM_LOCATIONS = TRUE;	// Turn on if we are overusing the google api
 	
 	private $propertyAliases = array();
@@ -271,6 +271,29 @@ class ImporterServiceHelper {
 		return null;
 	}
 	
+	/**
+	 * This puts a border around a favicon.ico and will also generate a marker for google maps.
+	 * The marker for google maps is the same, except that it ends in ico_marker.ico
+	 * @param string $iconPath
+	 * @return NULL|string
+	 */
+	public function createIcons($iconPath){
+		if($iconPath !== null){
+			$iconDir = __DIR__.'/../../../../../public/img/lessors/';
+			$iconPathParts = explode('.', $iconPath);
+			$newIconPath = implode('.', array_splice($iconPathParts, 0, -1))."_18x18.".end($iconPathParts);
+			if(!file_exists($iconDir.$newIconPath) OR $this::REFRESH_ASSET_IMAGES){
+				// Resize the image to the desired size of 16x16
+				exec("convert -define jpeg:size=32x32 $iconDir".escapeshellarg($iconPath)." -thumbnail 16x16^ -gravity center -extent 16x16 $iconDir".escapeshellarg($newIconPath));
+				// Now combine the image with the white marker to create a marker
+				exec("convert ".$iconDir."white.ico_marker.ico $iconDir".escapeshellarg($newIconPath)." -geometry 16x16+1+1 -compose over -composite $iconDir".escapeshellarg($newIconPath)."_marker.ico");
+				// And combine the image to create a bordered icon
+				exec("convert ".$iconDir."white.ico $iconDir".escapeshellarg($newIconPath)." -gravity center -compose over -composite $iconDir".escapeshellarg($newIconPath));
+			}
+			return $newIconPath;
+		}
+		return null;
+	}
 	/**
 	 * Recursively makes a directory.
 	 * As php one doesn't seem to work recursively

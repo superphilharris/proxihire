@@ -85,7 +85,7 @@ class ImporterService implements ImporterServiceInterface
 				if(! in_array($lessor->name, $createdLessors)){
 					if(property_exists($lessor, 'icon')){
 						$iconUrl = $this->helper->syncImage($lessor->icon, 'lessors');
-						$this->helper->createIcon(__DIR__.'/../../../../../public/img/lessors/'.$iconUrl);
+						$iconUrl = $this->helper->createIcons($iconUrl);
 					}
 					$iconUrl = ($iconUrl === NULL) ? 'NULL' : "'$iconUrl'";
 					
