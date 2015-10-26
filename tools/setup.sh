@@ -192,7 +192,6 @@ install_pkg -m composer zendframework/zftool:dev-master || exit 1
 install_pkg mysql-client-core-5.6 || exit 1
 install_pkg mysql-client-5.6 || exit 1
 install_pkg mysql-server-5.6 || exit 1
-install_pkg mysql-workbench || exit 1
 
 # Install phpunit
 install_pkg phpunit || exit 1
