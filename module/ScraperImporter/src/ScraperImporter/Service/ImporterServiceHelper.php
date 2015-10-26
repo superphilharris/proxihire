@@ -4,7 +4,7 @@ namespace ScraperImporter\Service;
 use Application\Model\Datatype;
 
 class ImporterServiceHelper {
-	const REFRESH_ASSET_IMAGES 		= TRUE; // Whether we want to check to see whether they've changed the images on their server.
+	const REFRESH_ASSET_IMAGES 		= FALSE; // Whether we want to check to see whether they've changed the images on their server.
 	const GENERATE_RANDOM_LOCATIONS = TRUE;	// Turn on if we are overusing the google api
 	
 	private $propertyAliases = array();

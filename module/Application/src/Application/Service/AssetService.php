@@ -68,11 +68,13 @@ class AssetService implements AssetServiceInterface
 		
 		// Now go through and change the lessors to point to the assets
 		$lessorIdToLessors = array();
-		foreach($lessorList as $lessor){
-			$lessorIdToLessors[$lessor->getId()] = $lessor;
-		}
-		foreach($assetList as $asset){
-			$asset->setLessor($lessorIdToLessors[$asset->getLessorId()]);
+		if($lessorList != null){
+			foreach($lessorList as $lessor){
+				$lessorIdToLessors[$lessor->getId()] = $lessor;
+			}
+			foreach($assetList as $asset){
+				$asset->setLessor($lessorIdToLessors[$asset->getLessorId()]);
+			}
 		}
 		return $lessorList;
 	}
