@@ -27,9 +27,17 @@ interface UserInterface
 	/**
 	 * Sets the user's location
 	 *
-	 * @param Application\Model\BranchInterface $location The user's location
+	 * @param Application\Model\BranchInterface $branchArray The user's location
 	 */
 	public function setBranches($branchArray);
+
+	/**
+	 * Returns the distance in meters to the provided location
+	 * 
+	 * @param Application\Model\LocationInterface $location 
+	 * @return float 
+	 */
+	public function getDistanceToClosestBranch($location);
 
 }
 ?>

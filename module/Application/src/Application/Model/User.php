@@ -7,6 +7,7 @@ class User extends AbstractModel implements UserInterface
 	protected $name;
 	protected $branch_id_array;
 	protected $branches;
+	private $distanceToSessionUser;
 
 	/**
 	 * {@inheritdoc}
@@ -55,6 +56,21 @@ class User extends AbstractModel implements UserInterface
 	{
 		// jih: classhelper
 		$this->branches = $branches;
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDistanceToClosestBranch($location){
+		if(is_float($location->getLatitude()) AND is_float($location->getLongitude())){
+			$minDistance = 40075000; // Circumference of earth in meters
+			foreach($this->branches as $branch){
+				$minDistance = min($minDistance, $branch->getLocation()->getDistanceTo($location));
+			}
+			if($minDistance != 40075000) 	return $minDistance;
+			else 							return null;
+		}
+		return null;
 	}
 }
 ?>

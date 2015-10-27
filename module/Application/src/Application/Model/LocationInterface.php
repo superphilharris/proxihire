@@ -24,5 +24,12 @@ interface LocationInterface
 	 */
 	public function getLongitude();
 
+	/**
+	 * Returns the distance in meters to another location
+	 * 
+	 * @param Application\Model\LocationInterface $location
+	 * @return float
+	 */
+	public function getDistanceTo($location);
 }
 ?>

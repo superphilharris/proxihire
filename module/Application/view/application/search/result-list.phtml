@@ -1,7 +1,14 @@
 <?php
+use Application\Model\Location;
 $GLOBALS['COLORS'] 				= array("blue", "red", "green", "yellow", "orange", "purple", "white", "black");
 $GLOBALS['COLOR_INDEX'] 		= 0;
 $GLOBALS['LESSORID_TO_COLOR'] 	= array();
+$userLocation = new Location();
+if(isset($_REQUEST['lat']) AND floatval($_REQUEST['lat']) AND isset($_REQUEST['long']) AND floatval($_REQUEST['long'])){
+	$userLocation->exchangeArray(array("latitude" => floatval($_REQUEST['lat']), "longitude" => floatval($_REQUEST['long'])));
+}else{
+	$userLocation->exchangeArray(array("latitude" => -36.84913134182603, "longitude" => 174.76234048604965));
+}
 
 // 1. Display the properties sliders
 $allProperties = getAllProperties($this->assetList);
@@ -14,6 +21,7 @@ foreach( $this->assetList as $asset ){
 		<div class="panel-heading">
 			<a target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a>
 			<img class="lessorIcon" src="/img/<?php echo getIcon($asset->getLessor()) ?>" title="<?php echo $asset->getLessor()->getName() ?>"/>
+			<span class="distanceToUser"><?php echo round($asset->getLessor()->getDistanceToClosestBranch($userLocation)/100)/10 ?><span class="propertyUnit">km</span></span>
 		</div>
 		<div class="panel-body">
 			<div class="assetImageWrapper"><img src="/img/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
