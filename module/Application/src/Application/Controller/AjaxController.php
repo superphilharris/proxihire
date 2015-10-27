@@ -9,7 +9,7 @@ use Application\Service\CategoryAliasesServiceInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class SearchController extends AbstractActionController
+class AjaxController extends AbstractActionController
 {
 	protected $assetService;
 	protected $categoryService;
@@ -24,26 +24,18 @@ class SearchController extends AbstractActionController
 		$this->categoryAliasesService=$categoryAliasesService;
 	}
 
-    public function indexAction()
+    public function assetListAction()
     {
-		$view = new ViewModel(array());
+		$this->layout( 'application/ajax' );
 		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
 		$categoryName       = $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
-		$ancestory          = $allCategoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
-		
-		// Category picker
 		if($categoryName !== null){
 			$category = $this->categoryService->getCategoryByName($categoryName);
 		}else{
 			$category = null;
 		}
-
-		$categoryPickerView = new ViewModel(array(
-			'category'        => $category,
-			'categoryAliases' => $allCategoryAliases,
-			'ancestory'       => $ancestory
-		));
-		$categoryPickerView->setTemplate('application/search/category-picker');
+		$view = new ViewModel(array());
+		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
 
 		// Asset list
 		$assetList = $this->getAssetList($category, $allCategoryAliases);
@@ -54,17 +46,8 @@ class SearchController extends AbstractActionController
 		));
 		$resultListView->setTemplate('application/search/result-list');
 
-		// Map
-		$mapView = new ViewModel();
-		$mapView->setTemplate('application/search/map');
-
-		$view->addChild($categoryPickerView, 'category_picker')
-			 ->addChild($resultListView, 'result_list')
-			 ->addChild($mapView,        'map');
-
-		return $view;
+		return $resultListView;
 	}
-	
 
 	private function getAssetList($category, $allCategoryAliases)
 	{

@@ -1,0 +1,32 @@
+<?php
+namespace Application\Factory;
+
+use Application\Controller\AjaxController;
+
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+class AjaxControllerFactory implements FactoryInterface
+{
+	/**
+	 * Create service
+	 *
+	 * @param ServiceLocatorInterface $serviceLocator
+	 * @return mixed
+	 */
+	public function createService(ServiceLocatorInterface $serviceLocator)
+	{
+		$realServiceLocator     = $serviceLocator->getServiceLocator();
+
+		$assetService           = $realServiceLocator->get('Application\Service\AssetServiceInterface');
+		$categoryService        = $realServiceLocator->get('Application\Service\CategoryServiceInterface');
+		$categoryAliasesService = $realServiceLocator->get('Application\Service\CategoryAliasesServiceInterface');
+
+		return new AjaxController(
+			$assetService,
+			$categoryService,
+			$categoryAliasesService
+		);
+	}
+}
+?>
