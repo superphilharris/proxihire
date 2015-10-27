@@ -87,7 +87,7 @@ class ImporterService implements ImporterServiceInterface
 						$iconUrl = $this->helper->syncImage($lessor->icon, 'lessors');
 						$iconUrl = $this->helper->createIcons($iconUrl);
 					}
-					$iconUrl = ($iconUrl === NULL) ? 'NULL' : "'$iconUrl'";
+					$iconUrl = ($iconUrl === NULL) ? 'NULL' : "'".addslashes($iconUrl)."'";
 					
 					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
 					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN 													 (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
@@ -141,7 +141,7 @@ class ImporterService implements ImporterServiceInterface
 					$imageUrl = $this->helper->syncImage($page->image);
 					$this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
 				}
-				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'$imageUrl'";
+				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'".addslashes($imageUrl)."'";
 				
 				$category = $this->helper->determineCategory($categories, $itemName);
 				if($category === null AND property_exists($page, 'category')){
