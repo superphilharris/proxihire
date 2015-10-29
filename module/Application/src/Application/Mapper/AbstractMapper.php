@@ -465,6 +465,7 @@ abstract class AbstractMapper
 
 		$sql = new Sql( $this->dbAdapter );
 		foreach( $this->prototypeArray as &$prototype ){
+			$prototype->updateIds();
 			// 1. If the ids aren't populated, then it attempts to populate them based on 
 			//    the other fields of this object.
 			if( $prototype->getId() == 0 ){
