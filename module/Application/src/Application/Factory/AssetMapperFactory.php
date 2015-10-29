@@ -20,14 +20,19 @@ class AssetMapperFactory extends AbstractMapperFactory implements FactoryInterfa
 		$dbStructure=(object) array(
 			'table'         => 'asset',
 			'primary_key'   => 'asset_id',
+			'update_key'    => array(
+				'lessor_user_id',
+				'description_text'
+			),
 			'columns'       => array(
-				'asset_id'       => 'id',
-				'category_id'    => 'category_id',
-				'url_id'         => 'url_id',
-				'lessor_user_id' => 'lessor_id',
-				'image_url'      => 'image_url',
-				'asset_property' => 'property_id_array',
-				'asset_rate'     => 'rate_id_array'),
+				'asset_id'         => 'id',
+				'category_id'      => 'category_id',
+				'url_id'           => 'url_id',
+				'lessor_user_id'   => 'lessor_id',
+				'image_url'        => 'image_url',
+				'description_text' => 'description',
+				'asset_property'   => 'property_id_array',
+				'asset_rate'       => 'rate_id_array'),
 			'relationships' => array(
 				(object) array(
 					'table'       => 'asset_property',
