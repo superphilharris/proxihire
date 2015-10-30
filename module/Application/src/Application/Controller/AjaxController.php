@@ -26,6 +26,7 @@ class AjaxController extends AbstractActionController
 
     public function assetListAction()
     {
+		$view = new ViewModel(array());
 		$this->layout( 'application/ajax' );
 		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
 		$categoryName       = $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
@@ -34,8 +35,15 @@ class AjaxController extends AbstractActionController
 		}else{
 			$category = null;
 		}
-		$view = new ViewModel(array());
-		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
+		$ancestory          = $allCategoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
+		
+		// Category picker
+		$categoryPickerView = new ViewModel(array(
+				'category'        => $category,
+				'categoryAliases' => $allCategoryAliases,
+				'ancestory'       => $ancestory
+		));
+		$categoryPickerView->setTemplate('application/search/category-picker');
 
 		// Asset list
 		$assetList = $this->getAssetList($category, $allCategoryAliases);
@@ -46,7 +54,11 @@ class AjaxController extends AbstractActionController
 		));
 		$resultListView->setTemplate('application/search/result-list');
 
-		return $resultListView;
+		$view->setTemplate('application/search/index');
+		$view->addChild($categoryPickerView, 'category_picker')
+			 ->addChild($resultListView, 'result_list');
+		
+		return $view;
 	}
 
 	private function getAssetList($category, $allCategoryAliases)

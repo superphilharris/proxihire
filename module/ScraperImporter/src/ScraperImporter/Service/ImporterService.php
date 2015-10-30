@@ -160,7 +160,7 @@ class ImporterService implements ImporterServiceInterface
 					exit;
 				}else $categoryName = $category->aliases[0];
 				
-				$description = (property_exists($page, 'image'))? "'".addslashes(ucfirst($page->description))."'" : 'NULL';
+				$description = (property_exists($page, 'description'))? "'".addslashes(ucfirst($page->description))."'" : 'NULL';
 				$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($itemName)."','".addslashes($page->url)."'); ");
 				$this->writeSQL("INSERT INTO asset (category_id, url_id, lessor_user_id, image_url, description_text) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl, $description FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".addslashes($categoryName)."' AND u.name_fulnam='".addslashes($page->lessor)."'; ");
 				$this->writeSQL("SET @last_asset_id = LAST_INSERT_ID();");

@@ -30,11 +30,11 @@ if(QueryString.lat && QueryString.long){
 	CURRENT_LOCATION.long = QueryString.long;
 }
 var showGoogleMap = (window.innerWidth >= 768);
-var allMarkers = [], allAssets = [], allBranches = [];
+var allMarkers = [];
 var googleMap = null, mapsBouncingTimout = null;
 var userMarker = null;
 function showAllMarkers(){
-	if(googleMap == null) return;
+	if(googleMap == null || typeof allBranches == "undefined") return;
 	for(var i in allBranches){
 		if(typeof allMarkers[allBranches[i].lessorId] == "undefined"){
 			allMarkers[allBranches[i].lessorId] = [];
@@ -53,10 +53,13 @@ function showAllMarkers(){
 }
 function removeAllMarkers(){
 	if(googleMap == null) return;
-	for(var i=0; i<allMarkers.length; i++) {
-		allMarkers[i].setMap(null);
+	for(var lessorId in allMarkers) {
+		for(var i in allMarkers[lessorId]){
+			allMarkers[lessorId][i].setMap(null)
+		}
 	}
 	allMarkers = [];
+	allBranches = [];
 }
 function bounceMarker(lessorId){
 	if(googleMap == null) return;
@@ -75,8 +78,10 @@ function stopBouncing(lessorId, seconds){
 	if(googleMap == null) return;
 	clearTimeout(mapsBouncingTimout);
 	mapsBouncingTimout = setTimeout(function(){
-		for(var i=0; i<allMarkers[lessorId].length; i++) {
-			allMarkers[lessorId][i].setAnimation(null);
+		if(allMarkers[lessorId]){
+			for(var i=0; i<allMarkers[lessorId].length; i++) {
+				allMarkers[lessorId][i].setAnimation(null);
+			}
 		}
 	}, seconds * 1000)
 }
@@ -97,6 +102,10 @@ function initializeGoogleMaps() {
 			map: googleMap,
 			draggable: true,
 			position: new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.long)
+		});
+		google.maps.event.addListener(userMarker, 'dragend', function(){
+			CURRENT_LOCATION.lat 	= this.position.lat;
+			CURRENT_LOCATION.long 	= this.position.lng;
 		});
 	  	showAllMarkers();
 	});

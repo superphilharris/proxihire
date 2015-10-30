@@ -109,7 +109,6 @@ function updateFilterBar(){
 	
 	// A. Add the filters at the top of the page
 	for(var propertyName in mainProperties){
-		console.log(mainProperties)
 		// 1. Add the html
 		var html = 
 			'<div class="filterBarPropertyColumn"><div class="filterBarPropertyColumnName">'+propertyName+'</div>'+
@@ -205,7 +204,6 @@ function filterResults(){
 			if (inputs.length == 1 && inputs[0].type == "text" && inputs[0].value.split(",").length == 2){
 				var minLimit 	= parseFloat(inputs[0].value.split(",")[0]);
 				var maxLimit 	= parseFloat(inputs[0].value.split(",")[1]);
-				console.log()
 				var step 	= ((parseFloat($(inputs[0]).data('slider-max')) - parseFloat($(inputs[0]).data('slider-min')))/10).toPrecision(1);
 				
 				$('.assetPanel').each(function(){
@@ -238,7 +236,18 @@ function filterResults(){
  * @param category
  */
 function goCategory(category){
-	window.location.href = "/search/" + category + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
+	$('#searchResults').html("");
+	removeAllMarkers();
+	
+	$.post("/assetlist/" + category + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long, function(html){
+		$('#searchResults').html(html);
+		console.log(allBranches)
+		updateFilterBar();
+		showAllMarkers();
+	});
+	
+	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
+	// window.location.href = "/search/" + category + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
  /*   document.getElementById("content").innerHTML = response.html;
     document.title = response.pageTitle;
     window.history.pushState({"html":response.html,"pageTitle":response.pageTitle},"", urlPath);*/
@@ -290,7 +299,6 @@ function getUserLocation(){
 			var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 			googleMap.setCenter(latlng);
 		}
-		
 	});
 }
 

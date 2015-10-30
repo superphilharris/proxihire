@@ -52,6 +52,8 @@ class AssetService implements AssetServiceInterface
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"array|Application\Model\AssetInterface"));
 
+		if(empty($assetList)) return array();
+		
 		$lessorIds = array();
 		foreach( $assetList as $key=>$asset ){
 			$lessorId = $asset->getLessorId();

@@ -55,17 +55,23 @@ foreach( $this->assetList as $asset ){
 // 3. Bounce the location on the map when hovering
 ?>
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', function(){ 
-	<?php 
-	
+allBranches = [
+	<?php            			
 	// 1. Add all the markers to the map
-	foreach( $this->lessorList as $lessor ){
+	$numberOfLessors = count($this->lessorList);
+	foreach( $this->lessorList as $i => $lessor ){
 		foreach( $lessor->getBranches() as $branch ){
 			$location = $branch->getLocation();
-			echo 'allBranches.push({lessorId:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().',lessorName:"'.$lessor->getName().'",icon:"/img/'.getIcon($lessor).'_marker.ico"}); ';
+			echo '{lessorId:'.$lessor->getId().',lat:'.$location->getLatitude().',long:'.$location->getLongitude().',lessorName:"'.$lessor->getName().'",icon:"/img/'.getIcon($lessor).'_marker.ico"}';
+			if($i != $numberOfLessors - 1){
+				echo ",";
+			}
 		}
 	}
 	?>
+];
+               
+document.addEventListener('DOMContentLoaded', function(){ 
 	showAllMarkers();
 }, false);
 </script>
