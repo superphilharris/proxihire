@@ -32,6 +32,7 @@ if(QueryString.lat && QueryString.long){
 var showGoogleMap = (window.innerWidth >= 768);
 var allMarkers = [], allAssets = [], allBranches = [];
 var googleMap = null, mapsBouncingTimout = null;
+var userMarker = null;
 function showAllMarkers(){
 	if(googleMap == null) return;
 	for(var i in allBranches){
@@ -91,6 +92,12 @@ function initializeGoogleMaps() {
 	  	};
 	  
 	  	googleMap = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+		userMarker = new google.maps.Marker({
+			map: googleMap,
+			draggable: true,
+			position: new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.long)
+		});
 	  	showAllMarkers();
 	});
 };

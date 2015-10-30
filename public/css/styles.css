@@ -86,45 +86,32 @@ body{
 	font-weight: bold;
 }
 .assetPropertiesSummary {
-	table-layout:fixed;
-	height: 90px;
-	font-size: 12.5px;
+	height: 92px;
+	float: left;
+	margin-bottom: -2px;
+	margin-top: -4px;
+	font-size: 13px;
 	line-height: 1.4em;
 	overflow: hidden;
 	display: block;
-	border-collapse: collapse;
 }
-.assetPropertiesSummary td {
-	text-align: center;
-	padding-bottom: 1px;
+.assetPropertiesSummary > table {
+	width: 100%;
 }
-.assetPropertiesSummary {
-  border-collapse: collapse;
+.assetPropertiesSummary > * {
+  border-bottom: 1px solid #ddd;
+  margin-top: 1px;
 }
-.assetPropertiesSummary td {
-  border: 1px solid #ddd;
-}
-.assetPropertiesSummary tr:first-child td {
-  border-top: 0;
-}
-.assetPropertiesSummary tr:last-child td {
+.assetPropertiesSummary > *:last-child {
   border-bottom: 0;
 }
-.assetPropertiesSummary tr td:first-child {
-  border-left: 0;
-  text-align: right;
-}
-.assetPropertiesSummary tr td:last-child{
-  border-right: 0;
-}
 .propertyNameAndColon {
-	text-align: right;
-	padding-right: 3px;
+	text-align: left;
 }
 .propertyValueAndUnit {
-	text-align: left;
-	padding-left: 3px;
+	text-align: right;
 }
+
 .assetPropertyColumn {
 	float: right;
 	width: 120px;

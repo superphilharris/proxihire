@@ -68,7 +68,6 @@ class SearchController extends AbstractActionController
 
 	private function getAssetList($category, $allCategoryAliases)
 	{
-		// psh TODO: return the id's the category aliases and recursively get all the children aliases
 		$filters  = json_decode(urldecode($_SERVER['QUERY_STRING']));
 		$location = $this->params()->fromRoute('location');
 
