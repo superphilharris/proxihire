@@ -26,7 +26,7 @@ function getMainProperties(){
 	var allProperties = [];
 	var numberOfAssets = 0;
 	$('.assetPropertiesSummary').each(function(){
-		$(this).children('div').each(function(){
+		$(this).children('*').each(function(){
 			var propertyName 	= $(this).find('.propertyName').text();
 			var propertyValue 	= $(this).find('.propertyValue').text();
 			if(typeof allProperties[propertyName] != "undefined"){
@@ -80,10 +80,10 @@ function getMainProperties(){
 	}
 	
 	// If we are inserting in some property columns, then shrink the size of the existing
-	if(mainProperties.length > 0){ 
+	if(Object.keys(mainProperties).length > 0){ 
 		var widthOfExistingProperties = $('.categoryAndFilterBarWrapper').width() - 30 - 30 - 120 - 120 * maxNumberOfMainProperties;
 		$('.assetPropertiesSummary').each(function(){
-			$(this).width(widthOfExistingProperties);
+			$(this).width(widthOfExistingProperties+'px');
 		});
 		$(".categoryAndFilterBar").click(showFilters);
 		$('.filterIcon').show();

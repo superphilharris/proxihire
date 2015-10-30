@@ -5,7 +5,7 @@ use Application\Model\Datatype;
 
 class ImporterServiceHelper {
 	const REFRESH_ASSET_IMAGES 		= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	const GENERATE_RANDOM_LOCATIONS = TRUE;	// Turn on if we are overusing the google api
+	const GENERATE_RANDOM_LOCATIONS = FALSE;	// Turn on if we are overusing the google api
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";

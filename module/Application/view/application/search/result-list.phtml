@@ -26,19 +26,24 @@ foreach( $this->assetList as $asset ){
 		<div class="panel-body">
 			<div class="assetImageWrapper"><img src="/img/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
 			
-			<table class="assetPropertiesSummary"><tbody>
+			<div class="assetPropertiesSummary">
 			<?php 
 			foreach($asset->getProperties() as $property){
 				$propertyName 	= $property->getName();
 				list($value, $unit) = $property->getValueAndUnit();
-				if($propertyName === ""){
-					echo '<tr class="unnamedPropertySummary propertyWrapper"><td colspan="2"><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></td></tr>';
-				}else{
-					echo '<tr class="'.getCssPropertyName($propertyName).'_propertySummary propertyWrapper"><td class="propertyNameAndColon"><span class="propertyName">'.ucwords($propertyName).'</span></td><td class="propertyValueAndUnit"><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></td></tr>';
-				} 
+				if($value OR $unit){
+					if($propertyName === ""){
+						echo '<div><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>';
+					}else{
+						echo '<table><tbody><tr class="'.getCssPropertyName($propertyName).'_propertySummary propertyWrapper">
+								<td class="propertyNameAndColon"><span class="propertyName">'.ucwords($propertyName).'</span></td>
+								<td class="propertyValueAndUnit"><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></td>
+							</tr></tbody></table>';
+					}
+				}
 			}
 			?>
-			</tbody></table>
+			</div>
 		</div>
 	</div>
 	
