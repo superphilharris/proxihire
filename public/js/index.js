@@ -52,7 +52,8 @@ function getMainProperties(){
 					allProperties[propertyName].max 	= Math.max(propertyValue, allProperties[propertyName].max);
 					allProperties[propertyName].average = allProperties[propertyName].average + (propertyValue - allProperties[propertyName].average)/allProperties[propertyName].count;
 				}
-			}else if(allProperties[propertyName].val.indexOf(propertyValue) < 0){
+			}
+			if(allProperties[propertyName].val.indexOf(propertyValue) < 0){
 				allProperties[propertyName].val.push(propertyValue);
 			}
 		});
@@ -85,8 +86,6 @@ function getMainProperties(){
 		$('.assetPropertiesSummary').each(function(){
 			$(this).width(widthOfExistingProperties+'px');
 		});
-		$(".categoryAndFilterBar").click(showFilters);
-		$('.filterIcon').show();
 	}
 	return mainProperties;
 }
@@ -105,16 +104,19 @@ function updateFilterBar(){
 	var mainProperties = getMainProperties();
 	var filterBar = $('.filterBar');
 	var filterBarColumnNames 	= filterBar.find('.filterBarColumnNames');
+	var showFilterBarIcon		= false;
 	filterBarColumnNames.html('&nbsp;');
 	
 	// A. Add the filters at the top of the page
 	for(var propertyName in mainProperties){
+		console.log(mainProperties)
 		// 1. Add the html
 		var html = 
 			'<div class="filterBarPropertyColumn"><div class="filterBarPropertyColumnName">'+propertyName+'</div>'+
 				'<div class="filterBarColumnFilter '+getCssPropertyName(propertyName)+'_columnFilter">';
-		if(mainProperties[propertyName].count > 1){
-			if(typeof(mainProperties[propertyName].max) != "undefined" && typeof(mainProperties[propertyName].min) != "undefined") {
+		if(mainProperties[propertyName].count > 1 && mainProperties[propertyName].val.length > 1){
+			showFilterBarIcon = true;
+			if(mainProperties[propertyName].max && mainProperties[propertyName].min) {
 				html += '<input type="text" data-slider-orientation="vertical" name="'+propertyName+'" data-slider-min="'+mainProperties[propertyName].min+'" data-slider-max="'+mainProperties[propertyName].max+'"/>';
 			}else{
 				html += '<div class="btn-group-vertical" data-toggle="buttons">';
@@ -131,8 +133,8 @@ function updateFilterBar(){
 		filterBarColumnNames.append(html);
 		
 		// 2. Bind the events
-		if(mainProperties[propertyName].count > 1){
-			if(mainProperties[propertyName].max != null && mainProperties[propertyName].min != null) {
+		if(mainProperties[propertyName].count > 1 && mainProperties[propertyName].val.length > 1){
+			if(mainProperties[propertyName].max && mainProperties[propertyName].min) {
 				$('.'+getCssPropertyName(propertyName)+'_columnFilter > input').slider({
 					value: 	[mainProperties[propertyName].min, mainProperties[propertyName].max],
 					step:	((mainProperties[propertyName].max - mainProperties[propertyName].min)/10).toPrecision(1),
@@ -163,6 +165,10 @@ function updateFilterBar(){
 	$('.categoryAndFilterBar').css('margin-right', getScrollBarWidth()+'px')
 	filterBarColumnNames.show();
 	filterBar.show();
+	if(showFilterBarIcon){
+		$(".categoryAndFilterBar").click(showFilters);
+		$('.filterIcon').show();
+	}
 }
 function showFilters(){
 	// Only show the filter if they did not click on the breadcrumb, or on the minimize button
