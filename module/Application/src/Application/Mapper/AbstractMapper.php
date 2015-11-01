@@ -240,13 +240,16 @@ abstract class AbstractMapper
 	 * @param array $join
 	 * @return Zend\Db\Adapter\Driver\ResultInterface
 	 */
-	protected function runSelect( $table, $where, $join=null )
+	protected function runSelect( $table, $where, $join=null, $limit=null )
 	{
 		$sql    = new Sql($this->dbAdapter);
 		$select = $sql->select();
 		$select->from( $table );
 		if( !is_null($join) ){
 			$select->join( $join->table, $join->on );
+		}
+		if( !is_null($limit) ){
+			$select->limit($limit);
 		}
 		$select->where( $where );
 
