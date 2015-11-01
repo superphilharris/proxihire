@@ -99,7 +99,6 @@ function getMainProperties(){
 function getCssPropertyName(propertyName){
 	return propertyName.replace(/[^_a-zA-Z0-9-]/g, '_').toLowerCase();
 }
-
 function updateFilterBar(){
 	var mainProperties = getMainProperties();
 	var filterBar = $('.filterBar');
@@ -230,6 +229,7 @@ function filterResults(){
 	}, 1000);
 }
 
+
 /**
  * This will modify the url to show the category and replace the search results of the page
  * with the ajax response for the category
@@ -239,22 +239,27 @@ function goCategory(category){
 	$('#searchResults').html("");
 	removeAllMarkers();
 	
-	$.post("/assetlist/" + category + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long, function(html){
-		$('#searchResults').html(html);
-		console.log(allBranches)
-		updateFilterBar();
-		showAllMarkers();
+	var title = toTitleCase(category) + " - Proxihire";
+	var urlEnd = category + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
+	$.post("/assetlist/"+urlEnd, function(html){
+		console.log('going to cateogry: ' + urlEnd)
+		History.pushState({html: html}, title, "/search/"+urlEnd);
 	});
 	
 	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
-	// window.location.href = "/search/" + category + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
- /*   document.getElementById("content").innerHTML = response.html;
-    document.title = response.pageTitle;
-    window.history.pushState({"html":response.html,"pageTitle":response.pageTitle},"", urlPath);*/
+	return false;
 }
 
-
 $(document).ready(function(){
+    History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
+        if(History.getState().data.html){
+            console.log(History.getState())
+    		$('#searchResults').html(History.getState().data.html);
+    		updateFilterBar();
+    		showAllMarkers();
+        }
+    });
+    
 	$('#mainSearchBar').typeahead({
 		hint: true,
 		highlight: true,
@@ -328,3 +333,7 @@ function getScrollBarWidth () {
 	document.body.removeChild (outer);
 	return (w1 - w2);
 };
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1);});
+}

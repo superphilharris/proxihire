@@ -19,7 +19,7 @@ while ($i>=0AND property_exists($this->ancestory[$i], 'children')) {
 <?php
 	foreach ( $ancestory[$i]->children as $sibling ){
 ?>
-				<li><a tabindex="-1" href="#" onclick="goCategory('<?php echo $sibling->aliases[0] ?>');"><?php echo ucwords($sibling->aliases[0]) ?></a></li>
+				<li><a tabindex="-1" href="/search/<?php echo $sibling->aliases[0] ?>" onclick="return goCategory('<?php echo $sibling->aliases[0] ?>');"><?php echo ucwords($sibling->aliases[0]) ?></a></li>
 <?php
 	}
 ?>
