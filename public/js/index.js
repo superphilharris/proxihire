@@ -1,4 +1,4 @@
-
+if(typeof CURRENT_CATEGORY == "undefined") CURRENT_CATEGORY = "";
 /**
  * Takes in a category and returns the list of sub-categories
  */
@@ -236,11 +236,13 @@ function filterResults(){
  * @param category
  */
 function goCategory(category){
+	if(category) 	CURRENT_CATEGORY = category;
+	
 	$('#searchResults').html("");
 	removeAllMarkers();
 	
-	var title = toTitleCase(category) + " - Proxihire";
-	var urlEnd = category + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
+	var title = toTitleCase(CURRENT_CATEGORY) + " - Proxihire";
+	var urlEnd = CURRENT_CATEGORY + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
 	$.post("/assetlist/"+urlEnd, function(html){
 		console.log('going to cateogry: ' + urlEnd)
 		History.pushState({html: html}, title, "/search/"+urlEnd);
@@ -303,6 +305,8 @@ function getUserLocation(){
 		if(googleMap){
 			var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 			googleMap.setCenter(latlng);
+			userMarker.setPosition(latlng);
+			goCategory();
 		}
 	});
 }

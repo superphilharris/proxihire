@@ -49,8 +49,9 @@ class SearchController extends AbstractActionController
 		$assetList = $this->getAssetList($category, $allCategoryAliases);
 		$lessorList = $this->assetService->getLessorsForAssets( $assetList );
 		$resultListView = new ViewModel(array(
-			'assetList' => $assetList,
-			'lessorList' => $lessorList
+			'assetList' 	=> $assetList,
+			'categoryName' 	=> $categoryName,
+			'lessorList' 	=> $lessorList
 		));
 		$resultListView->setTemplate('application/search/result-list');
 

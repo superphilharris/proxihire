@@ -104,8 +104,9 @@ function initializeGoogleMaps() {
 			position: new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.long)
 		});
 		google.maps.event.addListener(userMarker, 'dragend', function(){
-			CURRENT_LOCATION.lat 	= this.position.lat;
-			CURRENT_LOCATION.long 	= this.position.lng;
+			CURRENT_LOCATION.lat 	= this.position.lat();
+			CURRENT_LOCATION.long 	= this.position.lng();
+			goCategory();
 		});
 	  	showAllMarkers();
 	});
