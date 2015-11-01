@@ -71,13 +71,12 @@ echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/x-icon', '
 	<div class="container-fluid" id="main">
 		<div class="row">
 			<div class="col-xs-12 col-sm-8" id="left">
-				<div id="searchResults"><?php echo $this->content; ?></div>
-				<p style="font-size:0.9em; text-align:center; margin-top: 15px;">&copy; 2014 - <?php echo date('Y') ?> by Proxihire. <?php echo $this->translate('All rights reserved.') ?></p>
+				<div id="searchResults" class="page-wrap"><?php echo $this->content; ?></div>
+				<footer class="site-footer">&copy; 2014 - <?php echo date('Y') ?> by Proxihire. <?php echo $this->translate('All rights reserved.') ?></footer>
 			</div>
 			<?php echo $this->map ?>
 		</div>
 	</div>
-	<!-- /container -->
 	 	<?php echo $this->inlineScript()?>
 
 			<!-- Scripts -->

@@ -237,14 +237,14 @@ function filterResults(){
  */
 function goCategory(category){
 	if(category) 	CURRENT_CATEGORY = category;
+	else if(QueryString.lat == CURRENT_LOCATION.lat && QueryString.long == CURRENT_LOCATION.long) return false;
 	
-	$('#searchResults').html("");
+	$('#searchResults').html('');
 	removeAllMarkers();
 	
 	var title = toTitleCase(CURRENT_CATEGORY) + " - Proxihire";
 	var urlEnd = CURRENT_CATEGORY + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
 	$.post("/assetlist/"+urlEnd, function(html){
-		console.log('going to cateogry: ' + urlEnd)
 		History.pushState({html: html}, title, "/search/"+urlEnd);
 	});
 	
@@ -255,9 +255,9 @@ function goCategory(category){
 $(document).ready(function(){
     History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
         if(History.getState().data.html){
-            console.log(History.getState())
     		$('#searchResults').html(History.getState().data.html);
     		updateFilterBar();
+    		adjustOverflowingCategoryPicker();
     		showAllMarkers();
         }
     });
@@ -294,22 +294,6 @@ function adjustOverflowingCategoryPicker(){
 }
 
 
-/*
- * --------------------------------------------------------------------------------------------
- * Get the user location
- */
-function getUserLocation(){
-	navigator.geolocation.getCurrentPosition(function(position){
-		CURRENT_LOCATION.lat  = position.coords.latitude;
-		CURRENT_LOCATION.long = position.coords.longitude;
-		if(googleMap){
-			var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			googleMap.setCenter(latlng);
-			userMarker.setPosition(latlng);
-			goCategory();
-		}
-	});
-}
 
 
 

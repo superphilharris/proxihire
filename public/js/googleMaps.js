@@ -112,6 +112,23 @@ function initializeGoogleMaps() {
 	});
 };
 
+/*
+ * --------------------------------------------------------------------------------------------
+ * Get the user location
+ */
+function getUserLocation(){
+	navigator.geolocation.getCurrentPosition(function(position){
+		CURRENT_LOCATION.lat  = position.coords.latitude;
+		CURRENT_LOCATION.long = position.coords.longitude;
+		goCategory();
+		if(googleMap){
+			var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			googleMap.setCenter(latlng);
+			userMarker.setPosition(latlng);
+		}
+	});
+}
+
 if(showGoogleMap){
 	$.getScript('http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed&callback=initializeGoogleMaps');
 }
