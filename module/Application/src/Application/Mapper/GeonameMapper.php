@@ -43,12 +43,17 @@ class GeonameMapper extends AbstractMapper implements GeonameMapperInterface
 
 		$where = new Where();
 		$where->like( "name_fulnam", $name );
-		$result = $this->runSelect( $this->dbTable, $where );
+		$result = $this->runSelect( $this->dbTable, $where, null, $number );
 
-		foreach( $this->prototypeArray as &$prototype ){
-			if( !$result->current() ) return;
-			$this->hydrator->hydrate( $result->current(), $prototype );
+		$prototype=array_values($this->prototypeArray)[0];
+
+		$i=0;
+		$this->prototypeArray=array();
+		while( $result->current() ){
+			$this->prototypeArray[$i]=new $prototype;
+			$this->hydrator->hydrate( $result->current(), $this->prototypeArray[$i] );
 			$result->next();
+			$i++;
 		}
 	}
 }
