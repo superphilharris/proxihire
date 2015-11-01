@@ -369,6 +369,7 @@ class ImporterServiceHelper {
 		$string = str_replace('crow bar', 		'crowbar',		$string);
 		$string = str_replace('chain saw', 		'chainsaw',		$string);
 		$string = str_replace('excxavator', 	'excavator',	$string);
+		$string = str_replace('furiture', 		'furniture',	$string);
 		$string = str_replace('hight', 			'high',			$string);
 		$string = str_replace('lenght', 		'length', 		$string);
 		$string = str_replace('panle', 			'panel', 		$string);
