@@ -1,0 +1,7 @@
+<?php 
+$geolocations=array();
+foreach( $this->geolocations as $key => $geolocation ){
+	$geolocations[$key] = $geolocation->getArrayCopy();
+}
+echo json_encode($geolocations);
+?>
