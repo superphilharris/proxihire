@@ -36,6 +36,34 @@ $searchConfig=array(
 	)
 );
 
+$geonameConfig=array(
+	'type'    => 'Literal',
+	'options' => array(
+		'route'    => '/geoname',
+		'defaults' => array(
+			'__NAMESPACE__' => 'Application\Controller',
+			'controller'    => 'Index',
+			'action'        => 'index',
+		),
+	),
+	'may_terminate' => true,
+	'child_routes' => array(
+		'default' => array(
+			'type'    => 'Segment',
+			'options' => array(
+				'route'    => '/:location',
+				'constraints' => array(
+					'location' => '((%25)*[a-z_\'][a-z_\']*(%25)*(%20)*)*',
+				),
+				'defaults' => array(
+					'controller'    => 'Geoname',
+					'action'        => 'location',
+				),
+			),
+		),
+	)
+);
+
 $assetListConfig=$searchConfig;
 $assetListConfig['options']['route']='/assetlist';
 $assetListConfig['child_routes']['default']['options']['defaults']['controller']='Ajax';
@@ -55,7 +83,8 @@ return array(
 				),
 			),
 			'assetlist' => $assetListConfig,
-			'search'    => $searchConfig
+			'search'    => $searchConfig,
+			'location'  => $geonameConfig
 		),
 	),
 	'service_manager' => array(
@@ -68,6 +97,7 @@ return array(
 			'Zend\Db\Adapter\AdapterInterface'                => 'Zend\Db\Adapter\AdapterServiceFactory',
 			'Application\Service\AssetServiceInterface'       => 'Application\Factory\AssetServiceFactory',
 			'Application\Service\CategoryServiceInterface'    => 'Application\Factory\CategoryServiceFactory',
+			'Application\Service\GeonameServiceInterface'     => 'Application\Factory\GeonameServiceFactory',
 			'Application\Mapper\AssetMapperInterface'         => 'Application\Factory\AssetMapperFactory',
 			'Application\Mapper\AssetPropertyMapperInterface' => 'Application\Factory\AssetPropertyMapperFactory',
 			'Application\Mapper\AssetRateMapperInterface'     => 'Application\Factory\AssetRateMapperFactory',
@@ -98,6 +128,7 @@ return array(
 			'Zend\Db\Adapter\AdapterInterface'                    => true,
 			'Application\Service\AssetServiceInterface'           => false,
 			'Application\Service\CategoryServiceInterface'        => false,
+			'Application\Service\GeonameServiceInterface'         => false,
 			'Application\Mapper\AssetMapperInterface'             => false,
 			'Application\Mapper\AssetPropertyMapperInterface'     => false,
 			'Application\Mapper\AssetRateMapperInterface'         => false,
@@ -138,7 +169,8 @@ return array(
 		),
 		'factories' => array(
 			'Application\Controller\Search' => 'Application\Factory\SearchControllerFactory',
-			'Application\Controller\Ajax' => 'Application\Factory\AjaxControllerFactory'
+			'Application\Controller\Ajax' => 'Application\Factory\AjaxControllerFactory',
+			'Application\Controller\Geoname' => 'Application\Factory\GeonameControllerFactory'
 		),
 	),
 	'view_manager' => array(
