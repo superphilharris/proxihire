@@ -43,7 +43,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["fencing", "barrier", "delineator"],
+				"aliases": ["fencing", "barrier", "delineator", "fence"],
 				"length": "lineal",
 				"height": "lineal"
 			},
@@ -98,9 +98,6 @@ categories = {
 						"aliases": ["desiccant air dryer"]
 					}
 				]
-			},
-			{
-				"aliases": ["fencing", "fence"]
 			},
 			{
 				"aliases": ["plumbing", "water flow"],
