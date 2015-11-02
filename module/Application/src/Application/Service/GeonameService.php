@@ -25,6 +25,8 @@ class GeonameService implements GeonameServiceInterface
 		$name,
 		$number=15
 	){
+		$name = str_replace(' ', '%', trim($name)) . '%';
+		$name = str_replace('%%', '%', $name);
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("string"));
 
