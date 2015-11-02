@@ -81,8 +81,8 @@ function getMainProperties(){
 	}
 	
 	// If we are inserting in some property columns, then shrink the size of the existing
-	if(Object.keys(mainProperties).length > 0){ 
-		var widthOfExistingProperties = $('.categoryAndFilterBarWrapper').width() - 30 - 30 - 120 - 120 * maxNumberOfMainProperties;
+	if(Object.keys(mainProperties).length > 0 || window.innerWidth < 768){ 
+		var widthOfExistingProperties = Math.min($('.categoryAndFilterBarWrapper').width() - 30 - 30 - 120 - 120 * maxNumberOfMainProperties, window.innerWidth - 120 - 30);
 		$('.assetPropertiesSummary').each(function(){
 			$(this).width(widthOfExistingProperties+'px');
 		});

@@ -78,6 +78,7 @@ body{
 }
 .site-footer, .page-wrap:after {
   height: 30px; 
+  padding-top: 6px;
 }
 .site-footer {
 	font-size:0.9em; 
