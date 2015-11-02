@@ -51,16 +51,13 @@ categories = {
 				"aliases": ["electrical and generators"],
 				"children": [
 					{
-						"aliases": ["power splitter box", "distribution box", "phase splitter box"]
+						"aliases": ["power splitter box", "distribution box", "splitter box", "distribution board", "phase junction box"]
 					},
 					{
-						"aliases": ["extension lead", "power cable", "3ph elec cable"]
+						"aliases": ["extension lead", "power cable", "3ph elec cable", "3 phase lead"]
 					},
 					{
 						"aliases": ["plug board", "earthleakage plug", "earthleakage phase"]
-					},
-					{
-						"aliases": ["splitter box", "distribution board"]
 					},
 					{
 						"aliases": ["generator", "diesel skid"]

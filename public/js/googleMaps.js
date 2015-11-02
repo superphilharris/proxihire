@@ -85,6 +85,19 @@ function stopBouncing(lessorId, seconds){
 		}
 	}, seconds * 1000)
 }
+function goLocation(lat, long){
+	CURRENT_LOCATION.lat = lat;
+	CURRENT_LOCATION.long = long;
+	goCategory();
+}
+function goLocationAndChangeGoogleMaps(lat, long){
+	goLocation(lat, long);
+	if(googleMap){
+		var latlng = new google.maps.LatLng(lat, long);
+		googleMap.setCenter(latlng);
+		userMarker.setPosition(latlng);
+	}
+}
 
 function initializeGoogleMaps() {
 	google.maps.event.addDomListener(window, 'load', function(){
@@ -104,9 +117,7 @@ function initializeGoogleMaps() {
 			position: new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.long)
 		});
 		google.maps.event.addListener(userMarker, 'dragend', function(){
-			CURRENT_LOCATION.lat 	= this.position.lat();
-			CURRENT_LOCATION.long 	= this.position.lng();
-			goCategory();
+			goLocation(this.position.lat(), this.position.lng());
 		});
 	  	showAllMarkers();
 	});
@@ -118,14 +129,7 @@ function initializeGoogleMaps() {
  */
 function getUserLocation(){
 	navigator.geolocation.getCurrentPosition(function(position){
-		CURRENT_LOCATION.lat  = position.coords.latitude;
-		CURRENT_LOCATION.long = position.coords.longitude;
-		goCategory();
-		if(googleMap){
-			var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			googleMap.setCenter(latlng);
-			userMarker.setPosition(latlng);
-		}
+		goLocationAndChangeGoogleMaps(position.coords.latitude, position.coords.longitude);
 	});
 }
 

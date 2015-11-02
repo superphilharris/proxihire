@@ -260,18 +260,24 @@ function postGoCategory(){
 	$('#googleMapSearchBar').typeahead({
 		hint: true,
 		highlight: true,
-		minLength: 1,
-                remote: {
-                        url: '/geoname/%25%QUERY%25',
-			replace: function(){
-				console.log('hi');
+		minLength: 1
+	}, {
+		name: 'geonames',
+		display: 'name',
+		source: new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			prefectch: '/geoname/auckland',
+			remote: {
+				url: '/geoname/%QUERY',
+				wildcard: '%QUERY'
 			}
-                }
+		})
 	}).bind('typeahead:select', function(ev, suggestion){
-		console.log('have chosen ' + suggestion);
+		goLocationAndChangeGoogleMaps(suggestion.latitude, suggestion.longitude);
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
 		$('#googleMapSearchBar').blur();
-		console.log('have autocompleted ' + suggestion);
+		goLocationAndChangeGoogleMaps(suggestion.latitude, suggestion.longitude);
 	}).bind('typeahead:cursorchange', function(ev, suggestion){
 		console.log('could have async fetching here as well?' + suggestion);
 	});
@@ -281,7 +287,7 @@ $(document).ready(function(){
     History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
         if(History.getState().data.html){
     		$('#searchResults').html(History.getState().data.html);
-		postGoCategory();
+    		postGoCategory();
         }
     });
     
@@ -290,8 +296,8 @@ $(document).ready(function(){
 		highlight: true,
 		minLength: 1
 	}, {
-                source: substringMatcher(linearize(categories)),
-                name: 'locations'
+		source: substringMatcher(linearize(categories)),
+		name: 'locations'
 	}).bind('typeahead:select', function(ev, suggestion){
 		goCategory(suggestion);
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
