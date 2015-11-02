@@ -81,7 +81,7 @@ class ImporterService implements ImporterServiceInterface
 		$this->writeComment('Create Lessor SQL');
 		$createdLessors = array();
 		foreach($pages as $lessor){
-			if($lessor->item_type === "lessor"){
+			if($lessor->item_type === "lessor" AND false){
 				if(! in_array($lessor->name, $createdLessors)){
 					$iconUrl = null;
 					if(property_exists($lessor, 'icon')){
@@ -154,7 +154,8 @@ class ImporterService implements ImporterServiceInterface
 					$category = $this->helper->determineCategory($categories, $itemName." ".$page->description);
 				}
 				if($category === null){
-					$comment = "<a href=\"$page->url\" target='_blank'>$itemName</a>";
+					$category = (property_exists($page, 'category'))? "(".$page->category.")" : "";
+					$comment = "<a href=\"$page->url\" target='_blank'>$itemName $category</a>";
 					if (property_exists($page, 'description')) $comment .= ": " . $page->description;
 					$this->writeComment($comment);
 					exit;

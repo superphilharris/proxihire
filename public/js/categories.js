@@ -264,7 +264,7 @@ categories = {
 								"aliases": ["welder", "gas welding"]
 							},
 							{
-								"aliases": ["welding outfit", "welding single phase"]
+								"aliases": ["welding outfit", "welding single phase", "welding three phase"]
 							}
 						]
 					},
@@ -779,7 +779,33 @@ categories = {
 						"aliases": ["campervan","camper","campa"]
 					},
 					{
-						"aliases": ["van","truck","ute"]
+						"aliases": ["van","truck","ute"],
+						"children": [
+						    {
+						    	"aliases": ["skeletal trailer", "semi trailer"]
+						    },
+						    {
+						    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
+						    },
+						    {
+								"aliases": ["dump truck", "tipper truck"]
+							},
+						    {
+								"aliases": ["flat deck truck", "drop side truck"]
+							},
+						    {
+								"aliases": ["tautliner truck", "curtainside truck"]
+							},
+						    {
+								"aliases": ["box body truck"]
+							},
+						    {
+								"aliases": ["refrigerated truck", "refrigerated van", "temperature cooled van", "temperature controlled van"]
+							},
+						    {
+								"aliases": ["service truck", "utility truck"]
+							}
+						]
 					},
 					{
 						"aliases": ["sedan","car"]
@@ -903,6 +929,9 @@ categories = {
 				"aliases": ["road cone"]
 			},
 			{
+				"aliases": ["road sweeper"]
+			},
+			{
 				"aliases": ["concrete laying"],
 				"children": [
 					{
@@ -947,6 +976,9 @@ categories = {
 		         	},
 		         	{
 		         		"aliases": ["tamping rammer", "tamper air rammer", "upright hand rammer"]
+		         	},
+		         	{
+		         		"aliases": ["compactor"]
 		         	},
 		         	{
 		         		"aliases": ["plate compactor"]
@@ -1018,7 +1050,7 @@ categories = {
 				 		]
 		        	},
 		 			{
-		 				"aliases": ["pivot steer loader"]
+		 				"aliases": ["wheel loader", "pivot steer loader"]
 		 			},
 		 			{
 		 				"aliases": ["skid steer loader"]
