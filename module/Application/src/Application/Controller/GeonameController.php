@@ -18,7 +18,7 @@ class GeonameController extends AbstractActionController
 
     public function locationAction()
     {
-		$location = '%' . str_replace(' ', '%', trim($this->params()->fromRoute('location'))) . '%';
+		$location = str_replace(' ', '%', trim($this->params()->fromRoute('location'))) . '%';
 		$location = str_replace('%%', '%', $location);
 		$geolocations = $this->geonameService->getGeonamesLike($location);
 

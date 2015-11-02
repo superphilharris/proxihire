@@ -53,7 +53,7 @@ $geonameConfig=array(
 			'options' => array(
 				'route'    => '/:location',
 				'constraints' => array(
-					'location' => '((%25)*[a-z_\'][a-z_\']*(%25)*(%20)*)*',
+					'location' => '((%25)*[A-Za-z_\'][A-Za-z_\']*(%25)*(%20)*)*',
 				),
 				'defaults' => array(
 					'controller'    => 'Geoname',
