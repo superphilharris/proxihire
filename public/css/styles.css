@@ -209,6 +209,9 @@ div.assetPanel > .panel-heading {
 	#main>.row>div {
 		padding-right: 15px;
 	}
+	.navbar-form > .form-group {
+		width: 256px !important;
+	}
 	.categoryAndFilterBarWrapper {
 		width: 66.67%;
 		padding: 0px 15px;
@@ -240,7 +243,7 @@ div.assetPanel > .panel-heading {
 	}
 
 	.currentLocation > div.input-group {
-		max-width: 240px !important;
+		max-width: 256px !important;
 	}
 	.currentLocation input.form-control {
 		border-radius: 4px;

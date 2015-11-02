@@ -252,13 +252,36 @@ function goCategory(category){
 	return false;
 }
 
+function postGoCategory(){
+	updateFilterBar();
+	adjustOverflowingCategoryPicker();
+	showAllMarkers();
+	console.log('hello phil');
+	$('#googleMapSearchBar').typeahead({
+		hint: true,
+		highlight: true,
+		minLength: 1,
+                remote: {
+                        url: '/geoname/%25%QUERY%25',
+			replace: function(){
+				console.log('hi');
+			}
+                }
+	}).bind('typeahead:select', function(ev, suggestion){
+		console.log('have chosen ' + suggestion);
+	}).bind('typeahead:autocomplete', function(ev, suggestion){
+		$('#googleMapSearchBar').blur();
+		console.log('have autocompleted ' + suggestion);
+	}).bind('typeahead:cursorchange', function(ev, suggestion){
+		console.log('could have async fetching here as well?' + suggestion);
+	});
+}
+
 $(document).ready(function(){
     History.Adapter.bind(window,'statechange',function(){ // Note: We are using statechange instead of popstate
         if(History.getState().data.html){
     		$('#searchResults').html(History.getState().data.html);
-    		updateFilterBar();
-    		adjustOverflowingCategoryPicker();
-    		showAllMarkers();
+		postGoCategory();
         }
     });
     
@@ -267,8 +290,8 @@ $(document).ready(function(){
 		highlight: true,
 		minLength: 1
 	}, {
-		source: substringMatcher(linearize(categories)),
-		name: 'categories'
+                source: substringMatcher(linearize(categories)),
+                name: 'locations'
 	}).bind('typeahead:select', function(ev, suggestion){
 		goCategory(suggestion);
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
@@ -278,8 +301,7 @@ $(document).ready(function(){
 		console.log('todo: could have async fetching here?'+suggestion);
 	});
 
-	updateFilterBar();
-	adjustOverflowingCategoryPicker();
+	postGoCategory();
 });
 
 function adjustOverflowingCategoryPicker(){
