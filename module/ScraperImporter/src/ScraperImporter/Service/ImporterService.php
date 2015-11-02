@@ -81,7 +81,7 @@ class ImporterService implements ImporterServiceInterface
 		$this->writeComment('Create Lessor SQL');
 		$createdLessors = array();
 		foreach($pages as $lessor){
-			if($lessor->item_type === "lessor" AND false){
+			if($lessor->item_type === "lessor"){
 				if(! in_array($lessor->name, $createdLessors)){
 					$iconUrl = null;
 					if(property_exists($lessor, 'icon')){
