@@ -202,16 +202,18 @@ div.assetPanel {
 div.assetPanel > .panel-heading {
 	border-bottom: 0;
 }
-	html,body{
-		height:100%;
-	}
-
+html,body{
+	height:100%;
+}
 @media (min-width: 768px) {
 	#main>.row>div {
 		padding-right: 15px;
 	}
 	.navbar-form > .form-group {
 		width: 256px !important;
+	}
+	.navbar-form .tt-menu {
+		width: 236px;
 	}
 	.categoryAndFilterBarWrapper {
 		width: 66.67%;
@@ -244,7 +246,10 @@ div.assetPanel > .panel-heading {
 	}
 
 	.currentLocation > div.input-group {
-		max-width: 256px !important;
+		max-width: 376px !important;
+	}
+	.currentLocation .tt-menu {
+		width: 376px;
 	}
 	.currentLocation input.form-control {
 		border-radius: 4px;

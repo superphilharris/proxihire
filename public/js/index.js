@@ -80,7 +80,7 @@ function getMainProperties(){
 		i++;
 	}
 	
-	// If we are inserting in some property columns, then shrink the size of the existing
+	// If we are inserting in some property columns, then shrink the size of the existing columns. Or if we are mobile, then shrink the size of the properties to the page width
 	if(Object.keys(mainProperties).length > 0 || window.innerWidth < 768){ 
 		var widthOfExistingProperties = Math.min($('.categoryAndFilterBarWrapper').width() - 30 - 30 - 120 - 120 * maxNumberOfMainProperties, window.innerWidth - 120 - 30);
 		$('.assetPropertiesSummary').each(function(){
@@ -256,28 +256,35 @@ function postGoCategory(){
 	updateFilterBar();
 	adjustOverflowingCategoryPicker();
 	showAllMarkers();
-	console.log('hello phil');
+	
+	var bounds = '&bounds=' + (CURRENT_LOCATION.lat-2) + "," + (CURRENT_LOCATION.long-2) + ',' + (CURRENT_LOCATION.lat+2) + "," + (CURRENT_LOCATION.long+2);
 	$('#googleMapSearchBar').typeahead({
 		hint: true,
 		highlight: true,
 		minLength: 1
 	}, {
 		name: 'geonames',
-		display: 'name',
+		display: function(results){
+			if(results && results[0]) return results[0].formatted_address;
+		},
 		source: new Bloodhound({
-			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('formatted_address'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			prefectch: '/geoname/auckland',
+			prefectch: 'https://maps.googleapis.com/maps/api/geocode/json?address=auckland&key=AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk'+bounds,
 			remote: {
-				url: '/geoname/%QUERY',
+				url: 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&key=AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk'+bounds,
 				wildcard: '%QUERY'
 			}
 		})
 	}).bind('typeahead:select', function(ev, suggestion){
-		goLocationAndChangeGoogleMaps(suggestion.latitude, suggestion.longitude);
+		if(suggestion.geometry && suggestion.geometry.location){
+			goLocationAndChangeGoogleMaps(suggestion.geometry.location.lat, suggestion.geometry.location.lng);
+		}
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
 		$('#googleMapSearchBar').blur();
-		goLocationAndChangeGoogleMaps(suggestion.latitude, suggestion.longitude);
+		if(suggestion.geometry && suggestion.geometry.location){
+			goLocationAndChangeGoogleMaps(suggestion.geometry.location.lat, suggestion.geometry.location.lng);
+		}
 	}).bind('typeahead:cursorchange', function(ev, suggestion){
 		console.log('could have async fetching here as well?' + suggestion);
 	});
@@ -297,7 +304,7 @@ $(document).ready(function(){
 		minLength: 1
 	}, {
 		source: substringMatcher(linearize(categories)),
-		name: 'locations'
+		name: 'categories'
 	}).bind('typeahead:select', function(ev, suggestion){
 		goCategory(suggestion);
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
@@ -311,10 +318,10 @@ $(document).ready(function(){
 });
 
 function adjustOverflowingCategoryPicker(){
-	var breadcrumb = $('.categoryAndFilterBar > .breadcrumb');
-	if(breadcrumb.height() > 20){
-		breadcrumb.find('.dropdown > .dropdown-toggle > span').each(function(){
-			if(breadcrumb.height() > 20 && !$(this).parent().is(':last-child')){
+	var filterBar = $('.categoryAndFilterBar');
+	if(filterBar.height() > 20){
+		filterBar.find('.breadcrumb > .dropdown > .dropdown-toggle > span').each(function(){
+			if(filterBar.height() > 20 && !$(this).parent().is(':last-child')){
 				$(this).hide();
 			}
 		});
