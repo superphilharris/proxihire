@@ -65,6 +65,9 @@ class ImporterServiceHelper {
 			}elseif($unit === 'minutes' OR $unit === 'minute'){
 				$property['datatype']  = Datatype::TIME;
 				$property['value_mxd'] = floatval($number) * 60;
+			}elseif($unit === 'ft'){
+				$property['datatype']  = Datatype::LINEAL;
+				$property['value_mxd'] = floatval($number) * 0.3048;
 			}elseif($unit === 'mm'){
 				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number) / 1000;
