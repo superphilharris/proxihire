@@ -167,10 +167,7 @@ class ImporterService implements ImporterServiceInterface
 				$this->writeSQL("SET @last_asset_id = LAST_INSERT_ID();");
 				
 				// Determine and clean up the properties
-				$properties = array();
-				foreach($page->properties as $propertyName => $propertyValue){
-					$properties = array_merge($properties, $this->helper->determineProperties($propertyName, $propertyValue, $categoryName));
-				}
+				$properties = $this->helper->determineProperties($page->properties, $categoryName);
 				foreach($properties as $property){
 					$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
 				}
