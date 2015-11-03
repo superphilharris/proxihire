@@ -22,10 +22,9 @@ $searchConfig=array(
 		'default' => array(
 			'type'    => 'Segment',
 			'options' => array(
-				'route'    => '/:category[/:location]',
+				'route'    => '/:category',
 				'constraints' => array(
 					'category' => '([a-z][a-z]*(%20)*)*',
-					'location' => '([a-z][a-z]*(%20)*)*',
 				),
 				'defaults' => array(
 					'controller'    => 'Search',
@@ -66,7 +65,6 @@ $geonameConfig=array(
 
 $assetListConfig=$searchConfig;
 $assetListConfig['options']['route']='/assetlist';
-$assetListConfig['child_routes']['default']['options']['defaults']['controller']='Ajax';
 $assetListConfig['child_routes']['default']['options']['defaults']['action']='assetList';
 
 return array(
@@ -169,7 +167,6 @@ return array(
 		),
 		'factories' => array(
 			'Application\Controller\Search' => 'Application\Factory\SearchControllerFactory',
-			'Application\Controller\Ajax' => 'Application\Factory\AjaxControllerFactory',
 			'Application\Controller\Geoname' => 'Application\Factory\GeonameControllerFactory'
 		),
 	),
