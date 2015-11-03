@@ -256,28 +256,35 @@ function postGoCategory(){
 	updateFilterBar();
 	adjustOverflowingCategoryPicker();
 	showAllMarkers();
-	console.log('hello phil');
+	
+	var bounds = '&bounds=' + (CURRENT_LOCATION.lat-2) + "," + (CURRENT_LOCATION.long-2) + ',' + (CURRENT_LOCATION.lat+2) + "," + (CURRENT_LOCATION.long+2);
 	$('#googleMapSearchBar').typeahead({
 		hint: true,
 		highlight: true,
 		minLength: 1
 	}, {
 		name: 'geonames',
-		display: 'name',
+		display: function(results){
+			if(results && results[0]) return results[0].formatted_address;
+		},
 		source: new Bloodhound({
-			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('formatted_address'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			prefectch: '/geoname/auckland',
+			prefectch: 'https://maps.googleapis.com/maps/api/geocode/json?address=auckland&key=AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk'+bounds,
 			remote: {
-				url: '/geoname/%QUERY',
+				url: 'https://maps.googleapis.com/maps/api/geocode/json?address=%QUERY&key=AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk'+bounds,
 				wildcard: '%QUERY'
 			}
 		})
 	}).bind('typeahead:select', function(ev, suggestion){
-		goLocationAndChangeGoogleMaps(suggestion.latitude, suggestion.longitude);
+		if(suggestion.geometry && suggestion.geometry.location){
+			goLocationAndChangeGoogleMaps(suggestion.geometry.location.lat, suggestion.geometry.location.lng);
+		}
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
 		$('#googleMapSearchBar').blur();
-		goLocationAndChangeGoogleMaps(suggestion.latitude, suggestion.longitude);
+		if(suggestion.geometry && suggestion.geometry.location){
+			goLocationAndChangeGoogleMaps(suggestion.geometry.location.lat, suggestion.geometry.location.lng);
+		}
 	}).bind('typeahead:cursorchange', function(ev, suggestion){
 		console.log('could have async fetching here as well?' + suggestion);
 	});
@@ -297,7 +304,7 @@ $(document).ready(function(){
 		minLength: 1
 	}, {
 		source: substringMatcher(linearize(categories)),
-		name: 'locations'
+		name: 'categories'
 	}).bind('typeahead:select', function(ev, suggestion){
 		goCategory(suggestion);
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
