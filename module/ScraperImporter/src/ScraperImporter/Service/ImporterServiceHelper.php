@@ -65,6 +65,9 @@ class ImporterServiceHelper {
 			}elseif($unit === 'minutes' OR $unit === 'minute'){
 				$property['datatype']  = Datatype::TIME;
 				$property['value_mxd'] = floatval($number) * 60;
+			}elseif($unit === 'ft'){
+				$property['datatype']  = Datatype::LINEAL;
+				$property['value_mxd'] = floatval($number) * 0.3048;
 			}elseif($unit === 'mm'){
 				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number) / 1000;
@@ -164,7 +167,7 @@ class ImporterServiceHelper {
 			}
 		}
 		if($property['datatype'] !== Datatype::STRING AND $property['name_fulnam'] === "") $property['name_fulnam'] = $property['datatype'];
-		$property['name_fulnam'] = $this->fixPropertyName($property['name_fulnam'], $categoryName);
+		
 		return $property;
 	}
 	
@@ -393,8 +396,25 @@ class ImporterServiceHelper {
 		return $string;
 	}
 	
+	public function determineProperties($properties, $categoryName){
+		$propertiesOut = array();
+		foreach($properties as $propertyName => $propertyValue){
+			$propertiesOut = array_merge($propertiesOut, $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName));
+		}
+		
+		// Now go and fix the property names
+		foreach($propertiesOut as $property){
+			$newName = $this->fixPropertyName($property['name_fulnam'], $categoryName);
+			$newNameIsDuplicate = false;
+			foreach($propertiesOut as $siblingProperty){
+				if($siblingProperty['name_fulnam'] == $newName) $newNameIsDuplicate = true;
+			}
+			if(!$newNameIsDuplicate) $property['name_fulnam'] = $newName;
+		}
+		return $propertiesOut;
+	}
 	
-	public function determineProperties($key, $value, $categoryName){
+	private function determinePropertyWrapper($key, $value, $categoryName){
 		$results = $this->determinePropertiesInternal($key, $value, $categoryName);
 		if(count($results) === 1 AND $key === $value){ // If we have not done anything except make it lower case, then revert the determineProperties
 			$result = $results[0];

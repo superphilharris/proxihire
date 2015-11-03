@@ -42,6 +42,7 @@ foreach( $this->assetList as $asset ){
 					}
 				}
 			}
+			if($asset->getDescription() != null) echo '<div>'.$asset->getDescription().'</div>';
 			?>
 			</div>
 		</div>
