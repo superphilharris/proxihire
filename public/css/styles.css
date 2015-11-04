@@ -116,6 +116,7 @@ body{
 	height: 100px;
 	float: left;
 	margin-top: -4px;
+	margin-bottom: -6px;
 	font-size: 13px;
 }
 .ellipsis {
@@ -133,16 +134,14 @@ body{
 	width: 100%;
 	margin-left: -5px; }		
 
-.ellipsis:after {
-	content: "... more";  
-
+.ellipsis_after {
 	box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 
 	float: right; position: relative;
 	top: -40px; left: 100%; 
-	width: 7em; margin-left: -7em;
+	width: 6em; margin-left: -6em;
 	padding-right: 5px;
 	color: #337ab7;
 	text-align: right;
@@ -158,9 +157,6 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMA
 	background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
 	background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
 	background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
-
-
-
 }
 .assetPropertiesSummary > table {
 	width: 100%;
