@@ -89,7 +89,6 @@ class AssetService implements AssetServiceInterface
 	public function getAssetList(
 		$category, 
 		$filters=NULL, 
-		$location=NULL, 
 		$number=50)
 	{
 		// Validate arguments
@@ -98,8 +97,6 @@ class AssetService implements AssetServiceInterface
 			"object|null",
 			"string|null",
 			"integer"));
-
-		// jih: accumulate location into filters, if not already there
 
 		$assetArray=array();
 		for( $i=0; $i<$number; $i++){

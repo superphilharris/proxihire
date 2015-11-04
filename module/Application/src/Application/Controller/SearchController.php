@@ -27,52 +27,75 @@ class SearchController extends AbstractActionController
     public function indexAction()
     {
 		$view = new ViewModel(array());
+
+		// Map
+		$mapView = new ViewModel();
+		$mapView->setTemplate('application/search/map');
+
+		$view->addChild($this->getCategoryPickerView(), 'category_picker')
+			 ->addChild($this->getAssetListView(), 'result_list')
+			 ->addChild($mapView,        'map');
+
+		return $view;
+	}
+
+	private function getAssetListView(){
 		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
 		$categoryName       = $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
-		$ancestory          = $allCategoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
-		
-		// Category picker
 		if($categoryName !== null){
 			$category = $this->categoryService->getCategoryByName($categoryName);
 		}else{
 			$category = null;
 		}
 
-		$categoryPickerView = new ViewModel(array(
-			'category'        => $category,
-			'categoryAliases' => $allCategoryAliases,
-			'ancestory'       => $ancestory
-		));
-		$categoryPickerView->setTemplate('application/search/category-picker');
-
 		// Asset list
 		$assetList = $this->getAssetList($category, $allCategoryAliases);
 		$lessorList = $this->assetService->getLessorsForAssets( $assetList );
-		$resultListView = new ViewModel(array(
+		$view = new ViewModel(array(
 			'assetList' 	=> $assetList,
 			'categoryName' 	=> $categoryName,
 			'lessorList' 	=> $lessorList
 		));
-		$resultListView->setTemplate('application/search/result-list');
-
-		// Map
-		$mapView = new ViewModel();
-		$mapView->setTemplate('application/search/map');
-
-		$view->addChild($categoryPickerView, 'category_picker')
-			 ->addChild($resultListView, 'result_list')
-			 ->addChild($mapView,        'map');
-
+		$view->setTemplate('application/search/result-list');
 		return $view;
 	}
-	
+
+	private function getCategoryPickerView(){
+		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
+		$categoryName       = $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
+		if($categoryName !== null){
+			$category = $this->categoryService->getCategoryByName($categoryName);
+		}else{
+			$category = null;
+		}
+		$ancestory          = $allCategoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
+		
+		// Category picker
+		$view = new ViewModel(array(
+				'category'        => $category,
+				'categoryAliases' => $allCategoryAliases,
+				'ancestory'       => $ancestory
+		));
+		$view->setTemplate('application/search/category-picker');
+		return $view;
+	}
+
+	public function assetListAction()
+	{
+		$view = new ViewModel(array());
+		$this->layout( 'application/ajax' );
+
+		$view->addChild($this->getCategoryPickerView(), 'category_picker')
+		     ->addChild($this->getAssetListView(), 'result_list');
+		$view->setTemplate('application/search/index');
+		
+		return $view;
+	}
 
 	private function getAssetList($category, $allCategoryAliases)
 	{
 		$filters  = json_decode(urldecode($_SERVER['QUERY_STRING']));
-		$location = $this->params()->fromRoute('location');
-
-		return $this->assetService->getAssetList($category,$filters,$location);
+		return $this->assetService->getAssetList($category,$filters);
 	}
 
 	

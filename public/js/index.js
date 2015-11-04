@@ -80,7 +80,7 @@ function getMainProperties(){
 		i++;
 	}
 	
-	// If we are inserting in some property columns, then shrink the size of the existing
+	// If we are inserting in some property columns, then shrink the size of the existing columns. Or if we are mobile, then shrink the size of the properties to the page width
 	if(Object.keys(mainProperties).length > 0 || window.innerWidth < 768){ 
 		var widthOfExistingProperties = Math.min($('.categoryAndFilterBarWrapper').width() - 30 - 30 - 120 - 120 * maxNumberOfMainProperties, window.innerWidth - 120 - 30);
 		$('.assetPropertiesSummaryWrapper').each(function(){
@@ -322,10 +322,10 @@ $(document).ready(function(){
 });
 
 function adjustOverflowingCategoryPicker(){
-	var breadcrumb = $('.categoryAndFilterBar > .breadcrumb');
-	if(breadcrumb.height() > 20){
-		breadcrumb.find('.dropdown > .dropdown-toggle > span').each(function(){
-			if(breadcrumb.height() > 20 && !$(this).parent().is(':last-child')){
+	var filterBar = $('.categoryAndFilterBar');
+	if(filterBar.height() > 20){
+		filterBar.find('.breadcrumb > .dropdown > .dropdown-toggle > span').each(function(){
+			if(filterBar.height() > 20 && !$(this).parent().is(':last-child')){
 				$(this).hide();
 			}
 		});
