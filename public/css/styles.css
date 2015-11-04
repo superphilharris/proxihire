@@ -113,12 +113,10 @@ body{
 	font-weight: bold;
 }
 .assetPropertiesSummaryWrapper {
-	height: 92px;
+	height: 100px;
 	float: left;
-	margin-bottom: -2px;
 	margin-top: -4px;
 	font-size: 13px;
-	line-height: 1.4em;
 }
 .ellipsis {
   overflow: hidden;
@@ -136,17 +134,17 @@ body{
 	margin-left: -5px; }		
 
 .ellipsis:after {
-	content: "\02026";  
+	content: "... more";  
 
 	box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 
 	float: right; position: relative;
-	top: -25px; left: 100%; 
-	width: 3em; margin-left: -3em;
+	top: -40px; left: 100%; 
+	width: 7em; margin-left: -7em;
 	padding-right: 5px;
-	
+	color: #337ab7;
 	text-align: right;
 
   
@@ -169,10 +167,11 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMA
 }
 .assetPropertiesSummary > * {
   border-bottom: 1px solid #ddd;
-  margin-top: 1px;
+  margin-bottom: -1px;
 }
 .assetPropertiesSummary > *:last-child {
   border-bottom: 0;
+  margin-bottom: 0;
 }
 .propertyNameAndColon {
 	text-align: left;
