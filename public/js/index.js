@@ -83,8 +83,12 @@ function getMainProperties(){
 	// If we are inserting in some property columns, then shrink the size of the existing
 	if(Object.keys(mainProperties).length > 0 || window.innerWidth < 768){ 
 		var widthOfExistingProperties = Math.min($('.categoryAndFilterBarWrapper').width() - 30 - 30 - 120 - 120 * maxNumberOfMainProperties, window.innerWidth - 120 - 30);
-		$('.assetPropertiesSummary').each(function(){
+		$('.assetPropertiesSummaryWrapper').each(function(){
 			$(this).width(widthOfExistingProperties+'px');
+		});
+	}else{
+		$('.assetPropertiesSummaryWrapper').each(function(){
+			$(this).width((window.innerWidth/3-120)+'px');
 		});
 	}
 	return mainProperties;
@@ -151,10 +155,10 @@ function updateFilterBar(){
 			var devPropertyName = getCssPropertyName(propertyName);
 			var propertySummary = $(this).find('.' + devPropertyName + '_propertySummary');
 			if(propertySummary.length == 1){ 	// Show the main property
-				propertiesSummary.parent().append('<div class="assetPropertyColumn '+devPropertyName+'_column"><span>'+propertySummary.find('.propertyValue').text()+'</span><span class="propertyUnit">'+propertySummary.find('.propertyUnit').text()+'</span></div>');
+				propertiesSummary.parent().parent().append('<div class="assetPropertyColumn '+devPropertyName+'_column"><span>'+propertySummary.find('.propertyValue').text()+'</span><span class="propertyUnit">'+propertySummary.find('.propertyUnit').text()+'</span></div>');
 				propertySummary.hide();
 			}else{								// Insert a placeholder instead
-				propertiesSummary.parent().append('<div class="assetPropertyColumn"><span>&nbsp;</span></div>')
+				propertiesSummary.parent().parent().append('<div class="assetPropertyColumn"><span>&nbsp;</span></div>')
 			}
 		}
 	});
