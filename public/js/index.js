@@ -130,7 +130,7 @@ function updateFilterBar(){
 				html += '</div>';
 			}
 		}
-		html += '</div>'+
+		html += 	'</div>'+
 			'</div>';
 		filterBarColumnNames.append(html);
 		
@@ -237,22 +237,38 @@ function filterResults(){
 /**
  * This will modify the url to show the category and replace the search results of the page
  * with the ajax response for the category
+ * If there are any errors at all, then stop any trickiness and just do a full page reload
  * @param category
  */
 function goCategory(category){
-	if(category) 	CURRENT_CATEGORY = category;
+	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
+	if ($('.navbar-collapse').hasClass('in')) $('.navbar-toggle').trigger('click');
+	if(category != CURRENT_CATEGORY) 	CURRENT_CATEGORY = category;
 	else if(QueryString.lat == CURRENT_LOCATION.lat && QueryString.long == CURRENT_LOCATION.long) return false;
 	
-	$('#searchResults').html('');
-	removeAllMarkers();
-	
-	var title = toTitleCase(CURRENT_CATEGORY) + " - Proxihire";
 	var urlEnd = CURRENT_CATEGORY + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
-	$.post("/assetlist/"+urlEnd, function(html){
-		History.pushState({html: html}, title, "/search/"+urlEnd);
-	});
+	try {
+		$('#searchResults').html('');
+		removeAllMarkers();
 	
-	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
+		var title = toTitleCase(CURRENT_CATEGORY) + " - Proxihire";
+		$.ajax({
+			type: 	"POST",
+			url: 	"/assetlist/"+urlEnd, 
+			success: function(html){
+				try{
+					History.pushState({html: html}, title, "/search/"+urlEnd);
+				}catch(e){
+					window.location.href = "/search/" + urlEnd;
+				}
+			},
+			error: function(){
+				window.location.href = "/search/" + urlEnd;
+			}
+		});
+	} catch (e) {
+		window.location.href = "/search/" + urlEnd;
+	}	
 	return false;
 }
 
