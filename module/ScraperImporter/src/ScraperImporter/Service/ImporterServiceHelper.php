@@ -172,6 +172,32 @@ class ImporterServiceHelper {
 	}
 	
 
+	/**
+	 * Takes in a phrase and fixes the spelling of common spelling mixtakes
+	 * and returns the fixed phrase
+	 * @param string $string
+	 * @return string
+	 */
+	private function fixSpelling($string){
+		$string = str_replace('acroprop', 		'acrow prop',	$string);
+		$string = str_replace('crow bar', 		'crowbar',		$string);
+		$string = str_replace('chain saw', 		'chainsaw',		$string);
+		$string = str_replace('excxavator', 	'excavator',	$string);
+		$string = str_replace('furiture', 		'furniture',	$string);
+		$string = str_replace('hight', 			'high',			$string);
+		$string = str_replace('lenght', 		'length', 		$string);
+		$string = str_replace('panle', 			'panel', 		$string);
+		$string = str_replace('pedistal', 		'pedestal', 	$string);
+		$string = str_replace('rptation', 		'rotation', 	$string);
+		$string = str_replace('skilsaw', 		'skillsaw',		$string);
+		$string = str_replace('scissorlift', 	'scissor lift',	$string);
+		$string = str_replace('tarpouline', 	'tarpaulin',	$string);
+		$string = str_replace('x box', 			'xbox',			$string);
+		$string = str_replace('wall paper', 	'wallpaper',	$string);
+		$string = str_replace('wheel barrow', 	'wheelbarrow', 	$string);
+		$string = str_replace('widht', 			'width', 		$string);
+		return $string;
+	}
 	
 	public function __construct(){
 		$this->propertyAliases = array_map('str_getcsv', file(__DIR__.'/PropertyAliases.csv'));
@@ -321,7 +347,25 @@ class ImporterServiceHelper {
 	
 	
 	
-	
+	/**
+	 * This routine attempt to extract out properties from the title of the asset.
+	 * It will not create a property, if the property already exists.
+	 * It will also adjust the title and remove any text that was used to decode the property
+	 * @todo psh
+	 * @param string $phrase
+	 * @param array $existingProperties - properties to check before creating a new one
+	 * @return array - the properties has
+	 */
+	public function extractPropertiesFromTitle(&$title, $mainProperties, $existingProperties){
+		
+	}
+	private function extractPropertiesFromTitleInternal(&$title, $mainProperties, $existingProperties){
+		$titleIn = $title;
+		// Extract out min and max, eg: "Ladder Extension 7-9m"
+		if(preg_match('/([0-9.]+)[\s]*-[\s]*([0-9.]+)([a-zA-Z]+)/', $titleIn, $result)){
+			
+		}
+	}
 	
 	private function isIn($haystack, $needle){
 		return preg_match("/".$needle."/", $haystack);
@@ -351,7 +395,7 @@ class ImporterServiceHelper {
 	
 	private function fixPropertyName($propertyName, $categoryName){
 		foreach($this->propertyAliases as $propertyAlias){
-			if($propertyAlias[0] === $categoryName AND $this->isSamePropertyName($propertyName, $propertyAlias[1])){
+			if($propertyAlias[0] === $categoryName AND $this->isSamePropertyName(strtolower($propertyName), strtolower($propertyAlias[1]))){
 				return $propertyAlias[2];
 			}
 		}
@@ -367,26 +411,6 @@ class ImporterServiceHelper {
 		}
 	}
 	
-	private function fixSpelling($string){
-		$string = str_replace('acroprop', 		'acrow prop',	$string);
-		$string = str_replace('crow bar', 		'crowbar',		$string);
-		$string = str_replace('chain saw', 		'chainsaw',		$string);
-		$string = str_replace('excxavator', 	'excavator',	$string);
-		$string = str_replace('furiture', 		'furniture',	$string);
-		$string = str_replace('hight', 			'high',			$string);
-		$string = str_replace('lenght', 		'length', 		$string);
-		$string = str_replace('panle', 			'panel', 		$string);
-		$string = str_replace('pedistal', 		'pedestal', 	$string);
-		$string = str_replace('rptation', 		'rotation', 	$string);
-		$string = str_replace('skilsaw', 		'skillsaw',		$string);
-		$string = str_replace('scissorlift', 	'scissor lift',	$string);
-		$string = str_replace('tarpouline', 	'tarpaulin',	$string);
-		$string = str_replace('x box', 			'xbox',			$string);
-		$string = str_replace('wall paper', 	'wallpaper',	$string);
-		$string = str_replace('wheel barrow', 	'wheelbarrow', 	$string);
-		$string = str_replace('widht', 			'width', 		$string);
-		return $string;
-	}
 	private function fixValue($string){
 		$string = str_replace('approx.', 	'', 	$string);
 		$string = str_replace('(approx)', 	'', 	$string);
@@ -402,14 +426,24 @@ class ImporterServiceHelper {
 			$propertiesOut = array_merge($propertiesOut, $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName));
 		}
 		
-		// Now go and fix the property names
-		foreach($propertiesOut as $property){
-			$newName = $this->fixPropertyName($property['name_fulnam'], $categoryName);
-			$newNameIsDuplicate = false;
-			foreach($propertiesOut as $siblingProperty){
-				if($siblingProperty['name_fulnam'] == $newName) $newNameIsDuplicate = true;
+		// Now go and fix the property names using the PropertyAliases.csv
+		foreach($this->propertyAliases as $propertyAlias){
+			if($propertyAlias[0] === $categoryName AND $categoryName =="ladder"){
+				$foundAnotherPropertyWithFixedName = false;
+				foreach($propertiesOut as $siblingProperty){
+					if($this->isSamePropertyName(strtolower($siblingProperty['name_fulnam']), strtolower($propertyAlias[2]))){
+						$foundAnotherPropertyWithFixedName = true;
+					}
+				}
+				// If we haven't found another property with this fixed name, then try and fix this one
+				if(!$foundAnotherPropertyWithFixedName){
+					foreach($propertiesOut as $i => $property){
+						if($this->isSamePropertyName(strtolower($property['name_fulnam']), strtolower($propertyAlias[1]))){
+							$propertiesOut[$i]['name_fulnam'] = $propertyAlias[2];
+						}
+					}
+				}
 			}
-			if(!$newNameIsDuplicate) $property['name_fulnam'] = $newName;
 		}
 		return $propertiesOut;
 	}
@@ -430,6 +464,7 @@ class ImporterServiceHelper {
 		}
 		return $results;
 	}
+	
 	
 	/**
 	 * Determines the properties that are for an asset

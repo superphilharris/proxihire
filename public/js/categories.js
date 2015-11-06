@@ -5,12 +5,11 @@ categories = {
 		"children": [
 			{
 				"aliases": ["tarpaulin"],
-				"width": "lineal",
-				"length": "lineal"
+				"properties": [{"width":"lineal"}, {"length":"lineal"}]
 			},
 			{
 				"aliases": ["ladder"],
-				"total height": "lineal"
+				"properties": [{"total height":"lineal"}]
 			},
 			{
 				"aliases": ["floor stripper", "tile stripper", "carpet stripper"]
@@ -23,8 +22,7 @@ categories = {
 					},
 					{
 						"aliases": ["acrow prop", "construction prop"],
-						"max length": "lineal",
-						"min length": "lineal"
+						"properties": [{"max length":"lineal"}, {"min length":"lineal"}]
 					},
 					{
 						"aliases": ["mobile scaffolding", "alloy scaffold"]
@@ -44,8 +42,7 @@ categories = {
 			},
 			{
 				"aliases": ["fencing", "barrier", "delineator", "fence"],
-				"length": "lineal",
-				"height": "lineal"
+				"properties": [{"length":"lineal"}, {"height": "lineal"}]
 			},
 			{
 				"aliases": ["electrical and generators"],
