@@ -158,6 +158,18 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMA
 	background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
 	background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
 }
+.panel-heading {
+	padding: 10px 12px;
+}
+.assetHeadingLink {
+	line-height: 1em;
+	max-height: 1.1em;
+	overflow:hidden;
+	display: block;
+}
+.panel-heading > table {
+	width: 100%;
+}
 .assetPropertiesSummary > table {
 	width: 100%;
 }
@@ -192,15 +204,11 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMA
 	line-height: 24px;
 }
 .lessorIcon {
-	float: right;
 	display: none;
-	margin-right: -4px;
-	margin-top: 1px;
+	width: 0px;
 }
 .distanceToUser {
-	float: right;
-	padding-right: 10px;
-	padding-top: 1px;
+	text-align: right;
 }
 
 /* Location Bar */
@@ -276,7 +284,9 @@ html,body{
 		margin-bottom: 20px;
 	}
 	.lessorIcon {
-		display: inline-block;
+		display: table-cell;
+		width: 28px;
+		text-align: right;
 	}
 	.assetImageWrapper img{
        		border-radius: 0px 0px 0px 4px;

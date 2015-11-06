@@ -19,9 +19,15 @@ foreach( $this->assetList as $asset ){
 	
 	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getLessorId() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
 		<div class="panel-heading">
-			<a target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a>
-			<img class="lessorIcon" src="/img/<?php echo getIcon($asset->getLessor()) ?>" title="<?php echo $asset->getLessor()->getName() ?>"/>
-			<span class="distanceToUser"><?php echo round($asset->getLessor()->getDistanceToClosestBranch($userLocation)/100)/10 ?><span class="propertyUnit">km</span></span>
+			<table>
+				<tbody>
+					<tr>
+						<td><a class="assetHeadingLink" target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?></a></td>
+						<td class="distanceToUser"><span><?php echo round($asset->getLessor()->getDistanceToClosestBranch($userLocation)/100)/10 ?><span class="propertyUnit">km</span></span></td>
+						<td class="lessorIcon"><img src="/img/<?php echo getIcon($asset->getLessor()) ?>" title="<?php echo $asset->getLessor()->getName() ?>"/></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 		<div class="panel-body">
 			<div class="assetImageWrapper"><img src="/img/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
