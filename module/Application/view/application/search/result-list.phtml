@@ -52,7 +52,7 @@ foreach( $this->assetList as $asset ){
 				if($asset->getDescription() != null) echo '<div>'.$asset->getDescription().'</div>';
 				?>
 				</div>
-				<div class="ellipsis_after">... more</div>
+				<a class="ellipsis_after" target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>">... more</a>
 			</div>
 		</div>
 	</div>
