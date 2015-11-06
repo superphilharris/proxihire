@@ -141,9 +141,9 @@ function updateFilterBar(){
 					value: 	[mainProperties[propertyName].min, mainProperties[propertyName].max],
 					step:	((mainProperties[propertyName].max - mainProperties[propertyName].min)/10).toPrecision(1),
 					focus: 	true
-				}).on('slide', filterResults);
+				}).on('slide', function(){ filterResults(mainProperties); });
 			}else{
-				$('.'+getCssPropertyName(propertyName)+'_columnFilter').find('input').change(filterResults);
+				$('.'+getCssPropertyName(propertyName)+'_columnFilter').find('input').change(function(){ filterResults(mainProperties); });
 			}
 		}
 	}
@@ -158,7 +158,7 @@ function updateFilterBar(){
 				propertiesSummary.parent().parent().append('<div class="assetPropertyColumn '+devPropertyName+'_column"><span>'+propertySummary.find('.propertyValue').text()+'</span><span class="propertyUnit">'+propertySummary.find('.propertyUnit').text()+'</span></div>');
 				propertySummary.hide();
 			}else{								// Insert a placeholder instead
-				propertiesSummary.parent().parent().append('<div class="assetPropertyColumn"><span>&nbsp;</span></div>')
+				propertiesSummary.parent().parent().append('<div class="assetPropertyColumn '+devPropertyName+'_column"><span>&nbsp;</span></div>')
 			}
 		}
 	});
@@ -195,7 +195,7 @@ function hideFilters(){
 	$('.categoryAndFilterPadder').css('height', (height+15)+'px');
 }
 var filterTimeout = null;
-function filterResults(){
+function filterResults(mainProperties){
 	clearTimeout(filterTimeout);
 	filterTimeout = setTimeout(function(){
 		$('.assetPanel').each(function(){
@@ -211,7 +211,11 @@ function filterResults(){
 				
 				$('.assetPanel').each(function(){
 					var value = parseFloat($(this).find('.'+getCssPropertyName(inputs[0].name)+'_column').text());
-					if((value <= minLimit-0.5*step) || (value >= maxLimit+0.5*step)){
+					if(isNaN(value) || value == ""){ // If this asset does not have a property, then hide it if the filter is not maxed out
+						if(minLimit > mainProperties[inputs[0].name].min || maxLimit < mainProperties[inputs[0].name].max){
+							$(this).hide();
+						}
+					}else if((value <= minLimit-0.5*step) || (value >= maxLimit+0.5*step)){
 						$(this).hide();
 					}
 				});
