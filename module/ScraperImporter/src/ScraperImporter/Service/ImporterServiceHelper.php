@@ -4,9 +4,11 @@ namespace ScraperImporter\Service;
 use Application\Model\Datatype;
 
 class ImporterServiceHelper {
-	const REFRESH_ASSET_IMAGES 		= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	const GENERATE_RANDOM_LOCATIONS = FALSE;	// Turn on if we are overusing the google api
-	
+	// The below 3 configurations are used to speed up the scraping for testing purposes.
+	const UPDATE_IMAGES 		= FALSE; // Whether we want to check to see whether they've changed the images on their server.
+	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
+	const CREATE_IMAGES		= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
+
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
 	
@@ -228,12 +230,12 @@ class ImporterServiceHelper {
 	 * @return boolean
 	 */
 	public function syncImage($url, $type="assets"){
-		if($url !== null AND $url !== ""){
+		if($this::CREATE_IMAGES AND $url !== null AND $url !== ""){
 			$urlComponents = parse_url($url);
 			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
 				$localImageRelativePath = $urlComponents['host'].$urlComponents['path'];
 				$localImage = __DIR__.'/../../../../../public/img/'.$type.'/'.$localImageRelativePath;
-				if($this::REFRESH_ASSET_IMAGES OR !file_exists($localImage)){
+				if($this::UPDATE_IMAGES OR !file_exists($localImage)){
 					$directory = dirname($localImage);
 					$this->mkdir($directory);
 					exec("cd $directory; wget -N ".addslashes($url));
@@ -294,7 +296,7 @@ class ImporterServiceHelper {
 		if($imagePath !== null){
 			$imagePathParts = explode('.', $imagePath);
 			$newImagePath = implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
-			if(!file_exists($newImagePath) OR $this::REFRESH_ASSET_IMAGES){
+			if(!file_exists($newImagePath) OR $this::UPDATE_IMAGES){
 				// Remove whitespace from image
 				exec("convert -trim $imagePath $newImagePath");
 				// Resize the image to the desired size
@@ -316,7 +318,7 @@ class ImporterServiceHelper {
 			$iconDir = __DIR__.'/../../../../../public/img/lessors/';
 			$iconPathParts = explode('.', $iconPath);
 			$newIconPath = implode('.', array_splice($iconPathParts, 0, -1))."_18x18.".end($iconPathParts);
-			if(!file_exists($iconDir.$newIconPath) OR $this::REFRESH_ASSET_IMAGES){
+			if(!file_exists($iconDir.$newIconPath) OR $this::UPDATE_IMAGES){
 				// Resize the image to the desired size of 16x16
 				exec("convert -define jpeg:size=32x32 $iconDir".escapeshellarg($iconPath)." -thumbnail 16x16^ -gravity center -extent 16x16 $iconDir".escapeshellarg($newIconPath));
 				// Now combine the image with the white marker to create a marker
