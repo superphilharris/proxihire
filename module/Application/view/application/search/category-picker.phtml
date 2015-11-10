@@ -7,7 +7,7 @@
 <?php
 
 $i = count($this->ancestory) - 1;
-while ($i>=0AND property_exists($this->ancestory[$i], 'children')) {
+while ($i>=0 AND property_exists($this->ancestory[$i], 'children')) {
 ?>
 		<li class="dropdown<?php if($i===0) echo " open"?>">
 		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span>
@@ -46,7 +46,6 @@ while ($i>=0AND property_exists($this->ancestory[$i], 'children')) {
 <a name="belowCurrentLocation" style="display:none;">&nbsp;</a>
 
 <?php 
-
 
 
 ?>
