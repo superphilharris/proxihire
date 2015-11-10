@@ -105,6 +105,9 @@ class Datatype extends AbstractModel implements DatatypeInterface
 			case $this::POWER_ELECTRICAL:
 				$base = "W";
 				break;
+			case $this::TORQUE:
+				$base = "Nm";
+				break;
 			case $this::VOLTAGE:
 				$base = "V";
 				break;
