@@ -1128,6 +1128,9 @@ categories = {
 		        		"aliases": ["laptop"]
 		        	},
 		         	{
+		        		"aliases": ["desktop computer"]
+		        	},
+		         	{
 		        		"aliases": ["laser printer"]
 		        	},
 		         	{

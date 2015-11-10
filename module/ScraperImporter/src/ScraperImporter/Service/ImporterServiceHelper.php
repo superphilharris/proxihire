@@ -5,7 +5,7 @@ use Application\Model\Datatype;
 
 class ImporterServiceHelper {
 	const REFRESH_ASSET_IMAGES 		= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	const GENERATE_RANDOM_LOCATIONS = FALSE;	// Turn on if we are overusing the google api
+	const GENERATE_RANDOM_LOCATIONS = TRUE;	// Turn on if we are overusing the google api
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
@@ -446,6 +446,28 @@ class ImporterServiceHelper {
 			}
 		}
 		return $propertiesOut;
+	}
+	
+	private function determineRate($timePeriod, $costForPeriod){
+		$result = array("duration_hrs" => $timePeriod, "price_dlr" => $costForPeriod);
+		if($timePeriod === $costForPeriod) $result = $this->extractRateFromString($result);
+		echo "hello";
+		var_dump($timePeriod);
+		
+		return $result;
+	}
+	
+	public function determineRates($rates){
+		$ratesOut = array();
+		foreach($rates as $timePeriod => $costForPeriod){
+			$rate = $this->determineRate($timePeriod, $costForPeriod);
+			if($rate === null) exit("Could not determine rate for: $timePeriod, $costForPeriod");
+			array_push($ratesOut, $rate);
+		}
+		return $ratesOut;
+	}
+	private function extractRateFromString($string){
+		throw new Exception("TODO: Need to write code that will extract the rate from a string.");
 	}
 	
 	private function determinePropertyWrapper($key, $value, $categoryName){

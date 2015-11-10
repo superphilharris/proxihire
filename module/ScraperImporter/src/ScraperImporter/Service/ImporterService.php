@@ -167,9 +167,19 @@ class ImporterService implements ImporterServiceInterface
 				$this->writeSQL("SET @last_asset_id = LAST_INSERT_ID();");
 				
 				// Determine and clean up the properties
-				$properties = $this->helper->determineProperties($page->properties, $categoryName);
-				foreach($properties as $property){
-					$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
+				if (property_exists($page, 'properties')){
+					$properties = $this->helper->determineProperties($page->properties, $categoryName);
+					foreach($properties as $property){
+						$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
+					}
+				}
+				
+				// Determine and clean up the rates
+				if (property_exists($page, 'rates')){
+					$rates = $this->helper->determineRates($page->rates);
+					foreach($rates as $rate){
+						$this->writeSQL("INSERT INTO asset_rate (asset_id, duration_hrs, price_dlr) VALUES (@last_asset_id, '".addslashes($rate['duration_hrs'])."', '".$rate['price_dlr']."');");
+					}
 				}
 			}
 		}
