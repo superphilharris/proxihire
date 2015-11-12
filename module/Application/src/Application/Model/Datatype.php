@@ -64,7 +64,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 			case $this::POWER_MECHANICAL:
 				return array(1, "hp");
 			case $this::PRESSURE:
-				return array(0.000145037738, 'psi');
+				return array(6894.75729, 'psi');
 				break;
 			case $this::SPEED:
 				return array(1, "m/s");
@@ -104,6 +104,9 @@ class Datatype extends AbstractModel implements DatatypeInterface
 				break;
 			case $this::POWER_ELECTRICAL:
 				$base = "W";
+				break;
+			case $this::TORQUE:
+				$base = "Nm";
 				break;
 			case $this::VOLTAGE:
 				$base = "V";
