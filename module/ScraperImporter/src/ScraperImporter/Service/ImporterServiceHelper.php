@@ -4,8 +4,10 @@ namespace ScraperImporter\Service;
 use Application\Model\Datatype;
 
 class ImporterServiceHelper {
-	const REFRESH_ASSET_IMAGES 		= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	const GENERATE_RANDOM_LOCATIONS = TRUE;	// Turn on if we are overusing the google api
+	// The below 3 configurations are used to speed up the scraping for testing purposes.
+	const UPDATE_IMAGES 			= FALSE; // Whether we want to check to see whether they've changed the images on their server.
+	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
+	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
@@ -228,12 +230,12 @@ class ImporterServiceHelper {
 	 * @return boolean
 	 */
 	public function syncImage($url, $type="assets"){
-		if($url !== null AND $url !== ""){
+		if($this::CREATE_IMAGES AND $url !== null AND $url !== ""){
 			$urlComponents = parse_url($url);
 			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
 				$localImageRelativePath = $urlComponents['host'].$urlComponents['path'];
 				$localImage = __DIR__.'/../../../../../public/img/'.$type.'/'.$localImageRelativePath;
-				if($this::REFRESH_ASSET_IMAGES OR !file_exists($localImage)){
+				if($this::UPDATE_IMAGES OR !file_exists($localImage)){
 					$directory = dirname($localImage);
 					$this->mkdir($directory);
 					exec("cd $directory; wget -N ".addslashes($url));
@@ -294,7 +296,7 @@ class ImporterServiceHelper {
 		if($imagePath !== null){
 			$imagePathParts = explode('.', $imagePath);
 			$newImagePath = implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
-			if(!file_exists($newImagePath) OR $this::REFRESH_ASSET_IMAGES){
+			if(!file_exists($newImagePath) OR $this::UPDATE_IMAGES){
 				// Remove whitespace from image
 				exec("convert -trim $imagePath $newImagePath");
 				// Resize the image to the desired size
@@ -316,7 +318,7 @@ class ImporterServiceHelper {
 			$iconDir = __DIR__.'/../../../../../public/img/lessors/';
 			$iconPathParts = explode('.', $iconPath);
 			$newIconPath = implode('.', array_splice($iconPathParts, 0, -1))."_18x18.".end($iconPathParts);
-			if(!file_exists($iconDir.$newIconPath) OR $this::REFRESH_ASSET_IMAGES){
+			if(!file_exists($iconDir.$newIconPath) OR $this::UPDATE_IMAGES){
 				// Resize the image to the desired size of 16x16
 				exec("convert -define jpeg:size=32x32 $iconDir".escapeshellarg($iconPath)." -thumbnail 16x16^ -gravity center -extent 16x16 $iconDir".escapeshellarg($newIconPath));
 				// Now combine the image with the white marker to create a marker
@@ -451,8 +453,29 @@ class ImporterServiceHelper {
 	private function determineRate($timePeriod, $costForPeriod){
 		$result = array("duration_hrs" => $timePeriod, "price_dlr" => $costForPeriod);
 		if($timePeriod === $costForPeriod) $result = $this->extractRateFromString($result);
-		echo "hello";
-		var_dump($timePeriod);
+
+		// Now get the money
+		if(preg_match('/\$([0-9.]+)/', $result["price_dlr"], $pregMatch)){
+			$result["price_dlr"] = floatval($pregMatch[1]);
+		}else{
+			$result["price_dlr"] = floatval($result["price_dlr"]);
+		}
+		if ($result["price_dlr"] == 0) return false;
+		
+		// Get the time period
+		$timePeriod = strtolower(trim($result["duration_hrs"]));
+		if    ($timePeriod == "full month") 	$result["duration_hrs"] = 24 * 30;
+		elseif($timePeriod == "monthly") 		$result["duration_hrs"] = 24 * 30;
+		elseif($timePeriod == "fortnightly") 	$result["duration_hrs"] = 24 * 14;
+		elseif($timePeriod == "p/week") 		$result["duration_hrs"] = 24 * 7;
+		elseif($timePeriod == "full week") 		$result["duration_hrs"] = 24 * 7;
+		elseif($timePeriod == "weekly") 		$result["duration_hrs"] = 24 * 7;
+		elseif($timePeriod == "full day") 		$result["duration_hrs"] = 24;
+		elseif($timePeriod == "daily") 			$result["duration_hrs"] = 24;
+		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
+		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
+		elseif($timePeriod == "quick hire")		$result["duration_hrs"] = 12;
+		else return null;
 		
 		return $result;
 	}
@@ -461,8 +484,8 @@ class ImporterServiceHelper {
 		$ratesOut = array();
 		foreach($rates as $timePeriod => $costForPeriod){
 			$rate = $this->determineRate($timePeriod, $costForPeriod);
-			if($rate === null) exit("Could not determine rate for: $timePeriod, $costForPeriod");
-			array_push($ratesOut, $rate);
+			if($rate === null) throw new \Exception("Could not determine rate for: $timePeriod, $costForPeriod");
+			if($rate) array_push($ratesOut, $rate);
 		}
 		return $ratesOut;
 	}

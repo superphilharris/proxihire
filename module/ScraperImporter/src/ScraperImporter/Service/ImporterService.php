@@ -175,8 +175,8 @@ class ImporterService implements ImporterServiceInterface
 				}
 				
 				// Determine and clean up the rates
-				if (property_exists($page, 'rates')){
-					$rates = $this->helper->determineRates($page->rates);
+				if (property_exists($page, 'rate')){
+					$rates = $this->helper->determineRates($page->rate);
 					foreach($rates as $rate){
 						$this->writeSQL("INSERT INTO asset_rate (asset_id, duration_hrs, price_dlr) VALUES (@last_asset_id, '".addslashes($rate['duration_hrs'])."', '".$rate['price_dlr']."');");
 					}

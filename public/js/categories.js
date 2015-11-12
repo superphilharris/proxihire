@@ -658,6 +658,9 @@ categories = {
 					},
 					{
 						"aliases": ["parcan light LED", "stage light LED"]
+					},
+					{
+						"aliases": ["lantern"]
 					}
 				]
 			},
@@ -724,6 +727,9 @@ categories = {
 					},
 					{
 						"aliases": ["dessert bowl", "royal thai bowl"]
+					},
+					{
+						"aliases": ["buffet tower"]
 					},
 					{
 						"aliases": ["butter dish"]
