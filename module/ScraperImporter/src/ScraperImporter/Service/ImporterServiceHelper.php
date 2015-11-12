@@ -472,7 +472,7 @@ class ImporterServiceHelper {
 		elseif($timePeriod == "weekly") 		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "full day") 		$result["duration_hrs"] = 24;
 		elseif($timePeriod == "daily") 			$result["duration_hrs"] = 24;
-		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
+		elseif($timePeriod == "half day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "quick hire")		$result["duration_hrs"] = 12;
 		else throw new \Exception("Could not determine rate for: $timePeriod, $costForPeriod");
