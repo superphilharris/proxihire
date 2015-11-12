@@ -475,7 +475,7 @@ class ImporterServiceHelper {
 		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "quick hire")		$result["duration_hrs"] = 12;
-		else return null;
+		else throw new \Exception("Could not determine rate for: $timePeriod, $costForPeriod");
 		
 		return $result;
 	}
@@ -484,7 +484,6 @@ class ImporterServiceHelper {
 		$ratesOut = array();
 		foreach($rates as $timePeriod => $costForPeriod){
 			$rate = $this->determineRate($timePeriod, $costForPeriod);
-			if($rate === null) throw new \Exception("Could not determine rate for: $timePeriod, $costForPeriod");
 			if($rate) array_push($ratesOut, $rate);
 		}
 		return $ratesOut;
