@@ -246,6 +246,9 @@ categories = {
 						"aliases": ["sander", "air sandblaster"]
 					},
 					{
+						"aliases": ["wood router"]
+					},
+					{
 						"aliases": ["electric planer"]
 					},
 					{
@@ -738,6 +741,9 @@ categories = {
 						"aliases": ["coffee mug", "cup", "mug"]
 					},
 					{
+						"aliases": ["wine glass"]
+					},
+					{
 						"aliases": ["coffee pot"]
 					}
 				]
@@ -762,6 +768,9 @@ categories = {
 					},
 					{
 						"aliases": ["helium filler", "helium gas"]
+					},
+					{
+						"aliases": ["blackboard stand"]
 					}
 				]
 			}
