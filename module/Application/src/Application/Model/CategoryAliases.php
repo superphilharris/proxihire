@@ -43,8 +43,10 @@ class CategoryAliases implements CategoryAliasesInterface
 	private function getAncestoryRecursive($aliasName, $alias){
 		if(property_exists($alias, 'children')) {
 			foreach($alias->children as $child){
-				if(in_array($aliasName, $child->aliases)){
-					return array($child, $alias);
+				foreach($child->aliases as $childAlias){
+					if(strtolower($aliasName) == strtolower($childAlias)){
+						return array($child, $alias);
+					}
 				}
 				$descendants = $this->getAncestoryRecursive($aliasName, $child);
 				if($descendants !== null){

@@ -24,7 +24,7 @@ $searchConfig=array(
 			'options' => array(
 				'route'    => '/:category',
 				'constraints' => array(
-					'category' => '([a-z][a-z]*(%20)*)*',
+					'category' => '([a-zA-Z\-]*(%20)*)*',
 				),
 				'defaults' => array(
 					'controller'    => 'Search',
