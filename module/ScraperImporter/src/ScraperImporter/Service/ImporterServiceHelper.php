@@ -451,8 +451,9 @@ class ImporterServiceHelper {
 	}
 	
 	private function determineRate($timePeriod, $costForPeriod){
-		$result = array("duration_hrs" => $timePeriod, "price_dlr" => $costForPeriod);
-		if($timePeriod === $costForPeriod) $result = $this->extractRateFromString($result);
+		if($timePeriod === $costForPeriod) 	$result = $this->extractRateFromString($timePeriod);
+		else 								$result = array("duration_hrs" => $timePeriod, "price_dlr" => $costForPeriod);
+		if($result === null) return false;
 
 		// Now get the money
 		if(preg_match('/\$([0-9.]+)/', $result["price_dlr"], $pregMatch)){
@@ -466,16 +467,22 @@ class ImporterServiceHelper {
 		$timePeriod = strtolower(trim($result["duration_hrs"]));
 		if    ($timePeriod == "full month") 	$result["duration_hrs"] = 24 * 30;
 		elseif($timePeriod == "monthly") 		$result["duration_hrs"] = 24 * 30;
+		elseif($timePeriod == "month hire")		$result["duration_hrs"] = 24 * 30;
 		elseif($timePeriod == "fortnightly") 	$result["duration_hrs"] = 24 * 14;
+		elseif($timePeriod == "fortnight hire")	$result["duration_hrs"] = 24 * 14;
 		elseif($timePeriod == "p/week") 		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "full week") 		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "weekly") 		$result["duration_hrs"] = 24 * 7;
+		elseif($timePeriod == "week hire")		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "full day") 		$result["duration_hrs"] = 24;
 		elseif($timePeriod == "daily") 			$result["duration_hrs"] = 24;
+		elseif($timePeriod == "day hire")		$result["duration_hrs"] = 24;
 		elseif($timePeriod == "half day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "quick hire")		$result["duration_hrs"] = 12;
-		else throw new \Exception("Could not determine rate for: $timePeriod, $costForPeriod");
+		else{
+			return array("datatype" => Datatype::STRING, "value_mxd" => $result["price_dlr"], "name_fulnam" => $timePeriod);
+		}
 		
 		return $result;
 	}
@@ -489,7 +496,11 @@ class ImporterServiceHelper {
 		return $ratesOut;
 	}
 	private function extractRateFromString($string){
-		throw new Exception("TODO: Need to write code that will extract the rate from a string.");
+		$result = array("price_dlr" => $string, "duration_hrs" => $string);
+		
+		$string = strtolower($string);
+		if($string == "poa") return null;
+		else throw new \Exception("Please write the code that will extract out the time and cost from: '$string'");
 	}
 	
 	private function determinePropertyWrapper($key, $value, $categoryName){

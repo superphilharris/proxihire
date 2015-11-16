@@ -514,6 +514,9 @@ categories = {
 				 			{
 								"aliases": ["thermowave oven"]
 							},
+				 			{
+								"aliases": ["microwave"]
+							},
 							{
 								"aliases": ["electric urn"]
 							},
