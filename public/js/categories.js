@@ -12,7 +12,7 @@ categories = {
 				"properties": [{"total height":"lineal"}]
 			},
 			{
-				"aliases": ["floor stripper", "tile stripper", "carpet stripper"]
+				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper"]
 			},
 			{
 				"aliases": ["scaffolding equipment"],
@@ -31,6 +31,9 @@ categories = {
 						"aliases": ["scaffolding"]
 					}
 				]
+			},
+			{
+				"aliases": ["water carrier"]
 			},
 			{
 				"aliases": ["roofing"],
@@ -124,7 +127,7 @@ categories = {
 								"aliases": ["crox tool"]
 							},
 							{
-								"aliases": ["pipe crimper", "pipe crimping tool"]
+								"aliases": ["pipe crimper", "pipe crimping tool", "buteline crimper"]
 							}
 						]
 					},
@@ -235,7 +238,10 @@ categories = {
 								"aliases": ["magnetic drill press", "rotabroach magnetic drill", "broach drill", "magnetic base drill"]
 							},
 							{
-								"aliases": ["electric drill", "cordless drill"]
+								"aliases": ["electric drill"]
+							},
+							{
+								"aliases": ["cordless drill"]
 							}
 						]
 					},
@@ -246,7 +252,7 @@ categories = {
 						"aliases": ["sander", "air sandblaster"]
 					},
 					{
-						"aliases": ["wood router"]
+						"aliases": ["wood router", "electric router"]
 					},
 					{
 						"aliases": ["electric planer"]
@@ -295,7 +301,7 @@ categories = {
 						"aliases": ["flooring clamp", "floor cramp", "floor clamp"]
 					},
 		 			{
-						"aliases": ["floor polisher"]
+						"aliases": ["floor polisher", "floor scrubber"]
 					},
 					{
 						"aliases": ["burnisher"]
@@ -315,6 +321,9 @@ categories = {
 						"aliases": ["scissor lift", "aerial work platform", "cherry picker"]
 					},
 		 			{
+						"aliases": ["knuckleboom", "telehandler", "telescopic handler", "teleporter", "telescopic boom"]
+					},
+		 			{
 						"aliases": ["trestle"]
 					}
 				]
@@ -329,7 +338,7 @@ categories = {
 						"aliases": ["dumpy level", "builder's auto level"]
 					},
 					{
-						"aliases": ["survey laser", "laser level"]
+						"aliases": ["survey laser", "laser level", "theodolite"]
 					},
 					{
 						"aliases": ["measuring tape"]
@@ -357,11 +366,14 @@ categories = {
 		 			{
 						"aliases": ["pallet trolley"]
 					},
-		 			{
-						"aliases": ["mechanical ratchet", "ratchet jack"]
+					{
+						"aliases": ["forklift"]
 					},
 		 			{
-						"aliases": ["telehandler", "telescopic handler", "teleporter"]
+						"aliases": ["truck pallet"]
+					},
+		 			{
+						"aliases": ["mechanical ratchet", "ratchet jack"]
 					},
 					{
 						"aliases": ["jack", "hydraulic"]
@@ -370,7 +382,7 @@ categories = {
 						"aliases": ["winch", "tirfor"]
 					},
 					{
-						"aliases": ["hoist"]
+						"aliases": ["hoist", "chainblock", "block and tackle", "lever block"]
 					},
 					{
 						"aliases": ["load skate", "machine skate"]
@@ -379,13 +391,10 @@ categories = {
 						"aliases": ["furniture moving blanket"]
 					},
 					{
-						"aliases": ["shipping container", "office block", "container"]
+						"aliases": ["shipping container", "office block", "container", "site accomodation"]
 					},
 					{
 						"aliases": ["crane"]
-					},
-					{
-						"aliases": ["chainblock", "block and tackle", "lever block"]
 					},
 					{
 						"aliases": ["piano dollie"]
@@ -425,6 +434,9 @@ categories = {
 			},
 			{
 				"aliases": ["axe"]
+			},
+			{
+				"aliases": ["garden fork"]
 			},
 			{
 				"aliases": ["garden hand tool", "hand grubber"]
@@ -520,11 +532,14 @@ categories = {
 							{
 								"aliases": ["electric urn"]
 							},
+							{
+								"aliases": ["bain marie", "water bath", "bain-marie"]
+							},
 				 			{
 								"aliases": ["gas burner"]
 							},
-							{
-								"aliases": ["bain marie", "water bath", "bain-marie"]
+				 			{
+								"aliases": ["barbeque", "BBQ"]
 							},
 							{
 								"aliases": ["gas spit"]
@@ -555,14 +570,6 @@ categories = {
 			},
 			{
 				"aliases": ["speaker","sound"]
-			},
-			{
-				"aliases": ["video"],
-				"children": [
-					{
-						"aliases": ["boom","telescopic boom"]
-					}
-				]
 			},
 			{
 				"aliases": ["seating"],
@@ -601,7 +608,7 @@ categories = {
 				"aliases": ["temporary shelter"],
 				"children": [
 		 			{
-						"aliases": ["patio umbrella", "market umbrella"]
+						"aliases": ["patio umbrella", "market umbrella", "market tent"]
 					},
 					{
 						"aliases": ["umbrella base", "parasol base"]
@@ -663,7 +670,7 @@ categories = {
 						"aliases": ["flood light"]
 					},
 					{
-						"aliases": ["parcan light LED", "stage light LED"]
+						"aliases": ["parcan light LED", "stage LED light"]
 					},
 					{
 						"aliases": ["lantern"]
@@ -690,8 +697,10 @@ categories = {
 					},
 					{
 						"aliases": ["chandelier"]
+					},
+					{
+						"aliases": ["christmas lights", "LED tree lights"]
 					}
-					
 				]
 			},
 			{
@@ -726,7 +735,7 @@ categories = {
 						]
 					},
 					{
-						"aliases": ["cake trowel", "serving trowel", "pavlova trowel"]
+						"aliases": ["cake trowel", "serving trowel", "pavlova trowel", "cake slice"]
 					},
 					{
 						"aliases": ["dipping dish"]
@@ -800,7 +809,7 @@ categories = {
 						    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
 						    },
 						    {
-								"aliases": ["dump truck", "tipper truck"]
+								"aliases": ["dump truck", "tip truck"]
 							},
 						    {
 								"aliases": ["flat deck truck", "drop side truck"]
@@ -820,7 +829,7 @@ categories = {
 						]
 					},
 					{
-						"aliases": ["sedan","car"]
+						"aliases": ["sedan"]
 					}
 				]
 			},
@@ -837,7 +846,7 @@ categories = {
 						"aliases":["standard trailer", "single axle trailer", "tandem trailer", "box trailer"]
 					},
 					{
-						"aliases":["shuttle trailer", "furniture trailer"]
+						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer"]
 					},
 					{
 						"aliases":["caged trailer","bin trailers", "rubbish trailer"]
@@ -850,6 +859,9 @@ categories = {
 					},
 					{
 						"aliases":["low load trailer"]
+					},
+					{
+						"aliases":["bike trailer"]
 					}
 				]
 			}
@@ -904,6 +916,9 @@ categories = {
         		"aliases": ["car ramps", "auto ramps", "automotive car ramps"]
         	},
         	{
+        		"aliases": ["car polisher"]
+        	},
+        	{
         		"aliases": ["axle stand", "auto stand"]
         	},
         	{
@@ -932,6 +947,9 @@ categories = {
 		"aliases": ["road works", "road construction", "earth moving"],
 		"children": [
 			{
+				"aliases": ["line marker", "line marking"]
+			},
+			{
 				"aliases": ["portable traffic lights"]
 			},
 			{
@@ -947,10 +965,7 @@ categories = {
 				"aliases": ["concrete laying"],
 				"children": [
 					{
-						"aliases": ["concrete saw", "road saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw", "concrete hand tool"]
-					},
-					{
-						"aliases": ["concrete diamond blade"]
+						"aliases": ["concrete saw", "road saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw", "concrete hand tool", "concrete diamond blade"]
 					},
 					{
 						"aliases": ["concrete mixer"]
@@ -984,7 +999,7 @@ categories = {
         		"aliases": ["road compacting"],
         		"children": [
 		          	{
-		         		"aliases": ["road roller", "drum roller", "combination roller", "tonne roller", "construction roller"]
+		         		"aliases": ["road roller", "drum roller", "combination roller", "tonne roller", "construction roller", "ride-on roller"]
 		         	},
 		         	{
 		         		"aliases": ["tamping rammer", "tamper air rammer", "upright hand rammer"]
@@ -1094,6 +1109,9 @@ categories = {
 		        			},
 		         			{
 		        				"aliases": ["rowing machine", "exercise rower"]
+		        			},
+		         			{
+		        				"aliases": ["exercise bike"]
 		        			}
 		        		]
         			}
@@ -1123,10 +1141,10 @@ categories = {
 		        		"aliases": ["home theatre", "home sterio"]
 		        	},
 		         	{
-		        		"aliases": ["DVD player"]
+		        		"aliases": ["DVD player", "DVD recorder", "DVD VCR combo"]
 		        	},
 		         	{
-		        		"aliases": ["playstation 4 console", "playstation move"]
+		        		"aliases": ["playstation console", "playstation move"]
 		        	},
 		         	{
 		        		"aliases": ["xbox one console", "xbox kinect", "xbox 360"]
