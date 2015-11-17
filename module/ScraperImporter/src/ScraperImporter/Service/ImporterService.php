@@ -134,15 +134,14 @@ class ImporterService implements ImporterServiceInterface
 		}
 		
 		// 5. Read in the crawled assets
-		foreach($pages as $page){
+		foreach($pages as $i => $page){
 			if($page->item_type === "asset"){
 				$itemName = ucfirst($page->item_name);
-				
 				// Sync and resize the image
 				$imageUrl = null;
 				if(property_exists($page, 'image')){
 					$imageUrl = $this->helper->syncImage($page->image);
-					$this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
+					if($imageUrl != null) $this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
 				}
 				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'".addslashes($imageUrl)."'";
 				
@@ -179,7 +178,11 @@ class ImporterService implements ImporterServiceInterface
 				if (property_exists($page, 'rate')){
 					$rates = $this->helper->determineRates($page->rate);
 					foreach($rates as $rate){
-						$this->writeSQL("INSERT INTO asset_rate (asset_id, duration_hrs, price_dlr) VALUES (@last_asset_id, '".addslashes($rate['duration_hrs'])."', '".$rate['price_dlr']."');");
+						if(isset($rate['duration_hrs'])){
+							$this->writeSQL("INSERT INTO asset_rate (asset_id, duration_hrs, price_dlr) VALUES (@last_asset_id, '".addslashes($rate['duration_hrs'])."', '".$rate['price_dlr']."');");
+						}else{
+							$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
+						}
 					}
 				}
 			}

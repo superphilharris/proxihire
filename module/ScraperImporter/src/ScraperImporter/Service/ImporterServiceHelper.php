@@ -182,10 +182,14 @@ class ImporterServiceHelper {
 	 */
 	private function fixSpelling($string){
 		$string = str_replace('acroprop', 		'acrow prop',	$string);
+		$string = str_replace('bi fold', 		'bi-fold',		$string);
 		$string = str_replace('crow bar', 		'crowbar',		$string);
 		$string = str_replace('chain saw', 		'chainsaw',		$string);
 		$string = str_replace('excxavator', 	'excavator',	$string);
 		$string = str_replace('furiture', 		'furniture',	$string);
+		$string = str_replace('flexdrive', 		'flexi-drive',	$string);
+		$string = str_replace('flexidrive', 	'flexi-drive',	$string);
+		$string = str_replace('flexi drive', 	'flexi-drive',	$string);
 		$string = str_replace('hight', 			'high',			$string);
 		$string = str_replace('lenght', 		'length', 		$string);
 		$string = str_replace('panle', 			'panel', 		$string);
@@ -451,8 +455,9 @@ class ImporterServiceHelper {
 	}
 	
 	private function determineRate($timePeriod, $costForPeriod){
-		$result = array("duration_hrs" => $timePeriod, "price_dlr" => $costForPeriod);
-		if($timePeriod === $costForPeriod) $result = $this->extractRateFromString($result);
+		if($timePeriod === $costForPeriod) 	$result = $this->extractRateFromString($timePeriod);
+		else 								$result = array("duration_hrs" => $timePeriod, "price_dlr" => $costForPeriod);
+		if($result === null) return false;
 
 		// Now get the money
 		if(preg_match('/\$([0-9.]+)/', $result["price_dlr"], $pregMatch)){
@@ -466,16 +471,22 @@ class ImporterServiceHelper {
 		$timePeriod = strtolower(trim($result["duration_hrs"]));
 		if    ($timePeriod == "full month") 	$result["duration_hrs"] = 24 * 30;
 		elseif($timePeriod == "monthly") 		$result["duration_hrs"] = 24 * 30;
+		elseif($timePeriod == "month hire")		$result["duration_hrs"] = 24 * 30;
 		elseif($timePeriod == "fortnightly") 	$result["duration_hrs"] = 24 * 14;
+		elseif($timePeriod == "fortnight hire")	$result["duration_hrs"] = 24 * 14;
 		elseif($timePeriod == "p/week") 		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "full week") 		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "weekly") 		$result["duration_hrs"] = 24 * 7;
+		elseif($timePeriod == "week hire")		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "full day") 		$result["duration_hrs"] = 24;
 		elseif($timePeriod == "daily") 			$result["duration_hrs"] = 24;
+		elseif($timePeriod == "day hire")		$result["duration_hrs"] = 24;
 		elseif($timePeriod == "half day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "quick hire")		$result["duration_hrs"] = 12;
-		else throw new \Exception("Could not determine rate for: $timePeriod, $costForPeriod");
+		else{
+			return array("datatype" => Datatype::STRING, "value_mxd" => $result["price_dlr"], "name_fulnam" => $timePeriod);
+		}
 		
 		return $result;
 	}
@@ -489,7 +500,11 @@ class ImporterServiceHelper {
 		return $ratesOut;
 	}
 	private function extractRateFromString($string){
-		throw new Exception("TODO: Need to write code that will extract the rate from a string.");
+		$result = array("price_dlr" => $string, "duration_hrs" => $string);
+		
+		$string = strtolower($string);
+		if($string == "poa") return null;
+		else throw new \Exception("Please write the code that will extract out the time and cost from: '$string'");
 	}
 	
 	private function determinePropertyWrapper($key, $value, $categoryName){
@@ -571,13 +586,7 @@ class ImporterServiceHelper {
 	 * @return Ambigous Category|NULL
 	 */
 	public function determineCategory($category, $name){
-		if($matchedCategory = $this->determineCategory2($category, $name)) 	return $matchedCategory;
-		if($matchedCategory = $this->determineCategory2($category, $this->fixSpelling(strtolower($name)))) {
-			return $matchedCategory;
-		}
-		return null;
-	}
-	private function determineCategory2($category, $name){
+		$name = $this->fixSpelling(strtolower($name));
 		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 	return array_values($matchedCategory)[0];
 		if($matchedCategory = $this->determineCategoryMatchedWords($category, $name)) 	return $matchedCategory;
 		return null;
