@@ -247,7 +247,7 @@ function filterResults(mainProperties){
 function goCategory(category){
 	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
 	if ($('.navbar-collapse').hasClass('in')) $('.navbar-toggle').trigger('click');
-	if(category != CURRENT_CATEGORY) 	CURRENT_CATEGORY = category;
+	if(typeof(category) != "undefined" && category != CURRENT_CATEGORY) 	CURRENT_CATEGORY = category;
 	else if(QueryString.lat == CURRENT_LOCATION.lat && QueryString.long == CURRENT_LOCATION.long) return false;
 	
 	var urlEnd = CURRENT_CATEGORY + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
