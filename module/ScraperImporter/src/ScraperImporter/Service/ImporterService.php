@@ -134,15 +134,14 @@ class ImporterService implements ImporterServiceInterface
 		}
 		
 		// 5. Read in the crawled assets
-		foreach($pages as $page){
+		foreach($pages as $i => $page){
 			if($page->item_type === "asset"){
 				$itemName = ucfirst($page->item_name);
-				
 				// Sync and resize the image
 				$imageUrl = null;
 				if(property_exists($page, 'image')){
 					$imageUrl = $this->helper->syncImage($page->image);
-					$this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
+					if($imageUrl != null) $this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
 				}
 				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'".addslashes($imageUrl)."'";
 				

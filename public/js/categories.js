@@ -25,7 +25,7 @@ categories = {
 						"properties": [{"max length":"lineal"}, {"min length":"lineal"}]
 					},
 					{
-						"aliases": ["mobile scaffolding", "alloy scaffold"]
+						"aliases": ["mobile scaffolding", "alloy scaffold", "metre scaffold"]
 					},
 					{
 						"aliases": ["scaffolding"]
@@ -33,7 +33,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["water carrier"]
+				"aliases": ["water cart", "water carrier"]
 			},
 			{
 				"aliases": ["roofing"],
@@ -106,7 +106,7 @@ categories = {
 						"aliases": ["centrifugal pump", "water pump", "rotary pump", "silenced pump"]
 					},
 					{
-						"aliases": ["flexidrive"]
+						"aliases": ["flexi-drive pump", "flex drive pump"]
 					},
 					{
 						"aliases": ["fire hydrant"]
@@ -238,10 +238,13 @@ categories = {
 								"aliases": ["magnetic drill press", "rotabroach magnetic drill", "broach drill", "magnetic base drill"]
 							},
 							{
-								"aliases": ["electric drill"]
+								"aliases": ["electric drill", "speed drill"]
 							},
 							{
 								"aliases": ["cordless drill"]
+							},
+							{
+								"aliases": ["wallboard screw gun"]
 							}
 						]
 					},
@@ -301,7 +304,13 @@ categories = {
 						"aliases": ["flooring clamp", "floor cramp", "floor clamp"]
 					},
 		 			{
-						"aliases": ["floor polisher", "floor scrubber"]
+						"aliases": ["floor polisher", "floor scrubber", "floor sweeper"]
+					},
+		 			{
+						"aliases": ["carpet cleaner", "carpet shampoo plant"]
+					},
+		 			{
+						"aliases": ["carpet stretcher"]
 					},
 					{
 						"aliases": ["burnisher"]
@@ -319,6 +328,9 @@ categories = {
 				"children": [
 		 			{
 						"aliases": ["scissor lift", "aerial work platform", "cherry picker"]
+					},
+		 			{
+						"aliases": ["mast lift"]
 					},
 		 			{
 						"aliases": ["knuckleboom", "telehandler", "telescopic handler", "teleporter", "telescopic boom"]
@@ -358,7 +370,7 @@ categories = {
 						"aliases": ["material lifter"]
 					},
 		 			{
-						"aliases": ["beam lifter", "wallboard lifter", "gib lifter"]
+						"aliases": ["beam lifter", "wallboard lifter", "gib lifter", "drywall lifter"]
 					},
 		 			{
 						"aliases": ["load trolley", "sack barrow"]
@@ -415,7 +427,7 @@ categories = {
 				"aliases": ["wheelbarrow"]
 			},
 			{
-				"aliases": ["water blaster","petrol pressure cleaner"]
+				"aliases": ["water blaster", "petrol pressure cleaner", "pressure washer"]
 			},
 			{
 				"aliases": ["rotary kleen"]
@@ -475,7 +487,7 @@ categories = {
 						"aliases": ["lawn roller", "lawn corer"]
 					},
 					{
-						"aliases": ["lawn dethatcher"]
+						"aliases": ["lawn dethatcher", "scarifier"]
 					}
 				]
 			}
@@ -495,7 +507,7 @@ categories = {
 				]
 			},
  			{
-				"aliases": ["food preparation"],
+				"aliases": ["food temp"],
 				"children": [
 		 			{
 						"aliases": ["refrigeration"],
@@ -531,6 +543,9 @@ categories = {
 							},
 							{
 								"aliases": ["electric urn"]
+							},
+							{
+								"aliases": ["pressure cooker", "pressure pot"]
 							},
 							{
 								"aliases": ["bain marie", "water bath", "bain-marie"]
@@ -582,6 +597,9 @@ categories = {
 					}, 
 					{
 						"aliases": ["sofa", "couch"]
+					},
+					{
+						"aliases": ["bean bag"]
 					},
 					{
 						"aliases": ["seat covering"],
@@ -654,6 +672,9 @@ categories = {
 					},
 					{
 						"aliases": ["dehumidifier"]
+					},
+					{
+						"aliases": ["carpet fan"]
 					}
 				]
 			},
@@ -671,6 +692,9 @@ categories = {
 					},
 					{
 						"aliases": ["parcan light LED", "stage LED light"]
+					},
+					{
+						"aliases": ["LED string light"]
 					},
 					{
 						"aliases": ["lantern"]
@@ -704,73 +728,120 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["dishes", "cutlery", "crockery"],
+				"aliases": ["tableware", "crockery"],
 				"children": [
 					{
-						"aliases": ["spoon","teaspoon","tablespoon"]
-					},
-					{
-						"aliases": ["knives"],
+						"aliases": ["cutlery"],
 						"children": [
 							{
-								"aliases": ["table knife", "dessert knife"]
+								"aliases": ["spoons"],
+								"children": [
+									{
+										"aliases": ["teaspoon"]
+									},
+									{
+										"aliases": ["tablespoon"]
+									},
+									{
+										"aliases": ["ladle"]
+									}
+								]
 							},
 							{
-								"aliases": ["cheese knife"]
+								"aliases": ["knives"],
+								"children": [
+									{
+										"aliases": ["table knife", "dessert knife"]
+									},
+									{
+										"aliases": ["cheese knife"]
+									},
+									{
+										"aliases": ["butter knife"]
+									}
+								]
 							},
 							{
-								"aliases": ["butter knife"]
+								"aliases": ["forks"],
+								"children": [
+									{
+										"aliases": ["dessert fork"]
+									},
+									{
+										"aliases": ["fork"]
+									}
+								]
+							},
+							{
+								"aliases": ["cake trowel", "serving trowel", "pavlova trowel", "cake slice"]
 							}
 						]
 					},
 					{
-						"aliases": ["forks"],
+						"aliases": ["drinking utensils"],
 						"children": [
 							{
-								"aliases": ["dessert fork"]
+								"aliases": ["wine glass"]
 							},
 							{
-								"aliases": ["fork"]
+								"aliases": ["beer pilsner"]
+							},
+							{
+								"aliases": ["coffee mug", "cup", "mug"]
+							},
+							{
+								"aliases": ["beer tower"]
 							}
 						]
-					},
-					{
-						"aliases": ["cake trowel", "serving trowel", "pavlova trowel", "cake slice"]
 					},
 					{
 						"aliases": ["dipping dish"]
 					},
 					{
+						"aliases": ["ashtray"]
+					},
+					{
 						"aliases": ["dessert bowl", "royal thai bowl"]
 					},
 					{
-						"aliases": ["buffet tower"]
+						"aliases": ["buffet tower", "tier table riser"]
 					},
 					{
 						"aliases": ["butter dish"]
 					},
 					{
-						"aliases": ["coffee mug", "cup", "mug"]
-					},
-					{
-						"aliases": ["wine glass"]
-					},
-					{
 						"aliases": ["coffee pot"]
+					},
+					{
+						"aliases": ["beer bin", "beer barrel"]
+					},
+					{
+						"aliases": ["beer jug"]
 					}
 				]
 			},
 			{
-				"aliases": ["decoration"],
+				"aliases": ["decorations"],
 				"children": [
 					{
-						"aliases": ["vase"]
-					},
-					{
-						"aliases": ["flower"]
-					},
-					{
-						"aliases": ["bouquet"]
+						"aliases": ["plant decorations"],
+						"children": [
+							{
+								"aliases": ["flower"]
+							},
+							{
+								"aliases": ["shrub", "cypress ball"]
+							},
+							{
+								"aliases": ["vase"]
+							},
+							{
+								"aliases": ["bouquet"]
+							},
+							{
+								"aliases": ["planter", "sandstone pedastal"]
+							}
+						]
 					},
 					{
 						"aliases": ["mirror ball"]
@@ -783,6 +854,12 @@ categories = {
 					},
 					{
 						"aliases": ["blackboard stand"]
+					},
+					{
+						"aliases": ["wishing well"]
+					},
+					{
+						"aliases": ["ash bucket"]
 					}
 				]
 			}
@@ -800,10 +877,10 @@ categories = {
 						"aliases": ["campervan","camper","campa"]
 					},
 					{
-						"aliases": ["van","truck","ute"],
+						"aliases": ["truck"],
 						"children": [
 						    {
-						    	"aliases": ["skeletal trailer", "semi trailer"]
+						    	"aliases": ["skeletal trailer", "semi trailer", "transporter truck"]
 						    },
 						    {
 						    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
@@ -813,6 +890,9 @@ categories = {
 							},
 						    {
 								"aliases": ["flat deck truck", "drop side truck"]
+							},
+						    {
+								"aliases": ["hooklift truck", "bi-fold truck"]
 							},
 						    {
 								"aliases": ["tautliner truck", "curtainside truck"]
@@ -825,11 +905,23 @@ categories = {
 							},
 						    {
 								"aliases": ["service truck", "utility truck"]
+							},
+						    {
+								"aliases": ["furniture truck"]
 							}
 						]
 					},
 					{
 						"aliases": ["sedan"]
+					},
+					{
+						"aliases": ["station wagon", "4wd wagon"]
+					},
+					{
+						"aliases": ["ute vehicle"]
+					},
+					{
+						"aliases": ["van"]
 					}
 				]
 			},
@@ -855,10 +947,13 @@ categories = {
 						"aliases":["quad trailer", "quad transporter", "equipment trailer"]
 					},
 					{
-						"aliases":["curtainsider trailer"]
+						"aliases":["curtainside trailer"]
 					},
 					{
-						"aliases":["low load trailer"]
+						"aliases":["drop deck trailer", "low load trailer", "widener trailer", "flat deck trailer", "dog trailer"]
+					},
+					{
+						"aliases":["dump trailer"]
 					},
 					{
 						"aliases":["bike trailer"]
@@ -971,6 +1066,9 @@ categories = {
 						"aliases": ["concrete mixer"]
 					},
 					{
+						"aliases": ["concrete pump", "boom pump"]
+					},
+					{
 						"aliases": ["trowelling machine", "concrete stick trowel"]
 					},
 					{
@@ -1019,7 +1117,7 @@ categories = {
         		"aliases": ["excavator", "digger"]
         	},
          	{
-        		"aliases": ["swivel dumper"]
+        		"aliases": ["swivel dumper", "dumper carrier"]
         	},
          	{
         		"aliases": ["dozer"]
@@ -1239,6 +1337,9 @@ categories = {
 					},
 					{
 						"aliases": ["safety glasses"]
+					},
+					{
+						"aliases": ["linen apron"]
 					},
 					{
 						"aliases": ["ear plugs"]

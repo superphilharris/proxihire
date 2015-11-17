@@ -182,10 +182,14 @@ class ImporterServiceHelper {
 	 */
 	private function fixSpelling($string){
 		$string = str_replace('acroprop', 		'acrow prop',	$string);
+		$string = str_replace('bi fold', 		'bi-fold',		$string);
 		$string = str_replace('crow bar', 		'crowbar',		$string);
 		$string = str_replace('chain saw', 		'chainsaw',		$string);
 		$string = str_replace('excxavator', 	'excavator',	$string);
 		$string = str_replace('furiture', 		'furniture',	$string);
+		$string = str_replace('flexdrive', 		'flexi-drive',	$string);
+		$string = str_replace('flexidrive', 	'flexi-drive',	$string);
+		$string = str_replace('flexi drive', 	'flexi-drive',	$string);
 		$string = str_replace('hight', 			'high',			$string);
 		$string = str_replace('lenght', 		'length', 		$string);
 		$string = str_replace('panle', 			'panel', 		$string);
@@ -582,13 +586,7 @@ class ImporterServiceHelper {
 	 * @return Ambigous Category|NULL
 	 */
 	public function determineCategory($category, $name){
-		if($matchedCategory = $this->determineCategory2($category, $name)) 	return $matchedCategory;
-		if($matchedCategory = $this->determineCategory2($category, $this->fixSpelling(strtolower($name)))) {
-			return $matchedCategory;
-		}
-		return null;
-	}
-	private function determineCategory2($category, $name){
+		$name = $this->fixSpelling(strtolower($name));
 		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 	return array_values($matchedCategory)[0];
 		if($matchedCategory = $this->determineCategoryMatchedWords($category, $name)) 	return $matchedCategory;
 		return null;
