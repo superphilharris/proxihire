@@ -237,6 +237,9 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMA
 	width: 100%;
 	z-index: 5;
 }
+#branches-dropdown {
+	overflow-y: scroll;
+}
 div.assetPanel {
 	border-radius: 0px;
 	border-color: #999;
@@ -266,6 +269,9 @@ html,body{
 	.categoryAndFilterBar {
 		border-radius: 0px 0px 4px 4px;
 		border-width: 0px 1px 1px 1px !important;
+	}
+	#branches-dropdown {
+		overflow-y: auto;
 	}
 	.assetPropertiesSummary {
 		width: 200px;

@@ -303,6 +303,9 @@ function goCategoryAsync(category) {
 function postGoCategory(){
 	updateFilterBar();
 	adjustOverflowingCategoryPicker();
+	if (window.innerWidth < 768) {
+		$('.dropdown-menu').css({ 'max-height':  (window.innerHeight - 85) + 'px' });
+	}
 	showAllMarkers();
 	
 	var bounds = '&bounds=' + (CURRENT_LOCATION.lat-2) + "," + (CURRENT_LOCATION.long-2) + ',' + (CURRENT_LOCATION.lat+2) + "," + (CURRENT_LOCATION.long+2);
