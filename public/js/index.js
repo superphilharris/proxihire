@@ -247,7 +247,7 @@ function filterResults(mainProperties){
 function goCategory(category){
 	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
 	if ($('.navbar-collapse').hasClass('in')) $('.navbar-toggle').trigger('click');
-	if(category != CURRENT_CATEGORY) 	CURRENT_CATEGORY = category;
+	if(typeof(category) != "undefined" && (category != CURRENT_CATEGORY || $('#searchResults').html() == '')) CURRENT_CATEGORY = category;
 	else if(QueryString.lat == CURRENT_LOCATION.lat && QueryString.long == CURRENT_LOCATION.long) return false;
 	
 	var urlEnd = CURRENT_CATEGORY + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
@@ -274,6 +274,23 @@ function goCategory(category){
 		window.location.href = "/search/" + urlEnd;
 	}	
 	return false;
+}
+var CURRENT_CATEGORY_ASYNC = CURRENT_CATEGORY;
+function goCategoryAsync(category) {
+        if(typeof(category) != "undefined" && category != CURRENT_CATEGORY && category != CURRENT_CATEGORY_ASYNC) CURRENT_CATEGORY_ASYNC = category;
+        else if(QueryString.lat == CURRENT_LOCATION.lat && QueryString.long == CURRENT_LOCATION.long) return false;
+        var urlEnd = CURRENT_CATEGORY_ASYNC + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
+	var title = toTitleCase(CURRENT_CATEGORY_ASYNC) + " - Proxihire";	
+	$.ajax({
+		type:   "POST",
+                url:    "/assetlist/"+urlEnd,
+                success: function(html){
+			CURRENT_CATEGORY = CURRENT_CATEGORY_ASYNC;
+			removeAllMarkers();
+	                $('#searchResults').html(html);
+        	        postGoCategory();
+		}
+        });
 }
 
 function postGoCategory(){
@@ -333,9 +350,10 @@ $(document).ready(function(){
 		goCategory(suggestion);
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
 		$('#mainSearchBar').blur();
+		console.log("only one suggestion")
 		goCategory(suggestion);
 	}).bind('typeahead:cursorchange', function(ev, suggestion){
-		console.log('todo: could have async fetching here?'+suggestion);
+		goCategoryAsync(suggestion);
 	});
 
 	postGoCategory();
