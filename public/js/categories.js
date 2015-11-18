@@ -347,7 +347,7 @@ categories = {
 						"aliases": ["survey staff", "spirit level", "staff level", "tape level"]
 					},
 		 			{
-						"aliases": ["dumpy level", "builder's auto level"]
+						"aliases": ["dumpy level", "builder auto level"]
 					},
 					{
 						"aliases": ["survey laser", "laser level", "theodolite"]
