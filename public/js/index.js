@@ -1,4 +1,6 @@
 if(typeof CURRENT_CATEGORY == "undefined") CURRENT_CATEGORY = "";
+var PREVIOUS_CATEGORY = CURRENT_CATEGORY;
+
 /**
  * Takes in a category and returns the list of sub-categories
  */
@@ -245,22 +247,25 @@ function filterResults(mainProperties){
  * @param category
  */
 function goCategory(category){
+	var newCategory = CURRENT_CATEGORY;
 	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
 	if ($('.navbar-collapse').hasClass('in')) $('.navbar-toggle').trigger('click');
-	if(typeof(category) != "undefined" && (category != CURRENT_CATEGORY || $('#searchResults').html() == '')) CURRENT_CATEGORY = category;
+	if(typeof(category) != "undefined" && (category != CURRENT_CATEGORY || $('#searchResults').html() == '')) newCategory = category;
 	else if(QueryString.lat == CURRENT_LOCATION.lat && QueryString.long == CURRENT_LOCATION.long) return false;
 	
-	var urlEnd = CURRENT_CATEGORY + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
+	var urlEnd = newCategory + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
 	try {
 		$('#searchResults').html('');
 		removeAllMarkers();
 	
-		var title = toTitleCase(CURRENT_CATEGORY) + " - Proxihire";
+		var title = toTitleCase(newCategory) + " - Proxihire";
 		$.ajax({
 			type: 	"POST",
 			url: 	"/assetlist/"+urlEnd, 
 			success: function(html){
 				try{
+					PREVIOUS_CATEGORY = CURRENT_CATEGORY;
+					CURRENT_CATEGORY = newCategory;
 					History.pushState({html: html}, title, "/search/"+urlEnd);
 				}catch(e){
 					window.location.href = "/search/" + urlEnd;
@@ -285,10 +290,12 @@ function goCategoryAsync(category) {
 		type:   "POST",
                 url:    "/assetlist/"+urlEnd,
                 success: function(html){
+			PREVIOUS_CATEGORY = CURRENT_CATEGORY;
 			CURRENT_CATEGORY = CURRENT_CATEGORY_ASYNC;
 			removeAllMarkers();
 	                $('#searchResults').html(html);
         	        postGoCategory();
+			$('#left').scrollTop(33);
 		}
         });
 }
@@ -336,6 +343,9 @@ $(document).ready(function(){
         if(History.getState().data.html){
     		$('#searchResults').html(History.getState().data.html);
     		postGoCategory();
+		if (CURRENT_CATEGORY != PREVIOUS_CATEGORY) {
+			$('#left').scrollTop(33);
+		}
         }
     });
     
@@ -350,7 +360,7 @@ $(document).ready(function(){
 		goCategory(suggestion);
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
 		$('#mainSearchBar').blur();
-		console.log("only one suggestion")
+		// console.log("only one suggestion")
 		goCategory(suggestion);
 	}).bind('typeahead:cursorchange', function(ev, suggestion){
 		goCategoryAsync(suggestion);
