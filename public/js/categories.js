@@ -229,6 +229,9 @@ categories = {
 								"aliases": ["rock drill"]
 							},
 							{
+								"aliases": ["pneumatic drill", "air drill"]
+							},
+							{
 								"aliases": ["petrol drill"]
 							},
 							{
@@ -333,7 +336,7 @@ categories = {
 						"aliases": ["mast lift"]
 					},
 		 			{
-						"aliases": ["knuckleboom", "telehandler", "telescopic handler", "teleporter", "telescopic boom"]
+						"aliases": ["knuckleboom", "telehandler", "telescopic handler", "teleporter", "telescopic boom", "boom lift", "crawler boom"]
 					},
 		 			{
 						"aliases": ["trestle"]
@@ -449,6 +452,9 @@ categories = {
 			},
 			{
 				"aliases": ["garden fork"]
+			},
+			{
+				"aliases": ["air spade"]
 			},
 			{
 				"aliases": ["garden hand tool", "hand grubber"]
@@ -675,6 +681,9 @@ categories = {
 					},
 					{
 						"aliases": ["carpet fan"]
+					},
+					{
+						"aliases": ["air conditioner"]
 					}
 				]
 			},
@@ -1064,6 +1073,9 @@ categories = {
 					},
 					{
 						"aliases": ["concrete mixer"]
+					},
+					{
+						"aliases": ["asphelt spade"]
 					},
 					{
 						"aliases": ["concrete pump", "boom pump"]
