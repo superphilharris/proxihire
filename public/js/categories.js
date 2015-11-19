@@ -941,7 +941,7 @@ categories = {
 						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer"]
 					},
 					{
-						"aliases":["caged trailer","bin trailers", "rubbish trailer"]
+						"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer"]
 					},
 					{
 						"aliases":["quad trailer", "quad transporter", "equipment trailer"]
@@ -1099,6 +1099,9 @@ categories = {
 		          	{
 		         		"aliases": ["road roller", "drum roller", "combination roller", "tonne roller", "construction roller", "ride-on roller"]
 		         	},
+		          	{
+		         		"aliases": ["walk-behind roller", "vibrating roller"]
+		         	},
 		         	{
 		         		"aliases": ["tamping rammer", "tamper air rammer", "upright hand rammer"]
 		         	},
@@ -1115,6 +1118,9 @@ categories = {
         	},
          	{
         		"aliases": ["excavator", "digger"]
+        	},
+         	{
+        		"aliases": ["wheel tractor-scraper", "motor scraper", "elevating scraper", "open bowl scraper"]
         	},
          	{
         		"aliases": ["swivel dumper", "dumper carrier"]
