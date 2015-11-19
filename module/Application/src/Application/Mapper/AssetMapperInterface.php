@@ -6,13 +6,12 @@ use Application\Model\AssetInterface;
 interface AssetMapperInterface
 {
 	/**
-	 * Finds all of the assets in the specified category, with optional filters.
+	 * Finds all of the assets in the specified category.
 	 *
 	 * @param Application\Model\CategoryInterface $category
-	 * @param object $filters
 	 * @return array|AssetInterface
 	 */
-	public function findByCategory( $category, $filters=NULL );
+	public function findByCategory( $category );
 
 	/**
 	 * Returns the array of urls that correspond with those of the assets.

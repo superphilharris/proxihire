@@ -135,7 +135,7 @@ abstract class AbstractMapper
 	 *           Default false.
 	 * @return array|Application\Model\AbstractModel
 	 */
-	protected function findBy( $property, $matchArray, $createNewPrototypesArray=false, $ordered=false ){
+	protected function findBy( $property, $matchArray, $createNewPrototypesArray=false, $ordered=false, $and_where=NULL ){
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"string",
@@ -157,8 +157,13 @@ abstract class AbstractMapper
 
 		// Run the query to find all objects with one of the specified ids
 		$where=$this->wherePropertyEquals( $property, $matchArray );
+		if( !is_null( $and_where ) ){
 
-		$result = $this->runSelect( $this->dbTable, $where, $this->join );
+			$whereArray=array( $where, $and_where );
+		}else{
+			$whereArray=array( $where );
+		}
+		$result = $this->runSelect( $this->dbTable, $whereArray, $this->join );
 
 
 		// Get all of the models from the database
@@ -240,8 +245,11 @@ abstract class AbstractMapper
 	 * @param array $join
 	 * @return Zend\Db\Adapter\Driver\ResultInterface
 	 */
-	protected function runSelect( $table, $where, $join=null, $limit=null )
+	protected function runSelect( $table, $whereArray, $join=null, $limit=null )
 	{
+		if( !is_array($whereArray) ){
+			$whereArray = array($whereArray);
+		}
 		$sql    = new Sql($this->dbAdapter);
 		$select = $sql->select();
 		$select->from( $table );
@@ -251,7 +259,9 @@ abstract class AbstractMapper
 		if( !is_null($limit) ){
 			$select->limit($limit);
 		}
-		$select->where( $where );
+		foreach( $whereArray as $where ){
+			$select->where( $where );
+		}
 
 		$stmt   = $sql->prepareStatementForSqlObject($select);
 		$result = $stmt->execute();
@@ -259,7 +269,7 @@ abstract class AbstractMapper
 		if ( ! $result instanceof ResultInterface ||
 		     ! $result->isQueryResult() )
 		{
-			throw new \InvalidArgumentException( "There are no entries in the '{$table}' table which match the condition: ".print_r( $where, true ) );
+			throw new \InvalidArgumentException( "There are no entries in the '{$table}' table which match the condition: ".print_r( $whereArray, true ) );
 		}
 		return $result;
 	}
