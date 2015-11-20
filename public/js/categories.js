@@ -457,6 +457,9 @@ categories = {
 				"aliases": ["air spade"]
 			},
 			{
+				"aliases": ["spade"]
+			},
+			{
 				"aliases": ["garden hand tool", "hand grubber"]
 			},
 			{
@@ -737,7 +740,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["tableware", "crockery"],
+				"aliases": ["kitchenware"],
 				"children": [
 					{
 						"aliases": ["cutlery"],
@@ -753,6 +756,9 @@ categories = {
 									},
 									{
 										"aliases": ["ladle"]
+									},
+									{
+										"aliases": ["dessert spoon"]
 									}
 								]
 							},
@@ -760,7 +766,7 @@ categories = {
 								"aliases": ["knives"],
 								"children": [
 									{
-										"aliases": ["table knife", "dessert knife"]
+										"aliases": ["table knife", "dessert knife", "plastic knife"]
 									},
 									{
 										"aliases": ["cheese knife"]
@@ -769,6 +775,23 @@ categories = {
 										"aliases": ["butter knife"]
 									}
 								]
+							},
+							{
+									"aliases": ["serving platters", "serving dishes", "dishes"],
+									"children": [
+										{
+											"aliases": ["platter"]
+										},
+										{
+											"aliases": ["beleza bowl"]
+										},
+										{
+											"aliases": ["serving tray","bar tray", "coffee tray", "tea tray" ]
+										},
+										{
+											"aliases": ["bread basket" ]
+										}
+									]
 							},
 							{
 								"aliases": ["forks"],
@@ -780,9 +803,6 @@ categories = {
 										"aliases": ["fork"]
 									}
 								]
-							},
-							{
-								"aliases": ["cake trowel", "serving trowel", "pavlova trowel", "cake slice"]
 							}
 						]
 					},
@@ -804,13 +824,38 @@ categories = {
 						]
 					},
 					{
+						"aliases": ["serving utensils"],
+						"children": [
+
+							{
+								"aliases": ["salad servers"]
+							},
+							{
+								"aliases": ["cake trowel", "serving trowel", "pavlova trowel", "cake slice", "serving slice"]
+							}
+						]
+					},
+
+					{
+						"aliases": ["bakeware"],
+						"children": [
+
+							{
+								"aliases": ["cake tin"]
+							},
+							{
+								"aliases": ["cake stand"]
+							}
+						]
+					},
+					{
 						"aliases": ["dipping dish"]
 					},
 					{
 						"aliases": ["ashtray"]
 					},
 					{
-						"aliases": ["dessert bowl", "royal thai bowl"]
+						"aliases": ["dessert bowl", "royal thai bowl", "square bowl"]
 					},
 					{
 						"aliases": ["buffet tower", "tier table riser"]
@@ -826,6 +871,12 @@ categories = {
 					},
 					{
 						"aliases": ["beer jug"]
+					},
+					{
+						"aliases": ["can opener"]
+					},
+					{
+						"aliases": ["can smasher", "can crusher"]
 					}
 				]
 			},
@@ -862,18 +913,36 @@ categories = {
 						"aliases": ["helium filler", "helium gas"]
 					},
 					{
-						"aliases": ["blackboard stand"]
+						"aliases": ["blackboard"]
 					},
 					{
 						"aliases": ["wishing well"]
 					},
 					{
 						"aliases": ["ash bucket"]
+					},
+					{
+						"aliases": ["carpet runner"]
+					},
+					{
+						"aliases": ["candelabra", "candle holder", "candle stand", "candelabrum"]
+					}
+				]
+			},
+			{
+				"aliases": ["decorative accessories"],
+				"children": [
+					{
+						"aliases": ["accent crystal droplet", "crystal decoration"]
+					},
+					{
+						"aliases": ["card holder"]
 					}
 				]
 			}
 		]
-	},{
+	},
+	{
 		"aliases": ["travel","tourism","transport"],
 		"children": [
 			{
@@ -1149,9 +1218,9 @@ categories = {
 		          	{
 		         		"aliases": ["road plate"]
 		         	},
-						{
-							"aliases": ["ground protection mat"]
-						}
+					{
+						"aliases": ["ground protection mat"]
+					}
         		]
         	},
          	{
@@ -1364,6 +1433,12 @@ categories = {
 					},
 					{
 						"aliases": ["retactable barrier","crowd control retractable", "crowd control bollard", "stainless steel crowd control"]
+					},
+					{
+						"aliases": ["brochure stand"]
+					},
+					{
+						"aliases": ["candy floss machine"]
 					}
 				]
 			},
