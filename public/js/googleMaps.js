@@ -15,9 +15,9 @@ var QueryString = function () {
 	return query_string;
 }();
 
-var CURRENT_LOCATION = { lat: -36.84913134182603, long: 174.76234048604965 };
+var CURRENT_LOCATION = { latitude: -36.84913134182603, longitude: 174.76234048604965 }; // Default to Auckland
 if(QueryString.location.latitude && QueryString.location.longitude){
-	CURRENT_LOCATION.latitude 	= QueryString.location.latitude;
+	CURRENT_LOCATION.latitude.user.user 	= QueryString.location.latitude;
 	CURRENT_LOCATION.longitude 	= QueryString.location.longitude;
 }
 var showGoogleMap = (window.innerWidth >= 768);
@@ -77,8 +77,7 @@ function stopBouncing(lessorId, seconds){
 	}, seconds * 1000)
 }
 function goLocation(lat, long){
-	console.log('going to lat'+lat+", long: "+long)
-	CURRENT_LOCATION.latitude = lat;
+	CURRENT_LOCATION.latitude.user.user = lat;
 	CURRENT_LOCATION.longitude = long;
 	goCategory();
 }
@@ -93,12 +92,12 @@ function goLocationAndChangeGoogleMaps(lat, long){
 
 function initializeGoogleMaps() {
 	google.maps.event.addDomListener(window, 'load', function(){
-		var latlng = new google.maps.LatLng(CURRENT_LOCATION.latitude, CURRENT_LOCATION.longitude);
+		var latlng = new google.maps.LatLng(CURRENT_LOCATION.latitude.user.user, CURRENT_LOCATION.longitude);
 		var mapOptions = {
 	    	center: latlng,
 	    	scrollWheel: false,
 	    	mapTypeControl: false,
-	    	zoom: 13
+	    	zoom: 11
 	  	};
 	  
 	  	googleMap = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
@@ -106,10 +105,14 @@ function initializeGoogleMaps() {
 		userMarker = new google.maps.Marker({
 			map: googleMap,
 			draggable: true,
-			position: new google.maps.LatLng(CURRENT_LOCATION.latitude, CURRENT_LOCATION.longitude)
+			position: new google.maps.LatLng(CURRENT_LOCATION.latitude.user.user, CURRENT_LOCATION.longitude)
 		});
 		google.maps.event.addListener(userMarker, 'dragend', function(){
 			goLocation(this.position.lat(), this.position.lng());
+		});
+		googleMap.addListener('zoom_changed', function(){
+			console.log(googleMap.getBounds().getNorthEast())
+			console.log(googleMap.getBounds().getSouthWest())
 		});
 	  	showAllMarkers();
 	});

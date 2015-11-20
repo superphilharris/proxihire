@@ -75,6 +75,9 @@ categories = {
 						"aliases": ["cable puller", "cable hauler", "cable hauling"]
 					},
 					{
+						"aliases": ["cable locator", "cable locating equipment"]
+					},
+					{
 						"aliases": ["cable protection ramp"]
 					}
 				]
@@ -145,6 +148,9 @@ categories = {
 					},
 					{
 						"aliases": ["pipe bender", "copper bender"]
+					},
+					{
+						"aliases": ["chain tongs"]
 					}
 				]
 			},
@@ -218,6 +224,9 @@ categories = {
 					},
 					{
 						"aliases": ["screw driver", "impact gun", "impact driver"]
+					},
+					{
+						"aliases": ["chisel"]
 					},
 					{
 						"aliases": ["drilling"],
@@ -319,7 +328,7 @@ categories = {
 						"aliases": ["floor polisher", "floor scrubber", "floor sweeper"]
 					},
 		 			{
-						"aliases": ["carpet cleaner", "carpet shampoo plant"]
+						"aliases": ["carpet cleaner", "carpet shampoo"]
 					},
 		 			{
 						"aliases": ["carpet stretcher"]
@@ -1006,6 +1015,9 @@ categories = {
 							},
 						    {
 								"aliases": ["furniture truck"]
+							},
+						    {
+								"aliases": ["car carrier"]
 							}
 						]
 					},
@@ -1039,7 +1051,7 @@ categories = {
 						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer"]
 					},
 					{
-						"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer"]
+						"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer"]
 					},
 					{
 						"aliases":["quad trailer", "quad transporter", "equipment trailer"]
@@ -1055,6 +1067,9 @@ categories = {
 					},
 					{
 						"aliases":["bike trailer"]
+					},
+					{
+						"aliases":["cable drum trailer"]
 					}
 				]
 			}
@@ -1235,6 +1250,9 @@ categories = {
         		"aliases": ["tractor"]
         	},
          	{
+        		"aliases": ["agricultural roller", "cambridge roller"]
+        	},
+         	{
         		"aliases": ["excavator", "digger"]
         	},
          	{
@@ -1282,7 +1300,7 @@ categories = {
 								"aliases": ["compaction attachment"]
 							},
 				 			{
-				 				"aliases": ["chain trencher", "dingo trencher", "bobcat trencher"]
+				 				"aliases": ["chain trencher", "dingo trencher", "bobcat trencher", "chain trench"]
 				 			},
 				 			{
 				 				"aliases": ["crusher attachment", "shear attachment", "grinder attachment"]
@@ -1502,6 +1520,9 @@ categories = {
 			},
 			{
 				"aliases": ["moisture metre"]
+			},
+			{
+				"aliases": ["environmental monitor"]
 			},
 			{
 				"aliases": ["chute hire"]

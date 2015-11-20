@@ -97,6 +97,7 @@ class SearchController extends AbstractActionController
 
 	private function getFilters(){
 		$filters  = json_decode(urldecode($_SERVER['QUERY_STRING']));
+		if($filters == null) $filters = new \stdClass();
 
 		# Convert location->radius to 
 		# - location->latitude->min/max
