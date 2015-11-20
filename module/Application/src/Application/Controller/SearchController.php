@@ -105,13 +105,15 @@ class SearchController extends AbstractActionController
 		    isset($filters->location->longitude) &&
 		    isset($filters->location->radius)
 		){
+			$lat_radius=$filters->location->radius/110.574; # Convert km to \delta latitude
+			$long_radius=$filters->location->radius/(111.320*cos($filters->location->latitude*pi()/180)); # Convert km to \delta latitude
 			$location=(object) array(
 				"latitude" =>(object) array(
-					"min" => $filters->location->latitude - $filters->location->radius,
-					"max" => $filters->location->latitude + $filters->location->radius),
+					"min" => $filters->location->latitude - $lat_radius,
+					"max" => $filters->location->latitude + $lat_radius),
 				"longitude" =>(object) array(
-					"min" => $filters->location->longitude - $filters->location->radius,
-					"max" => $filters->location->longitude + $filters->location->radius));
+					"min" => $filters->location->longitude - $long_radius,
+					"max" => $filters->location->longitude + $long_radius));
 			$filters->location=$location;
 		}
 		return $filters;
