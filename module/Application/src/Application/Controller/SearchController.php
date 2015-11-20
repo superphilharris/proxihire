@@ -88,11 +88,35 @@ class SearchController extends AbstractActionController
 
 	private function getAssetList($category, $allCategoryAliases)
 	{
-		$filters  = json_decode(urldecode($_SERVER['QUERY_STRING']));
-		return $this->assetService->getAssetList($category,$filters);
+		$filters  = $this->getFilters();
+		$assets   = $this->assetService->getAssetList($category);
+		$this->assetService->filterAssets( $assets, $filters );
+		return $assets;
 	}
 
-	
+	private function getFilters(){
+		$filters  = json_decode(urldecode($_SERVER['QUERY_STRING']));
+
+		# Convert location->radius to 
+		# - location->latitude->min/max
+		# - location->longitude->min/max
+		if( isset($filters->location) &&
+		    isset($filters->location->latitude) &&
+		    isset($filters->location->longitude) &&
+		    isset($filters->location->radius)
+		){
+			$location=(object) array(
+				"latitude" =>(object) array(
+					"min" => $filters->location->latitude - $filters->location->radius,
+					"max" => $filters->location->latitude + $filters->location->radius),
+				"longitude" =>(object) array(
+					"min" => $filters->location->longitude - $filters->location->radius,
+					"max" => $filters->location->longitude + $filters->location->radius));
+			$filters->location=$location;
+		}
+		return $filters;
+	}
+
 }
 
 ?>

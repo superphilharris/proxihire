@@ -2,8 +2,7 @@
 
 namespace Application\Service;
 
-// jih: uncomment this
-//use Application\Model\GeonameInterface;
+use Application\Model\GeonameInterface;
 
 interface GeonameServiceInterface
 {

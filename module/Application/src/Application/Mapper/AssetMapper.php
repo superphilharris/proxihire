@@ -6,6 +6,7 @@ use Application\Model\AssetInterface;
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\Driver\ResultInterface;
 use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\Sql\Where;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Stdlib\Hydrator\NamingStrategy\NamingStrategyInterface;
 
@@ -51,12 +52,11 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function findByCategory( $category, $filters=NULL)
+	public function findByCategory( $category )
 	{
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
-			"array|Application\Model\CategoryInterface",
-			"object|null"));
+			"array|Application\Model\CategoryInterface"));
 
 		$category_ids=array();
 		if( is_array($category) ){
@@ -67,8 +67,6 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 			$category_ids[]=$category->getId();
 		}
 
-		// jih: filter by $filters
-		
 		return $this->findBy( 'category_id', $category_ids );
 	}
 

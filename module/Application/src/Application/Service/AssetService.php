@@ -81,6 +81,52 @@ class AssetService implements AssetServiceInterface
 		return $lessorList;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 * jih: make sure that this is in the interface
+	 */
+	public function filterAssets(
+		&$assets,
+		$filters
+	){
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
+			"array|Application\Model\AssetInterface",
+			"object|null"));
+		$this->getLessorsForAssets($assets);
+
+		if( isset($filters->location) &&
+		    isset($filters->location->latitude) && 
+		      isset($filters->location->latitude->min) && 
+		      isset($filters->location->latitude->max) && 
+		    isset($filters->location->longitude) &&
+		      isset($filters->location->longitude->min) &&
+		      isset($filters->location->longitude->max)
+		){
+			foreach( $assets as $key=>&$asset ){
+				$lessor=$asset->getLessor();
+				if( is_null($lessor) ) continue;
+
+				$branches=$lessor->getBranches();
+				foreach( $branches as $branch ){
+					if( is_null($branch) ) continue;
+
+					$location=$branch->getLocation();
+					if( is_null($location) ) continue;
+					$lat=$location->getLatitude();
+					$long=$location->getLongitude();
+
+					if( $lat  < $filters->location->latitude->min ||
+					    $lat  > $filters->location->latitude->max ||
+					    $long < $filters->location->longitude->min ||
+					    $long > $filters->location->longitude->max
+					){
+						unset( $assets[$key] );
+					}
+
+				}
+			}
+		}
+	}
 	
 	
 	/**
@@ -88,14 +134,11 @@ class AssetService implements AssetServiceInterface
 	 */
 	public function getAssetList(
 		$category, 
-		$filters=NULL, 
 		$number=50)
 	{
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"array|Application\Model\CategoryInterface",
-			"object|null",
-			"string|null",
 			"integer"));
 
 		$assetArray=array();
@@ -105,7 +148,7 @@ class AssetService implements AssetServiceInterface
 		}
 
 		$this->assetMapper->setPrototypeArray($assetArray);
-		$this->assetMapper->findByCategory( $category, $filters );
+		$this->assetMapper->findByCategory( $category );
 		$this->assetMapper->getUrls($this->urlMapper);
 
 		return $this->assetMapper->getAssets();

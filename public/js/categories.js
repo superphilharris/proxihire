@@ -69,7 +69,7 @@ categories = {
 						"aliases": ["electrical adaptor"]
 					},
 					{
-						"aliases": ["cable puller"]
+						"aliases": ["cable puller", "cable hauler", "cable hauling"]
 					},
 					{
 						"aliases": ["cable protection ramp"]
@@ -287,6 +287,9 @@ categories = {
 						"aliases": ["masonry breaker", "concrete breaker", "rotary breaker", "portable breaker", "air breaker"]
 					},
 					{
+						"aliases": ["rock breaker", "rock hammer"]
+					},
+					{
 						"aliases": ["pop riveter", "rivet gun", "lazy tong riveter", "rivnut pliers"]
 					},
 					{
@@ -421,6 +424,26 @@ categories = {
 		"aliases": ["garden"],
 		"children": [
 			{
+				"aliases": ["hand tools"],
+				"children": [
+					{
+						"aliases": ["axe"]
+					},
+					{
+						"aliases": ["garden fork"]
+					},
+					{
+						"aliases": ["garden hand tool", "hand grubber"]
+					},
+					{
+						"aliases": ["hedge trimmer", "power unit extension"]
+					},
+					{
+						"aliases": ["garden pruner"]
+					}
+				]
+			},
+			{
 				"aliases": ["garden sprayer", "weed sprayer", "backpack sprayer", "lawn sprayer"]
 			},
 			{
@@ -430,10 +453,7 @@ categories = {
 				"aliases": ["wheelbarrow"]
 			},
 			{
-				"aliases": ["water blaster", "petrol pressure cleaner", "pressure washer"]
-			},
-			{
-				"aliases": ["rotary kleen"]
+				"aliases": ["water blaster", "petrol pressure cleaner", "pressure washer", "rotary kleen"]
 			},
 			{
 				"aliases": ["wet vacuum cleaner"]
@@ -448,34 +468,16 @@ categories = {
 				"aliases": ["wood chipper", "chipper", "mulcher", "mulch maker", "shredder"]
 			},
 			{
-				"aliases": ["axe"]
-			},
-			{
-				"aliases": ["garden fork"]
-			},
-			{
 				"aliases": ["air spade"]
 			},
 			{
 				"aliases": ["spade"]
 			},
 			{
-				"aliases": ["garden hand tool", "hand grubber"]
-			},
-			{
 				"aliases": ["stump grinder", "stump remover"]
 			},
 			{
-				"aliases": ["hedge trimmer", "power unit extension"]
-			},
-			{
-				"aliases": ["garden pruner"]
-			},
-			{
-				"aliases": ["rotary hoe"]
-			},
-			{
-				"aliases": ["turf cutter"]
+				"aliases": ["rotary hoe", "rotary slasher"]
 			},
 			{
 				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit", "sink cleaning kit"]
@@ -486,6 +488,9 @@ categories = {
 			{
 				"aliases": ["grass trimming"],
 				"children": [
+					{
+						"aliases": ["turf cutter"]
+					},
 					{
 						"aliases": ["weed eater", "scrubcutter", "line trimmer", "lawn edger", "scrub cutter"]
 					},
@@ -566,7 +571,7 @@ categories = {
 								"aliases": ["barbeque", "BBQ"]
 							},
 							{
-								"aliases": ["gas spit"]
+								"aliases": ["gas spit", "roasting spit"]
 							}
 			 			]
 					}
@@ -576,13 +581,16 @@ categories = {
 				"aliases": ["cleaning"],
 				"children": [
 		 			{
-						"aliases": ["vacuum cleaner", "industrial vacuum dust"]
+						"aliases": ["vacuum cleaner", "industrial vacuum dust", "industrial vacuum cleaner"]
 					},
 					{
-						"aliases": ["extraction fan", "exhaust fan"]
+						"aliases": ["extraction fan", "exhaust fan", "ventilator fan", "ventilating fan"]
 					},
 					{
 						"aliases": ["chimney cleaner", "chimney clean brush"]
+					},
+					{
+						"aliases": ["electric scrubber", "nilfisk scrubber"]
 					},
 					{
 						"aliases": ["electric sweeper", "walk behind sweeper"]
@@ -680,7 +688,7 @@ categories = {
 						"aliases": ["pedestal fan"]
 					},
 					{
-						"aliases": ["dehumidifier"]
+						"aliases": ["dehumidifier", "desiccant drier"]
 					},
 					{
 						"aliases": ["carpet fan"]
@@ -1044,6 +1052,9 @@ categories = {
 		"children": [
 			{
 				"aliases": ["strapping machine"]
+			},
+			{
+				"aliases": ["rotary cutter"]
 			}
 		]
 	},{
@@ -1230,22 +1241,31 @@ categories = {
 		        		"aliases": ["loader attachment"],
 		    			"children": [
 				 			{
-				 				"aliases": ["levelling bar"]
+				 				"aliases": ["levelling bar", "sweeper attachment", "leveler attachment"]
 				 			},
 				 			{
-				 				"aliases": ["ground ripper"]
+				 				"aliases": ["ground ripper", "chain harrows", "grubber"]
 				 			},
 				 			{
-				 				"aliases": ["loader bucket"]
+				 				"aliases": ["fork attachment"]
+							},
+							{
+								"aliases": ["clamp attachment", "grapple attachment"]
+				 			},
+							{
+								"aliases": ["compaction attachment"]
+							},
+				 			{
+				 				"aliases": ["chain trencher", "dingo trencher", "bobcat trencher"]
 				 			},
 				 			{
-				 				"aliases": ["chain trencher", "dingo trencher"]
+				 				"aliases": ["crusher attachment", "shear attachment", "grinder attachment"]
 				 			},
 				 			{
 				 				"aliases": ["grader"]
 				 			},
 							{
-								"aliases": ["backfill blade"]
+								"aliases": ["backfill blade", "blade attachment"]
 							},
 							{
 								"aliases": ["borer attachment", "dingo borer", "auger attachment"]
@@ -1257,7 +1277,7 @@ categories = {
 								"aliases": ["multi grab bucket"]
 							},
 							{
-								"aliases": ["bucket attachment"]
+								"aliases": ["bucket attachment", "loader bucket"]
 							}
 				 		]
 		        	},
@@ -1269,6 +1289,9 @@ categories = {
 		 			},
 		 			{
 		 				"aliases": ["mini loader", "dingo loader"]
+		 			},
+		 			{
+		 				"aliases": ["backhoe"]
 		 			}
 		 		]
         	}
@@ -1446,13 +1469,25 @@ categories = {
 				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "small assorted automotive tools"]
 			},
 			{
+				"aliases": ["GPS navigator"]
+			},
+			{
 				"aliases": ["metal detector"]
 			},
 			{
 				"aliases": ["moisture metre"]
 			},
 			{
+				"aliases": ["chute hire"]
+			},
+			{
 				"aliases": ["keyhole camera"]
+			},
+			{
+				"aliases": ["site camera", "CCTV camera"]
+			},
+			{
+				"aliases": ["barge"]
 			},
 			{
 				"aliases": ["repairs and services"]
