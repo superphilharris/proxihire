@@ -54,7 +54,10 @@ categories = {
 						"aliases": ["power splitter box", "distribution box", "splitter box", "distribution board", "phase junction box"]
 					},
 					{
-						"aliases": ["extension lead", "power cable", "3ph elec cable", "3 phase lead"]
+						"aliases": ["extension lead", "power cable", "3ph elec cable", "3 phase lead", "electric cable"]
+					},
+					{
+						"aliases": ["Category 4 cable", "CAT4", "ethernet cable"]
 					},
 					{
 						"aliases": ["plug board", "earthleakage plug", "earthleakage phase"]
@@ -141,7 +144,7 @@ categories = {
 						"aliases": ["tap and die set"]
 					},
 					{
-						"aliases": ["pipe bender"]
+						"aliases": ["pipe bender", "copper bender"]
 					}
 				]
 			},
@@ -301,6 +304,9 @@ categories = {
 				"aliases": ["post hole borer"]
 			},
 			{
+				"aliases": ["boring machine"]
+			},
+			{
 				"aliases": ["flooring tools"],
 				"children": [
 		 			{
@@ -359,6 +365,12 @@ categories = {
 						"aliases": ["survey laser", "laser level", "theodolite"]
 					},
 					{
+						"aliases": ["survey tripod", "elevating tripod"]
+					},
+					{
+						"aliases": ["magnetic locator", "magna trak"]
+					},
+					{
 						"aliases": ["measuring tape"]
 					},
 					{
@@ -379,7 +391,7 @@ categories = {
 						"aliases": ["beam lifter", "wallboard lifter", "gib lifter", "drywall lifter"]
 					},
 		 			{
-						"aliases": ["load trolley", "sack barrow"]
+						"aliases": ["load trolley", "sack barrow", "dolly trailer"]
 					},
 		 			{
 						"aliases": ["pallet trolley"]
@@ -966,7 +978,7 @@ categories = {
 						"aliases": ["truck"],
 						"children": [
 						    {
-						    	"aliases": ["skeletal trailer", "semi trailer", "transporter truck"]
+						    	"aliases": ["skeletal trailer", "semi trailer", "transporter truck", "double trailer"]
 						    },
 						    {
 						    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
@@ -1119,6 +1131,20 @@ categories = {
         	},
         	{
         		"aliases": ["socket set"]
+        	},
+        	{
+        		"aliases": ["specialized removal tools"],
+        		"children": [
+		        	{
+		        		"aliases": ["ball joint tool", "ball joint remover", "ball joint puller"]
+		        	},
+					{
+						"aliases": ["flywheel puller"]
+					},
+					{
+						"aliases": ["bearing puller"]
+					}
+				]
         	},
          	{
         		"aliases": ["fuel tank"]
@@ -1285,7 +1311,7 @@ categories = {
 		 				"aliases": ["wheel loader", "pivot steer loader"]
 		 			},
 		 			{
-		 				"aliases": ["skid steer loader"]
+		 				"aliases": ["skid steer loader", "skid loader", "skidsteer", "posi track"]
 		 			},
 		 			{
 		 				"aliases": ["mini loader", "dingo loader"]
@@ -1466,7 +1492,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "small assorted automotive tools"]
+				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar"]
 			},
 			{
 				"aliases": ["GPS navigator"]

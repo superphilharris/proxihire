@@ -250,10 +250,12 @@ function goCategory(category){
 	var newCategory = CURRENT_CATEGORY;
 	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
 	if ($('.navbar-collapse').hasClass('in')) $('.navbar-toggle').trigger('click');
+	console.log(CURRENT_LOCATION)
+	console.log(QueryString.location)
 	if(typeof(category) != "undefined" && (category != CURRENT_CATEGORY || $('#searchResults').html() == '')) newCategory = category;
-	else if(QueryString.lat == CURRENT_LOCATION.lat && QueryString.long == CURRENT_LOCATION.long) return false;
+	else if(QueryString.location.latitude == CURRENT_LOCATION.latitude && QueryString.location.longitude == CURRENT_LOCATION.longitude) return false;
 	
-	var urlEnd = newCategory + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
+	var urlEnd = newCategory + '?' + encodeURIComponent('{"location":{"latitude":' + CURRENT_LOCATION.latitude + ',"longitude":' + CURRENT_LOCATION.longitude + ',"radius":0.5}}');
 	try {
 		$('#searchResults').html('');
 		removeAllMarkers();
@@ -282,22 +284,22 @@ function goCategory(category){
 }
 var CURRENT_CATEGORY_ASYNC = CURRENT_CATEGORY;
 function goCategoryAsync(category) {
-        if(typeof(category) != "undefined" && category != CURRENT_CATEGORY && category != CURRENT_CATEGORY_ASYNC) CURRENT_CATEGORY_ASYNC = category;
-        else if(QueryString.lat == CURRENT_LOCATION.lat && QueryString.long == CURRENT_LOCATION.long) return false;
-        var urlEnd = CURRENT_CATEGORY_ASYNC + "?lat=" + CURRENT_LOCATION.lat + "&long=" + CURRENT_LOCATION.long;
+	if(typeof(category) != "undefined" && category != CURRENT_CATEGORY && category != CURRENT_CATEGORY_ASYNC) CURRENT_CATEGORY_ASYNC = category;
+	else if(QueryString.location.latitude == CURRENT_LOCATION.latitude && QueryString.location.longitude == CURRENT_LOCATION.longitude) return false;
+	var urlEnd = CURRENT_CATEGORY_ASYNC + '?' + encodeURIComponent('{"location":{"latitude":' + CURRENT_LOCATION.latitude + ',"longitude":' + CURRENT_LOCATION.longitude + ',"radius":0.5}}');
 	var title = toTitleCase(CURRENT_CATEGORY_ASYNC) + " - Proxihire";	
 	$.ajax({
 		type:   "POST",
-                url:    "/assetlist/"+urlEnd,
-                success: function(html){
+		url:    "/assetlist/"+urlEnd,
+		success: function(html){
 			PREVIOUS_CATEGORY = CURRENT_CATEGORY;
 			CURRENT_CATEGORY = CURRENT_CATEGORY_ASYNC;
 			removeAllMarkers();
-	                $('#searchResults').html(html);
-        	        postGoCategory();
+			$('#searchResults').html(html);
+			postGoCategory();
 			$('#left').scrollTop(33);
 		}
-        });
+	});
 }
 
 function postGoCategory(){
@@ -308,7 +310,7 @@ function postGoCategory(){
 	}
 	showAllMarkers();
 	
-	var bounds = '&bounds=' + (CURRENT_LOCATION.lat-2) + "," + (CURRENT_LOCATION.long-2) + ',' + (CURRENT_LOCATION.lat+2) + "," + (CURRENT_LOCATION.long+2);
+	var bounds = '&bounds=' + (CURRENT_LOCATION.latitude-2) + "," + (CURRENT_LOCATION.longitude-2) + ',' + (CURRENT_LOCATION.latitude+2) + "," + (CURRENT_LOCATION.longitude+2);
 	$('#googleMapSearchBar').typeahead({
 		hint: true,
 		highlight: true,

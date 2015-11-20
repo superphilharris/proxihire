@@ -16,8 +16,8 @@ class SearchController extends AbstractActionController
 	protected $categoryAliasesService;
 
 	public function __construct(AssetServiceInterface           $assetService,
-	                            CategoryServiceInterface        $categoryService,
-	                            CategoryAliasesServiceInterface $categoryAliasesService)
+	            CategoryServiceInterface        $categoryService,
+	            CategoryAliasesServiceInterface $categoryAliasesService)
 	{
 		$this->assetService=$assetService;
 		$this->categoryService=$categoryService;
@@ -42,7 +42,8 @@ class SearchController extends AbstractActionController
 		$view = new ViewModel(array(
 			'assetList' 	=> $assetList,
 			'categoryName' 	=> $categoryName,
-			'lessorList' 	=> $lessorList
+			'lessorList' 	=> $lessorList,
+			'filters'		=> $this->getFilters()
 		));
 		$view->setTemplate('application/search/result-list');
 		return $view;
@@ -62,18 +63,18 @@ class SearchController extends AbstractActionController
 	}
 
 	private function getAssetListAndCategoryPickerView(){
-                $allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
-                $categoryName       = $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
-                if($categoryName !== null){
-                        $category = $this->categoryService->getCategoryByName($categoryName);
-                }else{
-                        $category = new Category();
-                        $category->exchangeArray(array($allCategoryAliases->get()));
-                }
+		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
+		$categoryName       = $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
+		if($categoryName !== null){
+		        $category = $this->categoryService->getCategoryByName($categoryName);
+		}else{
+		        $category = new Category();
+		        $category->exchangeArray(array($allCategoryAliases->get()));
+		}
 
 		$view = new ViewModel(array());
-                $view->addChild($this->getCategoryPickerView($category, $allCategoryAliases), 		'category_picker')
-                     ->addChild($this->getAssetListView($category, $categoryName, $allCategoryAliases), 'result_list');
+		$view->addChild($this->getCategoryPickerView($category, $allCategoryAliases), 		'category_picker')
+		     ->addChild($this->getAssetListView($category, $categoryName, $allCategoryAliases), 'result_list');
 		return $view;
 	}
 	public function assetListAction()
@@ -100,18 +101,29 @@ class SearchController extends AbstractActionController
 		# Convert location->radius to 
 		# - location->latitude->min/max
 		# - location->longitude->min/max
-		if( isset($filters->location) &&
-		    isset($filters->location->latitude) &&
-		    isset($filters->location->longitude) &&
-		    isset($filters->location->radius)
-		){
+		if( isset($filters->location) ){
+			if( isset($filters->location->latitude) &&
+			    isset($filters->location->longitude) &&
+			    isset($filters->location->radius)
+			){
+				$location=(object) array(
+					"latitude" =>(object) array(
+						"min" => $filters->location->latitude - $filters->location->radius,
+						"max" => $filters->location->latitude + $filters->location->radius),
+					"longitude" =>(object) array(
+						"min" => $filters->location->longitude - $filters->location->radius,
+						"max" => $filters->location->longitude + $filters->location->radius));
+				$filters->location=$location;
+			}
+		} else {
+			// Default to Auckland, TODO: grab the location from the ip address
 			$location=(object) array(
-				"latitude" =>(object) array(
-					"min" => $filters->location->latitude - $filters->location->radius,
-					"max" => $filters->location->latitude + $filters->location->radius),
+				"latitude" => (object) array(
+					"min" => -36.84913134182603 - 1,
+					"max" => -36.84913134182603 + 1),
 				"longitude" =>(object) array(
-					"min" => $filters->location->longitude - $filters->location->radius,
-					"max" => $filters->location->longitude + $filters->location->radius));
+					"min" => 174.76234048604965 - 1,
+					"max" => 174.76234048604965 + 1));
 			$filters->location=$location;
 		}
 		return $filters;

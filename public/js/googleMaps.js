@@ -2,32 +2,23 @@
  * @see http://stackoverflow.com/questions/979975/how-to-get-the-value-from-the-url-parameter
  */ 
 var QueryString = function () {
-  // This function is anonymous, is executed immediately and 
-  // the return value is assigned to QueryString!
-  var query_string = {};
-  var query = window.location.search.substring(1);
-  var vars = query.split("&");
-  for (var i=0;i<vars.length;i++) {
-    var pair = vars[i].split("=");
-        // If first entry with this name
-    if (typeof query_string[pair[0]] === "undefined") {
-      query_string[pair[0]] = decodeURIComponent(pair[1]);
-        // If second entry with this name
-    } else if (typeof query_string[pair[0]] === "string") {
-      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
-      query_string[pair[0]] = arr;
-        // If third or later entry with this name
-    } else {
-      query_string[pair[0]].push(decodeURIComponent(pair[1]));
-    }
-  } 
-    return query_string;
+	// This function is anonymous, is executed immediately and 
+	// the return value is assigned to QueryString!
+	var query_string = {};
+	try{
+		var query = decodeURIComponent(window.location.search.substring(1));
+		query_string = $.parseJSON(query)
+	} catch(e){
+		console.log(e)
+	}
+	if(typeof(query_string.location) == "undefined") query_string.location = {};
+	return query_string;
 }();
 
 var CURRENT_LOCATION = { lat: -36.84913134182603, long: 174.76234048604965 };
-if(QueryString.lat && QueryString.long){
-	CURRENT_LOCATION.lat = QueryString.lat;
-	CURRENT_LOCATION.long = QueryString.long;
+if(QueryString.location.latitude && QueryString.location.longitude){
+	CURRENT_LOCATION.latitude 	= QueryString.location.latitude;
+	CURRENT_LOCATION.longitude 	= QueryString.location.longitude;
 }
 var showGoogleMap = (window.innerWidth >= 768);
 var allMarkers = [];
@@ -86,8 +77,9 @@ function stopBouncing(lessorId, seconds){
 	}, seconds * 1000)
 }
 function goLocation(lat, long){
-	CURRENT_LOCATION.lat = lat;
-	CURRENT_LOCATION.long = long;
+	console.log('going to lat'+lat+", long: "+long)
+	CURRENT_LOCATION.latitude = lat;
+	CURRENT_LOCATION.longitude = long;
 	goCategory();
 }
 function goLocationAndChangeGoogleMaps(lat, long){
@@ -101,7 +93,7 @@ function goLocationAndChangeGoogleMaps(lat, long){
 
 function initializeGoogleMaps() {
 	google.maps.event.addDomListener(window, 'load', function(){
-		var latlng = new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.long);
+		var latlng = new google.maps.LatLng(CURRENT_LOCATION.latitude, CURRENT_LOCATION.longitude);
 		var mapOptions = {
 	    	center: latlng,
 	    	scrollWheel: false,
@@ -114,7 +106,7 @@ function initializeGoogleMaps() {
 		userMarker = new google.maps.Marker({
 			map: googleMap,
 			draggable: true,
-			position: new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.long)
+			position: new google.maps.LatLng(CURRENT_LOCATION.latitude, CURRENT_LOCATION.longitude)
 		});
 		google.maps.event.addListener(userMarker, 'dragend', function(){
 			goLocation(this.position.lat(), this.position.lng());
