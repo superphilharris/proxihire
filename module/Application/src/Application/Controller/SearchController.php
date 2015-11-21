@@ -96,7 +96,6 @@ class SearchController extends AbstractActionController
 	}
 
 	private function getFilters(){
-		$defaultRange = 1;
 		$filters  = json_decode(urldecode($_SERVER['QUERY_STRING']));
 		if($filters == null) $filters = new \stdClass();
 
@@ -116,14 +115,21 @@ class SearchController extends AbstractActionController
 		}
 		
 		// Set default min and max
-		if(!isset($filters->location->latitude->min) OR !isset($filters->location->latitude->max)) {
-			$filters->location->latitude->min = $filters->location->latitude->user - $defaultRange;
-			$filters->location->latitude->max = $filters->location->latitude->user + $defaultRange;
+		if( ! isset($filters->location->latitude->min) OR
+			! isset($filters->location->latitude->max) OR
+			! isset($filters->longitude->latitude->min) OR
+			! isset($filters->longitude->latitude->max)
+		){
+			$range = isset($filters->location->radius) ? $filters->location->radius : 100; // In km
+			$lat_radius=$range/110.574; # Convert km to \delta latitude
+			$long_radius=$range/(111.320*cos($range*pi()/180)); # Convert km to \delta latitude
+			
+			$filters->location->latitude->min 	= $filters->location->latitude->user - $lat_radius;
+			$filters->location->latitude->max 	= $filters->location->latitude->user + $lat_radius;
+			$filters->location->longitude->min 	= $filters->location->longitude->user - $long_radius;
+			$filters->location->longitude->max	= $filters->location->longitude->user + $long_radius;
 		}
-		if(!isset($filters->location->longitude->min) OR !isset($filters->location->latitude->max)) {
-			$filters->location->longitude->min = $filters->location->longitude->user - $defaultRange;
-			$filters->location->longitude->max = $filters->location->longitude->user + $defaultRange;
-		}
+
 		return $filters;
 	}
 
