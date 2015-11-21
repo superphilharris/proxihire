@@ -1226,7 +1226,10 @@ categories = {
 								"aliases": ["bull float", "concrete screed", "concrete float"]
 							},
 							{
-								"aliases": [ "concrete vibrator", "concrete vibrating" ]
+								"aliases": ["concrete vibrator", "concrete vibrating"]
+							},
+							{
+								"aliases": ["concrete bolster"]
 							}
 						]
 					}
