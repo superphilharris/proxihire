@@ -9,16 +9,16 @@ var QueryString = function () {
 		var query = decodeURIComponent(window.location.search.substring(1));
 		query_string = $.parseJSON(query)
 	} catch(e){
-		console.log(e)
+		
 	}
-	if(typeof(query_string.location) == "undefined") query_string.location = {};
+	if(typeof(query_string.location) == "undefined") query_string.location = { latitude: {}, longitude: {} };
 	return query_string;
 }();
 
-var CURRENT_LOCATION = { latitude: -36.84913134182603, longitude: 174.76234048604965 }; // Default to Auckland
-if(QueryString.location.latitude && QueryString.location.longitude){
-	CURRENT_LOCATION.latitude.user.user 	= QueryString.location.latitude;
-	CURRENT_LOCATION.longitude 	= QueryString.location.longitude;
+var CURRENT_LOCATION = { latitude: { user: -36.84913134182603 }, longitude: { user: 174.76234048604965 } }; // Default to Auckland
+if(QueryString.location.latitude.user && QueryString.location.longitude.user){
+	CURRENT_LOCATION.latitude.user 		= QueryString.location.latitude.user;
+	CURRENT_LOCATION.longitude.user 	= QueryString.location.longitude.user;
 }
 var showGoogleMap = (window.innerWidth >= 768);
 var allMarkers = [];
@@ -77,8 +77,8 @@ function stopBouncing(lessorId, seconds){
 	}, seconds * 1000)
 }
 function goLocation(lat, long){
-	CURRENT_LOCATION.latitude.user.user = lat;
-	CURRENT_LOCATION.longitude = long;
+	CURRENT_LOCATION.latitude.user = lat;
+	CURRENT_LOCATION.longitude.user = long;
 	goCategory();
 }
 function goLocationAndChangeGoogleMaps(lat, long){
@@ -92,7 +92,7 @@ function goLocationAndChangeGoogleMaps(lat, long){
 
 function initializeGoogleMaps() {
 	google.maps.event.addDomListener(window, 'load', function(){
-		var latlng = new google.maps.LatLng(CURRENT_LOCATION.latitude.user.user, CURRENT_LOCATION.longitude);
+		var latlng = new google.maps.LatLng(CURRENT_LOCATION.latitude.user, CURRENT_LOCATION.longitude.user);
 		var mapOptions = {
 	    	center: latlng,
 	    	scrollWheel: false,
@@ -105,18 +105,25 @@ function initializeGoogleMaps() {
 		userMarker = new google.maps.Marker({
 			map: googleMap,
 			draggable: true,
-			position: new google.maps.LatLng(CURRENT_LOCATION.latitude.user.user, CURRENT_LOCATION.longitude)
+			position: new google.maps.LatLng(CURRENT_LOCATION.latitude.user, CURRENT_LOCATION.longitude.user)
 		});
 		google.maps.event.addListener(userMarker, 'dragend', function(){
 			goLocation(this.position.lat(), this.position.lng());
 		});
-		googleMap.addListener('zoom_changed', function(){
-			console.log(googleMap.getBounds().getNorthEast())
-			console.log(googleMap.getBounds().getSouthWest())
-		});
+		googleMap.addListener('zoom_changed', googleMapsChangedBounds);
+		googleMap.addListener('dragend', googleMapsChangedBounds);
 	  	showAllMarkers();
 	});
 };
+var googleMapsChangedBoundsTimeout = null;
+function googleMapsChangedBounds(){
+	CURRENT_LOCATION.latitude.max 	= googleMap.getBounds().getNorthEast().lat();
+	CURRENT_LOCATION.latitude.min 	= googleMap.getBounds().getSouthWest().lat();
+	CURRENT_LOCATION.longitude.max 	= googleMap.getBounds().getNorthEast().lng();
+	CURRENT_LOCATION.longitude.min 	= googleMap.getBounds().getSouthWest().lng();
+	clearTimeout(googleMapsChangedBoundsTimeout);
+	googleMapsChangedBoundsTimeout = setTimeout(goLocation, 2000);
+}
 
 /*
  * --------------------------------------------------------------------------------------------

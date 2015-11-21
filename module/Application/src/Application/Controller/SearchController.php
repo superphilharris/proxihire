@@ -96,36 +96,33 @@ class SearchController extends AbstractActionController
 	}
 
 	private function getFilters(){
+		$defaultRange = 1;
 		$filters  = json_decode(urldecode($_SERVER['QUERY_STRING']));
 		if($filters == null) $filters = new \stdClass();
 
 		# Convert location->radius to 
 		# - location->latitude->min/max
 		# - location->longitude->min/max
-		if( isset($filters->location) ){
-			if( isset($filters->location->latitude) &&
-			    isset($filters->location->longitude) &&
-			    isset($filters->location->radius)
-			){
-				$location=(object) array(
-					"latitude" =>(object) array(
-						"min" => $filters->location->latitude - $filters->location->radius,
-						"max" => $filters->location->latitude + $filters->location->radius),
-					"longitude" =>(object) array(
-						"min" => $filters->location->longitude - $filters->location->radius,
-						"max" => $filters->location->longitude + $filters->location->radius));
-				$filters->location=$location;
-			}
-		} else {
-			// Default to Auckland, TODO: grab the location from the ip address
-			$location=(object) array(
-				"latitude" => (object) array(
-					"min" => -36.84913134182603 - 1,
-					"max" => -36.84913134182603 + 1),
-				"longitude" =>(object) array(
-					"min" => 174.76234048604965 - 1,
-					"max" => 174.76234048604965 + 1));
-			$filters->location=$location;
+		if(! isset($filters->location) ){
+			$filters->location = new \stdClass();
+		} 
+		if(! isset($filters->location->latitude) OR  ! isset($filters->location->longitude)){
+			$filters->location->latitude = new \stdClass();
+			$filters->location->latitude = new \stdClass();
+		}
+		if(! isset($filters->location->latitude->user) OR ! isset($filters->location->longitude->user)){
+			$filters->location->latitude->user = -36.84913134182603;
+			$filters->location->longitude->user = 174.76234048604965;
+		}
+		
+		// Set default min and max
+		if(!isset($filters->location->latitude->min) OR !isset($filters->location->latitude->max)) {
+			$filters->location->latitude->min = $filters->location->latitude->user - $defaultRange;
+			$filters->location->latitude->max = $filters->location->latitude->user + $defaultRange;
+		}
+		if(!isset($filters->location->longitude->min) OR !isset($filters->location->latitude->max)) {
+			$filters->location->longitude->min = $filters->location->longitude->user - $defaultRange;
+			$filters->location->longitude->max = $filters->location->longitude->user + $defaultRange;
 		}
 		return $filters;
 	}

@@ -5,8 +5,8 @@ $GLOBALS['COLOR_INDEX'] 		= 0;
 $GLOBALS['LESSORID_TO_COLOR'] 	= array();
 $userLocation = new Location();
 $userLocation->exchangeArray(array(
-		"latitude" => 	($this->filters->location->latitude->max	+ $this->filters->location->latitude->min)/2, 
-		"longitude" => 	($this->filters->location->longitude->max	+ $this->filters->location->longitude->min)/2));
+		"latitude" => 	$this->filters->location->latitude->user, 
+		"longitude" => 	$this->filters->location->longitude->user));
 
 
 // 1. Display the properties sliders

@@ -12,7 +12,7 @@ categories = {
 				"properties": [{"total height":"lineal"}]
 			},
 			{
-				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper"]
+				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper", "lino remover", "tile remover"]
 			},
 			{
 				"aliases": ["scaffolding equipment"],
@@ -474,10 +474,7 @@ categories = {
 				"aliases": ["wheelbarrow"]
 			},
 			{
-				"aliases": ["water blaster", "petrol pressure cleaner", "pressure washer", "rotary kleen"]
-			},
-			{
-				"aliases": ["wet vacuum cleaner"]
+				"aliases": ["water blaster", "petrol pressure cleaner", "pressure washer", "rotary kleen", "hydro broom"]
 			},
 			{
 				"aliases": ["blower", "power broom"]
@@ -501,7 +498,10 @@ categories = {
 				"aliases": ["rotary hoe", "rotary slasher"]
 			},
 			{
-				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit", "sink cleaning kit"]
+				"aliases": ["tine ripper"]
+			},
+			{
+				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit", "sink cleaning kit", "plumbing cleaning rod"]
 			},
 			{
 				"aliases": ["rubbish bin", "skip bin"]
@@ -602,22 +602,28 @@ categories = {
 				"aliases": ["cleaning"],
 				"children": [
 		 			{
-						"aliases": ["vacuum cleaner", "industrial vacuum dust", "industrial vacuum cleaner"]
+						"aliases": ["vacuum cleaner", "industrial vacuum dust", "electric vacuum", "vacuum clean", "industrial vacuum cleaner"]
 					},
 					{
-						"aliases": ["extraction fan", "exhaust fan", "ventilator fan", "ventilating fan"]
+						"aliases": ["wet vacuum cleaner"]
+					},
+					{
+						"aliases": ["extraction fan", "exhaust fan", "ventilator fan", "ventilating fan", "dust fan"]
 					},
 					{
 						"aliases": ["chimney cleaner", "chimney clean brush"]
 					},
 					{
-						"aliases": ["electric scrubber", "nilfisk scrubber"]
+						"aliases": ["electric scrubber", "nilfisk scrubber", "ipc sweeper"]
 					},
 					{
 						"aliases": ["electric sweeper", "walk behind sweeper"]
 					},
 					{
-						"aliases": ["telewand attachment"]
+						"aliases": ["telewand attachment", "extendable wand", "house wash brush"]
+					},
+					{
+						"aliases": ["squeegee", "rubber scraper", "squilgee", "squimjim"]
 					}
 				]
 			},
@@ -706,7 +712,7 @@ categories = {
 				"aliases": ["event cooling"],
 				"children": [
 					{
-						"aliases": ["pedestal fan"]
+						"aliases": ["fan"]
 					},
 					{
 						"aliases": ["dehumidifier", "desiccant drier"]
@@ -1300,7 +1306,7 @@ categories = {
 								"aliases": ["compaction attachment"]
 							},
 				 			{
-				 				"aliases": ["chain trencher", "dingo trencher", "bobcat trencher", "chain trench"]
+				 				"aliases": ["chain trencher", "dingo trencher", "bobcat trencher", "chain trench", "trencher attachment"]
 				 			},
 				 			{
 				 				"aliases": ["crusher attachment", "shear attachment", "grinder attachment"]
@@ -1513,7 +1519,7 @@ categories = {
 				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar"]
 			},
 			{
-				"aliases": ["GPS navigator"]
+				"aliases": ["GPS navigator", "GPS system"]
 			},
 			{
 				"aliases": ["metal detector"]
@@ -1525,7 +1531,7 @@ categories = {
 				"aliases": ["environmental monitor"]
 			},
 			{
-				"aliases": ["chute hire"]
+				"aliases": ["chute"]
 			},
 			{
 				"aliases": ["keyhole camera"]
