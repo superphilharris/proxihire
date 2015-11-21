@@ -20,6 +20,14 @@ if(QueryString.location.latitude.user && QueryString.location.longitude.user){
 	CURRENT_LOCATION.latitude.user 		= QueryString.location.latitude.user;
 	CURRENT_LOCATION.longitude.user 	= QueryString.location.longitude.user;
 }
+if(QueryString.location.latitude.max && QueryString.location.longitude.max &&
+		QueryString.location.latitude.min && QueryString.location.longitude.min) {
+	CURRENT_LOCATION.latitude.max 	= QueryString.location.latitude.max;
+	CURRENT_LOCATION.latitude.min 	= QueryString.location.latitude.min;
+	CURRENT_LOCATION.longitude.max 	= QueryString.location.longitude.max;
+	CURRENT_LOCATION.longitude.min 	= QueryString.location.longitude.min;
+}
+
 var showGoogleMap = (window.innerWidth >= 768);
 var allMarkers = [];
 var googleMap = null, mapsBouncingTimout = null;
@@ -79,7 +87,12 @@ function stopBouncing(lessorId, seconds){
 function goLocation(lat, long){
 	CURRENT_LOCATION.latitude.user = lat;
 	CURRENT_LOCATION.longitude.user = long;
-	goCategory();
+	updateLocation();
+}
+function updateLocation(){
+	setGoogleMapsBoundsAndClearTimeout();
+	console.log('updating location')
+	updateFromCategoryOrLocation(CURRENT_CATEGORY);
 }
 function goLocationAndChangeGoogleMaps(lat, long){
 	goLocation(lat, long);
@@ -100,8 +113,32 @@ function initializeGoogleMaps() {
 	    	zoom: 11
 	  	};
 	  
+		// Initialize the page to whatever it was last
+	  	if(	typeof(CURRENT_LOCATION.latitude.min) != "undefined" && 
+	  		typeof(CURRENT_LOCATION.latitude.max) != "undefined" && 
+	  		typeof(CURRENT_LOCATION.longitude.min) != "undefined" && 
+	  		typeof(CURRENT_LOCATION.longitude.max) != "undefined"){
+	  		var bounds = new google.maps.LatLngBounds(
+	  					new google.maps.LatLng( CURRENT_LOCATION.latitude.min, 
+	  											CURRENT_LOCATION.longitude.min),
+	  					new google.maps.LatLng( CURRENT_LOCATION.latitude.max, 
+							  					CURRENT_LOCATION.longitude.max));
+	  		mapOptions.center = bounds.getCenter();
+	  		
+	  		// Now set the zoom
+	  		var GLOBE_WIDTH = 256; // a constant in Google's map projection
+	  		var west = bounds.getSouthWest().lng();
+	  		var east = bounds.getNorthEast().lng();
+	  		var angle = east - west;
+	  		if (angle < 0) {
+	  		  angle += 360;
+	  		}
+	  		var mapPixelWidth = window.innerWidth / 3;
+	  		mapOptions.zoom = Math.round(Math.log(mapPixelWidth * 360 / angle / GLOBE_WIDTH) / Math.LN2);
+	  	}
+	  	
 	  	googleMap = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
+	  	
 		userMarker = new google.maps.Marker({
 			map: googleMap,
 			draggable: true,
@@ -110,16 +147,15 @@ function initializeGoogleMaps() {
 		google.maps.event.addListener(userMarker, 'dragend', function(){
 			goLocation(this.position.lat(), this.position.lng());
 		});
-		googleMap.addListener('zoom_changed', googleMapsChangedBounds);
-		googleMap.addListener('dragend', googleMapsChangedBounds);
+		googleMap.addListener('bounds_changed', function(){
+			setGoogleMapsBoundsAndClearTimeout();
+			console.log('bounds_changed')
+			googleMapsChangedBoundsTimeout = setTimeout(updateLocation, 1000);
+		});
 	  	showAllMarkers();
 	});
 };
 var googleMapsChangedBoundsTimeout = null;
-function googleMapsChangedBounds(){
-	setGoogleMapsBoundsAndClearTimeout();
-	googleMapsChangedBoundsTimeout = setTimeout(goLocation, 2000);
-}
 function setGoogleMapsBoundsAndClearTimeout(){
 	if(googleMap){
 		clearTimeout(googleMapsChangedBoundsTimeout);

@@ -247,15 +247,19 @@ function filterResults(mainProperties){
  * @param category
  */
 function goCategory(category){
-	setGoogleMapsBoundsAndClearTimeout();
 	var newCategory = CURRENT_CATEGORY;
 	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
 	if ($('.navbar-collapse').hasClass('in')) $('.navbar-toggle').trigger('click');
 	
 	if(typeof(category) != "undefined" && (category != CURRENT_CATEGORY || $('#searchResults').html() == '')) newCategory = category;
-	else if(QueryString.location.latitude.user == CURRENT_LOCATION.latitude.user && QueryString.location.longitude.user == CURRENT_LOCATION.longitude.user) return false;
+	else return false;
 	
-	console.log(JSON.stringify(CURRENT_LOCATION))
+	updateFromCategoryOrLocation(newCategory);
+
+	return false;
+}
+
+function updateFromCategoryOrLocation(newCategory){
 	var urlEnd = newCategory + '?' + encodeURIComponent(JSON.stringify({location:CURRENT_LOCATION}));
 	try {
 		$('#searchResults').html('');
@@ -271,17 +275,16 @@ function goCategory(category){
 					CURRENT_CATEGORY = newCategory;
 					History.pushState({html: html}, title, "/search/"+urlEnd);
 				}catch(e){
-					//window.location.href = "/search/" + urlEnd;
+					window.location.href = "/search/" + urlEnd;
 				}
 			},
 			error: function(){
-				//window.location.href = "/search/" + urlEnd;
+				window.location.href = "/search/" + urlEnd;
 			}
 		});
 	} catch (e) {
-		//window.location.href = "/search/" + urlEnd;
+		window.location.href = "/search/" + urlEnd;
 	}	
-	return false;
 }
 var CURRENT_CATEGORY_ASYNC = CURRENT_CATEGORY;
 function goCategoryAsync(category) {
@@ -290,7 +293,7 @@ function goCategoryAsync(category) {
 	var urlEnd = CURRENT_CATEGORY_ASYNC + '?' + encodeURIComponent('{"location":{"latitude":' + CURRENT_LOCATION.latitude.user + ',"longitude":' + CURRENT_LOCATION.longitude.user + ',"radius":0.5}}');
 	
 	var title = toTitleCase(CURRENT_CATEGORY_ASYNC) + " - Proxihire";	
-/*	$.ajax({
+	$.ajax({
 		type:   "POST",
 		url:    "/assetlist/"+urlEnd,
 		success: function(html){
@@ -301,7 +304,7 @@ function goCategoryAsync(category) {
 			postGoCategory();
 			$('#left').scrollTop(33);
 		}
-	});*/
+	});
 }
 
 function postGoCategory(){
