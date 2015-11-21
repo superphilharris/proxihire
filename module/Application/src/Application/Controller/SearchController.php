@@ -106,8 +106,8 @@ class SearchController extends AbstractActionController
 			$filters->location = new \stdClass();
 		} 
 		if(! isset($filters->location->latitude) OR  ! isset($filters->location->longitude)){
-			$filters->location->latitude = new \stdClass();
-			$filters->location->latitude = new \stdClass();
+			$filters->location->latitude  = new \stdClass();
+			$filters->location->longitude = new \stdClass();
 		}
 		if(! isset($filters->location->latitude->user) OR ! isset($filters->location->longitude->user)){
 			$filters->location->latitude->user = -36.84913134182603;
@@ -117,8 +117,8 @@ class SearchController extends AbstractActionController
 		// Set default min and max
 		if( ! isset($filters->location->latitude->min) OR
 			! isset($filters->location->latitude->max) OR
-			! isset($filters->longitude->latitude->min) OR
-			! isset($filters->longitude->latitude->max)
+			! isset($filters->location->longitude->min) OR
+			! isset($filters->location->longitude->max)
 		){
 			$range = isset($filters->location->radius) ? $filters->location->radius : 100; // In km
 			$lat_radius=$range/110.574; # Convert km to \delta latitude

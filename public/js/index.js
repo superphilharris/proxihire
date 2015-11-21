@@ -247,7 +247,7 @@ function filterResults(mainProperties){
  * @param category
  */
 function goCategory(category){
-	clearTimeout(googleMapsChangedBoundsTimeout);
+	setGoogleMapsBoundsAndClearTimeout();
 	var newCategory = CURRENT_CATEGORY;
 	$('#mainSearchBar').typeahead('val', ''); // Clear main search bar
 	if ($('.navbar-collapse').hasClass('in')) $('.navbar-toggle').trigger('click');

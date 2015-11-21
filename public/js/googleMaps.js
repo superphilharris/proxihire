@@ -117,12 +117,17 @@ function initializeGoogleMaps() {
 };
 var googleMapsChangedBoundsTimeout = null;
 function googleMapsChangedBounds(){
-	CURRENT_LOCATION.latitude.max 	= googleMap.getBounds().getNorthEast().lat();
-	CURRENT_LOCATION.latitude.min 	= googleMap.getBounds().getSouthWest().lat();
-	CURRENT_LOCATION.longitude.max 	= googleMap.getBounds().getNorthEast().lng();
-	CURRENT_LOCATION.longitude.min 	= googleMap.getBounds().getSouthWest().lng();
-	clearTimeout(googleMapsChangedBoundsTimeout);
+	setGoogleMapsBoundsAndClearTimeout();
 	googleMapsChangedBoundsTimeout = setTimeout(goLocation, 2000);
+}
+function setGoogleMapsBoundsAndClearTimeout(){
+	if(googleMap){
+		clearTimeout(googleMapsChangedBoundsTimeout);
+		CURRENT_LOCATION.latitude.max 	= googleMap.getBounds().getNorthEast().lat();
+		CURRENT_LOCATION.latitude.min 	= googleMap.getBounds().getSouthWest().lat();
+		CURRENT_LOCATION.longitude.max 	= googleMap.getBounds().getNorthEast().lng();
+		CURRENT_LOCATION.longitude.min 	= googleMap.getBounds().getSouthWest().lng();
+	}
 }
 
 /*
