@@ -91,7 +91,6 @@ function goLocation(lat, long){
 }
 function updateLocation(){
 	setGoogleMapsBoundsAndClearTimeout();
-	console.log('updating location')
 	updateFromCategoryOrLocation(CURRENT_CATEGORY);
 }
 function goLocationAndChangeGoogleMaps(lat, long){
@@ -149,8 +148,7 @@ function initializeGoogleMaps() {
 		});
 		googleMap.addListener('bounds_changed', function(){
 			setGoogleMapsBoundsAndClearTimeout();
-			console.log('bounds_changed')
-			googleMapsChangedBoundsTimeout = setTimeout(updateLocation, 1000);
+			googleMapsChangedBoundsTimeout = setTimeout(updateLocation, 2000);
 		});
 	  	showAllMarkers();
 	});

@@ -226,6 +226,9 @@ categories = {
 						"aliases": ["screw driver", "impact gun", "impact driver"]
 					},
 					{
+						"aliases": ["plaster flicker"]
+					},
+					{
 						"aliases": ["chisel"]
 					},
 					{
@@ -340,9 +343,6 @@ categories = {
 						"aliases": ["air scabbler"]
 					}
 				]
-			},
-			{
-				"aliases": ["concrete grinder", "grinder", "concrete breaker"]
 			},
 			{
 				"aliases": ["access equipment"],
@@ -1075,6 +1075,9 @@ categories = {
 						"aliases":["bike trailer"]
 					},
 					{
+						"aliases":["car trailer"]
+					},
+					{
 						"aliases":["cable drum trailer"]
 					}
 				]
@@ -1100,7 +1103,7 @@ categories = {
 		         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper", "heat gun paint removal"]
 		         	},
 					{
-						"aliases": ["needlegun scaler", "needle scaler"]
+						"aliases": ["needlegun scaler", "needle scaler", "needle gun"]
 					}
 				]
 			},
@@ -1196,7 +1199,10 @@ categories = {
 				"aliases": ["concrete laying"],
 				"children": [
 					{
-						"aliases": ["concrete saw", "road saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw", "concrete hand tool", "concrete diamond blade"]
+						"aliases": ["concrete saw", "road saw", "concrete scribe", "concrete cutter", "block splitter", "brick saw", "concrete hand tool", "concrete diamond blade", "splitting paver"]
+					},
+					{
+						"aliases": ["concrete grinder", "grinder", "concrete breaker", "concrete scabbler", "concrete nibbler"]
 					},
 					{
 						"aliases": ["concrete mixer"]
@@ -1221,6 +1227,9 @@ categories = {
 							},
 							{
 								"aliases": ["concrete rake"]
+							},
+							{
+								"aliases": ["concrete tamper"]
 							},
 							{
 								"aliases": ["bull float", "concrete screed", "concrete float"]
