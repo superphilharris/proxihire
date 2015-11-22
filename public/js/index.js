@@ -290,7 +290,7 @@ var CURRENT_CATEGORY_ASYNC = CURRENT_CATEGORY;
 function goCategoryAsync(category) {
 	if(typeof(category) != "undefined" && category != CURRENT_CATEGORY && category != CURRENT_CATEGORY_ASYNC) CURRENT_CATEGORY_ASYNC = category;
 	else if(QueryString.location.latitude.user == CURRENT_LOCATION.latitude.user && QueryString.location.longitude.user == CURRENT_LOCATION.longitude.user) return false;
-	var urlEnd = CURRENT_CATEGORY_ASYNC + '?' + encodeURIComponent('{"location":{"latitude":' + CURRENT_LOCATION.latitude.user + ',"longitude":' + CURRENT_LOCATION.longitude.user + ',"radius":0.5}}');
+	var urlEnd = CURRENT_CATEGORY_ASYNC + '?' + encodeURIComponent(JSON.stringify({location:CURRENT_LOCATION}));
 	
 	var title = toTitleCase(CURRENT_CATEGORY_ASYNC) + " - Proxihire";	
 	$.ajax({
