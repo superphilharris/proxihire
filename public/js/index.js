@@ -262,7 +262,7 @@ function goCategory(category){
 function updateFromCategoryOrLocation(newCategory){
 	var urlEnd = newCategory + '?' + encodeURIComponent(JSON.stringify({location:CURRENT_LOCATION}));
 	try {
-		$('#searchResults').html('');
+		// $('#searchResults').html(''); TODO: show a loader while waiting for response from server
 		removeAllMarkers();
 	
 		var title = toTitleCase(newCategory) + " - Proxihire";
