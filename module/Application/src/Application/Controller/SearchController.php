@@ -5,6 +5,7 @@ namespace Application\Controller;
 use Application\Service\AssetServiceInterface;
 use Application\Service\CategoryServiceInterface;
 use Application\Service\CategoryAliasesServiceInterface;
+use Application\Service\GeonameServiceInterface;
 use Application\Model\Category;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
@@ -15,13 +16,16 @@ class SearchController extends AbstractActionController
 	protected $categoryService;
 	protected $categoryAliasesService;
 
-	public function __construct(AssetServiceInterface           $assetService,
+	public function __construct(
+	            AssetServiceInterface           $assetService,
 	            CategoryServiceInterface        $categoryService,
-	            CategoryAliasesServiceInterface $categoryAliasesService)
+	            CategoryAliasesServiceInterface $categoryAliasesService,
+	            GeonameServiceInterface         $geonameService)
 	{
 		$this->assetService=$assetService;
 		$this->categoryService=$categoryService;
 		$this->categoryAliasesService=$categoryAliasesService;
+		$this->geonameService=$geonameService;
 	}
 
     public function indexAction()
@@ -40,10 +44,10 @@ class SearchController extends AbstractActionController
 		$assetList = $this->getAssetList($category, $allCategoryAliases);
 		$lessorList = $this->assetService->getLessorsForAssets( $assetList );
 		$view = new ViewModel(array(
-			'assetList' 	=> $assetList,
-			'categoryName' 	=> $categoryName,
-			'lessorList' 	=> $lessorList,
-			'filters'		=> $this->getFilters()
+			'assetList'    => $assetList,
+			'categoryName' => $categoryName,
+			'lessorList'   => $lessorList,
+			'filters'      => $this->getFilters()
 		));
 		$view->setTemplate('application/search/result-list');
 		return $view;
@@ -51,12 +55,21 @@ class SearchController extends AbstractActionController
 
 	private function getCategoryPickerView($category, $allCategoryAliases){
 		$ancestory          = $allCategoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
+		$filters = $this->getFilters();
+		if( isset($filters->location->latitude->user) &&
+		    isset($filters->location->longitude->user) ){
+			$locations=$this->geonameService->getClosestLocation( $filters->location->latitude->user, $filters->location->longitude->user);
+			$location=count($locations)>0?$locations[0]:NULL;
+		}else{
+			$location=NULL;
+		}
 		
 		// Category picker
 		$view = new ViewModel(array(
 				'category'        => $category,
 				'categoryAliases' => $allCategoryAliases,
-				'ancestory'       => $ancestory
+				'ancestory'       => $ancestory,
+				'location'        => $location
 		));
 		$view->setTemplate('application/search/category-picker');
 		return $view;

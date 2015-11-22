@@ -41,5 +41,16 @@ class GeonameService implements GeonameServiceInterface
 
 		return $this->geonameMapper->getPrototypeArray();
 	}
+
+	/**
+	 * {@inheritdoc}
+	 * jih: actual inheritdoc
+	 */
+	public function getClosestLocation(
+		$latitude,
+		$longitude
+	){
+		return $this->geonameMapper->getClosestLocation( $latitude, $longitude );
+	}
 }
 ?>
