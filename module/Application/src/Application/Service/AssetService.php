@@ -116,12 +116,16 @@ class AssetService implements AssetServiceInterface
 					$lat=$location->getLatitude();
 					$long=$location->getLongitude();
 
-					if( $lat  > $filters->location->latitude->min &&
-					    $lat  < $filters->location->latitude->max &&
-					    $long > $filters->location->longitude->min &&
-					    $long < $filters->location->longitude->max
+					if( $this->betweenPoints( 
+					       $lat, 
+					       $filters->location->latitude->min,  
+					       $filters->location->latitude->max  ) &&
+					    $this->betweenPoints( 
+					       $long, 
+					       $filters->location->longitude->min, 
+					       $filters->location->longitude->max )
 					){
-						$hasBranchInBounds=true
+						$hasBranchInBounds=true;
 					}
 				}
 				if( ! $hasBranchInBounds ){
@@ -131,6 +135,17 @@ class AssetService implements AssetServiceInterface
 		}
 	}
 	
+	private function betweenPoints( $actual, $minimum, $maximum ){
+		$minimum=$minimum >= 0 ? fmod($minimum, 360) : 360 + fmod($minimum, 360);
+		$maximum=$maximum >= 0 ? fmod($maximum, 360) : 360 + fmod($maximum, 360);
+		$actual =$actual  >= 0 ? fmod($actual , 360) : 360 + fmod($actual , 360);
+
+		if( $minimum > $maximum ){
+			return ! $this->betweenPoints( $actual, $maximum, $minimum );
+		}
+
+		return $actual > $minimum && $actual < $maximum;
+	}
 	
 	/**
 	 * {@inheritDoc}
