@@ -107,6 +107,7 @@ class AssetService implements AssetServiceInterface
 				if( is_null($lessor) ) continue;
 
 				$branches=$lessor->getBranches();
+				$hasBranchInBounds=false;
 				foreach( $branches as $branch ){
 					if( is_null($branch) ) continue;
 
@@ -115,14 +116,16 @@ class AssetService implements AssetServiceInterface
 					$lat=$location->getLatitude();
 					$long=$location->getLongitude();
 
-					if( $lat  < $filters->location->latitude->min ||
-					    $lat  > $filters->location->latitude->max ||
-					    $long < $filters->location->longitude->min ||
-					    $long > $filters->location->longitude->max
+					if( $lat  > $filters->location->latitude->min &&
+					    $lat  < $filters->location->latitude->max &&
+					    $long > $filters->location->longitude->min &&
+					    $long < $filters->location->longitude->max
 					){
-						unset( $assets[$key] );
+						$hasBranchInBounds=true
 					}
-
+				}
+				if( ! $hasBranchInBounds ){
+					unset( $assets[$key] );
 				}
 			}
 		}
