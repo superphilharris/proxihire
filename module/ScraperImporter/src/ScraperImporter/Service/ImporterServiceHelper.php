@@ -76,7 +76,7 @@ class ImporterServiceHelper {
 			}elseif($unit === 'cm'){
 				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number) / 100;
-			}elseif($unit === 'm'){
+			}elseif($unit === 'm' OR $unit === "metre" OR $unit === "metres"){
 				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'km'){
@@ -103,6 +103,9 @@ class ImporterServiceHelper {
 			}elseif($unit === '/min'){
 				$property['datatype']	= Datatype::FREQUENCY;
 				$property['value_mxd']	= floatval($number) / 60;
+			}elseif($unit === "bar"){
+				$property['datatype']   = Datatype::PRESSURE;
+				$property['value_mxd']  = floatval($number) * 100000;
 			}elseif($unit === 'psi'){
 				$property['datatype']	= Datatype::PRESSURE;
 				$property['value_mxd']	= floatval($number) * 6894.75729;
@@ -118,6 +121,9 @@ class ImporterServiceHelper {
 			}elseif($unit === 'mamps'){
 				$property['datatype']  = Datatype::CURRENT;
 				$property['value_mxd'] = floatval($number) / 1000;
+			}elseif($unit === 'btu/hr' OR $unit === 'btus/hr' OR $unit === 'btu'){
+				$property['datatype']  = Datatype::POWER_ELECTRICAL;
+				$property['value_mxd'] = floatval($number) * 0.29307107;
 			}elseif($unit === 'watts'){
 				$property['datatype']  = Datatype::POWER_ELECTRICAL;
 				$property['value_mxd'] = floatval($number);
