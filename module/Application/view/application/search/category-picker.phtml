@@ -28,6 +28,8 @@ while ($i>=0 AND property_exists($this->ancestory[$i], 'children')) {
 <?php 
 	$i--;
 }
+
+$placeholder=is_null($this->location)?'Address':$this->location;
 ?>
 	</ul>&nbsp;
 	<div class="filterBar">
@@ -39,7 +41,7 @@ while ($i>=0 AND property_exists($this->ancestory[$i], 'children')) {
 </div>
 <div class="currentLocation">
 	<div class="input-group">
-		<input id="googleMapSearchBar" class="form-control" type="text" placeholder="Address"/>
+		<input id="googleMapSearchBar" class="form-control" type="text" placeholder="<?=$placeholder?>"/>
 		<span class="input-group-addon" title="Use my GPS" onclick="getUserLocation()"><span class="glyphicon glyphicon-screenshot"></span></span>
 	</div>
 </div>

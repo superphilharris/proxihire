@@ -21,11 +21,13 @@ class SearchControllerFactory implements FactoryInterface
 		$assetService           = $realServiceLocator->get('Application\Service\AssetServiceInterface');
 		$categoryService        = $realServiceLocator->get('Application\Service\CategoryServiceInterface');
 		$categoryAliasesService = $realServiceLocator->get('Application\Service\CategoryAliasesServiceInterface');
+		$geonameService         = $realServiceLocator->get('Application\Service\GeonameServiceInterface');
 
 		return new SearchController(
 			$assetService,
 			$categoryService,
-			$categoryAliasesService
+			$categoryAliasesService,
+			$geonameService
 		);
 	}
 }
