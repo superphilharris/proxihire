@@ -6,8 +6,10 @@ use Application\Model\Datatype;
 class ImporterServiceHelper {
 	// The below 3 configurations are used to speed up the scraping for testing purposes.
 	const UPDATE_IMAGES 			= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
-	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
+// 	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
+// 	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
+	const GENERATE_RANDOM_LOCATIONS = TRUE;
+	const CREATE_IMAGES				= FALSE;
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
@@ -187,6 +189,7 @@ class ImporterServiceHelper {
 	 * @return string
 	 */
 	private function fixSpelling($string){
+		$string = str_replace(' & ', 			' and ',		$string);
 		$string = str_replace('acroprop', 		'acrow prop',	$string);
 		$string = str_replace('bi fold', 		'bi-fold',		$string);
 		$string = str_replace('crow bar', 		'crowbar',		$string);

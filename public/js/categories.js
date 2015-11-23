@@ -161,7 +161,7 @@ categories = {
 						"aliases": ["cutting"],
 						"children": [
 							{
-								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw", "skillsaw", "drop saw", "metal cut off saw"]
+								"aliases": ["electric saw", "combination saw", "mitre saw", "circular saw", "skillsaw", "drop saw", "metal cut off saw", "cutting saw"]
 							},
 							{
 								"aliases": ["bench saw", "radial arm saw"]
@@ -256,7 +256,7 @@ categories = {
 								"aliases": ["magnetic drill press", "rotabroach magnetic drill", "broach drill", "magnetic base drill"]
 							},
 							{
-								"aliases": ["electric drill", "speed drill"]
+								"aliases": ["electric drill", "speed drill", "drill"]
 							},
 							{
 								"aliases": ["cordless drill"]
@@ -267,7 +267,7 @@ categories = {
 						]
 					},
 					{
-						"aliases": ["crowbar"]
+						"aliases": ["crowbar", "wrecking bar"]
 					},
 					{
 						"aliases": ["sander", "air sandblaster"]
@@ -406,6 +406,9 @@ categories = {
 						"aliases": ["pallet trolley"]
 					},
 					{
+						"aliases": ["piano dollie"]
+					},
+					{
 						"aliases": ["forklift"]
 					},
 		 			{
@@ -436,7 +439,7 @@ categories = {
 						"aliases": ["crane"]
 					},
 					{
-						"aliases": ["piano dollie"]
+						"aliases": ["conveyor"]
 					}
 				]
 			}
@@ -1274,6 +1277,9 @@ categories = {
         		"aliases": ["excavator", "digger"]
         	},
          	{
+        		"aliases": ["crushing plant", "mobile crushing unit", "crushing and screening"]
+        	},
+         	{
         		"aliases": ["wheel tractor-scraper", "motor scraper", "elevating scraper", "open bowl scraper"]
         	},
          	{
@@ -1350,7 +1356,7 @@ categories = {
 		 				"aliases": ["skid steer loader", "skid loader", "skidsteer", "posi track"]
 		 			},
 		 			{
-		 				"aliases": ["mini loader", "dingo loader"]
+		 				"aliases": ["mini loader", "dingo"]
 		 			},
 		 			{
 		 				"aliases": ["backhoe"]
@@ -1556,6 +1562,9 @@ categories = {
 			},
 			{
 				"aliases": ["barge"]
+			},
+			{
+				"aliases": ["dredger", "dredging"]
 			},
 			{
 				"aliases": ["handyman tools"]
