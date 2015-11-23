@@ -1528,7 +1528,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar"]
+				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "repairs and services"]
 			},
 			{
 				"aliases": ["GPS navigator", "GPS system"]
@@ -1552,10 +1552,10 @@ categories = {
 				"aliases": ["site camera", "CCTV camera"]
 			},
 			{
-				"aliases": ["barge"]
+				"aliases": ["tape reel"]
 			},
 			{
-				"aliases": ["repairs and services"]
+				"aliases": ["barge"]
 			},
 			{
 				"aliases": ["handyman tools"]
