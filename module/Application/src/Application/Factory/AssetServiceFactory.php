@@ -24,6 +24,7 @@ class AssetServiceFactory implements FactoryInterface
 		$assetRateMapperFactory=new AssetRateMapperFactory();
 		$assetPropertyMapperFactory=new AssetPropertyMapperFactory();
 		$branchMapperFactory=new BranchMapperFactory();
+		$categoryMapperFactory=new CategoryMapperFactory();
 		return new AssetService(
 			new Asset,
 			$assetMapperFactory->createService($serviceLocator),
@@ -32,7 +33,8 @@ class AssetServiceFactory implements FactoryInterface
 			$locationMapperFactory->createService($serviceLocator),
 			$assetRateMapperFactory->createService($serviceLocator),
 			$assetPropertyMapperFactory->createService($serviceLocator),
-			$branchMapperFactory->createService($serviceLocator)
+			$branchMapperFactory->createService($serviceLocator),
+			$categoryMapperFactory->createService($serviceLocator)
 		);
 	}
 }

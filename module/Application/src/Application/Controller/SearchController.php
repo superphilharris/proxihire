@@ -79,7 +79,7 @@ class SearchController extends AbstractActionController
 		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
 		$categoryName       = $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
 		if($categoryName !== null){
-		        $category = $this->categoryService->getCategoryByName($categoryName);
+		        $category = $this->categoryService->getCategoryByName($categoryName)[0];
 		}else{
 		        $category = new Category();
 		        $category->exchangeArray(array($allCategoryAliases->get()));

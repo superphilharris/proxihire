@@ -11,6 +11,7 @@ use Application\Mapper\BranchMapperInterface;
 use Application\Mapper\UrlMapperInterface;
 use Application\Mapper\LessorMapperInterface;
 use Application\Mapper\LocationMapperInterface;
+use Application\Mapper\CategoryMapperInterface;
 
 class AssetService implements AssetServiceInterface
 {
@@ -22,6 +23,7 @@ class AssetService implements AssetServiceInterface
 	protected $assetRateMapper;
 	protected $assetPropertyMapper;
 	protected $branchMapper;
+	protected $categoryMapper;
 
 	public function __construct( 
 		AssetInterface $assetPrototype,
@@ -31,7 +33,8 @@ class AssetService implements AssetServiceInterface
 		LocationMapperInterface $locationMapper,
 		AssetRateMapperInterface $assetRateMapper,
 		AssetPropertyMapperInterface $assetPropertyMapper,
-		BranchMapperInterface $branchMapper
+		BranchMapperInterface $branchMapper,
+		CategoryMapperInterface $categoryMapper
 	){
 		$this->assetPrototype = $assetPrototype;
 		$this->assetMapper = $assetMapper;
@@ -41,6 +44,7 @@ class AssetService implements AssetServiceInterface
 		$this->assetRateMapper = $assetRateMapper;
 		$this->assetPropertyMapper = $assetPropertyMapper;
 		$this->branchMapper = $branchMapper;
+		$this->categoryMapper = $categoryMapper;
 	}
 	/**
 	 * {@inheritDoc} jih: make sure that this is in the interface
@@ -156,17 +160,35 @@ class AssetService implements AssetServiceInterface
 	{
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
-			"array|Application\Model\CategoryInterface",
+			"Application\Model\CategoryInterface",
 			"integer"));
 
 		$assetArray=array();
-		for( $i=0; $i<$number; $i++){
-			$assetArray[$i]=new $this->assetPrototype;
-			$properties = array();
-		}
 
-		$this->assetMapper->setPrototypeArray($assetArray);
-		$this->assetMapper->findByCategory( $category );
+		// jih: if( is_null($category->getChildIds()) ){
+			if( ! is_null($category->getName()) ){
+				$categoryArray=array($category);
+				$this->categoryMapper->setPrototypeArray( $categoryArray );
+				$categoryArray[0]->incrementLoads();
+				$this->categoryMapper->commit();
+			}
+			for( $i=0; $i<$number; $i++){
+				$assetArray[$i]=new $this->assetPrototype;
+				$properties = array();
+			}
+			$this->assetMapper->setPrototypeArray($assetArray);
+			$this->assetMapper->findByCategory( $category );
+		// jih: }else{
+		// jih: 	$categories=array();
+		// jih: 	foreach( $category->getChildIds() as $childCategory ){
+		// jih: 		$categories=$this->categoryMapper->getPopularCategories( 
+		// jih: 		       $categoryTree->getLeafNodesFor( $childCategory ), 
+		// jih: 		       5 
+		// jih: 		);
+		// jih: 		array_merge( $assetArray, $this->assetMapper->findByCategory($categories) );
+		// jih: 	}
+		// jih: 	$this->assetMapper->setPrototypeArray($assetArray);
+		// jih: }
 		$this->assetMapper->getUrls($this->urlMapper);
 
 		return $this->assetMapper->getAssets();
