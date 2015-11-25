@@ -256,7 +256,8 @@ class ImporterServiceHelper {
 					exec("cd $directory; wget -N ".addslashes($url));
 					if(file_exists($localImage)) return $localImageRelativePath;
 				}else{
-					return $localImageRelativePath;
+					if($this::UPDATE_IMAGES) return null;
+					else 			return $localImageRelativePath;
 				}
 			}
 		}
@@ -310,7 +311,11 @@ class ImporterServiceHelper {
 	public function resizeAndCropImage($imagePath, $x=120, $y=120){
 		if($imagePath !== null){
 			$imagePathParts = explode('.', $imagePath);
-			$newImagePath = implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
+			if(strlen($imagePathParts[count($imagePathParts) - 1]) > 4){ // The image doesn't have an extension
+				$newImagePath = $imagePath . "_".$x."x".$y;
+			} else {
+				$newImagePath = implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
+			}
 			if(!file_exists($newImagePath) OR $this::UPDATE_IMAGES){
 				// Remove whitespace from image
 				exec("convert -trim $imagePath $newImagePath");

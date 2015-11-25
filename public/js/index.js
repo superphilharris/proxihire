@@ -275,15 +275,15 @@ function updateFromCategoryOrLocation(newCategory){
 					CURRENT_CATEGORY = newCategory;
 					History.pushState({html: html}, title, "/search/"+urlEnd);
 				}catch(e){
-					window.location.href = "/search/" + urlEnd;
+					if(newCategory && newCategory != "")	window.location.href = "/search/" + urlEnd;
 				}
 			},
 			error: function(){
-				window.location.href = "/search/" + urlEnd;
+				if(newCategory && newCategory != "") window.location.href = "/search/" + urlEnd;
 			}
 		});
 	} catch (e) {
-		window.location.href = "/search/" + urlEnd;
+		if(newCategory && newCategory != "") window.location.href = "/search/" + urlEnd;
 	}	
 }
 var CURRENT_CATEGORY_ASYNC = CURRENT_CATEGORY;
