@@ -5,6 +5,7 @@ class Category extends AbstractModel implements CategoryInterface
 {
 	protected $id;
 	protected $name;
+	protected $loads;
 	protected $alias_array;
 	protected $alias_id_array;
 	protected $parent_id;
@@ -16,6 +17,7 @@ class Category extends AbstractModel implements CategoryInterface
 	{
 		$this->id = isset($data['id']) ? (integer) $data['id'] : NULL;
 		$this->name = isset($data['name']) ? (string) $data['name'] : NULL;
+		$this->loads = isset($data['loads']) ? (string) $data['loads'] : NULL;
 		$this->parent_id = isset($data['parent_id']) ? (integer) $data['parent_id'] : NULL;
 		$this->alias_id_array = isset($data['alias_id_array']) ? $data['alias_id_array'] : array();
 	}
@@ -85,6 +87,24 @@ class Category extends AbstractModel implements CategoryInterface
 	 */
 	public function getChildren()
 	{
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * jih: actual inheritdoc
+	 */
+	public function getLoads()
+	{
+		return $this->loads;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * jih: actual inheritdoc
+	 */
+	public function incrementLoads()
+	{
+		$this->loads++;
 	}
 }
 ?>

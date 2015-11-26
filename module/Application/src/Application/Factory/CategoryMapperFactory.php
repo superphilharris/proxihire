@@ -20,17 +20,20 @@ class CategoryMapperFactory extends AbstractMapperFactory implements FactoryInte
 
 		$dbStructure=(object) array(
 			'table' => 'category',
-			'primary_key' => 'category_id',
-			'columns' => array(
-				'category_id' => 'id',
-				'name_fulnam' => 'name',
+			'primary_key'   => 'category_id',
+			'update_key'    => array(
+				'name_fulnam'),
+			'columns'       => array(
+				'category_id'        => 'id',
+				'name_fulnam'        => 'name',
+				'loads_cnt'          => 'loads',
 				'parent_category_id' => 'parent_id',
-				'category_alias' => 'alias_id_array'),
+				'category_alias'     => 'alias_id_array'),
 			'relationships' => array(
 				(object) array(
-					'table' => 'category_alias',
-					'primary_key' => 'category_alias_id',
-					'match_on' =>(object) array(
+					'table'           => 'category_alias',
+					'primary_key'     => 'category_alias_id',
+					'match_on'        =>(object) array(
 						'this_table_column' => 'category_id',
 						'main_table_column' => 'category_id'))));
 

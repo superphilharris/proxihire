@@ -502,7 +502,7 @@ abstract class AbstractMapper
 					$result->next();
 					if( $result->current() ){
 						$prototype->setId(0);
-						throw new \LogicException( "There are multiple entries in the database that match the update key ".var_export($update_key) );
+						throw new \LogicException( "There are multiple entries in the database that match the update key '".var_export($this->updateKey)."'. This should be unique." );
 					}
 				}
 			}
