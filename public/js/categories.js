@@ -313,7 +313,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["post hole borer"]
+				"aliases": ["post hole borer", "hand PHB"]
 			},
 			{
 				"aliases": ["boring machine"]
@@ -349,6 +349,9 @@ categories = {
 				"children": [
 		 			{
 						"aliases": ["scissor lift", "aerial work platform", "cherry picker"]
+					},
+		 			{
+						"aliases": ["man cage", "work platform"]
 					},
 		 			{
 						"aliases": ["mast lift"]
@@ -397,7 +400,10 @@ categories = {
 						"aliases": ["material lifter"]
 					},
 		 			{
-						"aliases": ["beam lifter", "wallboard lifter", "gib lifter", "drywall lifter"]
+						"aliases": ["beam lifter"]
+					},
+		 			{
+						"aliases": ["drywall lifter", "wallboard lifter", "gib lift", "panel lifter"]
 					},
 		 			{
 						"aliases": ["load trolley", "sack barrow", "dolly trailer"]
@@ -440,6 +446,9 @@ categories = {
 					},
 					{
 						"aliases": ["conveyor"]
+					},
+					{
+						"aliases": ["lifting chain", "lifting sling"]
 					}
 				]
 			}
@@ -463,7 +472,7 @@ categories = {
 						"aliases": ["hedge trimmer", "power unit extension"]
 					},
 					{
-						"aliases": ["garden pruner"]
+						"aliases": ["garden pruner", "telescopic pruner"]
 					}
 				]
 			},
@@ -501,6 +510,9 @@ categories = {
 				"aliases": ["rotary hoe", "rotary slasher"]
 			},
 			{
+				"aliases": ["planting and seeding", "tillage equipment"]
+			},
+			{
 				"aliases": ["tine ripper"]
 			},
 			{
@@ -519,10 +531,10 @@ categories = {
 						"aliases": ["weed eater", "scrubcutter", "line trimmer", "lawn edger", "scrub cutter"]
 					},
 					{
-						"aliases": ["lawn motor", "lawn mower", "grass slasher"]
+						"aliases": ["lawn motor", "lawn mower", "grass slasher", "hand mower", "home mower"]
 					},
 					{
-						"aliases": ["lawn roller", "lawn corer"]
+						"aliases": ["lawn roller", "lawn corer", "garden roller"]
 					},
 					{
 						"aliases": ["lawn dethatcher", "scarifier"]
@@ -703,6 +715,9 @@ categories = {
 					{
 						"aliases": ["LPG heater", "diesel heater", "gas heater", "patio heater"]
 					},
+		         	{
+		        		"aliases": ["fan heater", "electric heater", "heater"]
+		        	},
 					{
 						"aliases": ["wrought iron gas flare"]
 					},
@@ -1196,6 +1211,9 @@ categories = {
 				"aliases": ["road cone"]
 			},
 			{
+				"aliases": ["hi-rail equipment"]
+			},
+			{
 				"aliases": ["road sweeper"]
 			},
 			{
@@ -1274,7 +1292,7 @@ categories = {
         		"aliases": ["agricultural roller", "cambridge roller"]
         	},
          	{
-        		"aliases": ["excavator", "digger"]
+        		"aliases": ["excavator", "digger", "traxcavator"]
         	},
          	{
         		"aliases": ["crushing plant", "mobile crushing unit", "crushing and screening"]
@@ -1399,6 +1417,19 @@ categories = {
 		]
 	},
 	{
+		"aliases": ["entertainment"],
+		"children": [
+         	{
+        		"aliases": ["gambling"],
+        		"children": [
+         			{
+        				"aliases": ["roulette mat"]
+        			}
+        		]
+        	}
+		]
+	},
+	{
 		"aliases": ["home appliances and furniture"],
 		"children": [
           	{
@@ -1458,9 +1489,6 @@ categories = {
         	},
          	{
         		"aliases": ["dishwasher"]
-        	},
-         	{
-        		"aliases": ["fan heater"]
         	},
 			{
 				"aliases": ["laundry appliances"],
@@ -1523,6 +1551,9 @@ categories = {
 						"aliases": ["ear plugs"]
 					},
 					{
+						"aliases": ["gas detector", "gas analyser"]
+					},
+					{
 						"aliases": ["retactable barrier","crowd control retractable", "crowd control bollard", "stainless steel crowd control"]
 					},
 					{
@@ -1534,28 +1565,36 @@ categories = {
 				]
 			},
 			{
+				"aliases": ["measuring equipment"],
+				"children": [
+		 			{
+		 				"aliases": ["GPS navigator", "GPS system"]
+		 			},
+		 			{
+		 				"aliases": ["metal detector"]
+		 			},
+		 			{
+		 				"aliases": ["thermal monitor", "heat monitor"]
+		 			},
+		 			{
+		 				"aliases": ["moisture meter", "moisture metre"]
+		 			},
+					{
+						"aliases": ["keyhole camera"]
+					},
+					{
+						"aliases": ["site camera", "CCTV camera"]
+					},
+		 			{
+		 				"aliases": ["environmental monitor"]
+		 			}
+		 		]
+			},
+			{
 				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "repairs and services"]
 			},
 			{
-				"aliases": ["GPS navigator", "GPS system"]
-			},
-			{
-				"aliases": ["metal detector"]
-			},
-			{
-				"aliases": ["moisture metre"]
-			},
-			{
-				"aliases": ["environmental monitor"]
-			},
-			{
 				"aliases": ["chute"]
-			},
-			{
-				"aliases": ["keyhole camera"]
-			},
-			{
-				"aliases": ["site camera", "CCTV camera"]
 			},
 			{
 				"aliases": ["tape reel"]
@@ -1567,7 +1606,10 @@ categories = {
 				"aliases": ["dredger", "dredging"]
 			},
 			{
-				"aliases": ["handyman tools"]
+				"aliases": ["stump grinder", "stump remover"]
+			},
+			{
+				"aliases": ["farming and forestry tools"]
 			}
 		]
 	}
