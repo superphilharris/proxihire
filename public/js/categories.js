@@ -106,10 +106,10 @@ categories = {
 				"aliases": ["plumbing", "water flow"],
 				"children": [
 					{
-						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump", "high head pump", "positive displacement pump"]
+						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump", "slurry pump", "high head pump", "positive displacement pump"]
 					},
 					{
-						"aliases": ["centrifugal pump", "water pump", "rotary pump", "silenced pump", "water priming pump"]
+						"aliases": ["centrifugal pump", "water pump", "rotary pump", "silenced pump", "priming pump"]
 					},
 					{
 						"aliases": ["flexi-drive pump", "flex drive pump"]

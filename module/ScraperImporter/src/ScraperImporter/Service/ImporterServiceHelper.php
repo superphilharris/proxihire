@@ -181,6 +181,10 @@ class ImporterServiceHelper {
 		return $property;
 	}
 	
+	
+	public function extractPropertyFromName($assetName, $mainProperties){
+		
+	}
 
 	/**
 	 * Takes in a phrase and fixes the spelling of common spelling mixtakes
