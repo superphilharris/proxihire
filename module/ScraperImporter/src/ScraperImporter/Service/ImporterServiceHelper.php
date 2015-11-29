@@ -254,10 +254,13 @@ class ImporterServiceHelper {
 					$directory = dirname($localImage);
 					$this->mkdir($directory);
 					exec("cd $directory; wget -N ".addslashes($url));
-					if(file_exists($localImage)) return $localImageRelativePath;
+					if(file_exists($localImage)){
+						if(filesize($localImageRelativePath) > 100) return $localImageRelativePath;
+						else 										unlink($localImageRelativePath);
+					}
 				}else{
-					if($this::UPDATE_IMAGES) return null;
-					else 			return $localImageRelativePath;
+					if($this::UPDATE_IMAGES) 	return null;
+					else 						return $localImageRelativePath;
 				}
 			}
 		}

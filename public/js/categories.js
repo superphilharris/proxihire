@@ -106,10 +106,10 @@ categories = {
 				"aliases": ["plumbing", "water flow"],
 				"children": [
 					{
-						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump", "high head pump"]
+						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump", "high head pump", "positive displacement pump"]
 					},
 					{
-						"aliases": ["centrifugal pump", "water pump", "rotary pump", "silenced pump"]
+						"aliases": ["centrifugal pump", "water pump", "rotary pump", "silenced pump", "water priming pump"]
 					},
 					{
 						"aliases": ["flexi-drive pump", "flex drive pump"]
@@ -401,6 +401,9 @@ categories = {
 					},
 		 			{
 						"aliases": ["beam lifter"]
+					},
+		 			{
+						"aliases": ["personnel lift", "liftpod", "pop up lift"]
 					},
 		 			{
 						"aliases": ["drywall lifter", "wallboard lifter", "gib lift", "panel lifter"]
@@ -750,7 +753,7 @@ categories = {
 						"aliases": ["light tower"]
 					},
 					{
-						"aliases": ["light stand set", "light set"]
+						"aliases": ["work light", "work lamp", "road light", "light set"]
 					},
 					{
 						"aliases": ["flood light"]
@@ -1295,6 +1298,9 @@ categories = {
         		"aliases": ["excavator", "digger", "traxcavator"]
         	},
          	{
+        		"aliases": ["piling machine"]
+        	},
+         	{
         		"aliases": ["crushing plant", "mobile crushing unit", "crushing and screening"]
         	},
          	{
@@ -1372,6 +1378,9 @@ categories = {
 		 			},
 		 			{
 		 				"aliases": ["skid steer loader", "skid loader", "skidsteer", "posi track"]
+		 			},
+		 			{
+		 				"aliases": ["track loader"]
 		 			},
 		 			{
 		 				"aliases": ["mini loader", "dingo"]
@@ -1572,6 +1581,9 @@ categories = {
 		 			},
 		 			{
 		 				"aliases": ["metal detector"]
+		 			},
+		 			{
+		 				"aliases": ["underground locator", "locating equipment"]
 		 			},
 		 			{
 		 				"aliases": ["thermal monitor", "heat monitor"]

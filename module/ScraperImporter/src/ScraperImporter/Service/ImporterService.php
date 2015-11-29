@@ -71,7 +71,7 @@ class ImporterService implements ImporterServiceInterface
 	}
 	
 	public function dumpAssets( $pages ){
-		if(!set_time_limit(120)) exit("Need to turn off safe mode in php.ini.");
+		if(!set_time_limit(600)) exit("Need to turn off safe mode in php.ini.");
 		
 		// 1. Read in the categories
 		$categories_file = __DIR__.'/../../../../../public/js/categories.js';
