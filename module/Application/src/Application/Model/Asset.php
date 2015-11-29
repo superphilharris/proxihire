@@ -184,7 +184,12 @@ class Asset extends AbstractModel implements AssetInterface
 	{
 		if($this->image_url !== null){
 			$imagePathParts = explode('.', $this->image_url);
-			return 'assets/' . implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
+			if(strlen($imagePathParts[count($imagePathParts) - 1]) > 4){ // The image doesn't have an extension
+				$newImagePath = $this->image_url . "_".$x."x".$y;
+			} else {
+				$newImagePath = implode('.', array_splice($imagePathParts, 0, -1))."_".$x."x".$y.".".end($imagePathParts);
+			}
+			return 'assets/' . $newImagePath;
 		}
 		return 'no_image_'.$x."x".$y.'.png';
 	}
