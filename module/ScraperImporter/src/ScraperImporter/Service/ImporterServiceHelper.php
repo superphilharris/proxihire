@@ -314,6 +314,7 @@ class ImporterServiceHelper {
 	public function resizeAndCropImage($imagePath, $x=120, $y=120){
 		if($imagePath !== null){
 			$imagePathParts = explode('.', $imagePath);
+			// var_dump($imagePathParts);
 			if(strlen($imagePathParts[count($imagePathParts) - 1]) > 4){ // The image doesn't have an extension
 				$newImagePath = $imagePath . "_".$x."x".$y;
 			} else {
