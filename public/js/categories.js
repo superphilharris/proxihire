@@ -1278,7 +1278,13 @@ categories = {
 		         		"aliases": ["road roller", "drum roller", "combination roller", "tonne roller", "construction roller", "ride-on roller"]
 		         	},
 		          	{
-		         		"aliases": ["walk-behind roller", "vibrating roller"]
+		         		"aliases": ["tyred roller", "pneumatic roller"]
+		         	},
+		          	{
+		         		"aliases": ["walk-behind roller", "vibrating roller", "trench roller"]
+		         	},
+		          	{
+		         		"aliases": ["padfoot roller"]
 		         	},
 		         	{
 		         		"aliases": ["tamping rammer", "tamper air rammer", "upright hand rammer"]

@@ -6,10 +6,10 @@ use Application\Model\Datatype;
 class ImporterServiceHelper {
 	// The below 3 configurations are used to speed up the scraping for testing purposes.
 	const UPDATE_IMAGES 			= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-// 	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
-// 	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
-	const GENERATE_RANDOM_LOCATIONS = TRUE; // Uncomment to speed up
-	const CREATE_IMAGES				= FALSE; // Uncomment to speed up
+	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
+	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
+// 	const GENERATE_RANDOM_LOCATIONS = TRUE; // Uncomment to speed up
+// 	const CREATE_IMAGES				= FALSE; // Uncomment to speed up
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
@@ -20,10 +20,9 @@ class ImporterServiceHelper {
 	 * Will also fix up the property name using the category and the values in the PropertyAliases.csv file
 	 * @param string $key
 	 * @param string $value
-	 * @param string $categoryName
 	 * @return array - the indexes are name_fulnam, datatype, and value_mxd
 	 */
-	private function determineProperty($key, $value, $categoryName){
+	private function determineProperty($key, $value){
 		$key 	= $this->fixSpelling($key);
 		$value 	= $this->fixValue($value);
 		$property = array("name_fulnam" => $key, "datatype"=>Datatype::STRING, "value_mxd"=>$value);
@@ -374,22 +373,42 @@ class ImporterServiceHelper {
 	
 	/**
 	 * This routine attempt to extract out properties from the title of the asset.
-	 * It will not create a property, if the property already exists.
-	 * It will also adjust the title and remove any text that was used to decode the property
-	 * @todo psh
-	 * @param string $phrase
-	 * @param array $existingProperties - properties to check before creating a new one
+	 * @param string $assetName
+	 * @param array $mainProperties - the properties that we'd expect from this asset
 	 * @return array - the properties has
 	 */
-	public function extractPropertiesFromAssetName(&$assetName, $mainProperties, $existingProperties){
-		return array();
-	}
-	private function extractPropertiesFromAssetNameInternal(&$assetName, $mainProperties, $existingProperties){
-		$assetNameIn = $assetName;
+	public function extractPropertiesFromAssetName($assetName, $mainProperties){
+		$fixedProperties = array();
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
-		if(preg_match('/([0-9.]+)[\s]*-[\s]*([0-9.]+)([a-zA-Z]+)/', $assetNameIn, $result)){
-			
+		if(count($mainProperties) > 0) {
+			if(preg_match("/([0-9].+[0-9]\s*[^\s]+)/", $assetName, $result)){
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
+				// Now see whether they match our expected 
+				foreach($extractedProperties as $extractedProperty){
+					$foundProperty = null;
+					foreach($mainProperties as $mainPropertyName => $mainPropertyVDatatype){
+						if($extractedProperty['datatype'] === $mainPropertyVDatatype){
+							if($extractedProperty['name_fulnam'] === 'min __key__'){
+								$extractedProperty['name_fulnam'] = 'min ' . $mainPropertyName;
+							}elseif($extractedProperty['name_fulnam'] === 'max __key__'){
+								$extractedProperty['name_fulnam'] = 'max ' . $mainPropertyName;
+							}else{
+								$extractedProperty['name_fulnam'] = $mainPropertyName;
+								$foundProperty = $mainPropertyName;
+							}
+							array_push($fixedProperties, $extractedProperty);
+							break;
+						}
+					}
+					
+					if($foundProperty !== null){ // Ensure that we do not match a property twice
+						$mainProperties->{$foundProperty} = null;
+					}
+				}
+			}
 		}
+		
+		return $fixedProperties;
 	}
 	
 	private function isIn($haystack, $needle){
@@ -418,14 +437,6 @@ class ImporterServiceHelper {
 		return false;
 	}
 	
-	private function fixPropertyName($propertyName, $categoryName){
-		foreach($this->propertyAliases as $propertyAlias){
-			if($propertyAlias[0] === $categoryName AND $this->isSamePropertyName(strtolower($propertyName), strtolower($propertyAlias[1]))){
-				return $propertyAlias[2];
-			}
-		}
-		return $propertyName;
-	}
 	private function isSamePropertyName($propertyName, $propertyAlias){
 		if($propertyName === $propertyAlias) return true;
 		else{
@@ -446,7 +457,7 @@ class ImporterServiceHelper {
 	}
 	
 	public function determineProperties($properties, $categoryName, $assetName, $mainProperties){
-		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainPropeties);
+		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainProperties);
 		foreach($properties as $propertyName => $propertyValue){
 			$propertiesOut = array_merge($propertiesOut, $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName));
 		}
@@ -527,7 +538,7 @@ class ImporterServiceHelper {
 	}
 	
 	private function determinePropertyWrapper($key, $value, $categoryName){
-		$results = $this->determinePropertiesInternal($key, $value, $categoryName);
+		$results = $this->determinePropertiesInternal($key, $value);
 		if(count($results) === 1 AND $key === $value){ // If we have not done anything except make it lower case, then revert the determineProperties
 			$result = $results[0];
 			if($result['datatype'] === Datatype::STRING){
@@ -551,7 +562,7 @@ class ImporterServiceHelper {
 	 * @param string $categoryName
 	 * @return array 
 	 */
-	private function determinePropertiesInternal($key, $value, $categoryName){
+	private function determinePropertiesInternal($key, $value){
 		if($key === $value) $key = "";
 		$key   = trim(strtolower($key),   ":- ");
 		$value = trim(strtolower($value), ": ");
@@ -568,7 +579,7 @@ class ImporterServiceHelper {
 			}elseif(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $min, $minUnits) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND floatval($max) == $max){
 				$max = $max.$minUnits[1];
 			}
-			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
+			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
 				
 		}elseif($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND $this->isIn($key, ' range')){
 			$key = str_replace('range', 'bound', $key);
@@ -581,7 +592,7 @@ class ImporterServiceHelper {
 			}elseif(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($max) == $max){ 
 				$min = $min.$maxUnits[1];
 			}
-			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
+			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
 		}elseif($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND !strpos($key, ' ')){
 			$key = Porter::Stem($this->fixSpelling($key));
 			$twoNumbers = explode("-", $value, 2);
@@ -593,9 +604,9 @@ class ImporterServiceHelper {
 			}elseif(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($max) == $max){ // If the max has the units, then put the units onto the min as well
 				$min = $min.$maxUnits[1];
 			}
-			return array($this->determineProperty("min ".$key, $min, $categoryName), $this->determineProperty("max ".$key, $max, $categoryName));
+			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
 		}
-		else return array($this->determineProperty($key, $value, $categoryName));
+		else return array($this->determineProperty($key, $value));
 	}
 
 	/**
