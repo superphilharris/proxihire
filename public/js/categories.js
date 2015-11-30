@@ -1560,6 +1560,9 @@ categories = {
 						"aliases": ["safety helmet"]
 					},
 					{
+						"aliases": ["dust mask"]
+					},
+					{
 						"aliases": ["safety glasses"]
 					},
 					{
