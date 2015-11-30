@@ -182,10 +182,6 @@ class ImporterServiceHelper {
 	}
 	
 	
-	public function extractPropertyFromName($assetName, $mainProperties){
-		
-	}
-
 	/**
 	 * Takes in a phrase and fixes the spelling of common spelling mixtakes
 	 * and returns the fixed phrase
@@ -385,13 +381,13 @@ class ImporterServiceHelper {
 	 * @param array $existingProperties - properties to check before creating a new one
 	 * @return array - the properties has
 	 */
-	public function extractPropertiesFromTitle(&$title, $mainProperties, $existingProperties){
-		
+	public function extractPropertiesFromAssetName(&$assetName, $mainProperties, $existingProperties){
+		return array();
 	}
-	private function extractPropertiesFromTitleInternal(&$title, $mainProperties, $existingProperties){
-		$titleIn = $title;
+	private function extractPropertiesFromAssetNameInternal(&$assetName, $mainProperties, $existingProperties){
+		$assetNameIn = $assetName;
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
-		if(preg_match('/([0-9.]+)[\s]*-[\s]*([0-9.]+)([a-zA-Z]+)/', $titleIn, $result)){
+		if(preg_match('/([0-9.]+)[\s]*-[\s]*([0-9.]+)([a-zA-Z]+)/', $assetNameIn, $result)){
 			
 		}
 	}
@@ -449,8 +445,8 @@ class ImporterServiceHelper {
 		return $string;
 	}
 	
-	public function determineProperties($properties, $categoryName){
-		$propertiesOut = array();
+	public function determineProperties($properties, $categoryName, $assetName, $mainProperties){
+		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainPropeties);
 		foreach($properties as $propertyName => $propertyValue){
 			$propertiesOut = array_merge($propertiesOut, $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName));
 		}

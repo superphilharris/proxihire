@@ -170,7 +170,8 @@ class ImporterService implements ImporterServiceInterface
 				
 				// Determine and clean up the properties
 				if (property_exists($page, 'properties')){
-					$properties = $this->helper->determineProperties($page->properties, $categoryName);
+					$mainProperties = (property_exists($category, 'properties') ? $category->properties : array();
+					$properties = $this->helper->determineProperties($page->properties, $categoryName, $itemName, $mainProperties);
 					foreach($properties as $property){
 						$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
 					}
