@@ -6,10 +6,10 @@ use Application\Model\Datatype;
 class ImporterServiceHelper {
 	// The below 3 configurations are used to speed up the scraping for testing purposes.
 	const UPDATE_IMAGES 			= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
-	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
-// 	const GENERATE_RANDOM_LOCATIONS = TRUE; // Uncomment to speed up
-// 	const CREATE_IMAGES				= FALSE; // Uncomment to speed up
+// 	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
+// 	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
+	const GENERATE_RANDOM_LOCATIONS = TRUE; // Uncomment to speed up
+	const CREATE_IMAGES				= FALSE; // Uncomment to speed up
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
@@ -259,8 +259,8 @@ class ImporterServiceHelper {
 					$this->mkdir($directory);
 					exec("cd $directory; wget -N ".addslashes($url));
 					if(file_exists($localImage)){
-						if(filesize($localImageRelativePath) > 100) return $localImageRelativePath;
-						else 										unlink($localImageRelativePath);
+						if(filesize($localImage) > 100) return $localImageRelativePath;
+						else 							unlink($localImage);
 					}
 				}else{
 					if($this::UPDATE_IMAGES) 	return null;

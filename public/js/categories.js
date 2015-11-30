@@ -112,6 +112,9 @@ categories = {
 						"aliases": ["centrifugal pump", "water pump", "rotary pump", "silenced pump", "priming pump"]
 					},
 					{
+						"aliases": ["vaucuum pump", "suction pump"]
+					},
+					{
 						"aliases": ["flexi-drive pump", "flex drive pump"]
 					},
 					{
