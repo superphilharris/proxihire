@@ -381,8 +381,17 @@ class ImporterServiceHelper {
 		$fixedProperties = array();
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
 		if(count($mainProperties) > 0) {
-			if(preg_match("/([0-9].+[0-9]\s*[^\s]+)/", $assetName, $result)){
+			$extractedProperties = null;
+			if(preg_match("/[0-9].*\(.*[0-9].*\)/", $assetName, $result)){				// Try: 2.4 meters (8')
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
+			}elseif(preg_match("/([0-9].+[0-9]\s*[^\s]+)/", $assetName, $result)){			// Try: 7-9m
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
+			}elseif(preg_match("/[0-9.]+\s*[^\s]+/", $assetName, $result)){				// Try: 4psi
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
+			}elseif(preg_match("/[0-9.]+/", $assetName, $result) AND count($mainProperties) === 1){	// Try: 5
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]); // TODO: should we specify the default unit in the categories.js?
+			}
+			if($extractedProperties !== null){
 				// Now see whether they match our expected 
 				foreach($extractedProperties as $extractedProperty){
 					$foundProperty = null;
