@@ -1557,10 +1557,13 @@ categories = {
 						"aliases": ["safety harness"]
 					},
 					{
-						"aliases": ["safety helmet"]
+						"aliases": ["safety helmet", "hard hat"]
 					},
 					{
 						"aliases": ["dust mask"]
+					},
+					{
+						"aliases": ["face mask", "face shield"]
 					},
 					{
 						"aliases": ["safety glasses"]
@@ -1569,19 +1572,16 @@ categories = {
 						"aliases": ["linen apron"]
 					},
 					{
-						"aliases": ["ear plugs"]
+						"aliases": ["hi-viz vest", "safety vest"]
 					},
 					{
-						"aliases": ["gas detector", "gas analyser"]
+						"aliases": ["ear plugs", "ear muff"]
+					},
+					{
+						"aliases": ["gas detector", "gas analyser", "gas set"]
 					},
 					{
 						"aliases": ["retactable barrier","crowd control retractable", "crowd control bollard", "stainless steel crowd control"]
-					},
-					{
-						"aliases": ["brochure stand"]
-					},
-					{
-						"aliases": ["candy floss machine"]
 					}
 				]
 			},
@@ -1621,10 +1621,19 @@ categories = {
 				"aliases": ["chute"]
 			},
 			{
+				"aliases": ["nylon straps", "safety straps", "securing straps"]
+			},
+			{
+				"aliases": ["brochure stand"]
+			},
+			{
 				"aliases": ["tape reel"]
 			},
 			{
 				"aliases": ["barge"]
+			},
+			{
+				"aliases": ["candy floss machine"]
 			},
 			{
 				"aliases": ["dredger", "dredging"]

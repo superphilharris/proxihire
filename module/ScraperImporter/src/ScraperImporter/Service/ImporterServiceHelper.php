@@ -383,7 +383,7 @@ class ImporterServiceHelper {
 		if(count($mainProperties) > 0) {
 			$extractedProperties = null;
 			if(preg_match("/([0-9].*)\((.*[0-9].*)\)/", $assetName, $result)){						// Try: 2.4 meters (8')
-				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[1]);
 			}elseif(preg_match("/([0-9].+[0-9]\s*[^\s]+)/", $assetName, $result)){					// Try: 7-9m
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
 			}elseif(preg_match("/[0-9.]+\s*[^\s]+/", $assetName, $result)){							// Try: 4psi
