@@ -382,7 +382,9 @@ class ImporterServiceHelper {
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
 		if(count($mainProperties) > 0) {
 			$extractedProperties = null;
-			if(preg_match("/([0-9].*)\((.*[0-9].*)\)/", $assetName, $result)){						// Try: 2.4 meters (8')
+			if(property_exists($mainProperties, 'length') AND property_exists($mainProperties, 'width') AND preg_match("/[0-9].* x [0-9.]+\s*[^\s]+/", $assetName, $result)) { // 4 x 6m
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
+			}elseif(preg_match("/([0-9].*)\((.*[0-9].*)\)/", $assetName, $result)){						// Try: 2.4 meters (8')
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[1]);
 			}elseif(preg_match("/([0-9].+[0-9]\s*[^\s]+)/", $assetName, $result)){					// Try: 7-9m
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
@@ -394,24 +396,30 @@ class ImporterServiceHelper {
 			if($extractedProperties !== null){
 				// Now see whether they match our expected 
 				foreach($extractedProperties as $extractedProperty){
-					$foundProperty = null;
-					foreach($mainProperties as $mainPropertyName => $mainPropertyVDatatype){
-						if($extractedProperty['datatype'] === $mainPropertyVDatatype){
-							if($extractedProperty['name_fulnam'] === 'min __key__'){
-								$extractedProperty['name_fulnam'] = 'min ' . $mainPropertyName;
-							}elseif($extractedProperty['name_fulnam'] === 'max __key__'){
-								$extractedProperty['name_fulnam'] = 'max ' . $mainPropertyName;
-							}else{
-								$extractedProperty['name_fulnam'] = $mainPropertyName;
-								$foundProperty = $mainPropertyName;
+					// If our extraction has not determined the property
+					if($this->isIn($extractedProperty['name_fulnam'], '__key__')){ 
+						$foundProperty = null;
+						foreach($mainProperties as $mainPropertyName => $mainPropertyDatatype){
+							if($extractedProperty['datatype'] === $mainPropertyDatatype){
+								if($extractedProperty['name_fulnam'] === 'min __key__'){
+									$extractedProperty['name_fulnam'] = 'min ' . $mainPropertyName;
+								}elseif($extractedProperty['name_fulnam'] === 'max __key__'){
+									$extractedProperty['name_fulnam'] = 'max ' . $mainPropertyName;
+								}else{
+									$extractedProperty['name_fulnam'] = $mainPropertyName;
+									$foundProperty = $mainPropertyName;
+								}
+								array_push($fixedProperties, $extractedProperty);
+								break;
 							}
-							array_push($fixedProperties, $extractedProperty);
-							break;
 						}
-					}
-					
-					if($foundProperty !== null){ // Ensure that we do not match a property twice
-						$mainProperties->{$foundProperty} = null;
+						if($foundProperty !== null){ // Ensure that we do not match a property twice
+							$mainProperties->{$foundProperty} = null;
+						}
+						
+					// Our extraction has determined the property
+					}else{ 
+						array_push($fixedProperties, $extractedProperty);
 					}
 				}
 			}
@@ -563,6 +571,13 @@ class ImporterServiceHelper {
 		return $results;
 	}
 	
+	private function giveBothValuesTheSameUnit(&$value1, &$value2){
+		if(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $value1, $value1Units) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $value2, $value2Units) AND floatval($value2) == $value2){
+			$value2 = $value2.$value1Units[1];
+		}elseif(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $value2, $value2Units) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $value1, $value1Units) AND floatval($value1) == $value1){
+			$value1 = $value1.$value2Units[1];
+		}
+	}
 	
 	/**
 	 * Determines the properties that are for an asset
@@ -576,8 +591,37 @@ class ImporterServiceHelper {
 		$key   = trim(strtolower($key),   ":- ");
 		$value = trim(strtolower($value), ": ");
 	
+		// If this is an area, then grab the length, the width and the total area
+		if($this->isIn($value, "[0-9].* x .*[0-9]")){
+			$twoNumbers = explode(" x ", $value, 2);
+			$width  = $twoNumbers[0];
+			$length = $twoNumbers[1];
+			
+			$widthResult  	= $this->determineProperty($key, $width);
+			$lengthResult 	= $this->determineProperty($key, $length);
+			
+			// Now check to see how we should interpret the result - it may not be area, but 2 other dimensions
+			if($widthResult['datatype'] === Datatype::LINEAL OR $lengthResult['datatype'] === Datatype::LINEAL){
+				$this->giveBothValuesTheSameUnit($width, $length);
+				$widthResult  	= $this->determineProperty($key, $width);
+				$lengthResult 	= $this->determineProperty($key, $length);
+				
+				$areaResult 	= array('value_mxd' => $widthResult['value_mxd'] * $lengthResult['value_mxd']);
+				$areaResult['name_fulnam'] 		= 'area';
+				$areaResult['datatype'] 		= Datatype::AREA;
+				return array($widthResult, $lengthResult, $areaResult);
+			}elseif($widthResult['datatype'] === Datatype::STRING AND $lengthResult['datatype'] === Datatype::STRING){
+				return array($this->determineProperty($key, $value));
+			}else{
+				// TODO: figure out whether there are other # x # ones that we want to extract
+				// throw new \Exception("Can't extract units out of: '$key' : '$value'. Please add the dimensions: '".$widthResult['datatype']."' x '".$lengthResult['datatype']."' to the list of multi-dimensional checks.");
+				return array($this->determineProperty($key, $value));
+				
+			}
+			
+			
 		// If there is a min and max in the value, then strip them out.
-		if($this->isIn($value, "[0-9].* to .*[0-9]")){
+		}elseif($this->isIn($value, "[0-9].* to .*[0-9]")){
 			if (!strpos($key, ' ')) $key = Porter::Stem($key);
 			$twoNumbers = explode(" to ", $value, 2);
 			$min = $twoNumbers[0];

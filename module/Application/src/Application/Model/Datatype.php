@@ -7,6 +7,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 	private $datatype;
 	
 	const ANGLE				= 'angle';
+	const AREA				= 'area';
 	const BOOLEAN			= 'boolean';
 	const CURRENT			= 'current';
 	const FLOW				= 'flow';
@@ -90,6 +91,9 @@ class Datatype extends AbstractModel implements DatatypeInterface
 			case $this::WEIGHT_FLOW:
 				return array(1000/3600, "kg/hr");
 				
+			case $this::AREA:
+				$base = "m²";
+				break;
 			case $this::CURRENT:
 				$base = "A";
 				break;

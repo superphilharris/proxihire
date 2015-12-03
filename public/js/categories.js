@@ -5,11 +5,16 @@ categories = {
 		"children": [
 			{
 				"aliases": ["tarpaulin"],
-				"properties": [{"width":"lineal"}, {"length":"lineal"}]
+				"properties": {
+					"width": "lineal",
+					"length": "lineal"
+				}
 			},
 			{
 				"aliases": ["ladder"],
-				"properties": [{"total height":"lineal"}]
+				"properties": {
+					"total height": "lineal"
+				}
 			},
 			{
 				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper", "lino remover", "tile remover"]
@@ -22,7 +27,10 @@ categories = {
 					},
 					{
 						"aliases": ["acrow prop", "construction prop"],
-						"properties": [{"max length":"lineal"}, {"min length":"lineal"}]
+						"properties": {
+							"max length": "lineal", 
+							"min length": "lineal"
+						}
 					},
 					{
 						"aliases": ["mobile scaffolding", "alloy scaffold", "metre scaffold"]
@@ -44,8 +52,11 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["fencing", "barrier", "delineator", "fence"],
-				"properties": [{"length":"lineal"}, {"height": "lineal"}]
+				"aliases": ["fencing", "barrier", "delineator", "fence", "safety panel"],
+				"properties": {
+					"length":"lineal", 
+					"height": "lineal"
+				}
 			},
 			{
 				"aliases": ["electrical and generators"],
@@ -115,7 +126,7 @@ categories = {
 						"aliases": ["vacuum pump", "suction pump"]
 					},
 					{
-						"aliases": ["flexi-drive pump", "flex drive pump"]
+						"aliases": ["flexi-drive pump", "flex drive pump", "flexi-drive unit"]
 					},
 					{
 						"aliases": ["fire hydrant"]
@@ -1313,7 +1324,7 @@ categories = {
         		"aliases": ["crushing plant", "mobile crushing unit", "crushing and screening"]
         	},
          	{
-        		"aliases": ["wheel tractor-scraper", "motor scraper", "elevating scraper", "open bowl scraper"]
+        		"aliases": ["wheel tractor-scraper", "motor scraper", "elevating scraper", "open bowl scraper", "scraper scraper"]
         	},
          	{
         		"aliases": ["swivel dumper", "dumper carrier"]
@@ -1554,13 +1565,16 @@ categories = {
 						"aliases": ["fire extinguisher"]
 					},
 					{
+						"aliases": ["site access mat"]
+					},
+					{
 						"aliases": ["safety harness"]
 					},
 					{
 						"aliases": ["safety helmet", "hard hat"]
 					},
 					{
-						"aliases": ["dust mask"]
+						"aliases": ["dust mask", "paint mask"]
 					},
 					{
 						"aliases": ["face mask", "face shield"]
@@ -1615,7 +1629,7 @@ categories = {
 		 		]
 			},
 			{
-				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "repairs and services"]
+				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "repairs and services", "home safety equipment"]
 			},
 			{
 				"aliases": ["chute"]
