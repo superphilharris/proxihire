@@ -1089,7 +1089,7 @@ categories = {
 						"aliases":["standard trailer", "single axle trailer", "tandem trailer", "box trailer"]
 					},
 					{
-						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer"]
+						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "shuttle luggage trailer"]
 					},
 					{
 						"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer"]
