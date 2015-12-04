@@ -17,7 +17,7 @@ categories = {
 				}
 			},
 			{
-				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper", "lino remover", "tile remover"]
+				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper", "lino remover", "tile remover", "floor lifter"]
 			},
 			{
 				"aliases": ["scaffolding equipment"],
@@ -211,9 +211,6 @@ categories = {
 								"aliases": ["chainsaw"]
 							},
 							{
-								"aliases": ["pole pruner", "pruning saw", "bow saw", "pruner saw"]
-							},
-							{
 								"aliases": ["demolition saw"]
 							},
 							{
@@ -336,7 +333,7 @@ categories = {
 				"aliases": ["flooring tools"],
 				"children": [
 		 			{
-						"aliases": ["lino roller"]
+						"aliases": ["lino roller", "vinyl roller"]
 					},
 		 			{
 						"aliases": ["flooring clamp", "floor cramp", "floor clamp"]
@@ -489,7 +486,10 @@ categories = {
 						"aliases": ["hedge trimmer", "power unit extension"]
 					},
 					{
-						"aliases": ["garden pruner", "telescopic pruner"]
+						"aliases": ["garden pruner", "telescopic pruner", "pole pruner", "pruning saw", "bow saw", "pruner saw"]
+					},
+					{
+						"aliases": ["hand shears"]
 					}
 				]
 			},
@@ -548,7 +548,7 @@ categories = {
 						"aliases": ["weed eater", "scrubcutter", "line trimmer", "lawn edger", "scrub cutter"]
 					},
 					{
-						"aliases": ["lawn motor", "lawn mower", "grass slasher", "hand mower", "home mower"]
+						"aliases": ["lawn motor", "lawn mower", "grass slasher", "hand mower", "home mower", "lawn trimmer"]
 					},
 					{
 						"aliases": ["lawn roller", "lawn corer", "garden roller"]
@@ -636,8 +636,11 @@ categories = {
 		 			{
 						"aliases": ["vacuum cleaner", "industrial vacuum dust", "electric vacuum", "vacuum clean", "industrial vacuum cleaner"]
 					},
+		 			{
+						"aliases": ["vacuum cleaner nozzle", "vacuum upholstery nozzle"]
+					},
 					{
-						"aliases": ["wet vacuum cleaner"]
+						"aliases": ["wet vacuum cleaner", "wet vacuum"]
 					},
 					{
 						"aliases": ["extraction fan", "exhaust fan", "ventilator fan", "ventilating fan", "dust fan"]
@@ -1654,6 +1657,9 @@ categories = {
 			},
 			{
 				"aliases": ["stump grinder", "stump remover"]
+			},
+			{
+				"aliases": ["small assorted tools"]
 			},
 			{
 				"aliases": ["farming and forestry tools"]

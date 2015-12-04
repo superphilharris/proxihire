@@ -336,8 +336,8 @@ class ImporterServiceHelper {
 	 * @return NULL|string
 	 */
 	public function createIcons($iconPath){
-		if($iconPath !== null){
-			$iconDir = __DIR__.'/../../../../../public/img/lessors/';
+		$iconDir = __DIR__.'/../../../../../public/img/lessors/';
+		if($iconPath !== null AND file_exists($iconDir.$iconPath)){
 			$iconPathParts = explode('.', $iconPath);
 			$newIconPath = implode('.', array_splice($iconPathParts, 0, -1))."_18x18.".end($iconPathParts);
 			if(!file_exists($iconDir.$newIconPath) OR $this::UPDATE_IMAGES){
@@ -361,7 +361,7 @@ class ImporterServiceHelper {
 	private function mkdir($dir){
 		if(file_exists($dir)) 				return true;
 		elseif(file_exists(dirname($dir))){
-			if(!mkdir($dir)) 				echo "Could not create directory. Please run: `sudo chown -R www-data:www-data ".dirname($dir);
+			if(!mkdir($dir)) 				throw new Exception("Could not create directory. Please run: `sudo chown -R www-data:www-data ".dirname($dir));
 			else 							return true;
 		}else								return $this->mkdir(dirname($dir));
 		return false;
@@ -382,15 +382,18 @@ class ImporterServiceHelper {
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
 		if(count($mainProperties) > 0) {
 			$extractedProperties = null;
+			// Try different regex's to extract out common patterns
 			if(property_exists($mainProperties, 'length') AND property_exists($mainProperties, 'width') AND preg_match("/[0-9].* x [0-9.]+\s*[^\s]+/", $assetName, $result)) { // 4 x 6m
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
-			}elseif(preg_match("/([0-9].*)\((.*[0-9].*)\)/", $assetName, $result)){						// Try: 2.4 meters (8')
+			}elseif(preg_match("/([0-9].*)\((.*[0-9].*)\)/", $assetName, $result)){					// Try: 2.4 meters (8')
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[1]);
+			}elseif(preg_match("/([0-9.]+\s*[^0-9.]+)\s+([0-9.]+\s*[^\s]+)/", $assetName, $result)){// Try 6m 20'
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[1]);
 			}elseif(preg_match("/([0-9].+[0-9]\s*[^\s]+)/", $assetName, $result)){					// Try: 7-9m
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
 			}elseif(preg_match("/[0-9.]+\s*[^\s]+/", $assetName, $result)){							// Try: 4psi
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
-			}elseif(preg_match("/[0-9.]+/", $assetName, $result) AND count($mainProperties) === 1){	// Try: 5
+			}elseif(preg_match("/[0-9.][^\s]+/", $assetName, $result) AND count($mainProperties) === 1){	// Try: 5
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]); // TODO: should we specify the default unit in the categories.js?
 			}
 			if($extractedProperties !== null){
@@ -401,13 +404,11 @@ class ImporterServiceHelper {
 						$foundProperty = null;
 						foreach($mainProperties as $mainPropertyName => $mainPropertyDatatype){
 							if($extractedProperty['datatype'] === $mainPropertyDatatype){
-								if($extractedProperty['name_fulnam'] === 'min __key__'){
-									$extractedProperty['name_fulnam'] = 'min ' . $mainPropertyName;
-								}elseif($extractedProperty['name_fulnam'] === 'max __key__'){
-									$extractedProperty['name_fulnam'] = 'max ' . $mainPropertyName;
-								}else{
+								if($mainPropertyName === '__key__'){
 									$extractedProperty['name_fulnam'] = $mainPropertyName;
 									$foundProperty = $mainPropertyName;
+								}else{
+									$extractedProperty['name_fulnam'] = str_replace('__key__', $mainPropertyName, $extractedProperty['name_fulnam']);
 								}
 								array_push($fixedProperties, $extractedProperty);
 								break;
@@ -592,7 +593,7 @@ class ImporterServiceHelper {
 		$value = trim(strtolower($value), ": ");
 	
 		// If this is an area, then grab the length, the width and the total area
-		if($this->isIn($value, "[0-9].* x .*[0-9]")){
+		if($this->isIn($value, "[0-9].* x [0-9]")){
 			$twoNumbers = explode(" x ", $value, 2);
 			$width  = $twoNumbers[0];
 			$length = $twoNumbers[1];
@@ -616,9 +617,7 @@ class ImporterServiceHelper {
 				// TODO: figure out whether there are other # x # ones that we want to extract
 				// throw new \Exception("Can't extract units out of: '$key' : '$value'. Please add the dimensions: '".$widthResult['datatype']."' x '".$lengthResult['datatype']."' to the list of multi-dimensional checks.");
 				return array($this->determineProperty($key, $value));
-				
 			}
-			
 			
 		// If there is a min and max in the value, then strip them out.
 		}elseif($this->isIn($value, "[0-9].* to .*[0-9]")){
