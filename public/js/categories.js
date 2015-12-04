@@ -62,7 +62,10 @@ categories = {
 				"aliases": ["electrical and generators"],
 				"children": [
 					{
-						"aliases": ["power splitter box", "distribution box", "splitter box", "distribution board", "phase junction box"]
+						"aliases": ["power splitter box", "distribution box", "splitter box", "distribution board", "phase junction box"],
+						"properties": {
+							"max current": "current"
+						}
 					},
 					{
 						"aliases": ["extension lead", "power cable", "3ph elec cable", "3 phase lead", "electric cable"]

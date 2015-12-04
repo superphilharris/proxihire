@@ -410,7 +410,7 @@ class ImporterServiceHelper {
 								}else{
 									$extractedProperty['name_fulnam'] = str_replace('__key__', $mainPropertyName, $extractedProperty['name_fulnam']);
 								}
-								array_push($fixedProperties, $extractedProperty);
+								$fixedProperties[$extractedProperty['name_fulnam']] = $extractedProperty;
 								break;
 							}
 						}
@@ -420,7 +420,7 @@ class ImporterServiceHelper {
 						
 					// Our extraction has determined the property
 					}else{ 
-						array_push($fixedProperties, $extractedProperty);
+						$fixedProperties[$extractedProperty['name_fulnam']] = $extractedProperty;
 					}
 				}
 			}
@@ -477,7 +477,10 @@ class ImporterServiceHelper {
 	public function determineProperties($properties, $categoryName, $assetName, $mainProperties){
 		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainProperties);
 		foreach($properties as $propertyName => $propertyValue){
-			$propertiesOut = array_merge($propertiesOut, $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName));
+			$newProperties = $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName);
+			foreach($newProperties as $newProperty){
+				$propertiesOut[$newProperty['name_fulnam']] = $newProperty;
+			}
 		}
 		
 		// Now go and fix the property names using the PropertyAliases.csv
@@ -499,7 +502,7 @@ class ImporterServiceHelper {
 				}
 			}
 		}
-		return $propertiesOut;
+		return array_values($propertiesOut);
 	}
 	
 	private function determineRate($timePeriod, $costForPeriod){
