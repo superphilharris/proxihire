@@ -61,6 +61,33 @@ class CategoryAliases implements CategoryAliasesInterface
 	public function __toString(){
 		return json_encode($this->obj);
 	}
+
+	public function getLeafNodesFor( $aliasName=null ){
+		return $this->getLeafNodesRecursive( $aliasName, $this->get() );
+	}
+
+	private function getLeafNodesRecursive( $aliasName, $aliasStructure ){
+		if(property_exists($aliasStructure, 'children')) {
+			$children=array();
+			foreach($aliasStructure->children as $child){
+				if( is_null($aliasName) ){
+					$children=array_merge( $children, $this->getLeafNodesRecursive(null,$child) );
+				}else{
+					$found=false;
+					foreach($child->aliases as $childAlias){
+						if(strtolower($aliasName) == strtolower($childAlias)){
+							return $this->getLeafNodesRecursive(null, $child);
+						}
+					}
+					array_merge( $children, $this->getLeafNodesRecursive($aliasName, $child) );
+				}
+			}
+			return $children;
+		}elseif( is_null($aliasName) ){
+			return array($aliasStructure);
+		}
+		return array();
+	}
 }
 
 ?>

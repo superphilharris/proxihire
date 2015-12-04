@@ -79,10 +79,16 @@ class SearchController extends AbstractActionController
 		$allCategoryAliases = $this->categoryAliasesService->getCategoryAliases();
 		$categoryName       = $allCategoryAliases->getCategoryNameForAliasName($this->params()->fromRoute('category'));
 		if($categoryName !== null){
-		        $category = $this->categoryService->getCategoryByName($categoryName)[0];
+			$category = $this->categoryService->getCategoryByName($categoryName);
+			if( count($category)>0 ){
+				$category=$category[0];
+			}else{
+				$category = new Category();
+				$category->exchangeArray(array($allCategoryAliases->get()));
+			}
 		}else{
-		        $category = new Category();
-		        $category->exchangeArray(array($allCategoryAliases->get()));
+			$category = new Category();
+			$category->exchangeArray(array($allCategoryAliases->get()));
 		}
 
 		$view = new ViewModel(array());
@@ -103,7 +109,7 @@ class SearchController extends AbstractActionController
 	private function getAssetList($category, $allCategoryAliases)
 	{
 		$filters  = $this->getFilters();
-		$assets   = $this->assetService->getAssetList($category);
+		$assets   = $this->assetService->getAssetList($category, $allCategoryAliases);
 		$this->assetService->filterAssets( $assets, $filters );
 		return $assets;
 	}

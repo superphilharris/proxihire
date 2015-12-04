@@ -12,6 +12,6 @@ interface AssetServiceInterface
 	 * @param  string $category The xpath of the category
 	 * @return array|AssetInterface[]
 	 */
-	public function getAssetList($category);
+	public function getAssetList($category,$allCategoryAliases);
 }
 ?>

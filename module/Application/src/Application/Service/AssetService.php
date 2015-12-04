@@ -156,17 +156,21 @@ class AssetService implements AssetServiceInterface
 	 */
 	public function getAssetList(
 		$category, 
+		$allCategoryAliases,
 		$number=50)
 	{
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"Application\Model\CategoryInterface",
+			"Application\Model\CategoryAliasesInterface",
 			"integer"));
 
 		$assetArray=array();
+		$leafNodes = $allCategoryAliases->getLeafNodesFor( $category->getName() );
 
-		// jih: if( is_null($category->getChildIds()) ){
+		if(empty($leafNodes)){
 			if( ! is_null($category->getName()) ){
+
 				$categoryArray=array($category);
 				$this->categoryMapper->setPrototypeArray( $categoryArray );
 				$categoryArray[0]->incrementLoads();
@@ -178,7 +182,7 @@ class AssetService implements AssetServiceInterface
 			}
 			$this->assetMapper->setPrototypeArray($assetArray);
 			$this->assetMapper->findByCategory( $category );
-		// jih: }else{
+		}else{
 		// jih: 	$categories=array();
 		// jih: 	foreach( $category->getChildIds() as $childCategory ){
 		// jih: 		$categories=$this->categoryMapper->getPopularCategories( 
@@ -188,7 +192,7 @@ class AssetService implements AssetServiceInterface
 		// jih: 		array_merge( $assetArray, $this->assetMapper->findByCategory($categories) );
 		// jih: 	}
 		// jih: 	$this->assetMapper->setPrototypeArray($assetArray);
-		// jih: }
+		}
 		$this->assetMapper->getUrls($this->urlMapper);
 
 		return $this->assetMapper->getAssets();
