@@ -25,22 +25,22 @@ class CategoryAliases implements CategoryAliasesInterface
 	 * @return NULL|Category 
 	 */
 	public function getCategoryNameForAliasName($aliasName){
-		$ancestory = $this->getAncestoryRecursive($aliasName, $this->get());
-		if($ancestory === null) return null;
-		else					return $ancestory[0]->aliases[0]; 
+		$ancestry = $this->getAncestryRecursive($aliasName, $this->get());
+		if($ancestry === null) return null;
+		else                   return $ancestry[0]->aliases[0]; 
 	}
 
 	/**
 	 * Gets all the ancestors of a category name, orders them by youngest to oldest
-	 * @param string $aliasName				- alias name to find in the big tree
-	 * @return array(CategoryAliases)|NULL	- null if the cate
+	 * @param string $aliasName               - alias name to find in the big tree
+	 * @return array(CategoryAliases)|NULL    - null if the cate
 	 */
-	public function getAncestoryForAliasName($aliasName){
-		$ancestory = $this->getAncestoryRecursive($aliasName, $this->get());
-		if ($ancestory === null) 	return array($this->get());
-		else 						return $ancestory;
+	public function getAncestryForAliasName($aliasName){
+		$ancestry = $this->getAncestryRecursive($aliasName, $this->get());
+		if ($ancestry === null) return array($this->get());
+		else                    return $ancestry;
 	}
-	private function getAncestoryRecursive($aliasName, $alias){
+	private function getAncestryRecursive($aliasName, $alias){
 		if(property_exists($alias, 'children')) {
 			foreach($alias->children as $child){
 				foreach($child->aliases as $childAlias){
@@ -48,7 +48,7 @@ class CategoryAliases implements CategoryAliasesInterface
 						return array($child, $alias);
 					}
 				}
-				$descendants = $this->getAncestoryRecursive($aliasName, $child);
+				$descendants = $this->getAncestryRecursive($aliasName, $child);
 				if($descendants !== null){
 					array_push($descendants, $alias);
 					return $descendants;

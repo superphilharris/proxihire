@@ -54,7 +54,7 @@ class SearchController extends AbstractActionController
 	}
 
 	private function getCategoryPickerView($category, $allCategoryAliases){
-		$ancestory          = $allCategoryAliases->getAncestoryForAliasName($this->params()->fromRoute('category'));
+		$ancestry          = $allCategoryAliases->getAncestryForAliasName($this->params()->fromRoute('category'));
 		$filters = $this->getFilters();
 		if( isset($filters->location->latitude->user) &&
 		    isset($filters->location->longitude->user) ){
@@ -68,7 +68,7 @@ class SearchController extends AbstractActionController
 		$view = new ViewModel(array(
 				'category'        => $category,
 				'categoryAliases' => $allCategoryAliases,
-				'ancestory'       => $ancestory,
+				'ancestory'       => $ancestry,
 				'location'        => $location
 		));
 		$view->setTemplate('application/search/category-picker');
