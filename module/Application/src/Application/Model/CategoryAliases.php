@@ -63,7 +63,11 @@ class CategoryAliases implements CategoryAliasesInterface
 	}
 
 	public function getLeafNodesFor( $aliasName=null ){
-		return $this->getLeafNodesRecursive( $aliasName, $this->get() );
+		$leafNodes = $this->getLeafNodesRecursive( $aliasName, $this->get() );
+		if( empty($leafNodes) ){
+			return array( $aliasName );
+		}
+		return $leafNodes;
 	}
 
 	private function getLeafNodesRecursive( $aliasName, $aliasStructure ){
