@@ -166,9 +166,9 @@ class AssetService implements AssetServiceInterface
 			"integer"));
 
 		$assetArray=array();
-		$leafNodes = $allCategoryAliases->getLeafNodesFor( $category->getName() );
+		$childNodes = $allCategoryAliases->getChildrenOf( $category->getName() );
 
-		if(empty($leafNodes)){
+		if(empty($childNodes)){
 			if( ! is_null($category->getName()) ){
 
 				$categoryArray=array($category);
@@ -186,7 +186,7 @@ class AssetService implements AssetServiceInterface
 		// jih: 	$categories=array();
 		// jih: 	foreach( $category->getChildIds() as $childCategory ){
 		// jih: 		$categories=$this->categoryMapper->getPopularCategories( 
-		// jih: 		       $categoryTree->getLeafNodesFor( $childCategory ), 
+		// jih: 		       $allCategoryAliases->getLeafNodesFor( $childCategory ), 
 		// jih: 		       5 
 		// jih: 		);
 		// jih: 		array_merge( $assetArray, $this->assetMapper->findByCategory($categories) );
