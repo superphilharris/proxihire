@@ -116,7 +116,11 @@ categories = {
 						"aliases": ["air scaler"]
 					},
 					{
-						"aliases": ["air hose"]
+						"aliases": ["air hose"],
+						"properties": {
+							"diameter": "lineal",
+							"length": "lineal"
+						}
 					},
 					{
 						"aliases": ["compressor"]

@@ -599,8 +599,8 @@ class ImporterServiceHelper {
 	 */
 	private function determinePropertiesInternal($key, $value){
 		if($key === $value) $key = "";
-		$key   = trim(strtolower($key),   ":- ");
-		$value = trim(strtolower($value), ": ");
+		$key   = trim(strtolower($key),   ":- \t\n\r\0\x0B");
+		$value = trim(strtolower($value), ": \t\n\r\0\x0B");
 	
 		// If this is an area, then grab the length, the width and the total area
 		if($this->isIn($value, "[0-9].* x [0-9]")){
@@ -655,6 +655,7 @@ class ImporterServiceHelper {
 				$min = $min.$maxUnits[1];
 			}
 			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
+			
 		}elseif($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND !strpos($key, ' ')){
 			$key = Porter::Stem($this->fixSpelling($key));
 			$twoNumbers = explode("-", $value, 2);
@@ -667,8 +668,23 @@ class ImporterServiceHelper {
 				$min = $min.$maxUnits[1];
 			}
 			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
-		}
-		else return array($this->determineProperty($key, $value));
+		
+		// If there are actually 2 units in this value
+		}elseif(preg_match('/([0-9.]+[^0-9]+),\s*([0-9].*)/', $value, $matches)){
+			$key = Porter::Stem($this->fixSpelling($key));
+			$unit1 = $matches[1];
+			$unit2 = $matches[2];
+			
+			$result1 = $this->determineProperty($key, $unit1);
+			$result2 = $this->determineProperty($key, $unit2);
+			if($result1['datatype'] !== $result2['datatype'] AND $result1['datatype'] !== Datatype::STRING AND $result2['datatype'] !== Datatype::STRING){
+				$result1['name_fulnam'] = $result1['name_fulnam'] . ' ' . Datatype::getDisplayName($result1['datatype']);
+				$result2['name_fulnam'] = $result2['name_fulnam'] . ' ' . Datatype::getDisplayName($result2['datatype']);
+				// TODO: could we use one of the extracted datatypes?
+				return array($result1, $result2);
+			}else return array($this->determineProperty($key, $value));
+		
+		}else return array($this->determineProperty($key, $value));
 	}
 
 	/**
