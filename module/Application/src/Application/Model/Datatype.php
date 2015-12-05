@@ -153,7 +153,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 	}
 	
 	public static function getDisplayName($datatype){
-		if($datatype === $this::POWER_ELECTRICAL OR $datatype === $this::POWER_MECHANICAL) return 'power';
+		if($datatype === Datatype::POWER_ELECTRICAL OR $datatype === Datatype::POWER_MECHANICAL) return 'power';
 		else return $datatype;
 	}
 

@@ -56,7 +56,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["fencing", "barrier", "delineator", "fence", "safety panel"],
+				"aliases": ["fencing", "barrier", "delineator", "fence", "safety panel", "hoarding gantry"],
 				"properties": {
 					"panel length": "lineal", 
 					"panel height": "lineal"
@@ -155,7 +155,7 @@ categories = {
 						"aliases": ["pipe die", "bolt die", "pipe threader"]
 					},
 					{
-						"aliases": ["pipe vice", "pipe vise"]
+						"aliases": ["pipe vice", "pipe vise", "pipe clamp"]
 					},
 					{
 						"aliases": ["pipe cutting"],
@@ -473,7 +473,7 @@ categories = {
 						"aliases": ["furniture moving blanket"]
 					},
 					{
-						"aliases": ["shipping container", "office block", "container", "site accomodation"]
+						"aliases": ["shipping container", "office block", "container", "site accommodation", "portable lunch room", "portable office"]
 					},
 					{
 						"aliases": ["crane"]
@@ -512,6 +512,9 @@ categories = {
 						"aliases": ["hand shears"]
 					}
 				]
+			},
+			{
+				"aliases": ["stump grinder", "stump remover"]
 			},
 			{
 				"aliases": ["garden sprayer", "weed sprayer", "backpack sprayer", "lawn sprayer"]
@@ -1228,6 +1231,9 @@ categories = {
 					},
 					{
 						"aliases": ["bearing puller"]
+					},
+					{
+						"aliases": ["clutch aligner", "clutch aligning"]
 					}
 				]
         	},
@@ -1365,7 +1371,7 @@ categories = {
 		         		"aliases": ["trench shoring"]
 		         	},
 		          	{
-		         		"aliases": ["road plate"]
+		         		"aliases": ["road plate", "steel plate"]
 		         	},
 					{
 						"aliases": ["ground protection mat"]
@@ -1661,6 +1667,9 @@ categories = {
 				"aliases": ["chute"]
 			},
 			{
+				"aliases": ["man hole cover"]
+			},
+			{
 				"aliases": ["nylon straps", "safety straps", "securing straps"]
 			},
 			{
@@ -1677,9 +1686,6 @@ categories = {
 			},
 			{
 				"aliases": ["dredger", "dredging"]
-			},
-			{
-				"aliases": ["stump grinder", "stump remover"]
 			},
 			{
 				"aliases": ["small assorted tools"]

@@ -271,9 +271,15 @@ function updateFromCategoryOrLocation(newCategory){
 			url: 	"/assetlist/"+urlEnd, 
 			success: function(html){
 				try{
+					var categoryHasChanged = (CURRENT_CATEGORY != newCategory);
 					PREVIOUS_CATEGORY = CURRENT_CATEGORY;
 					CURRENT_CATEGORY = newCategory;
-					History.pushState({html: html}, title, "/search/"+urlEnd);
+					if(categoryHasChanged){
+						History.pushState({html: html}, title, "/search/"+urlEnd);
+					}else{
+			    		$('#searchResults').html(html);
+			    		postGoCategory();
+					}
 				}catch(e){
 					if(newCategory && newCategory != "")	window.location.href = "/search/" + urlEnd;
 				}
@@ -353,9 +359,9 @@ $(document).ready(function(){
         if(History.getState().data.html){
     		$('#searchResults').html(History.getState().data.html);
     		postGoCategory();
-		if (CURRENT_CATEGORY != PREVIOUS_CATEGORY) {
-			$('#left').scrollTop(33);
-		}
+			if (CURRENT_CATEGORY != PREVIOUS_CATEGORY) {
+				$('#left').scrollTop(33);
+			}
         }
     });
     
