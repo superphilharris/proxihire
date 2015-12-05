@@ -8,8 +8,11 @@ fencing,panel height,height
 fencing,panel length,length
 fencing,panel weight,weight
 fencing,gross weight,weight
+fencing,gross weight,weight
 ladder,open height,total height
 ladder,extension size,total height
 ladder,size,total height
+plug board,current ratings,max current
 power splitter box,power inlet,max current
+power splitter box,current rating,max current
 

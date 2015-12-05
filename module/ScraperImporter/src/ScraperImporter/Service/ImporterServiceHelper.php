@@ -128,7 +128,7 @@ class ImporterServiceHelper {
 			}elseif($unit === 'watts'){
 				$property['datatype']  = Datatype::POWER_ELECTRICAL;
 				$property['value_mxd'] = floatval($number);
-			}elseif($unit === 'kw'){
+			}elseif($unit === 'kw' OR $unit === 'kva'){
 				$property['datatype']  = Datatype::POWER_ELECTRICAL;
 				$property['value_mxd'] = floatval($number) * 1000;
 			}elseif($unit === 'volt' OR $unit === 'volts'){
@@ -253,13 +253,10 @@ class ImporterServiceHelper {
 					$directory = dirname($localImage);
 					$this->mkdir($directory);
 					exec("cd $directory; wget -N ".addslashes($url));
-					if(file_exists($localImage)){
-						if(filesize($localImage) > 100) return $localImageRelativePath;
-						else 							unlink($localImage);
-					}
-				}else{
-					if($this::UPDATE_IMAGES) 	return null;
-					else 						return $localImageRelativePath;
+				}
+				if(file_exists($localImage)){
+					if(filesize($localImage) > 100) return $localImageRelativePath;
+					else 							unlink($localImage);
 				}
 			}
 		}
@@ -348,7 +345,9 @@ class ImporterServiceHelper {
 				// And combine the image to create a bordered icon
 				exec("convert ".$iconDir."white.ico $iconDir".escapeshellarg($newIconPath)." -gravity center -compose over -composite $iconDir".escapeshellarg($newIconPath));
 			}
-			return $newIconPath;
+			if(!file_exists($iconDir.$newIconPath))			return null;
+			elseif(filesize($iconDir.$newIconPath) < 100)	unlink($iconDir.$newIconPath);
+			else 											return $newIconPath;
 		}
 		return null;
 	}
@@ -560,15 +559,23 @@ class ImporterServiceHelper {
 	
 	private function determinePropertyWrapper($key, $value, $categoryName){
 		$results = $this->determinePropertiesInternal($key, $value);
-		if(count($results) === 1 AND $key === $value){ // If we have not done anything except make it lower case, then revert the determineProperties
+		if(count($results) === 1){
 			$result = $results[0];
 			if($result['datatype'] === Datatype::STRING){
-				if(strtolower($result['value_mxd']) === trim($key)){
-					$result['value_mxd'] = ucfirst(trim($this->fixSpelling($key)));
-					return array($result);
-				}else{
-					$result['value_mxd'] = ucfirst($this->fixSpelling($result['value_mxd']));
-					return array($result);
+				// If we have not done anything except make it lower case, then revert the determineProperties
+				if($key === $value){ 
+					if(strtolower($result['value_mxd']) === trim($key)){
+						$result['value_mxd'] = ucfirst(trim($this->fixSpelling($key)));
+						return array($result);
+					}else{
+						$result['value_mxd'] = ucfirst($this->fixSpelling($result['value_mxd']));
+						return array($result);
+					}
+					
+				// If there is a colon, then the value could contain both the key and the value
+				}elseif(preg_match('/([A-Za-z].*)\:\s*([0-9].*)/', $value, $matches)){
+					$newResults = $this->determinePropertiesInternal($matches[1], $matches[2]);
+					if($newResults[0]['datatype'] !== Datatype::STRING) $results = $newResults;
 				}
 			}
 		}

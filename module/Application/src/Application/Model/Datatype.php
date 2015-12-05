@@ -56,6 +56,12 @@ class Datatype extends AbstractModel implements DatatypeInterface
 		switch ($this->datatype) {
 			case $this::ANGLE:
 				return 		array(1, 	"°");
+			case $this::AREA:
+				if($value < 1){
+					return array(0.0001, 	'cm²');
+				}else{
+					return array(1, 		"m²");
+				}
 			case $this::BOOLEAN:
 				if($value == "1") 		return array("yes", 	"");
 				elseif($value == "0") 	return array("no", 	"");
@@ -91,9 +97,6 @@ class Datatype extends AbstractModel implements DatatypeInterface
 			case $this::WEIGHT_FLOW:
 				return array(1000/3600, "kg/hr");
 				
-			case $this::AREA:
-				$base = "m²";
-				break;
 			case $this::CURRENT:
 				$base = "A";
 				break;

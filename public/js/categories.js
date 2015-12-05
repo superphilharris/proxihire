@@ -17,7 +17,11 @@ categories = {
 				}
 			},
 			{
-				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper", "lino remover", "tile remover", "floor lifter"]
+				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper", "lino remover", "tile remover", "floor lifter"],
+				"properties": {
+					"width": "lineal",
+					"weight": "weight"
+				}
 			},
 			{
 				"aliases": ["scaffolding equipment"],
@@ -54,8 +58,8 @@ categories = {
 			{
 				"aliases": ["fencing", "barrier", "delineator", "fence", "safety panel"],
 				"properties": {
-					"length":"lineal", 
-					"height": "lineal"
+					"panel length": "lineal", 
+					"panel height": "lineal"
 				}
 			},
 			{
@@ -74,10 +78,16 @@ categories = {
 						"aliases": ["Category 4 cable", "CAT4", "ethernet cable"]
 					},
 					{
-						"aliases": ["plug board", "earthleakage plug", "earthleakage phase"]
+						"aliases": ["plug board", "earthleakage plug", "earthleakage phase"],
+						"properties": {
+							"max current": "current"
+						}
 					},
 					{
-						"aliases": ["generator", "diesel skid"]
+						"aliases": ["generator", "diesel skid"],
+						"properties": {
+							"continuous output": "power_electrical"
+						}
 					},
 					{
 						"aliases": ["transformer"]
@@ -311,6 +321,9 @@ categories = {
 					},
 					{
 						"aliases": ["cutter bender"]
+					},
+					{
+						"aliases": ["wire strainer"]
 					},
 					{
 						"aliases": ["masonry breaker", "concrete breaker", "rotary breaker", "portable breaker", "air breaker"]
@@ -1040,7 +1053,10 @@ categories = {
 						    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
 						    },
 						    {
-								"aliases": ["dump truck", "tip truck"]
+								"aliases": ["dump truck", "tip truck"],
+								"properties": {
+									"tonnage": "weight"
+								}
 							},
 						    {
 								"aliases": ["flat deck truck", "drop side truck"]
@@ -1212,7 +1228,7 @@ categories = {
 				]
         	},
          	{
-        		"aliases": ["fuel tank"]
+        		"aliases": ["fuel tank", "fuel tank container"]
         	},
         	{
         		"aliases": ["car battery charger", "automotive battery charger"]
@@ -1228,7 +1244,7 @@ categories = {
 				"aliases": ["portable traffic lights"]
 			},
 			{
-				"aliases": ["road works sign","stop lolly pop"]
+				"aliases": ["road works sign", "stop lolly pop", "traffic control sign"]
 			},
 			{
 				"aliases": ["road cone"]
