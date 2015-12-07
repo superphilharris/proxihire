@@ -215,6 +215,20 @@ class ImporterServiceHelper {
 		return $string;
 	}
 	
+	private function determinePhoneNumber($location){
+		$phoneNumber = null;
+		if(property_exists($location, 'phone_number')){
+			$phoneNumber = trim($location->phone_number);
+			if(strpos($phoneNumber, '+64') === 0){
+				$phoneNumber = preg_replace("/[^0-9+]/", '', $phoneNumber);
+			}else{
+				throw new Exception("Do not know how to deal with phone numbers like: '$phoneNumber'");
+			}
+		}
+		return $phoneNumber;
+	}
+	
+	
 	public function __construct(){
 		$this->propertyAliases = array_map('str_getcsv', file(__DIR__.'/PropertyAliases.csv'));
 	}
@@ -264,15 +278,32 @@ class ImporterServiceHelper {
 	}
 	
 	/**
+	 * This determines the latitude, longitude, email address and parses the phone number
+	 * @param stdClass $location
+	 * @return stdClass
+	 */
+	public function determineBranch($location){
+		$branch = $this->getLatitudeAndLongitude($location);
+		$branch->email 			= null;
+		$branch->phone_number 	= null;
+		if(!is_string($location)){
+			if(property_exists($location, 'email')) $this->email = $location->email;
+			$branch->phone_number = $this->determinePhoneNumber($location);
+		}
+		return $branch;
+	}
+	
+	/**
 	 * Gets the latitude and longitude from the scraped site.
 	 * 	This can either be a string 				- in which case we will ask google for the lat and long
 	 * 	or it can be the explicit lat and long	- in which case we will just return it
 	 * @param string|\stdClass $location
 	 * @return \stdClass
 	 */
-	public function getLatitudeAndLongitude($location){
-		if (is_string($location)) return $this->getLatitudeAndLongitudeFromAddress($location);
-		else return $location;
+	private function getLatitudeAndLongitude($location){
+		if (is_string($location)) 						return $this->getLatitudeAndLongitudeFromAddress($location);
+		elseif (property_exists($location, 'address'))	return $this->getLatitudeAndLongitudeFromAddress($location->address);
+		else 											return $location;
 	}
 	
 	private function getLatitudeAndLongitudeFromAddress($physicalAddress){

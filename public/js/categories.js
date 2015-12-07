@@ -473,7 +473,7 @@ categories = {
 						"aliases": ["furniture moving blanket"]
 					},
 					{
-						"aliases": ["shipping container", "office block", "container", "site accommodation", "portable lunch room", "portable office"]
+						"aliases": ["shipping container", "office block", "container", "site accommodation", "portable lunch room", "portable office", "mobile site camp", "portable workshop"]
 					},
 					{
 						"aliases": ["crane"]
@@ -1368,7 +1368,7 @@ categories = {
         		"aliases": ["excavation safety"],
         		"children": [
 		          	{
-		         		"aliases": ["trench shoring"]
+		         		"aliases": ["trench shoring", "trench  barrier", "shield fence"]
 		         	},
 		          	{
 		         		"aliases": ["road plate", "steel plate"]
