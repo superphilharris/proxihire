@@ -103,7 +103,7 @@ class ImporterService implements ImporterServiceInterface
 					$this->writeSQL("INSERT INTO lessor   (lessor_user_id, url_id, icon_url) VALUES (@last_user_id, LAST_INSERT_ID(), $iconUrl); ");
 					
 					foreach($lessor->location as $location){
-						$branch = $this->helper->determineBranch($location);
+						$branch = $this->helper->determineBranch($location, $lessor);
 						$phoneNumber = ($branch->phone_number === null)? 'NULL' : "'".addslashes($branch->phone_number)."'";
 						$email		 = ($branch->email 		  === null)? 'NULL' : "'".addslashes($branch->email)."'";
 						$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".addslashes($lessor->name)."', '".$branch->lat."', '".$branch->long."'); ");

@@ -352,6 +352,16 @@ function postGoCategory(){
 	}).bind('typeahead:cursorchange', function(ev, suggestion){
 		console.log('could have async fetching here as well?' + suggestion);
 	});
+	
+	$('.assetPanel').each(function(){
+		var panel = $(this);
+		$(this).click(function(event){
+			$(this).find('.assetSummaryTitle').toggle();
+			$(this).find('.assetExpandedTitle').toggle();
+			$(this).find('.displayMoreContactDetails').toggle();
+			panel.css('cursor', 'auto').unbind("click");
+		});
+	});
 }
 
 $(document).ready(function(){

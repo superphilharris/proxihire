@@ -8,8 +8,8 @@ class ImporterServiceHelper {
 	const UPDATE_IMAGES 			= FALSE; // Whether we want to check to see whether they've changed the images on their server.
 	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
 	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
-// 	const GENERATE_RANDOM_LOCATIONS = TRUE; // Uncomment to speed up
-// 	const CREATE_IMAGES				= FALSE; // Uncomment to speed up
+// 	const GENERATE_RANDOM_LOCATIONS = TRUE;  // Uncomment to speed up for testing
+// 	const CREATE_IMAGES				= FALSE; // Uncomment to speed up for testing
 	
 	private $propertyAliases = array();
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
@@ -282,12 +282,12 @@ class ImporterServiceHelper {
 	 * @param stdClass $location
 	 * @return stdClass
 	 */
-	public function determineBranch($location){
+	public function determineBranch($location, $lessor){
 		$branch = $this->getLatitudeAndLongitude($location);
-		$branch->email 			= null;
-		$branch->phone_number 	= null;
+		$branch->email 			= (property_exists($lessor, 'email'))? 			$lessor->email 			: null;
+		$branch->phone_number 	= (property_exists($lessor, 'phone_number'))? 	$lessor->phone_number 	: null;
 		if(!is_string($location)){
-			if(property_exists($location, 'email')) $this->email = $location->email;
+			if(property_exists($location, 'email')) $branch->email = $location->email;
 			$branch->phone_number = $this->determinePhoneNumber($location);
 		}
 		return $branch;

@@ -37,5 +37,11 @@ interface BranchInterface
 	 * @return string
 	 */
 	public function getPhoneNumber();
+
+	/**
+	 * Displays the phone number in the right locale
+	 * @return string
+	 */
+	public function getDisplayPhoneNumber();
 }
 ?>

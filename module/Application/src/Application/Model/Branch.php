@@ -60,5 +60,21 @@ class Branch extends AbstractModel implements BranchInterface
 	{
 		return $this->phoneNumber;
 	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getDisplayPhoneNumber(){
+		if($this->phoneNumber !== null){
+			if(strpos($this->phoneNumber, '+64') === 0){ 	// New Zealand Phone Number
+				if(strpos($this->phoneNumber, '+642') === 0){ 	// New Zealand Mobile
+					return preg_replace('/(\+642)(\d)(\d{3})(\d*)/', '(02$2) $3 $4', $this->phoneNumber);
+				}else{											// New Zealand Landline
+					return preg_replace('/(\+64)(\d)(\d{3})(\d*)/', '(0$2) $3 $4', $this->phoneNumber);
+				}
+			}
+		}
+		return $this->phoneNumber;
+	}
 }
 ?>
