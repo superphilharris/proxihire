@@ -223,12 +223,14 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMA
 	width: 50%;
 	display: inline-block;
 	height: 50px;
-	border: 1px solid #EEE;
-	border-width: 0 1px 1px 0;
+	border-right: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	border-left: 1px solid #FFF;
+	border-top: 1px solid #FFF;
 }
 .contactButtonIcon {
-	margin: 5px;
-	height: 40px;
+	margin: 10px;
+	height: 30px;
 }
 
 /* Location Bar */
