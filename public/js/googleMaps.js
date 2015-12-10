@@ -148,7 +148,6 @@ function initializeGoogleMaps() {
 		});
 		googleMap.addListener('bounds_changed', function(){
 			setGoogleMapsBoundsAndClearTimeout();
-			googleMapsChangedBoundsTimeout = setTimeout(updateLocation, 2000);
 		});
 	  	showAllMarkers();
 	});
@@ -156,14 +155,26 @@ function initializeGoogleMaps() {
 var googleMapsChangedBoundsTimeout = null;
 function setGoogleMapsBoundsAndClearTimeout(){
 	if(googleMap){
-		clearTimeout(googleMapsChangedBoundsTimeout);
-		CURRENT_LOCATION.latitude.max 	= googleMap.getBounds().getNorthEast().lat();
-		CURRENT_LOCATION.latitude.min 	= googleMap.getBounds().getSouthWest().lat();
-		CURRENT_LOCATION.longitude.max 	= googleMap.getBounds().getNorthEast().lng();
+		if (CURRENT_LOCATION.latitude.min && CURRENT_LOCATION.latitude.max){
+			if(changedBy10Percent(CURRENT_LOCATION.latitude.min,  CURRENT_LOCATION.latitude.max,  googleMap.getBounds().getNorthEast().lat(), googleMap.getBounds().getSouthWest().lat()) ||
+			   changedBy10Percent(CURRENT_LOCATION.longitude.min, CURRENT_LOCATION.longitude.max, googleMap.getBounds().getSouthWest().lng(), googleMap.getBounds().getNorthEast().lng())) {
+				googleMapsChangedBoundsTimeout = setTimeout(updateLocation, 2000);
+			}
+		}
+		CURRENT_LOCATION.latitude.min 	= googleMap.getBounds().getNorthEast().lat();
+		CURRENT_LOCATION.latitude.max 	= googleMap.getBounds().getSouthWest().lat();
 		CURRENT_LOCATION.longitude.min 	= googleMap.getBounds().getSouthWest().lng();
+		CURRENT_LOCATION.longitude.max 	= googleMap.getBounds().getNorthEast().lng();
 	}
 }
 
+function changedBy10Percent(lower1, upper1, lower2, upper2){
+	if(lower1 && upper1 && lower2 && upper2){
+		var tenPercent = 0.10 * Math.max(Math.abs(upper1-lower1), Math.abs(upper2-lower2));
+		return (Math.abs(lower1 - lower2) > tenPercent || Math.abs(upper1 - upper2) > tenPercent);
+	}
+	return true;
+}
 /*
  * --------------------------------------------------------------------------------------------
  * Get the user location

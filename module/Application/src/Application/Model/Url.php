@@ -41,7 +41,7 @@ class Url extends AbstractModel implements UrlInterface
 	public function getDisplayPath()
 	{
 		if($this->path !== null){
-			$prefix = preg_replace('/http\s*:\/\/([^\/]*)\/.*/', '$1/...', $this->path);
+			$prefix = preg_replace('/https*:\/\/([^\/]*)\/.*/', '$1/...', $this->path);
 			return $prefix . substr($this->path, -15);
 		}
 		return $this->path;

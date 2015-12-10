@@ -306,6 +306,8 @@ function goCategoryAsync(category) {
 			PREVIOUS_CATEGORY = CURRENT_CATEGORY;
 			CURRENT_CATEGORY = CURRENT_CATEGORY_ASYNC;
 			removeAllMarkers();
+
+        	console.log("async html");
 			$('#searchResults').html(html);
 			postGoCategory();
 			$('#left').scrollTop(33);
