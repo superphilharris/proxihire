@@ -225,9 +225,9 @@ class ImporterServiceHelper {
 	}
 	
 	
-	public function __construct($categorizingOnly=false){
+	public function __construct($isCategorizeOnly=false){
 		$this->propertyAliases = array_map('str_getcsv', file(__DIR__.'/PropertyAliases.csv'));
-		$this->isCategorizingMode = $categorizingOnly;
+		$this->isCategorizeOnly = $isCategorizeOnly;
 	}
 	
 
@@ -255,7 +255,7 @@ class ImporterServiceHelper {
 	 * @return boolean
 	 */
 	public function syncImage($url, $type="assets"){
-		if(!$this->isCategorizingMode AND $url !== null AND $url !== ""){
+		if(!$this->isCategorizeOnly AND $url !== null AND $url !== ""){
 			$urlComponents = parse_url($url);
 			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
 				$localImageRelativePath = $urlComponents['host'].$urlComponents['path'];
@@ -306,7 +306,7 @@ class ImporterServiceHelper {
 	}
 	
 	private function getLatitudeAndLongitudeFromAddress($physicalAddress){
-		if($this->isCategorizingMode){
+		if($this->isCategorizeOnly){
 			$latLong = new \stdClass();
 			$latLong->lat  = -36.862043 + rand(-10,10)/300;
 			$latLong->long = 174.761066 + rand(-10, 10)/500;
@@ -338,7 +338,7 @@ class ImporterServiceHelper {
 	 * @return string 	- the new image url
 	 */
 	public function resizeAndCropImage($imagePath, $x=120, $y=120){
-		if($this->isCategorizingMode) return null;
+		if($this->isCategorizeOnly) return null;
 		if($imagePath !== null){
 			$imagePathParts = explode('.', $imagePath);
 			if(strlen($imagePathParts[count($imagePathParts) - 1]) > 4){ // The image doesn't have an extension
@@ -364,7 +364,7 @@ class ImporterServiceHelper {
 	 * @return NULL|string
 	 */
 	public function createIcons($iconPath){
-		if($this->isCategorizingMode) return null;
+		if($this->isCategorizeOnly) return null;
 		$iconDir = __DIR__.'/../../../../../public/img/lessors/';
 		if($iconPath !== null AND file_exists($iconDir.$iconPath)){
 			$iconPathParts = explode('.', $iconPath);
@@ -409,7 +409,7 @@ class ImporterServiceHelper {
 	 * @return array - the properties has
 	 */
 	public function extractPropertiesFromAssetName($assetName, $mainProperties){
-		if($this->isCategorizingMode) return array();
+		if($this->isCategorizeOnly) return array();
 		$fixedProperties = array();
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
 		if(count($mainProperties) > 0) {
@@ -507,7 +507,7 @@ class ImporterServiceHelper {
 	}
 	
 	public function determineProperties($properties, $categoryName, $assetName, $mainProperties){
-		if($this->isCategorizingMode) return array();
+		if($this->isCategorizeOnly) return array();
 		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainProperties);
 		foreach($properties as $propertyName => $propertyValue){
 			$newProperties = $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName);
@@ -576,7 +576,7 @@ class ImporterServiceHelper {
 	}
 	
 	public function determineRates($rates){
-		if($this->isCategorizingMode) return array();
+		if($this->isCategorizeOnly) return array();
 		$ratesOut = array();
 		foreach($rates as $timePeriod => $costForPeriod){
 			$rate = $this->determineRate($timePeriod, $costForPeriod);
@@ -806,7 +806,5 @@ class ImporterServiceHelper {
 		if($longestAlias !== "") 	return array($longestAlias => $matchedAliases[$longestAlias]);
 		else 						return null;
 	}
-	
-	public function isCategorizingMode(){ return $this->isCategorizingMode; }
 }
 ?>

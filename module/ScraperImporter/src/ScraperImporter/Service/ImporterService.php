@@ -75,6 +75,8 @@ class ImporterService implements ImporterServiceInterface
 	
 	public function dumpAssets( $pages ){
 		if(!set_time_limit(600)) exit("Need to turn off safe mode in php.ini.");
+		$lastCategorizedAssetName = null;
+		$categorizeFileName = '/tmp/.last_categorized_'.basename($_SERVER['REQUEST_URI'])."_asset";
 		
 		// 1. Read in the categories
 		$categories_file = __DIR__.'/../../../../../public/js/categories.js';
@@ -139,57 +141,71 @@ class ImporterService implements ImporterServiceInterface
 				$this->writeSQL($sql);
 				unlink('/tmp/.tmp_category.sql');
 			}
+			if(file_exists($categorizeFileName)) unlink($categorizeFileName);
+		}else{
+			if(file_exists($categorizeFileName)){
+				$lastCategorizedAssetName = file_get_contents($categorizeFileName);
+			}
 		}
 		
 		// 5. Read in the crawled assets
+		
+		
+		
 		foreach($pages as $i => $page){
 			if($page->item_type === "asset"){
-				$itemName = ucfirst($page->item_name);
-				// Sync and resize the image
-				$imageUrl = null;
-				if(property_exists($page, 'image')){
-					$imageUrl = $this->helper->syncImage($page->image);
-					if($imageUrl != null) $this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
-				}
-				$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'".addslashes($imageUrl)."'";
-				
-				// Determine the category
-				$category = $this->helper->determineCategory($categories, $itemName);
-				if($category === null AND property_exists($page, 'category')){
-					$category = $this->helper->determineCategory($categories, $itemName." ".$page->category);
-				}
-				if($category === null AND property_exists($page, 'description')){
-					$category = $this->helper->determineCategory($categories, $itemName." ".$page->description);
-				}
-				if($category === null){
-					$category = (property_exists($page, 'category'))? "(".$page->category.")" : "";
-					$comment = "<a href=\"$page->url\" target='_blank'>$itemName $category</a>";
-					if (property_exists($page, 'description')) $comment .= ": " . $page->description;
-					$this->writeComment($comment);
-					exit;
-				}else $categoryName = $category->aliases[0];
-				
-				$description = (property_exists($page, 'description'))? "'".addslashes(ucfirst($page->description))."'" : 'NULL';
-				$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($itemName)."','".addslashes($page->url)."'); ");
-				$this->writeSQL("INSERT INTO asset (category_id, url_id, lessor_user_id, image_url, description_text) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl, $description FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".addslashes($categoryName)."' AND u.name_fulnam='".addslashes($page->lessor)."'; ");
-				$this->writeSQL("SET @last_asset_id = LAST_INSERT_ID();");
-				
-				// Determine and clean up the properties
-				$mainProperties = (property_exists($category, 'properties')) ? 	$category->properties 	: array();
-				$pageProperties = (property_exists($page, 'properties')) ? 		$page->properties 		: array();
-				$properties = $this->helper->determineProperties($pageProperties, $categoryName, $itemName, $mainProperties);
-				foreach($properties as $property){
-					$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
-				}
-				
-				// Determine and clean up the rates
-				if (property_exists($page, 'rate')){
-					$rates = $this->helper->determineRates($page->rate);
-					foreach($rates as $rate){
-						if(isset($rate['duration_hrs'])){
-							$this->writeSQL("INSERT INTO asset_rate (asset_id, duration_hrs, price_dlr) VALUES (@last_asset_id, '".addslashes($rate['duration_hrs'])."', '".$rate['price_dlr']."');");
-						}else{
-							$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
+				if(!$this->isCategorizeOnly OR $lastCategorizedAssetName === null OR $lastCategorizedAssetName == $page->item_name){
+					$itemName = ucfirst($page->item_name);
+					// Sync and resize the image
+					$imageUrl = null;
+					if(property_exists($page, 'image')){
+						$imageUrl = $this->helper->syncImage($page->image);
+						if($imageUrl != null) $this->helper->resizeAndCropImage(__DIR__.'/../../../../../public/img/assets/'.$imageUrl);
+					}
+					$imageUrl = ($imageUrl === NULL) ? 'NULL' : "'".addslashes($imageUrl)."'";
+					
+					// Determine the category
+					$category = $this->helper->determineCategory($categories, $itemName);
+					if($category === null AND property_exists($page, 'category')){
+						$category = $this->helper->determineCategory($categories, $itemName." ".$page->category);
+					}
+					if($category === null AND property_exists($page, 'description')){
+						$category = $this->helper->determineCategory($categories, $itemName." ".$page->description);
+					}
+					if($category === null){
+						$category = (property_exists($page, 'category'))? "(".$page->category.")" : "";
+						$comment = "<a href=\"$page->url\" target='_blank'>$itemName $category</a>";
+						if (property_exists($page, 'description')) $comment .= ": " . $page->description;
+						$this->writeComment($comment);
+						
+						file_put_contents($categorizeFileName, $page->item_name); // Used for speeding up the categorizing
+						chmod($categorizeFileName, 0777);
+						exit;
+					}else $categoryName = $category->aliases[0];
+	
+					
+					$description = (property_exists($page, 'description'))? "'".addslashes(ucfirst($page->description))."'" : 'NULL';
+					$this->writeSQL("INSERT INTO url (title_desc, path_url) VALUES ('".addslashes($itemName)."','".addslashes($page->url)."'); ");
+					$this->writeSQL("INSERT INTO asset (category_id, url_id, lessor_user_id, image_url, description_text) SELECT c.category_id, LAST_INSERT_ID(), l.lessor_user_id, $imageUrl, $description FROM category c JOIN lessor l ON true LEFT JOIN user u ON l.lessor_user_id=u.user_id WHERE c.name_fulnam='".addslashes($categoryName)."' AND u.name_fulnam='".addslashes($page->lessor)."'; ");
+					$this->writeSQL("SET @last_asset_id = LAST_INSERT_ID();");
+					
+					// Determine and clean up the properties
+					$mainProperties = (property_exists($category, 'properties')) ? 	$category->properties 	: array();
+					$pageProperties = (property_exists($page, 'properties')) ? 		$page->properties 		: array();
+					$properties = $this->helper->determineProperties($pageProperties, $categoryName, $itemName, $mainProperties);
+					foreach($properties as $property){
+						$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
+					}
+					
+					// Determine and clean up the rates
+					if (property_exists($page, 'rate')){
+						$rates = $this->helper->determineRates($page->rate);
+						foreach($rates as $rate){
+							if(isset($rate['duration_hrs'])){
+								$this->writeSQL("INSERT INTO asset_rate (asset_id, duration_hrs, price_dlr) VALUES (@last_asset_id, '".addslashes($rate['duration_hrs'])."', '".$rate['price_dlr']."');");
+							}else{
+								$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
+							}
 						}
 					}
 				}
