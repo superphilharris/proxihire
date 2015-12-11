@@ -217,12 +217,12 @@ class ImporterServiceHelper {
 	
 	private function determinePhoneNumber($location){
 		$phoneNumber = null;
-		if(property_exists($location, 'phone_number')){
+		if(property_exists($location, 'phone_number') AND trim($location->phone_number) !== ''){
 			$phoneNumber = trim($location->phone_number);
 			if(strpos($phoneNumber, '+64') === 0){
 				$phoneNumber = preg_replace("/[^0-9+]/", '', $phoneNumber);
 			}else{
-				throw new Exception("Do not know how to deal with phone numbers like: '$phoneNumber'");
+				throw new \Exception("Do not know how to deal with phone numbers like: '$phoneNumber'");
 			}
 		}
 		return $phoneNumber;
@@ -286,8 +286,10 @@ class ImporterServiceHelper {
 		$branch = $this->getLatitudeAndLongitude($location);
 		$branch->email 			= (property_exists($lessor, 'email'))? 			$lessor->email 			: null;
 		$branch->phone_number 	= (property_exists($lessor, 'phone_number'))? 	$lessor->phone_number 	: null;
+		$branch->name 			= (property_exists($lessor, 'name'))? 			$lessor->name 			: null;
 		if(!is_string($location)){
 			if(property_exists($location, 'email')) $branch->email = $location->email;
+			if(property_exists($location, 'name')) 	$branch->name  = $location->name;
 			$branch->phone_number = $this->determinePhoneNumber($location);
 		}
 		return $branch;
@@ -515,7 +517,7 @@ class ImporterServiceHelper {
 		
 		// Now go and fix the property names using the PropertyAliases.csv
 		foreach($this->propertyAliases as $propertyAlias){
-			if($propertyAlias[0] === $categoryName AND $categoryName =="ladder"){
+			if($propertyAlias[0] === $categoryName){
 				$foundAnotherPropertyWithFixedName = false;
 				foreach($propertiesOut as $siblingProperty){
 					if($this->isSamePropertyName(strtolower($siblingProperty['name_fulnam']), strtolower($propertyAlias[2]))){
