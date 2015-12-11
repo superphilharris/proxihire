@@ -6,12 +6,8 @@ use Application\Model\Datatype;
 class ImporterServiceHelper {
 	// The below 3 configurations are used to speed up the scraping for testing purposes.
 	const UPDATE_IMAGES 			= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
-	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
-// 	const GENERATE_RANDOM_LOCATIONS = TRUE;  // Uncomment to speed up for testing
-// 	const CREATE_IMAGES				= FALSE; // Uncomment to speed up for testing
-	
 	private $propertyAliases = array();
+	private $isCategorizeOnly 	= false; // Turn on if we are overusing the google api. Set to TRUE to speed up.
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
 	
 	
@@ -229,8 +225,9 @@ class ImporterServiceHelper {
 	}
 	
 	
-	public function __construct(){
+	public function __construct($categorizingOnly=false){
 		$this->propertyAliases = array_map('str_getcsv', file(__DIR__.'/PropertyAliases.csv'));
+		$this->isCategorizingMode = $categorizingOnly;
 	}
 	
 
@@ -258,7 +255,7 @@ class ImporterServiceHelper {
 	 * @return boolean
 	 */
 	public function syncImage($url, $type="assets"){
-		if($this::CREATE_IMAGES AND $url !== null AND $url !== ""){
+		if(!$this->isCategorizingMode AND $url !== null AND $url !== ""){
 			$urlComponents = parse_url($url);
 			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
 				$localImageRelativePath = $urlComponents['host'].$urlComponents['path'];
@@ -309,7 +306,7 @@ class ImporterServiceHelper {
 	}
 	
 	private function getLatitudeAndLongitudeFromAddress($physicalAddress){
-		if($this::GENERATE_RANDOM_LOCATIONS){
+		if($this->isCategorizingMode){
 			$latLong = new \stdClass();
 			$latLong->lat  = -36.862043 + rand(-10,10)/300;
 			$latLong->long = 174.761066 + rand(-10, 10)/500;
@@ -341,6 +338,7 @@ class ImporterServiceHelper {
 	 * @return string 	- the new image url
 	 */
 	public function resizeAndCropImage($imagePath, $x=120, $y=120){
+		if($this->isCategorizingMode) return null;
 		if($imagePath !== null){
 			$imagePathParts = explode('.', $imagePath);
 			if(strlen($imagePathParts[count($imagePathParts) - 1]) > 4){ // The image doesn't have an extension
@@ -366,6 +364,7 @@ class ImporterServiceHelper {
 	 * @return NULL|string
 	 */
 	public function createIcons($iconPath){
+		if($this->isCategorizingMode) return null;
 		$iconDir = __DIR__.'/../../../../../public/img/lessors/';
 		if($iconPath !== null AND file_exists($iconDir.$iconPath)){
 			$iconPathParts = explode('.', $iconPath);
@@ -410,6 +409,7 @@ class ImporterServiceHelper {
 	 * @return array - the properties has
 	 */
 	public function extractPropertiesFromAssetName($assetName, $mainProperties){
+		if($this->isCategorizingMode) return array();
 		$fixedProperties = array();
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
 		if(count($mainProperties) > 0) {
@@ -507,6 +507,7 @@ class ImporterServiceHelper {
 	}
 	
 	public function determineProperties($properties, $categoryName, $assetName, $mainProperties){
+		if($this->isCategorizingMode) return array();
 		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainProperties);
 		foreach($properties as $propertyName => $propertyValue){
 			$newProperties = $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName);
@@ -575,6 +576,7 @@ class ImporterServiceHelper {
 	}
 	
 	public function determineRates($rates){
+		if($this->isCategorizingMode) return array();
 		$ratesOut = array();
 		foreach($rates as $timePeriod => $costForPeriod){
 			$rate = $this->determineRate($timePeriod, $costForPeriod);
@@ -727,9 +729,11 @@ class ImporterServiceHelper {
 	 * @return Ambigous Category|NULL
 	 */
 	public function determineCategory($category, $name){
-		$name = $this->fixSpelling(strtolower($name));
-		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 	return array_values($matchedCategory)[0];
-		if($matchedCategory = $this->determineCategoryMatchedWords($category, $name)) 	return $matchedCategory;
+		$lowercaseName = $this->fixSpelling(strtolower($name));
+		if($matchedCategory = $this->determineCategoryExactMatch($category, $lowercaseName)) 	return array_values($matchedCategory)[0];
+		if($matchedCategory = $this->determineCategoryMatchedWords($category, $lowercaseName)) 	return $matchedCategory;
+		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 			return array_values($matchedCategory)[0];
+		if($matchedCategory = $this->determineCategoryMatchedWords($category, $name)) 			return $matchedCategory;
 		return null;
 	}
 	
@@ -802,5 +806,7 @@ class ImporterServiceHelper {
 		if($longestAlias !== "") 	return array($longestAlias => $matchedAliases[$longestAlias]);
 		else 						return null;
 	}
+	
+	public function isCategorizingMode(){ return $this->isCategorizingMode; }
 }
 ?>

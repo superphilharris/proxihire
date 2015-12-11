@@ -18,8 +18,9 @@ class ImporterService implements ImporterServiceInterface
 	protected $location;
 	protected $urlMapper;
 	protected $url;
-	private $importerServiceUtils;
+	private $helper;
 	private $outputChannel;
+	private $isCategorizeOnly;
 
 	public function __construct(
 		$assetMapper,
@@ -67,7 +68,9 @@ class ImporterService implements ImporterServiceInterface
 		$this->location=$location;
 		$this->urlMapper=$urlMapper;
 		$this->url=$url;
-		$this->helper = new ImporterServiceHelper();
+		
+		$this->isCategorizeOnly = isset($_REQUEST['categorizeOnly']);
+		$this->helper = new ImporterServiceHelper($this->isCategorizeOnly);
 	}
 	
 	public function dumpAssets( $pages ){
@@ -79,62 +82,63 @@ class ImporterService implements ImporterServiceInterface
 		$categories = $this->helper->jsonDecode($categories_json);
 		
 		// 2. Read in the crawled lessors
-		$file = null;
-		$this->writeComment('Create Lessor SQL');
-		$createdLessors = array();
-		foreach($pages as $lessor){
-			if($lessor->item_type === "lessor"){
-				if(! in_array($lessor->name, $createdLessors)){
-					$iconUrl = null;
-					if(property_exists($lessor, 'icon')){
-						$iconUrl = $this->helper->syncImage($lessor->icon, 'lessors');
-						$iconUrl = $this->helper->createIcons($iconUrl);
-					}
-					$iconUrl = ($iconUrl === NULL) ? 'NULL' : "'".addslashes($iconUrl)."'";
-					
-					$this->writeSQL('DELETE r FROM asset_rate r, asset a WHERE a.asset_id = r.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
-					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
-					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
-					$this->writeSQL('DELETE l FROM lessor l WHERE l.url_id IN (SELECT url_id FROM url WHERE title_desc = "'.addslashes($lessor->name).'"); ');
+		if(!$this->isCategorizeOnly){
+			$this->writeComment('Create Lessor SQL');
+			$createdLessors = array();
+			foreach($pages as $lessor){
+				if($lessor->item_type === "lessor"){
+					if(! in_array($lessor->name, $createdLessors)){
+						$iconUrl = null;
+						if(property_exists($lessor, 'icon')){
+							$iconUrl = $this->helper->syncImage($lessor->icon, 'lessors');
+							$iconUrl = $this->helper->createIcons($iconUrl);
+						}
+						$iconUrl = ($iconUrl === NULL) ? 'NULL' : "'".addslashes($iconUrl)."'";
 						
-					$this->writeSQL('DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ');	
-					$this->writeSQL("INSERT INTO user     (name_fulnam) VALUES ('".addslashes($lessor->name)."'); SET @last_user_id = LAST_INSERT_ID(); ");
-					$this->writeSQL("INSERT INTO url      (title_desc, path_url) VALUES ('".addslashes($lessor->name)."', '".addslashes($lessor->url)."'); ");
-					$this->writeSQL("INSERT INTO lessor   (lessor_user_id, url_id, icon_url) VALUES (@last_user_id, LAST_INSERT_ID(), $iconUrl); ");
-					
-					foreach($lessor->location as $location){
-						$branch = $this->helper->determineBranch($location, $lessor);
-						$phoneNumber = ($branch->phone_number === null)? 'NULL' : "'".addslashes($branch->phone_number)."'";
-						$email		 = ($branch->email 		  === null)? 'NULL' : "'".addslashes($branch->email)."'";
-						$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".addslashes($branch->name)."', '".$branch->lat."', '".$branch->long."'); ");
-						$this->writeSQL("INSERT INTO branch (user_id, location_id, phone_number_text, email_email) VALUES (@last_user_id, LAST_INSERT_ID(), $phoneNumber, $email);");
+						$this->writeSQL('DELETE r FROM asset_rate r, asset a WHERE a.asset_id = r.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
+						$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
+						$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
+						$this->writeSQL('DELETE l FROM lessor l WHERE l.url_id IN (SELECT url_id FROM url WHERE title_desc = "'.addslashes($lessor->name).'"); ');
+							
+						$this->writeSQL('DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ');	
+						$this->writeSQL("INSERT INTO user     (name_fulnam) VALUES ('".addslashes($lessor->name)."'); SET @last_user_id = LAST_INSERT_ID(); ");
+						$this->writeSQL("INSERT INTO url      (title_desc, path_url) VALUES ('".addslashes($lessor->name)."', '".addslashes($lessor->url)."'); ");
+						$this->writeSQL("INSERT INTO lessor   (lessor_user_id, url_id, icon_url) VALUES (@last_user_id, LAST_INSERT_ID(), $iconUrl); ");
+						
+						foreach($lessor->location as $location){
+							$branch = $this->helper->determineBranch($location, $lessor);
+							$phoneNumber = ($branch->phone_number === null)? 'NULL' : "'".addslashes($branch->phone_number)."'";
+							$email		 = ($branch->email 		  === null)? 'NULL' : "'".addslashes($branch->email)."'";
+							$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".addslashes($branch->name)."', '".$branch->lat."', '".$branch->long."'); ");
+							$this->writeSQL("INSERT INTO branch (user_id, location_id, phone_number_text, email_email) VALUES (@last_user_id, LAST_INSERT_ID(), $phoneNumber, $email);");
+						}
+	
+						array_push($createdLessors, $lessor->name);
 					}
-
-					array_push($createdLessors, $lessor->name);
 				}
 			}
-		}
-		
-		// 3. Delete any existing assets
-		$this->writeComment('Delete Existing Assets SQL');
-		$createdLessors = array();
-		foreach($pages as $lessor){
-			if($lessor->item_type === "lessor"){
-				if(! in_array($lessor->name, $createdLessors)){
-					$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
-					$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
-					$this->writeSQL('DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ');
+			
+			// 3. Delete any existing assets
+			$this->writeComment('Delete Existing Assets SQL');
+			$createdLessors = array();
+			foreach($pages as $lessor){
+				if($lessor->item_type === "lessor"){
+					if(! in_array($lessor->name, $createdLessors)){
+						$this->writeSQL('DELETE ap FROM asset_property ap, asset a WHERE a.asset_id = ap.asset_id AND a.lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
+						$this->writeSQL('DELETE a FROM asset a WHERE lessor_user_id IN (SELECT lessor_user_id FROM lessor l, url u WHERE l.url_id = u.url_id AND title_desc = "'.addslashes($lessor->name).'"); ');
+						$this->writeSQL('DELETE u FROM url u WHERE u.url_id NOT IN (SELECT url_id FROM asset) AND url_id NOT IN (SELECT url_id FROM lessor); ');
+					}
 				}
 			}
-		}
-		
-		// 4. Update any missing categories and datatypes
-		$this->writeComment('New Assets SQL');
-		if(true){ // Create new categories and datatypes
-			exec('php '.__DIR__.'/../../../../../tools/generate_proxihire_sql.php > /tmp/.tmp_category.sql');
-			$sql = file_get_contents('/tmp/.tmp_category.sql');
-			$this->writeSQL($sql);
-			unlink('/tmp/.tmp_category.sql');
+			
+			// 4. Update any missing categories and datatypes
+			$this->writeComment('New Assets SQL');
+			if(true){ // Create new categories and datatypes
+				exec('php '.__DIR__.'/../../../../../tools/generate_proxihire_sql.php > /tmp/.tmp_category.sql');
+				$sql = file_get_contents('/tmp/.tmp_category.sql');
+				$this->writeSQL($sql);
+				unlink('/tmp/.tmp_category.sql');
+			}
 		}
 		
 		// 5. Read in the crawled assets
