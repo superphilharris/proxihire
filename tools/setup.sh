@@ -185,6 +185,10 @@ install_pkg apache2 || exit 1
 install_pkg php5 || exit 1
 install_pkg php5-mysql || exit 1
 
+# node js for server side scripting
+install_pkg nodejs || exit 1
+install_pkg npm || exit 1
+
 # ZFTool
 install_pkg -m composer zendframework/zftool:dev-master || exit 1
 
