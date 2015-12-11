@@ -106,7 +106,7 @@ class ImporterService implements ImporterServiceInterface
 						$branch = $this->helper->determineBranch($location, $lessor);
 						$phoneNumber = ($branch->phone_number === null)? 'NULL' : "'".addslashes($branch->phone_number)."'";
 						$email		 = ($branch->email 		  === null)? 'NULL' : "'".addslashes($branch->email)."'";
-						$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".addslashes($lessor->name)."', '".$branch->lat."', '".$branch->long."'); ");
+						$this->writeSQL("INSERT INTO location (name_fulnam, latitude_float, longitude_float) VALUES ('".addslashes($branch->name)."', '".$branch->lat."', '".$branch->long."'); ");
 						$this->writeSQL("INSERT INTO branch (user_id, location_id, phone_number_text, email_email) VALUES (@last_user_id, LAST_INSERT_ID(), $phoneNumber, $email);");
 					}
 

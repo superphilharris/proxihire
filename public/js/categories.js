@@ -72,7 +72,7 @@ categories = {
 						}
 					},
 					{
-						"aliases": ["extension lead", "power cable", "3ph elec cable", "3 phase lead", "electric cable"]
+						"aliases": ["extension lead", "power cable", "3ph elec cable", "3 phase lead", "electric cable", "electric lead"]
 					},
 					{
 						"aliases": ["Category 4 cable", "CAT4", "ethernet cable"]
@@ -172,13 +172,16 @@ categories = {
 						"aliases": ["tap seat cutter", "tap reseating tool", "tap seat cutting tool"]
 					},
 					{
+						"aliases": ["pipe flarer", "flaring tool", "tube flaring"]
+					},
+					{
 						"aliases": ["knockout punch", "chassis punch"]
 					},
 					{
 						"aliases": ["tap and die set"]
 					},
 					{
-						"aliases": ["pipe bender", "copper bender"]
+						"aliases": ["pipe bender", "copper bender", "copper bending"]
 					},
 					{
 						"aliases": ["chain tongs"]
@@ -327,7 +330,7 @@ categories = {
 						"aliases": ["cutter bender"]
 					},
 					{
-						"aliases": ["wire strainer"]
+						"aliases": ["wire strainer", "small crimping tool"]
 					},
 					{
 						"aliases": ["masonry breaker", "concrete breaker", "rotary breaker", "portable breaker", "air breaker"]
@@ -339,7 +342,7 @@ categories = {
 						"aliases": ["pop riveter", "rivet gun", "lazy tong riveter", "rivnut pliers"]
 					},
 					{
-						"aliases": ["sash clamp", "G clamp"]
+						"aliases": ["sash clamp", "G clamp", "sash cramp", "G cramp"]
 					}
 				]
 			},
@@ -556,7 +559,7 @@ categories = {
 				"aliases": ["tine ripper"]
 			},
 			{
-				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit", "sink cleaning kit", "plumbing cleaning rod"]
+				"aliases": ["root drain cleaner", "drain clearing", "drain rod", "drain clean", "drain unblocker", "drain cleaning kit", "sink cleaning kit", "plumbing cleaning rod"]
 			},
 			{
 				"aliases": ["rubbish bin", "skip bin"]
