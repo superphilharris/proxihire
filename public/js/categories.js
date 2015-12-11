@@ -342,7 +342,7 @@ categories = {
 						"aliases": ["pop riveter", "rivet gun", "lazy tong riveter", "rivnut pliers"]
 					},
 					{
-						"aliases": ["sash clamp", "G clamp", "sash cramp", "G cramp"]
+						"aliases": ["sash clamp", "G clamp", "sash cramp", "small cramp"]
 					}
 				]
 			},

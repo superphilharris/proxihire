@@ -149,12 +149,11 @@ class ImporterService implements ImporterServiceInterface
 		}
 		
 		// 5. Read in the crawled assets
-		
-		
-		
+		$foundLastCategorizedAsset = false;
 		foreach($pages as $i => $page){
 			if($page->item_type === "asset"){
-				if(!$this->isCategorizeOnly OR $lastCategorizedAssetName === null OR $lastCategorizedAssetName == $page->item_name){
+				$foundLastCategorizedAsset = ($foundLastCategorizedAsset OR $lastCategorizedAssetName === null OR $lastCategorizedAssetName == $page->item_name);
+				if(!$this->isCategorizeOnly OR $foundLastCategorizedAsset){
 					$itemName = ucfirst($page->item_name);
 					// Sync and resize the image
 					$imageUrl = null;
