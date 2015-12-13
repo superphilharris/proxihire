@@ -72,7 +72,7 @@ categories = {
 						}
 					},
 					{
-						"aliases": ["extension lead", "power cable", "3ph elec cable", "3 phase lead", "electric cable", "electric lead"]
+						"aliases": ["extension lead", "power cable", "3ph elec cable", "phase lead", "electric cable", "electric lead"]
 					},
 					{
 						"aliases": ["Category 4 cable", "CAT4", "ethernet cable"]
@@ -103,6 +103,9 @@ categories = {
 					},
 					{
 						"aliases": ["cable protection ramp"]
+					},
+					{
+						"aliases": ["lifeguard tool"]
 					}
 				]
 			},
@@ -156,6 +159,9 @@ categories = {
 					},
 					{
 						"aliases": ["pipe vice", "pipe vise", "pipe clamp"]
+					},
+					{
+						"aliases": ["pipe grip"]
 					},
 					{
 						"aliases": ["pipe cutting"],
@@ -237,7 +243,10 @@ categories = {
 								"aliases": ["tile cutter", "tile saw"]
 							},
 							{
-								"aliases": ["electric nibbler"]
+								"aliases": ["electric nibbler", "nibbler tool"]
+							},
+							{
+								"aliases": ["metal shear"]
 							}
 						]
 					},
@@ -248,10 +257,16 @@ categories = {
 						"aliases": ["secret nail gun", "porta nailer", "secret nailer"]
 					},
 					{
-						"aliases": ["staple gun", "hand stapler"]
+						"aliases": ["staple gun", "hand stapler", "manual staple"]
 					},
 					{
 						"aliases": ["hammer"]
+					},
+					{
+						"aliases": ["nail punch"]
+					},
+					{
+						"aliases": ["scissor grip", "scissor action"]
 					},
 					{
 						"aliases": ["screw driver", "impact gun", "impact driver"]
@@ -298,13 +313,13 @@ categories = {
 						]
 					},
 					{
-						"aliases": ["crowbar", "wrecking bar"]
+						"aliases": ["crowbar", "wrecking bar", "pinch bar"]
 					},
 					{
-						"aliases": ["sander", "air sandblaster"]
+						"aliases": ["sander", "air sandblaster", "orbital disc"]
 					},
 					{
-						"aliases": ["wood router", "electric router"]
+						"aliases": ["wood router", "electric router", "router tool"]
 					},
 					{
 						"aliases": ["electric planer"]
@@ -336,7 +351,7 @@ categories = {
 						"aliases": ["masonry breaker", "concrete breaker", "rotary breaker", "portable breaker", "air breaker"]
 					},
 					{
-						"aliases": ["rock breaker", "rock hammer"]
+						"aliases": ["rock breaker", "rock hammer", "electric breaker"]
 					},
 					{
 						"aliases": ["pop riveter", "rivet gun", "lazy tong riveter", "rivnut pliers"]
@@ -411,7 +426,7 @@ categories = {
 						"aliases": ["survey laser", "laser level", "theodolite"]
 					},
 					{
-						"aliases": ["survey tripod", "elevating tripod"]
+						"aliases": ["survey tripod", "elevating tripod", "standard tripod"]
 					},
 					{
 						"aliases": ["magnetic locator", "magna trak"]
@@ -1167,7 +1182,10 @@ categories = {
 				"aliases": ["paint removal"],
 				"children": [
 		         	{
-		         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper", "heat gun paint removal"]
+		         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper", "heat gun paint removal", "BTU tool"],
+						"properties": {
+							"heat output": "power_electrical"
+						}
 		         	},
 					{
 						"aliases": ["needlegun scaler", "needle scaler", "needle gun"]
@@ -1215,7 +1233,7 @@ categories = {
         		"aliases": ["grease gun"]
         	},
         	{
-        		"aliases": ["snapring plier", "circlip plier"]
+        		"aliases": ["snapring plier", "circlip plier", "ring plier"]
         	},
         	{
         		"aliases": ["spanner combination set"]
@@ -1237,6 +1255,9 @@ categories = {
 					},
 					{
 						"aliases": ["clutch aligner", "clutch aligning"]
+					},
+					{
+						"aliases": ["hub puller"]
 					}
 				]
         	},
