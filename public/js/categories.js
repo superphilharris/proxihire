@@ -4,7 +4,7 @@ categories = {
 		"aliases": ["construction","building","renovation"],
 		"children": [
 			{
-				"aliases": ["tarpaulin"],
+				"aliases": ["tarpaulin", "trailer cover"],
 				"properties": {
 					"width": "lineal",
 					"length": "lineal"
@@ -45,7 +45,7 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["water cart", "water carrier"]
+				"aliases": ["water cart", "water carrier", "tanker trailer", "tanker truck"]
 			},
 			{
 				"aliases": ["roofing"],
@@ -175,7 +175,7 @@ categories = {
 						]
 					},
 					{
-						"aliases": ["tap seat cutter", "tap reseating tool", "tap seat cutting tool"]
+						"aliases": ["tap seat cutter", "tap reseat", "tap seat cutting tool"]
 					},
 					{
 						"aliases": ["pipe flarer", "flaring tool", "tube flaring"]
@@ -184,13 +184,19 @@ categories = {
 						"aliases": ["knockout punch", "chassis punch"]
 					},
 					{
-						"aliases": ["tap and die set"]
+						"aliases": ["tap and die set", "stock and die"]
 					},
 					{
 						"aliases": ["pipe bender", "copper bender", "copper bending"]
 					},
 					{
 						"aliases": ["chain tongs"]
+					},
+					{
+						"aliases": ["valve lifter"]
+					},
+					{
+						"aliases": ["water trap"]
 					}
 				]
 			},
@@ -263,6 +269,9 @@ categories = {
 						"aliases": ["hammer"]
 					},
 					{
+						"aliases": ["tape measure", "builder tape"]
+					},
+					{
 						"aliases": ["nail punch"]
 					},
 					{
@@ -331,10 +340,19 @@ categories = {
 						"aliases": ["welding"],
 						"children": [
 							{
-								"aliases": ["welder", "gas welding"]
+								"aliases": ["welder", "gas welding", "hand held burner"]
 							},
 							{
 								"aliases": ["welding outfit", "welding single phase", "welding three phase"]
+							},
+							{
+								"aliases": ["MIG welder", "MIG welding", "electric welding"]
+							},
+							{
+								"aliases": ["acetylene welder", "torch welding"]
+							},
+							{
+								"aliases": ["welding equipment"]
 							}
 						]
 					},
@@ -400,6 +418,9 @@ categories = {
 						"aliases": ["scissor lift", "aerial work platform", "cherry picker"]
 					},
 		 			{
+						"aliases": ["spider lift"]
+					},
+		 			{
 						"aliases": ["man cage", "work platform"]
 					},
 		 			{
@@ -426,7 +447,7 @@ categories = {
 						"aliases": ["survey laser", "laser level", "theodolite"]
 					},
 					{
-						"aliases": ["survey tripod", "elevating tripod", "standard tripod"]
+						"aliases": ["survey tripod", "elevating tripod", "standard tripod", "aluminium tripod"]
 					},
 					{
 						"aliases": ["magnetic locator", "magna trak"]
@@ -538,7 +559,7 @@ categories = {
 				"aliases": ["garden sprayer", "weed sprayer", "backpack sprayer", "lawn sprayer"]
 			},
 			{
-				"aliases": ["fertiliser spreader", "seed spreader"]
+				"aliases": ["fertiliser spreader", "seed spreader", "spreader truck"]
 			},
 			{
 				"aliases": ["wheelbarrow"]
@@ -1078,13 +1099,16 @@ categories = {
 						    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
 						    },
 						    {
-								"aliases": ["dump truck", "tip truck"],
+								"aliases": ["dump truck", "tip truck", "bulk soil trailer"],
 								"properties": {
 									"tonnage": "weight"
 								}
 							},
 						    {
-								"aliases": ["flat deck truck", "drop side truck"]
+								"aliases": ["waste disposal truck"]
+							},
+						    {
+								"aliases": ["flat deck truck", "drop side truck", "tilt tray truck"]
 							},
 						    {
 								"aliases": ["hooklift truck", "bi-fold truck"]
@@ -1093,13 +1117,19 @@ categories = {
 								"aliases": ["tautliner truck", "curtainside truck"]
 							},
 						    {
-								"aliases": ["box body truck"]
+								"aliases": ["box body truck", "tail lift truck"]
+							},
+						    {
+								"aliases": ["road train truck"]
 							},
 						    {
 								"aliases": ["refrigerated truck", "refrigerated van", "temperature cooled van", "temperature controlled van"]
 							},
 						    {
 								"aliases": ["service truck", "utility truck"]
+							},
+						    {
+								"aliases": ["seeding truck", "mulch truck"]
 							},
 						    {
 								"aliases": ["furniture truck"]
@@ -1119,7 +1149,13 @@ categories = {
 						"aliases": ["ute vehicle"]
 					},
 					{
+						"aliases": ["pilot vehicle", "truck escort"]
+					},
+					{
 						"aliases": ["van"]
+					},
+					{
+						"aliases": ["underground vehicle"]
 					}
 				]
 			},
@@ -1130,10 +1166,10 @@ categories = {
 				"aliases": ["trailer"],
 				"children": [
 					{
-						"aliases":["horse float"]
+						"aliases":["horse float", "livestock trailer"]
 					},
 					{
-						"aliases":["standard trailer", "single axle trailer", "tandem trailer", "box trailer"]
+						"aliases":["standard trailer", "axle trailer", "tandem trailer", "box trailer", "general trailer"]
 					},
 					{
 						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "shuttle luggage trailer"]
@@ -1148,10 +1184,10 @@ categories = {
 						"aliases":["curtainside trailer"]
 					},
 					{
-						"aliases":["drop deck trailer", "low load trailer", "widener trailer", "flat deck trailer", "dog trailer"]
+						"aliases":["drop deck trailer", "low load trailer", "widener trailer", "flat deck trailer", "dog trailer", "tilt deck trailer"]
 					},
 					{
-						"aliases":["dump trailer"]
+						"aliases":["dump trailer", "tipper trailer"]
 					},
 					{
 						"aliases":["bike trailer"]
@@ -1161,6 +1197,12 @@ categories = {
 					},
 					{
 						"aliases":["cable drum trailer"]
+					},
+					{
+						"aliases":["event trailer"]
+					},
+					{
+						"aliases":["refrigerated trailer"]
 					}
 				]
 			}
@@ -1218,7 +1260,10 @@ categories = {
         		"aliases": ["flashing light", "flashing lamp"]
         	},
         	{
-        		"aliases": ["car ramps", "auto ramps", "automotive car ramps"]
+        		"aliases": ["car ramps", "auto ramps", "automotive car ramps", "truck ramp"]
+        	},
+        	{
+        		"aliases": ["rumble grid", "wheel wash"]
         	},
         	{
         		"aliases": ["car polisher"]
@@ -1275,7 +1320,7 @@ categories = {
 				"aliases": ["line marker", "line marking"]
 			},
 			{
-				"aliases": ["portable traffic lights"]
+				"aliases": ["portable traffic light"]
 			},
 			{
 				"aliases": ["road works sign", "stop lolly pop", "traffic control sign"]
@@ -1300,6 +1345,9 @@ categories = {
 					},
 					{
 						"aliases": ["concrete mixer"]
+					},
+					{
+						"aliases": ["concrete truck"]
 					},
 					{
 						"aliases": ["asphelt spade"]
@@ -1371,7 +1419,13 @@ categories = {
         		"aliases": ["agricultural roller", "cambridge roller"]
         	},
          	{
+        		"aliases": ["soil remediation"]
+        	},
+         	{
         		"aliases": ["excavator", "digger", "traxcavator"]
+        	},
+         	{
+        		"aliases": ["pipe ramming machine", "pipe laying machine"]
         	},
          	{
         		"aliases": ["piling machine"]
@@ -1681,11 +1735,14 @@ categories = {
 					},
 		 			{
 		 				"aliases": ["environmental monitor"]
+		 			},
+		 			{
+		 				"aliases": ["soil vapor monitor"]
 		 			}
 		 		]
 			},
 			{
-				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "repairs and services", "home safety equipment"]
+				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "repairs and services", "home safety equipment", "wire tie"]
 			},
 			{
 				"aliases": ["chute"]
