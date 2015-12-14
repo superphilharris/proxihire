@@ -23,5 +23,25 @@ interface BranchInterface
 	 * @param Application\Model\LocationInterface $location The branch's location
 	 */
 	public function setLocation($location);
+
+	/**
+	 * Returns the branch's email
+	 *
+	 * @return string
+	 */
+	public function getEmail();
+
+	/**
+	 * Returns the branch's phone number
+	 *
+	 * @return string
+	 */
+	public function getPhoneNumber();
+
+	/**
+	 * Displays the phone number in the right locale
+	 * @return string
+	 */
+	public function getDisplayPhoneNumber();
 }
 ?>

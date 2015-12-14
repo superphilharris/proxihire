@@ -61,14 +61,18 @@ class User extends AbstractModel implements UserInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getDistanceToClosestBranch($location){
+	public function getClosestBranch($location){
 		if(is_float($location->getLatitude()) AND is_float($location->getLongitude())){
 			$minDistance = 40075000; // Circumference of earth in meters
+			$closestBranch = null;
 			foreach($this->branches as $branch){
-				$minDistance = min($minDistance, $branch->getLocation()->getDistanceTo($location));
+				$thisDistance = $branch->getLocation()->getDistanceTo($location);
+				if($thisDistance <= $minDistance){
+					$minDistance = $thisDistance;
+					$closestBranch = $branch;
+				}
 			}
-			if($minDistance != 40075000) 	return $minDistance;
-			else 							return null;
+			return $closestBranch;
 		}
 		return null;
 	}

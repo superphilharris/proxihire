@@ -37,7 +37,7 @@ interface UserInterface
 	 * @param Application\Model\LocationInterface $location 
 	 * @return float 
 	 */
-	public function getDistanceToClosestBranch($location);
+	public function getClosestBranch($location);
 
 }
 ?>

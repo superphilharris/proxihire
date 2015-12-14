@@ -18,7 +18,7 @@ function generateSQL($country){
 			foreach( $columns as &$column ){
 				$column = mysql_real_escape_string($column);
 			}
-			if(count($columns) > 8){
+			if(count($columns) > 8 AND $columns[7] !== "HTL"){
 				echo "INSERT IGNORE INTO geoname (geoname_id, name_fulnam, latitude_float, longitude_float, country_code) VALUES ('".
 						$columns[0]."','".
 						$columns[2]."','".

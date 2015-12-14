@@ -7,6 +7,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 	private $datatype;
 	
 	const ANGLE				= 'angle';
+	const AREA				= 'area';
 	const BOOLEAN			= 'boolean';
 	const CURRENT			= 'current';
 	const FLOW				= 'flow';
@@ -55,6 +56,12 @@ class Datatype extends AbstractModel implements DatatypeInterface
 		switch ($this->datatype) {
 			case $this::ANGLE:
 				return 		array(1, 	"°");
+			case $this::AREA:
+				if($value < 1){
+					return array(0.0001, 	'cm²');
+				}else{
+					return array(1, 		"m²");
+				}
 			case $this::BOOLEAN:
 				if($value == "1") 		return array("yes", 	"");
 				elseif($value == "0") 	return array("no", 	"");
@@ -143,6 +150,11 @@ class Datatype extends AbstractModel implements DatatypeInterface
 			}
 		}
 		return array(1, "");
+	}
+	
+	public static function getDisplayName($datatype){
+		if($datatype === Datatype::POWER_ELECTRICAL OR $datatype === Datatype::POWER_MECHANICAL) return 'power';
+		else return $datatype;
 	}
 
 }

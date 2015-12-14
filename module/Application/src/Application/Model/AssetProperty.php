@@ -137,7 +137,7 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 		if(is_numeric($referenceValue) AND is_numeric($this->value)) {
 			list($factor, $unit) = $this->datatype->getFactorAndUnit($referenceValue);
 			if($unit !== ""){
-				return array($this->roundTo3SF($this->value/$factor), $unit);
+				return array($this->roundToSF($this->value/$factor, 2), $unit);
 			}elseif($factor == "yes" OR $factor == "no"){
 				return array($factor, "");
 			}
@@ -145,12 +145,12 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 		return array($this->value, "");
 	}
 	
-	private function roundTo3SF($number){
+	private function roundToSF($number, $sf){
 		$number = floatval($number);
 		if($number == 0.0) return 0;
 		$digits = (int)(log10($number));
 		if($digits < -1000) return 0;
-		return (pow(10, $digits)) * round($number/(pow(10, $digits)), 3);
+		return (pow(10, $digits)) * round($number/(pow(10, $digits)), $sf-1);
 	}
 	
 }

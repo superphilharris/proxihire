@@ -139,10 +139,9 @@ class SearchController extends AbstractActionController
 			! isset($filters->location->longitude->min) OR
 			! isset($filters->location->longitude->max)
 		){
-			$range = isset($filters->location->radius) ? $filters->location->radius : 10000; // In km ??
+			$range = isset($filters->location->radius) ? $filters->location->radius : 30; // In km ??
 			$lat_radius=$range/110.574; # Convert km to \delta latitude
-			$long_radius=$range/(111.320*cos($range*pi()/180)); # Convert km to \delta latitude
-			
+			$long_radius=$range/111.320*acos(deg2rad($filters->location->latitude->user)); # Convert km to \delta latitude
 			$filters->location->latitude->min 	= $filters->location->latitude->user - $lat_radius;
 			$filters->location->latitude->max 	= $filters->location->latitude->user + $lat_radius;
 			$filters->location->longitude->min 	= $filters->location->longitude->user - $long_radius;

@@ -16,6 +16,13 @@ interface UrlInterface
 	 * @return string
 	 */
 	public function getPath();
+	
+	/**
+	 * Returns the URL path to display 
+	 *
+	 * @return string
+	 */
+	public function getDisplayPath();
 
 	/**
 	 * Increments the click count

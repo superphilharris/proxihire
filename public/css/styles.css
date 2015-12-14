@@ -7,7 +7,16 @@ in your HTML file.
 license: MIT
 author: bootply.com
 */
-
+.caret-right {
+    border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    border-left: 4px solid;
+    display: inline-block;
+    height: 0;
+    line-height: 1em;
+    padding-right: 5px;
+    margin-bottom: 1px;
+}
 
 
 body{
@@ -165,6 +174,7 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMA
 	max-height: 1.1em;
 	overflow:hidden;
 	display: block;
+	word-break: break-all;
 }
 .panel-heading > table {
 	width: 100%;
@@ -209,6 +219,19 @@ background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAABCAMA
 .distanceToUser {
 	text-align: right;
 }
+.contactBranchButton {
+	width: 50%;
+	display: inline-block;
+	height: 50px;
+	border-right: 1px solid #DDD;
+	border-bottom: 1px solid #DDD;
+	border-left: 1px solid #FFF;
+	border-top: 1px solid #FFF;
+}
+.contactButtonIcon {
+	margin: 10px;
+	height: 30px;
+}
 
 /* Location Bar */
 .currentLocation {
@@ -245,6 +268,10 @@ div.assetPanel {
 	border-color: #999;
 	border-width: 1px 0px;
 	margin-bottom: -1px;
+}
+div.assetPanel:hover {
+	border-color: #0B7866;
+	cursor: pointer;
 }
 div.assetPanel > .panel-heading {
 	border-bottom: 0;
@@ -310,6 +337,9 @@ html,body{
 	.currentLocation span.input-group-addon {
 		border-radius: 0px 4px 4px 0px;
 		border-width: 1px 1px 1px 0px;
+	}
+	.contactBranchButton {
+		width: 33.33%;
 	}
 }
 .categoryAndFilterBar {

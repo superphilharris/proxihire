@@ -271,9 +271,15 @@ function updateFromCategoryOrLocation(newCategory){
 			url: 	"/assetlist/"+urlEnd, 
 			success: function(html){
 				try{
+					var categoryHasChanged = (CURRENT_CATEGORY != newCategory);
 					PREVIOUS_CATEGORY = CURRENT_CATEGORY;
 					CURRENT_CATEGORY = newCategory;
-					History.pushState({html: html}, title, "/search/"+urlEnd);
+					if(categoryHasChanged){
+						History.pushState({html: html}, title, "/search/"+urlEnd);
+					}else{
+			    		$('#searchResults').html(html);
+			    		postGoCategory();
+					}
 				}catch(e){
 					if(newCategory && newCategory != "")	window.location.href = "/search/" + urlEnd;
 				}
@@ -300,6 +306,8 @@ function goCategoryAsync(category) {
 			PREVIOUS_CATEGORY = CURRENT_CATEGORY;
 			CURRENT_CATEGORY = CURRENT_CATEGORY_ASYNC;
 			removeAllMarkers();
+
+        	console.log("async html");
 			$('#searchResults').html(html);
 			postGoCategory();
 			$('#left').scrollTop(33);
@@ -346,6 +354,16 @@ function postGoCategory(){
 	}).bind('typeahead:cursorchange', function(ev, suggestion){
 		console.log('could have async fetching here as well?' + suggestion);
 	});
+	
+	$('.assetPanel').each(function(){
+		var panel = $(this);
+		$(this).click(function(event){
+			$(this).find('.assetSummaryTitle').toggle();
+			$(this).find('.assetExpandedTitle').toggle();
+			$(this).find('.displayMoreContactDetails').toggle();
+			panel.css('cursor', 'auto').unbind("click");
+		});
+	});
 }
 
 $(document).ready(function(){
@@ -353,9 +371,9 @@ $(document).ready(function(){
         if(History.getState().data.html){
     		$('#searchResults').html(History.getState().data.html);
     		postGoCategory();
-		if (CURRENT_CATEGORY != PREVIOUS_CATEGORY) {
-			$('#left').scrollTop(33);
-		}
+			if (CURRENT_CATEGORY != PREVIOUS_CATEGORY) {
+				$('#left').scrollTop(33);
+			}
         }
     });
     

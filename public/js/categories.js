@@ -5,14 +5,23 @@ categories = {
 		"children": [
 			{
 				"aliases": ["tarpaulin"],
-				"properties": [{"width":"lineal"}, {"length":"lineal"}]
+				"properties": {
+					"width": "lineal",
+					"length": "lineal"
+				}
 			},
 			{
 				"aliases": ["ladder"],
-				"properties": [{"total height":"lineal"}]
+				"properties": {
+					"total height": "lineal"
+				}
 			},
 			{
-				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper", "lino remover", "tile remover"]
+				"aliases": ["floor stripper", "tile stripper", "carpet stripper", "floor scraper", "lino remover", "tile remover", "floor lifter"],
+				"properties": {
+					"width": "lineal",
+					"weight": "weight"
+				}
 			},
 			{
 				"aliases": ["scaffolding equipment"],
@@ -22,7 +31,10 @@ categories = {
 					},
 					{
 						"aliases": ["acrow prop", "construction prop"],
-						"properties": [{"max length":"lineal"}, {"min length":"lineal"}]
+						"properties": {
+							"max length": "lineal", 
+							"min length": "lineal"
+						}
 					},
 					{
 						"aliases": ["mobile scaffolding", "alloy scaffold", "metre scaffold"]
@@ -44,26 +56,38 @@ categories = {
 				]
 			},
 			{
-				"aliases": ["fencing", "barrier", "delineator", "fence"],
-				"properties": [{"length":"lineal"}, {"height": "lineal"}]
+				"aliases": ["fencing", "barrier", "delineator", "fence", "safety panel", "hoarding gantry"],
+				"properties": {
+					"panel length": "lineal", 
+					"panel height": "lineal"
+				}
 			},
 			{
 				"aliases": ["electrical and generators"],
 				"children": [
 					{
-						"aliases": ["power splitter box", "distribution box", "splitter box", "distribution board", "phase junction box"]
+						"aliases": ["power splitter box", "distribution box", "splitter box", "distribution board", "phase junction box"],
+						"properties": {
+							"max current": "current"
+						}
 					},
 					{
-						"aliases": ["extension lead", "power cable", "3ph elec cable", "3 phase lead", "electric cable"]
+						"aliases": ["extension lead", "power cable", "3ph elec cable", "phase lead", "electric cable", "electric lead"]
 					},
 					{
 						"aliases": ["Category 4 cable", "CAT4", "ethernet cable"]
 					},
 					{
-						"aliases": ["plug board", "earthleakage plug", "earthleakage phase"]
+						"aliases": ["plug board", "earthleakage plug", "earthleakage phase"],
+						"properties": {
+							"max current": "current"
+						}
 					},
 					{
-						"aliases": ["generator", "diesel skid"]
+						"aliases": ["generator", "diesel skid"],
+						"properties": {
+							"continuous output": "power_electrical"
+						}
 					},
 					{
 						"aliases": ["transformer"]
@@ -79,6 +103,9 @@ categories = {
 					},
 					{
 						"aliases": ["cable protection ramp"]
+					},
+					{
+						"aliases": ["lifeguard tool"]
 					}
 				]
 			},
@@ -92,7 +119,11 @@ categories = {
 						"aliases": ["air scaler"]
 					},
 					{
-						"aliases": ["air hose"]
+						"aliases": ["air hose"],
+						"properties": {
+							"diameter": "lineal",
+							"length": "lineal"
+						}
 					},
 					{
 						"aliases": ["compressor"]
@@ -115,7 +146,7 @@ categories = {
 						"aliases": ["vacuum pump", "suction pump"]
 					},
 					{
-						"aliases": ["flexi-drive pump", "flex drive pump"]
+						"aliases": ["flexi-drive pump", "flex drive pump", "flexi-drive unit"]
 					},
 					{
 						"aliases": ["fire hydrant"]
@@ -127,7 +158,10 @@ categories = {
 						"aliases": ["pipe die", "bolt die", "pipe threader"]
 					},
 					{
-						"aliases": ["pipe vice", "pipe vise"]
+						"aliases": ["pipe vice", "pipe vise", "pipe clamp"]
+					},
+					{
+						"aliases": ["pipe grip"]
 					},
 					{
 						"aliases": ["pipe cutting"],
@@ -144,13 +178,16 @@ categories = {
 						"aliases": ["tap seat cutter", "tap reseating tool", "tap seat cutting tool"]
 					},
 					{
+						"aliases": ["pipe flarer", "flaring tool", "tube flaring"]
+					},
+					{
 						"aliases": ["knockout punch", "chassis punch"]
 					},
 					{
 						"aliases": ["tap and die set"]
 					},
 					{
-						"aliases": ["pipe bender", "copper bender"]
+						"aliases": ["pipe bender", "copper bender", "copper bending"]
 					},
 					{
 						"aliases": ["chain tongs"]
@@ -200,16 +237,16 @@ categories = {
 								"aliases": ["chainsaw"]
 							},
 							{
-								"aliases": ["pole pruner", "pruning saw", "bow saw", "pruner saw"]
-							},
-							{
 								"aliases": ["demolition saw"]
 							},
 							{
 								"aliases": ["tile cutter", "tile saw"]
 							},
 							{
-								"aliases": ["electric nibbler"]
+								"aliases": ["electric nibbler", "nibbler tool"]
+							},
+							{
+								"aliases": ["metal shear"]
 							}
 						]
 					},
@@ -220,10 +257,16 @@ categories = {
 						"aliases": ["secret nail gun", "porta nailer", "secret nailer"]
 					},
 					{
-						"aliases": ["staple gun", "hand stapler"]
+						"aliases": ["staple gun", "hand stapler", "manual staple"]
 					},
 					{
 						"aliases": ["hammer"]
+					},
+					{
+						"aliases": ["nail punch"]
+					},
+					{
+						"aliases": ["scissor grip", "scissor action"]
 					},
 					{
 						"aliases": ["screw driver", "impact gun", "impact driver"]
@@ -270,13 +313,13 @@ categories = {
 						]
 					},
 					{
-						"aliases": ["crowbar", "wrecking bar"]
+						"aliases": ["crowbar", "wrecking bar", "pinch bar"]
 					},
 					{
-						"aliases": ["sander", "air sandblaster"]
+						"aliases": ["sander", "air sandblaster", "orbital disc"]
 					},
 					{
-						"aliases": ["wood router", "electric router"]
+						"aliases": ["wood router", "electric router", "router tool"]
 					},
 					{
 						"aliases": ["electric planer"]
@@ -302,16 +345,19 @@ categories = {
 						"aliases": ["cutter bender"]
 					},
 					{
+						"aliases": ["wire strainer", "small crimping tool"]
+					},
+					{
 						"aliases": ["masonry breaker", "concrete breaker", "rotary breaker", "portable breaker", "air breaker"]
 					},
 					{
-						"aliases": ["rock breaker", "rock hammer"]
+						"aliases": ["rock breaker", "rock hammer", "electric breaker"]
 					},
 					{
 						"aliases": ["pop riveter", "rivet gun", "lazy tong riveter", "rivnut pliers"]
 					},
 					{
-						"aliases": ["sash clamp", "G clamp"]
+						"aliases": ["sash clamp", "G clamp", "sash cramp", "small cramp"]
 					}
 				]
 			},
@@ -325,7 +371,7 @@ categories = {
 				"aliases": ["flooring tools"],
 				"children": [
 		 			{
-						"aliases": ["lino roller"]
+						"aliases": ["lino roller", "vinyl roller"]
 					},
 		 			{
 						"aliases": ["flooring clamp", "floor cramp", "floor clamp"]
@@ -380,7 +426,7 @@ categories = {
 						"aliases": ["survey laser", "laser level", "theodolite"]
 					},
 					{
-						"aliases": ["survey tripod", "elevating tripod"]
+						"aliases": ["survey tripod", "elevating tripod", "standard tripod"]
 					},
 					{
 						"aliases": ["magnetic locator", "magna trak"]
@@ -445,7 +491,7 @@ categories = {
 						"aliases": ["furniture moving blanket"]
 					},
 					{
-						"aliases": ["shipping container", "office block", "container", "site accomodation"]
+						"aliases": ["shipping container", "office block", "container", "site accommodation", "portable lunch room", "portable office", "mobile site camp", "portable workshop"]
 					},
 					{
 						"aliases": ["crane"]
@@ -478,9 +524,15 @@ categories = {
 						"aliases": ["hedge trimmer", "power unit extension"]
 					},
 					{
-						"aliases": ["garden pruner", "telescopic pruner"]
+						"aliases": ["garden pruner", "telescopic pruner", "pole pruner", "pruning saw", "bow saw", "pruner saw"]
+					},
+					{
+						"aliases": ["hand shears"]
 					}
 				]
+			},
+			{
+				"aliases": ["stump grinder", "stump remover"]
 			},
 			{
 				"aliases": ["garden sprayer", "weed sprayer", "backpack sprayer", "lawn sprayer"]
@@ -522,7 +574,7 @@ categories = {
 				"aliases": ["tine ripper"]
 			},
 			{
-				"aliases": ["root drain cleaner", "drain clearing", "drain unblocker", "drain cleaning kit", "sink cleaning kit", "plumbing cleaning rod"]
+				"aliases": ["root drain cleaner", "drain clearing", "drain rod", "drain clean", "drain unblocker", "drain cleaning kit", "sink cleaning kit", "plumbing cleaning rod"]
 			},
 			{
 				"aliases": ["rubbish bin", "skip bin"]
@@ -537,7 +589,7 @@ categories = {
 						"aliases": ["weed eater", "scrubcutter", "line trimmer", "lawn edger", "scrub cutter"]
 					},
 					{
-						"aliases": ["lawn motor", "lawn mower", "grass slasher", "hand mower", "home mower"]
+						"aliases": ["lawn motor", "lawn mower", "grass slasher", "hand mower", "home mower", "lawn trimmer"]
 					},
 					{
 						"aliases": ["lawn roller", "lawn corer", "garden roller"]
@@ -625,8 +677,11 @@ categories = {
 		 			{
 						"aliases": ["vacuum cleaner", "industrial vacuum dust", "electric vacuum", "vacuum clean", "industrial vacuum cleaner"]
 					},
+		 			{
+						"aliases": ["vacuum cleaner nozzle", "vacuum upholstery nozzle"]
+					},
 					{
-						"aliases": ["wet vacuum cleaner"]
+						"aliases": ["wet vacuum cleaner", "wet vacuum"]
 					},
 					{
 						"aliases": ["extraction fan", "exhaust fan", "ventilator fan", "ventilating fan", "dust fan"]
@@ -1023,7 +1078,10 @@ categories = {
 						    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
 						    },
 						    {
-								"aliases": ["dump truck", "tip truck"]
+								"aliases": ["dump truck", "tip truck"],
+								"properties": {
+									"tonnage": "weight"
+								}
 							},
 						    {
 								"aliases": ["flat deck truck", "drop side truck"]
@@ -1078,7 +1136,7 @@ categories = {
 						"aliases":["standard trailer", "single axle trailer", "tandem trailer", "box trailer"]
 					},
 					{
-						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer"]
+						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "shuttle luggage trailer"]
 					},
 					{
 						"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer"]
@@ -1124,7 +1182,10 @@ categories = {
 				"aliases": ["paint removal"],
 				"children": [
 		         	{
-		         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper", "heat gun paint removal"]
+		         		"aliases": ["paint burner", "paint burn off set", "heatgun paint stripper", "heat gun paint removal", "BTU tool"],
+						"properties": {
+							"heat output": "power_electrical"
+						}
 		         	},
 					{
 						"aliases": ["needlegun scaler", "needle scaler", "needle gun"]
@@ -1172,7 +1233,7 @@ categories = {
         		"aliases": ["grease gun"]
         	},
         	{
-        		"aliases": ["snapring plier", "circlip plier"]
+        		"aliases": ["snapring plier", "circlip plier", "ring plier"]
         	},
         	{
         		"aliases": ["spanner combination set"]
@@ -1191,11 +1252,17 @@ categories = {
 					},
 					{
 						"aliases": ["bearing puller"]
+					},
+					{
+						"aliases": ["clutch aligner", "clutch aligning"]
+					},
+					{
+						"aliases": ["hub puller"]
 					}
 				]
         	},
          	{
-        		"aliases": ["fuel tank"]
+        		"aliases": ["fuel tank", "fuel tank container"]
         	},
         	{
         		"aliases": ["car battery charger", "automotive battery charger"]
@@ -1211,7 +1278,7 @@ categories = {
 				"aliases": ["portable traffic lights"]
 			},
 			{
-				"aliases": ["road works sign","stop lolly pop"]
+				"aliases": ["road works sign", "stop lolly pop", "traffic control sign"]
 			},
 			{
 				"aliases": ["road cone"]
@@ -1313,7 +1380,7 @@ categories = {
         		"aliases": ["crushing plant", "mobile crushing unit", "crushing and screening"]
         	},
          	{
-        		"aliases": ["wheel tractor-scraper", "motor scraper", "elevating scraper", "open bowl scraper"]
+        		"aliases": ["wheel tractor-scraper", "motor scraper", "elevating scraper", "open bowl scraper", "scraper scraper"]
         	},
          	{
         		"aliases": ["swivel dumper", "dumper carrier"]
@@ -1325,10 +1392,10 @@ categories = {
         		"aliases": ["excavation safety"],
         		"children": [
 		          	{
-		         		"aliases": ["trench shoring"]
+		         		"aliases": ["trench shoring", "trench  barrier", "shield fence"]
 		         	},
 		          	{
-		         		"aliases": ["road plate"]
+		         		"aliases": ["road plate", "steel plate"]
 		         	},
 					{
 						"aliases": ["ground protection mat"]
@@ -1554,13 +1621,16 @@ categories = {
 						"aliases": ["fire extinguisher"]
 					},
 					{
+						"aliases": ["site access mat"]
+					},
+					{
 						"aliases": ["safety harness"]
 					},
 					{
 						"aliases": ["safety helmet", "hard hat"]
 					},
 					{
-						"aliases": ["dust mask"]
+						"aliases": ["dust mask", "paint mask"]
 					},
 					{
 						"aliases": ["face mask", "face shield"]
@@ -1615,10 +1685,13 @@ categories = {
 		 		]
 			},
 			{
-				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "repairs and services"]
+				"aliases": ["not available", "rose ball", "helium fill 11", "dogging bar", "repairs and services", "home safety equipment"]
 			},
 			{
 				"aliases": ["chute"]
+			},
+			{
+				"aliases": ["man hole cover"]
 			},
 			{
 				"aliases": ["nylon straps", "safety straps", "securing straps"]
@@ -1639,7 +1712,7 @@ categories = {
 				"aliases": ["dredger", "dredging"]
 			},
 			{
-				"aliases": ["stump grinder", "stump remover"]
+				"aliases": ["small assorted tools"]
 			},
 			{
 				"aliases": ["farming and forestry tools"]

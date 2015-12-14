@@ -6,12 +6,8 @@ use Application\Model\Datatype;
 class ImporterServiceHelper {
 	// The below 3 configurations are used to speed up the scraping for testing purposes.
 	const UPDATE_IMAGES 			= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	const GENERATE_RANDOM_LOCATIONS = FALSE; // Turn on if we are overusing the google api. Set to TRUE to speed up.
-	const CREATE_IMAGES				= TRUE;  // Whether we want to copy their images over. Set to FALSE to speed up.
-// 	const GENERATE_RANDOM_LOCATIONS = TRUE; // Uncomment to speed up
-// 	const CREATE_IMAGES				= FALSE; // Uncomment to speed up
-	
 	private $propertyAliases = array();
+	private $isCategorizeOnly 	= false; // Turn on if we are overusing the google api. Set to TRUE to speed up.
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
 	
 	
@@ -128,7 +124,7 @@ class ImporterServiceHelper {
 			}elseif($unit === 'watts'){
 				$property['datatype']  = Datatype::POWER_ELECTRICAL;
 				$property['value_mxd'] = floatval($number);
-			}elseif($unit === 'kw'){
+			}elseif($unit === 'kw' OR $unit === 'kva'){
 				$property['datatype']  = Datatype::POWER_ELECTRICAL;
 				$property['value_mxd'] = floatval($number) * 1000;
 			}elseif($unit === 'volt' OR $unit === 'volts'){
@@ -215,8 +211,23 @@ class ImporterServiceHelper {
 		return $string;
 	}
 	
-	public function __construct(){
+	private function determinePhoneNumber($location){
+		$phoneNumber = null;
+		if(property_exists($location, 'phone_number') AND trim($location->phone_number) !== ''){
+			$phoneNumber = trim($location->phone_number);
+			if(strpos($phoneNumber, '+64') === 0){
+				$phoneNumber = preg_replace("/[^0-9+]/", '', $phoneNumber);
+			}else{
+				throw new \Exception("Do not know how to deal with phone numbers like: '$phoneNumber'");
+			}
+		}
+		return $phoneNumber;
+	}
+	
+	
+	public function __construct($isCategorizeOnly=false){
 		$this->propertyAliases = array_map('str_getcsv', file(__DIR__.'/PropertyAliases.csv'));
+		$this->isCategorizeOnly = $isCategorizeOnly;
 	}
 	
 
@@ -244,7 +255,7 @@ class ImporterServiceHelper {
 	 * @return boolean
 	 */
 	public function syncImage($url, $type="assets"){
-		if($this::CREATE_IMAGES AND $url !== null AND $url !== ""){
+		if(!$this->isCategorizeOnly AND $url !== null AND $url !== ""){
 			$urlComponents = parse_url($url);
 			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
 				$localImageRelativePath = $urlComponents['host'].$urlComponents['path'];
@@ -253,17 +264,32 @@ class ImporterServiceHelper {
 					$directory = dirname($localImage);
 					$this->mkdir($directory);
 					exec("cd $directory; wget -N ".addslashes($url));
-					if(file_exists($localImage)){
-						if(filesize($localImage) > 100) return $localImageRelativePath;
-						else 							unlink($localImage);
-					}
-				}else{
-					if($this::UPDATE_IMAGES) 	return null;
-					else 						return $localImageRelativePath;
+				}
+				if(file_exists($localImage)){
+					if(filesize($localImage) > 100) return $localImageRelativePath;
+					else 							unlink($localImage);
 				}
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * This determines the latitude, longitude, email address and parses the phone number
+	 * @param stdClass $location
+	 * @return stdClass
+	 */
+	public function determineBranch($location, $lessor){
+		$branch = $this->getLatitudeAndLongitude($location);
+		$branch->email 			= (property_exists($lessor, 'email'))? 			$lessor->email 			: null;
+		$branch->phone_number 	= (property_exists($lessor, 'phone_number'))? 	$lessor->phone_number 	: null;
+		$branch->name 			= (property_exists($lessor, 'name'))? 			$lessor->name 			: null;
+		if(!is_string($location)){
+			if(property_exists($location, 'email')) $branch->email = $location->email;
+			if(property_exists($location, 'name')) 	$branch->name  = $location->name;
+			$branch->phone_number = $this->determinePhoneNumber($location);
+		}
+		return $branch;
 	}
 	
 	/**
@@ -273,13 +299,14 @@ class ImporterServiceHelper {
 	 * @param string|\stdClass $location
 	 * @return \stdClass
 	 */
-	public function getLatitudeAndLongitude($location){
-		if (is_string($location)) return $this->getLatitudeAndLongitudeFromAddress($location);
-		else return $location;
+	private function getLatitudeAndLongitude($location){
+		if (is_string($location)) 						return $this->getLatitudeAndLongitudeFromAddress($location);
+		elseif (property_exists($location, 'address'))	return $this->getLatitudeAndLongitudeFromAddress($location->address);
+		else 											return $location;
 	}
 	
 	private function getLatitudeAndLongitudeFromAddress($physicalAddress){
-		if($this::GENERATE_RANDOM_LOCATIONS){
+		if($this->isCategorizeOnly){
 			$latLong = new \stdClass();
 			$latLong->lat  = -36.862043 + rand(-10,10)/300;
 			$latLong->long = 174.761066 + rand(-10, 10)/500;
@@ -311,6 +338,7 @@ class ImporterServiceHelper {
 	 * @return string 	- the new image url
 	 */
 	public function resizeAndCropImage($imagePath, $x=120, $y=120){
+		if($this->isCategorizeOnly) return null;
 		if($imagePath !== null){
 			$imagePathParts = explode('.', $imagePath);
 			if(strlen($imagePathParts[count($imagePathParts) - 1]) > 4){ // The image doesn't have an extension
@@ -336,8 +364,9 @@ class ImporterServiceHelper {
 	 * @return NULL|string
 	 */
 	public function createIcons($iconPath){
-		if($iconPath !== null){
-			$iconDir = __DIR__.'/../../../../../public/img/lessors/';
+		if($this->isCategorizeOnly) return null;
+		$iconDir = __DIR__.'/../../../../../public/img/lessors/';
+		if($iconPath !== null AND file_exists($iconDir.$iconPath)){
 			$iconPathParts = explode('.', $iconPath);
 			$newIconPath = implode('.', array_splice($iconPathParts, 0, -1))."_18x18.".end($iconPathParts);
 			if(!file_exists($iconDir.$newIconPath) OR $this::UPDATE_IMAGES){
@@ -348,7 +377,9 @@ class ImporterServiceHelper {
 				// And combine the image to create a bordered icon
 				exec("convert ".$iconDir."white.ico $iconDir".escapeshellarg($newIconPath)." -gravity center -compose over -composite $iconDir".escapeshellarg($newIconPath));
 			}
-			return $newIconPath;
+			if(!file_exists($iconDir.$newIconPath))			return null;
+			elseif(filesize($iconDir.$newIconPath) < 100)	unlink($iconDir.$newIconPath);
+			else 											return $newIconPath;
 		}
 		return null;
 	}
@@ -361,7 +392,7 @@ class ImporterServiceHelper {
 	private function mkdir($dir){
 		if(file_exists($dir)) 				return true;
 		elseif(file_exists(dirname($dir))){
-			if(!mkdir($dir)) 				echo "Could not create directory. Please run: `sudo chown -R www-data:www-data ".dirname($dir);
+			if(!mkdir($dir)) 				throw new Exception("Could not create directory. Please run: `sudo chown -R www-data:www-data ".dirname($dir));
 			else 							return true;
 		}else								return $this->mkdir(dirname($dir));
 		return false;
@@ -378,40 +409,50 @@ class ImporterServiceHelper {
 	 * @return array - the properties has
 	 */
 	public function extractPropertiesFromAssetName($assetName, $mainProperties){
+		if($this->isCategorizeOnly) return array();
 		$fixedProperties = array();
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
 		if(count($mainProperties) > 0) {
 			$extractedProperties = null;
-			if(preg_match("/([0-9].*)\((.*[0-9].*)\)/", $assetName, $result)){						// Try: 2.4 meters (8')
+			// Try different regex's to extract out common patterns
+			if(property_exists($mainProperties, 'length') AND property_exists($mainProperties, 'width') AND preg_match("/[0-9].* x [0-9.]+\s*[^\s]+/", $assetName, $result)) { // 4 x 6m
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
+			}elseif(preg_match("/([0-9].*)\((.*[0-9].*)\)/", $assetName, $result)){					// Try: 2.4 meters (8')
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[1]);
+			}elseif(preg_match("/([0-9.]+\s*[^0-9.]+)\s+([0-9.]+\s*[^\s]+)/", $assetName, $result)){// Try 6m 20'
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[1]);
 			}elseif(preg_match("/([0-9].+[0-9]\s*[^\s]+)/", $assetName, $result)){					// Try: 7-9m
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
 			}elseif(preg_match("/[0-9.]+\s*[^\s]+/", $assetName, $result)){							// Try: 4psi
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
-			}elseif(preg_match("/[0-9.]+/", $assetName, $result) AND count($mainProperties) === 1){	// Try: 5
+			}elseif(preg_match("/[0-9.][^\s]+/", $assetName, $result) AND count($mainProperties) === 1){	// Try: 5
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]); // TODO: should we specify the default unit in the categories.js?
 			}
 			if($extractedProperties !== null){
 				// Now see whether they match our expected 
 				foreach($extractedProperties as $extractedProperty){
-					$foundProperty = null;
-					foreach($mainProperties as $mainPropertyName => $mainPropertyVDatatype){
-						if($extractedProperty['datatype'] === $mainPropertyVDatatype){
-							if($extractedProperty['name_fulnam'] === 'min __key__'){
-								$extractedProperty['name_fulnam'] = 'min ' . $mainPropertyName;
-							}elseif($extractedProperty['name_fulnam'] === 'max __key__'){
-								$extractedProperty['name_fulnam'] = 'max ' . $mainPropertyName;
-							}else{
-								$extractedProperty['name_fulnam'] = $mainPropertyName;
-								$foundProperty = $mainPropertyName;
+					// If our extraction has not determined the property
+					if($this->isIn($extractedProperty['name_fulnam'], '__key__')){ 
+						$foundProperty = null;
+						foreach($mainProperties as $mainPropertyName => $mainPropertyDatatype){
+							if($extractedProperty['datatype'] === $mainPropertyDatatype){
+								if($mainPropertyName === '__key__'){
+									$extractedProperty['name_fulnam'] = $mainPropertyName;
+									$foundProperty = $mainPropertyName;
+								}else{
+									$extractedProperty['name_fulnam'] = str_replace('__key__', $mainPropertyName, $extractedProperty['name_fulnam']);
+								}
+								$fixedProperties[$extractedProperty['name_fulnam']] = $extractedProperty;
+								break;
 							}
-							array_push($fixedProperties, $extractedProperty);
-							break;
 						}
-					}
-					
-					if($foundProperty !== null){ // Ensure that we do not match a property twice
-						$mainProperties->{$foundProperty} = null;
+						if($foundProperty !== null){ // Ensure that we do not match a property twice
+							$mainProperties->{$foundProperty} = null;
+						}
+						
+					// Our extraction has determined the property
+					}else{ 
+						$fixedProperties[$extractedProperty['name_fulnam']] = $extractedProperty;
 					}
 				}
 			}
@@ -466,14 +507,18 @@ class ImporterServiceHelper {
 	}
 	
 	public function determineProperties($properties, $categoryName, $assetName, $mainProperties){
+		if($this->isCategorizeOnly) return array();
 		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainProperties);
 		foreach($properties as $propertyName => $propertyValue){
-			$propertiesOut = array_merge($propertiesOut, $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName));
+			$newProperties = $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName);
+			foreach($newProperties as $newProperty){
+				$propertiesOut[$newProperty['name_fulnam']] = $newProperty;
+			}
 		}
 		
 		// Now go and fix the property names using the PropertyAliases.csv
 		foreach($this->propertyAliases as $propertyAlias){
-			if($propertyAlias[0] === $categoryName AND $categoryName =="ladder"){
+			if($propertyAlias[0] === $categoryName){
 				$foundAnotherPropertyWithFixedName = false;
 				foreach($propertiesOut as $siblingProperty){
 					if($this->isSamePropertyName(strtolower($siblingProperty['name_fulnam']), strtolower($propertyAlias[2]))){
@@ -490,7 +535,7 @@ class ImporterServiceHelper {
 				}
 			}
 		}
-		return $propertiesOut;
+		return array_values($propertiesOut);
 	}
 	
 	private function determineRate($timePeriod, $costForPeriod){
@@ -531,6 +576,7 @@ class ImporterServiceHelper {
 	}
 	
 	public function determineRates($rates){
+		if($this->isCategorizeOnly) return array();
 		$ratesOut = array();
 		foreach($rates as $timePeriod => $costForPeriod){
 			$rate = $this->determineRate($timePeriod, $costForPeriod);
@@ -548,21 +594,36 @@ class ImporterServiceHelper {
 	
 	private function determinePropertyWrapper($key, $value, $categoryName){
 		$results = $this->determinePropertiesInternal($key, $value);
-		if(count($results) === 1 AND $key === $value){ // If we have not done anything except make it lower case, then revert the determineProperties
+		if(count($results) === 1){
 			$result = $results[0];
 			if($result['datatype'] === Datatype::STRING){
-				if(strtolower($result['value_mxd']) === trim($key)){
-					$result['value_mxd'] = ucfirst(trim($this->fixSpelling($key)));
-					return array($result);
-				}else{
-					$result['value_mxd'] = ucfirst($this->fixSpelling($result['value_mxd']));
-					return array($result);
+				// If we have not done anything except make it lower case, then revert the determineProperties
+				if($key === $value){ 
+					if(strtolower($result['value_mxd']) === trim($key)){
+						$result['value_mxd'] = ucfirst(trim($this->fixSpelling($key)));
+						return array($result);
+					}else{
+						$result['value_mxd'] = ucfirst($this->fixSpelling($result['value_mxd']));
+						return array($result);
+					}
+					
+				// If there is a colon, then the value could contain both the key and the value
+				}elseif(preg_match('/([A-Za-z].*)\:\s*([0-9].*)/', $value, $matches)){
+					$newResults = $this->determinePropertiesInternal($matches[1], $matches[2]);
+					if($newResults[0]['datatype'] !== Datatype::STRING) $results = $newResults;
 				}
 			}
 		}
 		return $results;
 	}
 	
+	private function giveBothValuesTheSameUnit(&$value1, &$value2){
+		if(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $value1, $value1Units) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $value2, $value2Units) AND floatval($value2) == $value2){
+			$value2 = $value2.$value1Units[1];
+		}elseif(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $value2, $value2Units) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $value1, $value1Units) AND floatval($value1) == $value1){
+			$value1 = $value1.$value2Units[1];
+		}
+	}
 	
 	/**
 	 * Determines the properties that are for an asset
@@ -573,11 +634,38 @@ class ImporterServiceHelper {
 	 */
 	private function determinePropertiesInternal($key, $value){
 		if($key === $value) $key = "";
-		$key   = trim(strtolower($key),   ":- ");
-		$value = trim(strtolower($value), ": ");
+		$key   = trim(strtolower($key),   ":- \t\n\r\0\x0B");
+		$value = trim(strtolower($value), ": \t\n\r\0\x0B");
 	
+		// If this is an area, then grab the length, the width and the total area
+		if($this->isIn($value, "[0-9].* x [0-9]")){
+			$twoNumbers = explode(" x ", $value, 2);
+			$width  = $twoNumbers[0];
+			$length = $twoNumbers[1];
+			
+			$widthResult  	= $this->determineProperty($key, $width);
+			$lengthResult 	= $this->determineProperty($key, $length);
+			
+			// Now check to see how we should interpret the result - it may not be area, but 2 other dimensions
+			if($widthResult['datatype'] === Datatype::LINEAL OR $lengthResult['datatype'] === Datatype::LINEAL){
+				$this->giveBothValuesTheSameUnit($width, $length);
+				$widthResult  	= $this->determineProperty($key, $width);
+				$lengthResult 	= $this->determineProperty($key, $length);
+				
+				$areaResult 	= array('value_mxd' => $widthResult['value_mxd'] * $lengthResult['value_mxd']);
+				$areaResult['name_fulnam'] 		= 'area';
+				$areaResult['datatype'] 		= Datatype::AREA;
+				return array($widthResult, $lengthResult, $areaResult);
+			}elseif($widthResult['datatype'] === Datatype::STRING AND $lengthResult['datatype'] === Datatype::STRING){
+				return array($this->determineProperty($key, $value));
+			}else{
+				// TODO: figure out whether there are other # x # ones that we want to extract
+				// throw new \Exception("Can't extract units out of: '$key' : '$value'. Please add the dimensions: '".$widthResult['datatype']."' x '".$lengthResult['datatype']."' to the list of multi-dimensional checks.");
+				return array($this->determineProperty($key, $value));
+			}
+			
 		// If there is a min and max in the value, then strip them out.
-		if($this->isIn($value, "[0-9].* to .*[0-9]")){
+		}elseif($this->isIn($value, "[0-9].* to .*[0-9]")){
 			if (!strpos($key, ' ')) $key = Porter::Stem($key);
 			$twoNumbers = explode(" to ", $value, 2);
 			$min = $twoNumbers[0];
@@ -602,6 +690,7 @@ class ImporterServiceHelper {
 				$min = $min.$maxUnits[1];
 			}
 			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
+			
 		}elseif($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND !strpos($key, ' ')){
 			$key = Porter::Stem($this->fixSpelling($key));
 			$twoNumbers = explode("-", $value, 2);
@@ -614,8 +703,23 @@ class ImporterServiceHelper {
 				$min = $min.$maxUnits[1];
 			}
 			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
-		}
-		else return array($this->determineProperty($key, $value));
+		
+		// If there are actually 2 units in this value
+		}elseif(preg_match('/([0-9.]+[^0-9]+),\s*([0-9].*)/', $value, $matches)){
+			$key = Porter::Stem($this->fixSpelling($key));
+			$unit1 = $matches[1];
+			$unit2 = $matches[2];
+			
+			$result1 = $this->determineProperty($key, $unit1);
+			$result2 = $this->determineProperty($key, $unit2);
+			if($result1['datatype'] !== $result2['datatype'] AND $result1['datatype'] !== Datatype::STRING AND $result2['datatype'] !== Datatype::STRING){
+				$result1['name_fulnam'] = $result1['name_fulnam'] . ' ' . Datatype::getDisplayName($result1['datatype']);
+				$result2['name_fulnam'] = $result2['name_fulnam'] . ' ' . Datatype::getDisplayName($result2['datatype']);
+				// TODO: could we use one of the extracted datatypes?
+				return array($result1, $result2);
+			}else return array($this->determineProperty($key, $value));
+		
+		}else return array($this->determineProperty($key, $value));
 	}
 
 	/**
@@ -625,9 +729,11 @@ class ImporterServiceHelper {
 	 * @return Ambigous Category|NULL
 	 */
 	public function determineCategory($category, $name){
-		$name = $this->fixSpelling(strtolower($name));
-		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 	return array_values($matchedCategory)[0];
-		if($matchedCategory = $this->determineCategoryMatchedWords($category, $name)) 	return $matchedCategory;
+		$lowercaseName = $this->fixSpelling(strtolower($name));
+		if($matchedCategory = $this->determineCategoryExactMatch($category, $lowercaseName)) 	return array_values($matchedCategory)[0];
+		if($matchedCategory = $this->determineCategoryMatchedWords($category, $lowercaseName)) 	return $matchedCategory;
+		if($matchedCategory = $this->determineCategoryExactMatch($category, $name)) 			return array_values($matchedCategory)[0];
+		if($matchedCategory = $this->determineCategoryMatchedWords($category, $name)) 			return $matchedCategory;
 		return null;
 	}
 	
