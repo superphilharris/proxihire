@@ -183,15 +183,17 @@ class AssetService implements AssetServiceInterface
 			$this->assetMapper->setPrototypeArray($assetArray);
 			$this->assetMapper->findByCategory( $category );
 		}else{
-		// jih: 	$categories=array();
-		// jih: 	foreach( $category->getChildIds() as $childCategory ){
-		// jih: 		$categories=$this->categoryMapper->getPopularCategories( 
-		// jih: 		       $allCategoryAliases->getLeafNodesFor( $childCategory ), 
-		// jih: 		       5 
-		// jih: 		);
-		// jih: 		array_merge( $assetArray, $this->assetMapper->findByCategory($categories) );
-		// jih: 	}
-		// jih: 	$this->assetMapper->setPrototypeArray($assetArray);
+			$leafCategories=array();
+
+			foreach( $childNodes as $childCategory ){
+				$leafCategories=array_merge($leafCategories,$allCategoryAliases->getLeafNodesFor($childCategory));
+			}
+			$categories=$this->categoryMapper->getPopularCategories( 
+				$leafCategories, 
+				5 
+			);
+			$assets=$this->assetMapper->findByCategory($categories);
+			$this->assetMapper->setPrototypeArray($assets);
 		}
 		$this->assetMapper->getUrls($this->urlMapper);
 

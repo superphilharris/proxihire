@@ -130,33 +130,61 @@ class CategoryAliases implements CategoryAliasesInterface
 	}
 
 	public function getLeafNodesFor( $aliasName=null ){
-		$leafNodes = $this->getLeafNodesRecursive( $aliasName, $this->get() );
-		if( empty($leafNodes) ){
-			return array( $aliasName );
-		}
-		return $leafNodes;
+		return $this->getLeafNodesForAliasRecursive( $aliasName, $this->get() );
 	}
 
-	private function getLeafNodesRecursive( $aliasName, $aliasStructure ){
-		if(property_exists($aliasStructure, 'children')) {
-			$children=array();
-			foreach($aliasStructure->children as $child){
-				if( is_null($aliasName) ){
-					$children=array_merge( $children, $this->getLeafNodesRecursive(null,$child) );
-				}else{
-					$found=false;
-					foreach($child->aliases as $childAlias){
-						if(strtolower($aliasName) == strtolower($childAlias)){
-							return $this->getLeafNodesRecursive(null, $child);
-						}
-					}
-					array_merge( $children, $this->getLeafNodesRecursive($aliasName, $child) );
+	private function getLeafNodesForAliasRecursive( $aliasName, $aliasStructure ){
+
+		# If this is the node that we are looking for, then return all leaf nodes
+		if( property_exists( $aliasStructure, 'aliases' ) &&
+		    is_array( $aliasStructure->aliases )
+		){
+			foreach( $aliasStructure->aliases as $alias ){
+				if( $alias == $aliasName ){
+					return $this->getLeafNodesRecursive( $aliasStructure );
 				}
 			}
-			return $children;
-		}elseif( is_null($aliasName) ){
-			return array($aliasStructure);
 		}
+
+		# If this *isn't* the node that we are searching for, then search all of 
+		# its children
+		if( property_exists( $aliasStructure, 'children' ) &&
+		    is_array( $aliasStructure->children )
+		){
+			foreach( $aliasStructure->children as $childAliasStructure ){
+				$leafNodes = $this->getLeafNodesForAliasRecursive( $aliasName, $childAliasStructure );
+				if( !empty($leafNodes) ){
+					return $leafNodes;
+				}
+			}
+		}
+
+		# If this node isn't the node that we are searching for, and neither are 
+		# any of its descendents, then return an empty array.
+		return array();
+	}
+
+	private function getLeafNodesRecursive( $aliasStructure ){
+		# Loop through all of the children
+		if( property_exists( $aliasStructure, 'children' ) &&
+		    is_array( $aliasStructure->children )
+		){
+			$leafNodes=array();
+			foreach( $aliasStructure->children as $childAliasStructure ){
+				$leafNodes = array_merge( $leafNodes, $this->getLeafNodesRecursive($childAliasStructure) );
+			}
+			return $leafNodes;
+		}
+
+		# If this is the node that we are looking for, then return all leaf nodes
+		if( property_exists( $aliasStructure, 'aliases' ) &&
+			is_array( $aliasStructure->aliases ) &&
+			! empty( $aliasStructure->aliases )
+		){
+			return array( $aliasStructure->aliases[0] );
+		}
+
+		# We should never get to here, but if we do, return an empty array.
 		return array();
 	}
 }
