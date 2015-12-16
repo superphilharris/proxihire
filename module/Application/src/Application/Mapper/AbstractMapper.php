@@ -156,7 +156,7 @@ abstract class AbstractMapper
 		$prototype=array_values($this->prototypeArray)[0];
 
 		// Run the query to find all objects with one of the specified ids
-		$where=$this->wherePropertyEquals( $property, $matchArray );
+		$where = $this->wherePropertyEquals( $property, $matchArray );
 		if( !is_null( $and_where ) ){
 
 			$whereArray=array( $where, $and_where );
@@ -274,6 +274,20 @@ abstract class AbstractMapper
 		return $result;
 	}
 
+	/**
+	 * Initializes an empty array of prototypes
+	 *
+	 * @param $number - the number of prototypes to place in the prototype array.
+	 */
+	public function initPrototypeArray( $number=1 ){
+		// jih: classhelper
+		$prototype=array_values($this->prototypeArray)[0];
+		$prototypeArray=array();
+		for( $i=0; $i<$number; $i++){
+			array_push( $prototypeArray, new $prototype);
+		}
+		$this->setPrototypeArray( $prototypeArray );
+	}
 	/**
 	 * Gets the mapper's prototypes.
 	 *

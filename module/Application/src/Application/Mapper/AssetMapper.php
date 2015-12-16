@@ -64,7 +64,7 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 				$category_ids[$key] = $value->getId();
 			}
 		} else {
-			$category_ids[]=$category->getId();
+			$category_ids=array($category->getId());
 		}
 
 		return $this->findBy( 'category_id', $category_ids );

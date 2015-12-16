@@ -47,7 +47,7 @@ class AssetService implements AssetServiceInterface
 		$this->categoryMapper = $categoryMapper;
 	}
 	/**
-	 * {@inheritDoc} jih: make sure that this is in the interface
+	 * {@inheritDoc}
 	 */
 	public function getLessorsForAssets(
 		&$assetList
@@ -188,10 +188,11 @@ class AssetService implements AssetServiceInterface
 			foreach( $childNodes as $childCategory ){
 				$leafCategories=array_merge($leafCategories,$allCategoryAliases->getLeafNodesFor($childCategory));
 			}
-			$categories=$this->categoryMapper->getPopularCategories( 
+			$categories = $this->categoryMapper->getPopularCategories( 
 				$leafCategories, 
 				5 
 			);
+			$this->assetMapper->initPrototypeArray( 5 );
 			$assets=$this->assetMapper->findByCategory($categories);
 			$this->assetMapper->setPrototypeArray($assets);
 		}
