@@ -359,7 +359,6 @@ function postGoCategory(){
 	});
 }
 function displayMoreForPanel(panel){
-	console.log("displaying more for panel");
 	panel.find('.assetSummaryTitle').hide();
 	panel.find('.assetExpandedTitle').show();
 	panel.find('.displayMoreContactDetails').show();
@@ -367,7 +366,7 @@ function displayMoreForPanel(panel){
 	
 	setTimeout(function() {
 		panel.find('.panel-body').click(function(){
-			console.log("hiding panel");
+			panel.css('cursor', 'pointer');
 			panel.find('.assetSummaryTitle').show();
 			panel.find('.assetExpandedTitle').hide();
 			panel.find('.displayMoreContactDetails').hide();
