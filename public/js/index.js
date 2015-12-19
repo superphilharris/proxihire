@@ -306,11 +306,8 @@ function goCategoryAsync(category) {
 			PREVIOUS_CATEGORY = CURRENT_CATEGORY;
 			CURRENT_CATEGORY = CURRENT_CATEGORY_ASYNC;
 			removeAllMarkers();
-
-        	console.log("async html");
 			$('#searchResults').html(html);
 			postGoCategory();
-			$('#left').scrollTop(33);
 		}
 	});
 }
@@ -371,9 +368,6 @@ $(document).ready(function(){
         if(History.getState().data.html){
     		$('#searchResults').html(History.getState().data.html);
     		postGoCategory();
-			if (CURRENT_CATEGORY != PREVIOUS_CATEGORY) {
-				$('#left').scrollTop(33);
-			}
         }
     });
     

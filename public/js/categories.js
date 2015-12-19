@@ -1078,133 +1078,122 @@ categories = {
 		]
 	},
 	{
-		"aliases": ["travel","tourism","transport"],
+		"aliases": ["vehicle"],
 		"children": [
 			{
-				"aliases": ["bike"]
+				"aliases": ["campervan","camper","campa"]
 			},
 			{
-				"aliases": ["vehicle"],
+				"aliases": ["truck"],
 				"children": [
-					{
-						"aliases": ["campervan","camper","campa"]
+				    {
+				    	"aliases": ["skeletal trailer", "semi trailer", "transporter truck", "double trailer"]
+				    },
+				    {
+				    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
+				    },
+				    {
+						"aliases": ["dump truck", "tip truck", "bulk soil trailer"],
+						"properties": {
+							"tonnage": "weight"
+						}
 					},
-					{
-						"aliases": ["truck"],
-						"children": [
-						    {
-						    	"aliases": ["skeletal trailer", "semi trailer", "transporter truck", "double trailer"]
-						    },
-						    {
-						    	"aliases": ["cab n chassis truck", "cab-chassis truck"]
-						    },
-						    {
-								"aliases": ["dump truck", "tip truck", "bulk soil trailer"],
-								"properties": {
-									"tonnage": "weight"
-								}
-							},
-						    {
-								"aliases": ["waste disposal truck"]
-							},
-						    {
-								"aliases": ["flat deck truck", "drop side truck", "tilt tray truck"]
-							},
-						    {
-								"aliases": ["hooklift truck", "bi-fold truck"]
-							},
-						    {
-								"aliases": ["tautliner truck", "curtainside truck"]
-							},
-						    {
-								"aliases": ["box body truck", "tail lift truck"]
-							},
-						    {
-								"aliases": ["road train truck"]
-							},
-						    {
-								"aliases": ["refrigerated truck", "refrigerated van", "temperature cooled van", "temperature controlled van"]
-							},
-						    {
-								"aliases": ["service truck", "utility truck"]
-							},
-						    {
-								"aliases": ["seeding truck", "mulch truck"]
-							},
-						    {
-								"aliases": ["furniture truck"]
-							},
-						    {
-								"aliases": ["car carrier"]
-							}
-						]
+				    {
+						"aliases": ["waste disposal truck"]
 					},
-					{
-						"aliases": ["sedan"]
+				    {
+						"aliases": ["flat deck truck", "drop side truck", "tilt tray truck"]
 					},
-					{
-						"aliases": ["station wagon", "4wd wagon"]
+				    {
+						"aliases": ["hooklift truck", "bi-fold truck"]
 					},
-					{
-						"aliases": ["ute vehicle"]
+				    {
+						"aliases": ["tautliner truck", "curtainside truck"]
 					},
-					{
-						"aliases": ["pilot vehicle", "truck escort"]
+				    {
+						"aliases": ["box body truck", "tail lift truck"]
 					},
-					{
-						"aliases": ["van"]
+				    {
+						"aliases": ["road train truck"]
 					},
-					{
-						"aliases": ["underground vehicle"]
+				    {
+						"aliases": ["refrigerated truck", "refrigerated van", "temperature cooled van", "temperature controlled van"]
+					},
+				    {
+						"aliases": ["service truck", "utility truck"]
+					},
+				    {
+						"aliases": ["seeding truck", "mulch truck"]
+					},
+				    {
+						"aliases": ["furniture truck"]
+					},
+				    {
+						"aliases": ["car carrier"]
 					}
 				]
 			},
 			{
-				"aliases": ["kayak","boat","jetski"]
+				"aliases": ["sedan"]
 			},
 			{
-				"aliases": ["trailer"],
-				"children": [
-					{
-						"aliases":["horse float", "livestock trailer"]
-					},
-					{
-						"aliases":["standard trailer", "axle trailer", "tandem trailer", "box trailer", "general trailer"]
-					},
-					{
-						"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "shuttle luggage trailer"]
-					},
-					{
-						"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer"]
-					},
-					{
-						"aliases":["quad trailer", "quad transporter", "equipment trailer"]
-					},
-					{
-						"aliases":["curtainside trailer"]
-					},
-					{
-						"aliases":["drop deck trailer", "low load trailer", "widener trailer", "flat deck trailer", "dog trailer", "tilt deck trailer"]
-					},
-					{
-						"aliases":["dump trailer", "tipper trailer"]
-					},
-					{
-						"aliases":["bike trailer"]
-					},
-					{
-						"aliases":["car trailer"]
-					},
-					{
-						"aliases":["cable drum trailer"]
-					},
-					{
-						"aliases":["event trailer"]
-					},
-					{
-						"aliases":["refrigerated trailer"]
-					}
-				]
+				"aliases": ["station wagon", "4wd wagon"]
+			},
+			{
+				"aliases": ["ute vehicle"]
+			},
+			{
+				"aliases": ["pilot vehicle", "truck escort"]
+			},
+			{
+				"aliases": ["van"]
+			},
+			{
+				"aliases": ["underground vehicle"]
+			}
+		]
+	},
+	{
+		"aliases": ["trailer"],
+		"children": [
+			{
+				"aliases":["horse float", "livestock trailer"]
+			},
+			{
+				"aliases":["standard trailer", "axle trailer", "tandem trailer", "box trailer", "general trailer"]
+			},
+			{
+				"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "shuttle luggage trailer"]
+			},
+			{
+				"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer"]
+			},
+			{
+				"aliases":["quad trailer", "quad transporter", "equipment trailer"]
+			},
+			{
+				"aliases":["curtainside trailer"]
+			},
+			{
+				"aliases":["drop deck trailer", "low load trailer", "widener trailer", "flat deck trailer", "dog trailer", "tilt deck trailer"]
+			},
+			{
+				"aliases":["dump trailer", "tipper trailer"]
+			},
+			{
+				"aliases":["bike trailer"]
+			},
+			{
+				"aliases":["car trailer"]
+			},
+			{
+				"aliases":["cable drum trailer"]
+			},
+			{
+				"aliases":["event trailer"]
+			},
+			{
+				"aliases":["refrigerated trailer"]
 			}
 		]
 	},{
@@ -1550,6 +1539,12 @@ categories = {
         			}
         		]
         	},
+			{
+				"aliases": ["bike"]
+			},
+			{
+				"aliases": ["kayak","boat","jetski"]
+			},
 			{
 				"aliases": ["music"]
 			}
