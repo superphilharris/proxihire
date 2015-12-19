@@ -47,7 +47,7 @@ class AssetService implements AssetServiceInterface
 		$this->categoryMapper = $categoryMapper;
 	}
 	/**
-	 * {@inheritDoc} jih: make sure that this is in the interface
+	 * {@inheritDoc}
 	 */
 	public function getLessorsForAssets(
 		&$assetList
@@ -156,17 +156,21 @@ class AssetService implements AssetServiceInterface
 	 */
 	public function getAssetList(
 		$category, 
+		$allCategoryAliases,
 		$number=50)
 	{
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"Application\Model\CategoryInterface",
+			"Application\Model\CategoryAliasesInterface",
 			"integer"));
 
 		$assetArray=array();
+		$childNodes = $allCategoryAliases->getChildrenOf( $category->getName() );
 
-		// jih: if( is_null($category->getChildIds()) ){
+		if(empty($childNodes)){
 			if( ! is_null($category->getName()) ){
+
 				$categoryArray=array($category);
 				$this->categoryMapper->setPrototypeArray( $categoryArray );
 				$categoryArray[0]->incrementLoads();
@@ -178,17 +182,20 @@ class AssetService implements AssetServiceInterface
 			}
 			$this->assetMapper->setPrototypeArray($assetArray);
 			$this->assetMapper->findByCategory( $category );
-		// jih: }else{
-		// jih: 	$categories=array();
-		// jih: 	foreach( $category->getChildIds() as $childCategory ){
-		// jih: 		$categories=$this->categoryMapper->getPopularCategories( 
-		// jih: 		       $categoryTree->getLeafNodesFor( $childCategory ), 
-		// jih: 		       5 
-		// jih: 		);
-		// jih: 		array_merge( $assetArray, $this->assetMapper->findByCategory($categories) );
-		// jih: 	}
-		// jih: 	$this->assetMapper->setPrototypeArray($assetArray);
-		// jih: }
+		}else{
+			$leafCategories=array();
+
+			foreach( $childNodes as $childCategory ){
+				$leafCategories=array_merge($leafCategories,$allCategoryAliases->getLeafNodesFor($childCategory));
+			}
+			$categories = $this->categoryMapper->getPopularCategories( 
+				$leafCategories, 
+				5 
+			);
+			$this->assetMapper->initPrototypeArray( 5 );
+			$assets=$this->assetMapper->findByCategory($categories);
+			$this->assetMapper->setPrototypeArray($assets);
+		}
 		$this->assetMapper->getUrls($this->urlMapper);
 
 		return $this->assetMapper->getAssets();
