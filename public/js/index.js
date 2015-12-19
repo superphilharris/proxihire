@@ -353,14 +353,34 @@ function postGoCategory(){
 	});
 	
 	$('.assetPanel').each(function(){
-		var panel = $(this);
-		$(this).click(function(event){
-			$(this).find('.assetSummaryTitle').toggle();
-			$(this).find('.assetExpandedTitle').toggle();
-			$(this).find('.displayMoreContactDetails').toggle();
-			panel.css('cursor', 'auto').unbind("click");
+		$(this).click(function(){
+			displayMoreForPanel($(this));
 		});
 	});
+}
+function displayMoreForPanel(panel){
+	console.log("displaying more for panel");
+	panel.find('.assetSummaryTitle').hide();
+	panel.find('.assetExpandedTitle').show();
+	panel.find('.displayMoreContactDetails').show();
+	panel.css('cursor', 'auto').unbind("click");
+	
+	setTimeout(function() {
+		panel.find('.panel-body').click(function(){
+			console.log("hiding panel");
+			panel.find('.assetSummaryTitle').show();
+			panel.find('.assetExpandedTitle').hide();
+			panel.find('.displayMoreContactDetails').hide();
+			panel.find('.panel-body').unbind("click");
+			
+
+			setTimeout(function() {
+				panel.click(function(){
+					displayMoreForPanel(panel);
+				});
+			}, 1000);
+		});
+	}, 1000);
 }
 
 $(document).ready(function(){
