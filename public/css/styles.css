@@ -279,9 +279,6 @@ div.assetPanel > .panel-heading {
 html,body{
 	height:100%;
 }
-.categoryPanel {
-	height: 120px;
-}
 @media (min-width: 768px) {
 	#main>.row>div {
 		padding-right: 15px;
@@ -401,4 +398,17 @@ html,body{
 .filterIcon {
 	top: 3px;
 	display: none;
+}
+
+
+
+/* Main Page */
+.categoryPanel {
+	height: 120px;
+}
+.categoryImageWrapper img {
+	width: 60px;
+	float: left;
+	margin-right: 14px;
+	margin-top: 14px;
 }

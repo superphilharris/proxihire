@@ -1,12 +1,33 @@
 <div style="height: 15px;">&nbsp;</div>
+
+
+
 <?php 
 
+displayCategoryPanel("Trailer Hire", 				"trailer", 		"trailer.png");
+displayCategoryPanel("Cars and Vehicle Hire", 		"vehicle", 		"car.png");
+displayCategoryPanel("Building and Construction", 	"construction", "construction.png");
+displayCategoryPanel("Scaffolding", 				"scaffolding", 	"scaffolding.png");
+displayCategoryPanel("Events and Catering", 		"scaffolding", 	"catering.png");
+displayCategoryPanel("Home and Appliances", 		"applicance", 	"washer.png");
+displayCategoryPanel("Electrical and Generators", 	"electrical", 	"electrical.png");
+displayCategoryPanel("Painting Equipment", 			"painting", 	"paintbrush.png");
+displayCategoryPanel("Plumbing Equipment", 			"plumbing", 	"plumbing.png");
+displayCategoryPanel("Road Works and Earthmoving", 	"road works", 	"road_works.png");
+displayCategoryPanel("Gardening", 					"garden", 		"spade.png");
+
+
+
+function displayCategoryPanel($categoryTitle, $categoryName, $iconName){
+	echo '<a href="/search/'.$categoryName.'" class="col-lg-3 categoryPanel"><div class="panel panel-default">
+			<div class="panel-body">
+				<div class="categoryImageWrapper"><img src="/img/default_assets/'.$iconName.'"/></div>
+				'.$categoryTitle.'
+			</div>
+		</div></a>';
+}
 
 ?>
 
 
-<div class="panel panel-default categoryPanel col-lg-3">
-	<div class="panel-body">
-		This is our cool item
-	</div>
-</div>
+
