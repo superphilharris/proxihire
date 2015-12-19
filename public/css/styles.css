@@ -279,6 +279,9 @@ div.assetPanel > .panel-heading {
 html,body{
 	height:100%;
 }
+.categoryPanel {
+	height: 120px;
+}
 @media (min-width: 768px) {
 	#main>.row>div {
 		padding-right: 15px;
