@@ -413,5 +413,8 @@ html,body{
 	height: 60px;
 	float: left;
 	margin-right: 14px;
-	margin-top: 14px;
+	margin-top: 8px;
+}
+.categoryPanel .panel-body {
+	margin-top: 6px;
 }
