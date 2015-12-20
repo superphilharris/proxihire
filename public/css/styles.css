@@ -404,10 +404,11 @@ html,body{
 
 /* Main Page */
 .allCategories {
-	margin: 15px -15px 0px -15px;
+	margin: 15px 0px 0px -15px;
 }
 .categoryPanel {
 	height: 120px;
+	padding-right: 0px;
 }
 .categoryImageWrapper img {
 	height: 60px;
