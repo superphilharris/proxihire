@@ -7,19 +7,19 @@
 displayCategoryPanel("Trailer Hire", 				"trailer", 							"trailer.png");
 displayCategoryPanel("Cars and Vehicle Hire", 		"vehicle", 							"car.png");
 displayCategoryPanel("Building and Construction", 	"construction", 					"construction.png");
-displayCategoryPanel("Scaffolding", 				"scaffolding equipment", 			"scaffolding.png");
+displayCategoryPanel("Scaffolding Hire",			"scaffolding equipment", 			"scaffolding.png");
 displayCategoryPanel("Events and Catering", 		"catering", 						"catering.png");
 displayCategoryPanel("Home and Appliances", 		"home appliances and furniture", 	"washer.png");
 displayCategoryPanel("Electrical and Generators", 	"electrical and generators",		"electrical.png");
 displayCategoryPanel("Painting Equipment", 			"painting", 						"paintbrush.png");
 displayCategoryPanel("Plumbing Equipment", 			"plumbing", 						"plumbing.png");
 displayCategoryPanel("Road Works and Earthmoving", 	"road works", 						"road_works.png");
-displayCategoryPanel("Gardening", 					"garden", 							"spade.png");
+displayCategoryPanel("Gardening Hire",				"garden", 							"spade.png");
 
 
 
 function displayCategoryPanel($categoryTitle, $categoryName, $iconName){
-	echo '<a href="/search/'.$categoryName.'" class="col-lg-3 categoryPanel col-md-4 col-sm-4 col-xs-4"><div class="panel panel-default">
+	echo '<a href="/search/'.$categoryName.'" class="col-lg-3 categoryPanel col-md-4 col-sm-4 col-xs-6"><div class="panel panel-default">
 			<div class="panel-body">
 				<div class="categoryImageWrapper"><img src="/img/default_assets/'.$iconName.'"/></div>
 				'.$categoryTitle.'
