@@ -43,7 +43,7 @@ foreach( $this->assetList as $asset ){
 					echo '<a class="contactBranchButton" href="tel:'.$closestBranch->getPhoneNumber().'" title="Call '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/phone_30x30.png"/><div style="display:inline-block;line-height:15px; position:relative;top:5px;">Call<br/>'.$closestBranch->getDisplayPhoneNumber().'</div></a>';
 				}
 				if($closestBranch->getEmail() !== null){
-					echo '<a class="contactBranchButton" href="mailto:'.$closestBranch->getEmail().'" title="Email '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/email_30x30.png"/>Email</a>';
+					echo '<a class="contactBranchButton" href="mailto:'.$closestBranch->getEmail().'?subject='.urlencode("Proxhihire enquiry for ".$asset->getUrl()->getTitle()).'?body='.urlencode('Hi '.$closestBranch->getLocation()->getName().',\nI am interested in hiring the '.$asset->getUrl()->getTitle().'\nIs this currently available?\nRegards,\n').'" title="Email '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/email_30x30.png"/>Email</a>';
 				}
 				echo '<a class="contactBranchButton" target="_blank" href="https://www.google.com/maps/dir/'.$userLocation->getLatitude().','.$userLocation->getLongitude().'/'.$closestBranch->getLocation()->getLatitude().','.$closestBranch->getLocation()->getLongitude().'/" title="Directions to '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/directions_30x30.png"/>Directions</a>';
 			?>
