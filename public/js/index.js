@@ -260,6 +260,7 @@ function goCategory(category){
 }
 
 function updateFromCategoryOrLocation(newCategory){
+	if(googleMap == null) $('#searchResults').html('<div class="searchResultsLoader"><img src="/img/loader.gif"/></div>');
 	var urlEnd = newCategory + '?' + encodeURIComponent(JSON.stringify({location:CURRENT_LOCATION}));
 	try {
 		// $('#searchResults').html(''); TODO: show a loader while waiting for response from server

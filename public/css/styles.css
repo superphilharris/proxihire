@@ -97,12 +97,19 @@ body{
 
 
 /* Search Results */
-.searchResultsLoader {
+.searchResultsLoader img {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	margin-auto;
+	margin: auto;
+	width: 66px;
+	display: block;
+	margin-left: -33px;
 }
+.searchResultsLoader {
+	margin-left: 50%;
+}
+
 .searchResultsLoaderWrapper {
 	vertical-align: middle;
 	height: 100%;
