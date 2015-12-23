@@ -1,6 +1,8 @@
 <?php
 namespace Application\Model;
 
+use Application\Helper\ClassHelper;
+
 class Branch extends AbstractModel implements BranchInterface
 {
 	protected $id;
@@ -41,7 +43,7 @@ class Branch extends AbstractModel implements BranchInterface
 	 */
 	public function setLocation($location)
 	{
-		// jih: classhelper
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("Application\Model\LocationInterface"));
 		$this->location = $location;
 	}
 

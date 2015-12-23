@@ -280,7 +280,9 @@ abstract class AbstractMapper
 	 * @param $number - the number of prototypes to place in the prototype array.
 	 */
 	public function initPrototypeArray( $number=1 ){
-		// jih: classhelper
+		ClassHelper::checkAllArguments( __METHOD__, func_get_args(),  array( 
+			'integer'
+	  	));
 		$prototype=array_values($this->prototypeArray)[0];
 		$prototypeArray=array();
 		for( $i=0; $i<$number; $i++){

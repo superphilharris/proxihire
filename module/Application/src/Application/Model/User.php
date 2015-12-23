@@ -1,6 +1,8 @@
 <?php
 namespace Application\Model;
 
+use Application\Helper\ClassHelper;
+
 class User extends AbstractModel implements UserInterface
 {
 	protected $id;
@@ -54,7 +56,7 @@ class User extends AbstractModel implements UserInterface
 	 */
 	public function setBranches($branches)
 	{
-		// jih: classhelper
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("array|Application\Model\BranchInterface"));
 		$this->branches = $branches;
 	}
 	

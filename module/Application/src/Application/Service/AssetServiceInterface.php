@@ -12,7 +12,7 @@ interface AssetServiceInterface
 	 * @param  string $category The xpath of the category
 	 * @return array|AssetInterface[]
 	 */
-	public function getAssetList($category,$allCategoryAliases);
+	public function getAssetList($category,$allCategoryAliases,$filters=NULL);
 
 	/**
 	 * Retrieves all of the lessors associated with the passed assets.

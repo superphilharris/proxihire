@@ -109,8 +109,7 @@ class SearchController extends AbstractActionController
 	private function getAssetList($category, $allCategoryAliases)
 	{
 		$filters  = $this->getFilters();
-		$assets   = $this->assetService->getAssetList($category, $allCategoryAliases);
-		$this->assetService->filterAssets( $assets, $filters );
+		$assets   = $this->assetService->getAssetList($category, $allCategoryAliases, $filters);
 		return $assets;
 	}
 

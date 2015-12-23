@@ -58,7 +58,6 @@ class GeonameMapper extends AbstractMapper implements GeonameMapperInterface
 	}
 	/**
 	 * {@inheritdoc}
-	 * jih: actually inheritdoc
 	 */
 	public function getClosestLocation( $latitude, $longitude, $radius=50.0 ){
 		$latitude =(float) $latitude;

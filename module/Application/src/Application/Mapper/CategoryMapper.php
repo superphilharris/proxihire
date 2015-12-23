@@ -55,7 +55,6 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 
 	/**
 	 * {@inheritdoc}
-	 * jih: actual inheritdoc
 	 */
 	public function getPopularCategories( $categoryList, $limit=5 ){
 		$sql="SELECT ".$this->primaryKey." FROM ".$this->dbTable." WHERE name_fulnam IN ('".implode("','",$categoryList)."') ORDER BY loads_cnt DESC LIMIT $limit";

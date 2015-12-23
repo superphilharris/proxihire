@@ -43,7 +43,6 @@ class Category extends AbstractModel implements CategoryInterface
 	 */
 	public function setAliases($aliases)
 	{
-		// jih: classhelper
 		$this->alias_array=$aliases;
 	}
 
@@ -91,7 +90,6 @@ class Category extends AbstractModel implements CategoryInterface
 
 	/**
 	 * {@inheritdoc}
-	 * jih: actual inheritdoc
 	 */
 	public function getLoads()
 	{
@@ -100,7 +98,6 @@ class Category extends AbstractModel implements CategoryInterface
 
 	/**
 	 * {@inheritdoc}
-	 * jih: actual inheritdoc
 	 */
 	public function incrementLoads()
 	{
