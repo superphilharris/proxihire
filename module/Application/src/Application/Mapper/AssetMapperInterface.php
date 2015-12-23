@@ -11,7 +11,7 @@ interface AssetMapperInterface
 	 * @param Application\Model\CategoryInterface $category
 	 * @return array|AssetInterface
 	 */
-	public function findByCategory( $category );
+	public function findByCategory( $category, $filters=NULL );
 
 	/**
 	 * Returns the array of urls that correspond with those of the assets.

@@ -87,7 +87,8 @@ class AssetService implements AssetServiceInterface
 	
 	/**
 	 * {@inheritdoc}
-	 * jih: make sure that this is in the interface
+	 * jih: once this in no longer needed (ie. filtering at the database level), 
+	 *      remove this function
 	 */
 	public function filterAssets(
 		&$assets,
@@ -157,12 +158,14 @@ class AssetService implements AssetServiceInterface
 	public function getAssetList(
 		$category, 
 		$allCategoryAliases,
+		$filters=NULL,
 		$number=50)
 	{
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
 			"Application\Model\CategoryInterface",
 			"Application\Model\CategoryAliasesInterface",
+			"object|null",
 			"integer"));
 
 		$assetArray=array();
@@ -181,7 +184,7 @@ class AssetService implements AssetServiceInterface
 				$properties = array();
 			}
 			$this->assetMapper->setPrototypeArray($assetArray);
-			$this->assetMapper->findByCategory( $category );
+			$this->assetMapper->findByCategory( $category, $filters );
 		}else{
 			$leafCategories=array();
 

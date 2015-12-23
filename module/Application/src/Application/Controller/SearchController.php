@@ -110,10 +110,7 @@ class SearchController extends AbstractActionController
 	private function getAssetList($category, $allCategoryAliases)
 	{
 		$filters  = $this->getFilters();
-		// jih: pass in filters to `getAssetList`
-		$assets   = $this->assetService->getAssetList($category, $allCategoryAliases);
-		// jih: once filtering assets, remove this below call
-		$this->assetService->filterAssets( $assets, $filters );
+		$assets   = $this->assetService->getAssetList($category, $allCategoryAliases, $filters);
 		return $assets;
 	}
 

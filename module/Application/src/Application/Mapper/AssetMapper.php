@@ -52,22 +52,67 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function findByCategory( $category )
+	public function findByCategory( $category, $filters=NULL )
 	{
 		// Validate arguments
 		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
-			"array|Application\Model\CategoryInterface"));
+			"array|Application\Model\CategoryInterface",
+			"object|null"
+		));
 
-		$category_ids=array();
-		if( is_array($category) ){
-			foreach( $category AS $key => $value ){
-				$category_ids[$key] = $value->getId();
+		if( isset($filters->location) &&
+		    isset($filters->location->latitude) && 
+		      isset($filters->location->latitude->min) && 
+		      isset($filters->location->latitude->max) && 
+		    isset($filters->location->longitude) &&
+		      isset($filters->location->longitude->min) &&
+		      isset($filters->location->longitude->max)
+		){
+			if( isset($filters->location->longitude->user) ){
+				$userLong=$filters->location->longitude->user;
+			}else{
+				$userLong=( $filters->location->longitude->max + $filters->location->longitude->min )/2;
 			}
-		} else {
-			$category_ids=array($category->getId());
+			if( isset($filters->location->latitude->user) ){
+				$userLat=$filters->location->latitude->user;
+			}else{
+				$userLat=( $filters->location->latitude->max + $filters->location->latitude->min )/2;
+			}
+
+			// If the longitude bounds are over the date boundary, then we have to 
+			// handle it differently
+			if( $filters->location->longitude->max < $filters->location->longitude->min ){
+				$longitudeFilter="location.longitude_float NOT BETWEEN ".(float)$filters->location->longitude->max." AND ".(float)$filters->location->longitude->max." ";
+			}else{
+				$longitudeFilter="location.longitude_float BETWEEN ".(float)$filters->location->longitude->min." AND ".(float)$filters->location->longitude->max." ";
+			}
+
+			$sql="SELECT ".
+					"$this->dbTable.*, ".
+					"3956*2*ASIN(SQRT(POWER(SIN((".$userLat."-location.latitude_float)*PI()/360),2) + COS(".$userLat."*PI()/180)*COS(location.latitude_float*PI()/180)*POWER(SIN((".$userLong."-location.longitude_float)*PI()/360),2))) AS distance ".
+				"FROM ".
+					"category,$this->dbTable,branch,location ".
+				"WHERE ".
+					"category.name_fulnam = '".$category->getName()."' ".
+					"AND category.category_id = $this->dbTable.category_id ".
+					"AND $this->dbTable.lessor_user_id = branch.user_id ".
+					"AND branch.location_id = location.location_id ".
+					"AND location.latitude_float BETWEEN ".$filters->location->latitude->min." AND ".$filters->location->latitude->max." ".
+					"AND $longitudeFilter".
+				"ORDER BY distance;";
+
+			$statement = $this->dbAdapter->query($sql);
+			$result = $statement->execute();
+
+			$idArray=array();
+			while( $result->current() ){
+				array_push( $idArray,(int) $result->current()['asset_id'] );
+				$result->next();
+			}
+			$this->find($idArray);
+			return $this->prototypeArray;
 		}
 
-		return $this->findBy( 'category_id', $category_ids );
 	}
 
 	/**
