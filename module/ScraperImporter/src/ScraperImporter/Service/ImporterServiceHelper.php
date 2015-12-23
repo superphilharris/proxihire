@@ -286,7 +286,7 @@ class ImporterServiceHelper {
 		$branch->name 			= (property_exists($lessor, 'name'))? 			$lessor->name 			: null;
 		if(!is_string($location)){
 			if(property_exists($location, 'email')) $branch->email = $location->email;
-			if(property_exists($location, 'name')) 	$branch->name  = $location->name;
+			if(property_exists($location, 'name')) 	$branch->name  = preg_replace('!\s+!', ' ', $location->name);
 			$branch->phone_number = $this->determinePhoneNumber($location);
 		}
 		return $branch;

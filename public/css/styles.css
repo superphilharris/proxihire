@@ -97,12 +97,19 @@ body{
 
 
 /* Search Results */
-.searchResultsLoader {
+.searchResultsLoader img {
 	position: absolute;
 	top: 0;
 	bottom: 0;
-	margin-auto;
+	margin: auto;
+	width: 66px;
+	display: block;
+	margin-left: -33px;
 }
+.searchResultsLoader {
+	margin-left: 50%;
+}
+
 .searchResultsLoaderWrapper {
 	vertical-align: middle;
 	height: 100%;
@@ -279,6 +286,28 @@ div.assetPanel > .panel-heading {
 html,body{
 	height:100%;
 }
+
+
+/* Main Page */
+.allCategories {
+	margin: 15px 15px 0px 0px;
+}
+.categoryPanel {
+	padding-right: 0px;
+	text-align: center;
+	padding-left: 15px;
+}
+.categoryImageWrapper img {
+	height: 60px;
+	margin-right: 14px;
+	margin-top: 8px;
+	text-align: middle;
+}
+.categoryPanel .panel-body {
+	margin-top: 6px;
+	height: 140px;
+}
+
 @media (min-width: 768px) {
 	#main>.row>div {
 		padding-right: 15px;
@@ -321,7 +350,7 @@ html,body{
 		text-align: right;
 	}
 	.assetImageWrapper img{
-       		border-radius: 0px 0px 0px 4px;
+		border-radius: 0px 0px 0px 4px;
 	}
 
 	.currentLocation > div.input-group {
@@ -340,6 +369,19 @@ html,body{
 	}
 	.contactBranchButton {
 		width: 33.33%;
+	}
+	.allCategories {
+		margin: 15px 0px 0px -15px;
+	}
+	.categoryPanel {
+		height: 120px;
+		text-align: left;
+	}
+	.categoryImageWrapper img {
+		float: left;
+	}
+	.categoryPanel .panel-body {
+		height: auto;
 	}
 }
 .categoryAndFilterBar {
@@ -399,3 +441,5 @@ html,body{
 	top: 3px;
 	display: none;
 }
+
+

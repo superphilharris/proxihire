@@ -18,9 +18,9 @@ foreach( $this->assetList as $asset ){
 	
 	?>
 	
-	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getLessorId() ?>')" data-assetid="<?php echo $asset->getId(); ?>" title="Get details from <?php echo $asset->getLessor()->getName() ?>">
+	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getLessorId() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
 		<div class="panel-heading">
-			<table>
+			<table title="More details from <?php echo $asset->getLessor()->getName() ?>">
 				<tbody>
 					<tr>
 						<td>
@@ -40,12 +40,12 @@ foreach( $this->assetList as $asset ){
 				<b class="caret" style="display:block; height:15px;"></b>
 			<?php 
 				if($closestBranch->getPhoneNumber() !== null){
-					echo '<a class="contactBranchButton" href="tel:'.$closestBranch->getPhoneNumber().'"><img class="contactButtonIcon" src="/img/phone_30x30.png"/><div style="display:inline-block;line-height:15px; position:relative;top:5px;">Call<br/>'.$closestBranch->getDisplayPhoneNumber().'</div></a>';
+					echo '<a class="contactBranchButton" href="tel:'.$closestBranch->getPhoneNumber().'" title="Call '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/phone_30x30.png"/><div style="display:inline-block;line-height:15px; position:relative;top:5px;">Call<br/>'.$closestBranch->getDisplayPhoneNumber().'</div></a>';
 				}
 				if($closestBranch->getEmail() !== null){
-					echo '<a class="contactBranchButton" href="mailto:'.$closestBranch->getEmail().'"><img class="contactButtonIcon" src="/img/email_30x30.png"/>Email</a>';
+					echo '<a class="contactBranchButton" href="mailto:'.$closestBranch->getEmail().'?subject='.urlencode("proxihire.co.nz enquiry for ".$asset->getUrl()->getTitle()).'&body='.urlencode('Hi '.$closestBranch->getLocation()->getName().",\n\nI am interested in hiring the ".$asset->getUrl()->getTitle().".\n".$asset->getUrl()->getPath()."\n\nWhat are the hirage rates for this?\nAlso, is this currently available?\n\nRegards,\n").'" title="Email '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/email_30x30.png"/>Email</a>';
 				}
-				echo '<a class="contactBranchButton" target="_blank" href="https://www.google.com/maps/dir/'.$userLocation->getLatitude().','.$userLocation->getLongitude().'/'.$closestBranch->getLocation()->getLatitude().','.$closestBranch->getLocation()->getLongitude().'/"><img class="contactButtonIcon" src="/img/directions_30x30.png"/>Directions</a>';
+				echo '<a class="contactBranchButton" target="_blank" href="https://www.google.com/maps/dir/'.$userLocation->getLatitude().','.$userLocation->getLongitude().'/'.$closestBranch->getLocation()->getLatitude().','.$closestBranch->getLocation()->getLongitude().'/" title="Directions to '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/directions_30x30.png"/>Directions</a>';
 			?>
 			</div>
 		</div>

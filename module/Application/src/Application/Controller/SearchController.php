@@ -26,6 +26,7 @@ class SearchController extends AbstractActionController
 		$this->categoryService=$categoryService;
 		$this->categoryAliasesService=$categoryAliasesService;
 		$this->geonameService=$geonameService;
+		session_start(); // psh TODO: need to move to better place
 	}
 
     public function indexAction()
@@ -131,8 +132,16 @@ class SearchController extends AbstractActionController
 			$filters->location->longitude = new \stdClass();
 		}
 		if(! isset($filters->location->latitude->user) OR ! isset($filters->location->longitude->user)){
-			$filters->location->latitude->user = -36.84913134182603;
-			$filters->location->longitude->user = 174.76234048604965;
+			if(isset($_SESSION['LATITUDE']) AND isset($_SESSION['LONGITUDE'])){
+				$filters->location->latitude->user = $_SESSION['LATITUDE'];
+				$filters->location->longitude->user = $_SESSION['LONGITUDE'];
+			}else{
+				$filters->location->latitude->user = -36.84913134182603;
+				$filters->location->longitude->user = 174.76234048604965;
+			}
+		}else{
+			$_SESSION['LATITUDE']  = $filters->location->latitude->user;
+			$_SESSION['LONGITUDE'] = $filters->location->longitude->user;
 		}
 		
 		// Set default min and max

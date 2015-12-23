@@ -15,7 +15,9 @@ var QueryString = function () {
 	return query_string;
 }();
 
-var CURRENT_LOCATION = { latitude: { user: -36.84913134182603 }, longitude: { user: 174.76234048604965 } }; // Default to Auckland
+var DEFAULT_LOCATION = { latitude: -36.84913134182603, longitude: 174.76234048604965 }; // Default to Auckland
+
+var CURRENT_LOCATION = { latitude: { user: DEFAULT_LOCATION.latitude }, longitude: { user: DEFAULT_LOCATION.longitude }};
 if(QueryString.location.latitude.user && QueryString.location.longitude.user){
 	CURRENT_LOCATION.latitude.user 		= QueryString.location.latitude.user;
 	CURRENT_LOCATION.longitude.user 	= QueryString.location.longitude.user;

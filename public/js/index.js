@@ -260,6 +260,7 @@ function goCategory(category){
 }
 
 function updateFromCategoryOrLocation(newCategory){
+	if(googleMap == null) $('#searchResults').html('<div class="searchResultsLoader"><img src="/img/loader.gif"/></div>');
 	var urlEnd = newCategory + '?' + encodeURIComponent(JSON.stringify({location:CURRENT_LOCATION}));
 	try {
 		// $('#searchResults').html(''); TODO: show a loader while waiting for response from server
@@ -306,11 +307,8 @@ function goCategoryAsync(category) {
 			PREVIOUS_CATEGORY = CURRENT_CATEGORY;
 			CURRENT_CATEGORY = CURRENT_CATEGORY_ASYNC;
 			removeAllMarkers();
-
-        	console.log("async html");
 			$('#searchResults').html(html);
 			postGoCategory();
-			$('#left').scrollTop(33);
 		}
 	});
 }
@@ -356,14 +354,33 @@ function postGoCategory(){
 	});
 	
 	$('.assetPanel').each(function(){
-		var panel = $(this);
-		$(this).click(function(event){
-			$(this).find('.assetSummaryTitle').toggle();
-			$(this).find('.assetExpandedTitle').toggle();
-			$(this).find('.displayMoreContactDetails').toggle();
-			panel.css('cursor', 'auto').unbind("click");
+		$(this).click(function(){
+			displayMoreForPanel($(this));
 		});
 	});
+}
+function displayMoreForPanel(panel){
+	panel.find('.assetSummaryTitle').hide();
+	panel.find('.assetExpandedTitle').show();
+	panel.find('.displayMoreContactDetails').show();
+	panel.css('cursor', 'auto').unbind("click");
+	
+	setTimeout(function() {
+		panel.find('.panel-body').click(function(){
+			panel.css('cursor', 'pointer');
+			panel.find('.assetSummaryTitle').show();
+			panel.find('.assetExpandedTitle').hide();
+			panel.find('.displayMoreContactDetails').hide();
+			panel.find('.panel-body').unbind("click");
+			
+
+			setTimeout(function() {
+				panel.click(function(){
+					displayMoreForPanel(panel);
+				});
+			}, 1000);
+		});
+	}, 1000);
 }
 
 $(document).ready(function(){
@@ -371,9 +388,6 @@ $(document).ready(function(){
         if(History.getState().data.html){
     		$('#searchResults').html(History.getState().data.html);
     		postGoCategory();
-			if (CURRENT_CATEGORY != PREVIOUS_CATEGORY) {
-				$('#left').scrollTop(33);
-			}
         }
     });
     
