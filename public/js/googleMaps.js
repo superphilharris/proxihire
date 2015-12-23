@@ -173,8 +173,8 @@ function setGoogleMapsBoundsAndClearTimeout(){
 				googleMapsChangedBoundsTimeout = setTimeout(updateLocation, 2000);
 			}
 		}
-		CURRENT_LOCATION.latitude.min 	= googleMap.getBounds().getNorthEast().lat();
-		CURRENT_LOCATION.latitude.max 	= googleMap.getBounds().getSouthWest().lat();
+		CURRENT_LOCATION.latitude.min 	= googleMap.getBounds().getSouthWest().lat();
+		CURRENT_LOCATION.latitude.max 	= googleMap.getBounds().getNorthEast().lat();
 		CURRENT_LOCATION.longitude.min 	= googleMap.getBounds().getSouthWest().lng();
 		CURRENT_LOCATION.longitude.max 	= googleMap.getBounds().getNorthEast().lng();
 	}
