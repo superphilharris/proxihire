@@ -358,6 +358,8 @@ function postGoCategory(){
 			displayMoreForPanel($(this));
 		});
 	});
+	
+	localStorage.setItem("CURRENT_LOCATION", JSON.stringify(CURRENT_LOCATION));
 }
 function displayMoreForPanel(panel){
 	panel.find('.assetSummaryTitle').hide();

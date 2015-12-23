@@ -21,6 +21,16 @@ var CURRENT_LOCATION = { latitude: { user: DEFAULT_LOCATION.latitude }, longitud
 if(QueryString.location.latitude.user && QueryString.location.longitude.user){
 	CURRENT_LOCATION.latitude.user 		= QueryString.location.latitude.user;
 	CURRENT_LOCATION.longitude.user 	= QueryString.location.longitude.user;
+}else if(localStorage.getItem("CURRENT_LOCATION")){
+	var oldLocation = JSON.parse(localStorage.getItem("CURRENT_LOCATION"));
+	if(oldLocation.latitude.user != CURRENT_LOCATION.latitude.user || oldLocation.longitude.user != CURRENT_LOCATION.longitude.user){
+		CURRENT_LOCATION = oldLocation;
+		$(document).ready(function(){
+			if(CURRENT_CATEGORY != ""){
+				updateFromCategoryOrLocation(CURRENT_CATEGORY);
+			}
+		});
+	}
 }
 if(QueryString.location.latitude.max && QueryString.location.longitude.max &&
 		QueryString.location.latitude.min && QueryString.location.longitude.min) {
