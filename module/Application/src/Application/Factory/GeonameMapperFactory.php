@@ -21,7 +21,7 @@ class GeonameMapperFactory extends AbstractMapperFactory implements FactoryInter
 			'table'         => 'geoname',
 			'primary_key'   => 'geoname_id',
 			'update_key'    => array(
-				'name_fulnam' // jih: is this unique?
+				'name_fulnam'
 			),
 			'columns'       => array(
 				'geoname_id'       => 'id',

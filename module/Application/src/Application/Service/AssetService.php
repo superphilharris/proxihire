@@ -85,61 +85,6 @@ class AssetService implements AssetServiceInterface
 		return $lessorList;
 	}
 	
-	/**
-	 * {@inheritdoc}
-	 * jih: once this in no longer needed (ie. filtering at the database level), 
-	 *      remove this function
-	 */
-	public function filterAssets(
-		&$assets,
-		$filters
-	){
-		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array(
-			"array|Application\Model\AssetInterface",
-			"object|null"));
-		$this->getLessorsForAssets($assets);
-
-		if( isset($filters->location) &&
-		    isset($filters->location->latitude) && 
-		      isset($filters->location->latitude->min) && 
-		      isset($filters->location->latitude->max) && 
-		    isset($filters->location->longitude) &&
-		      isset($filters->location->longitude->min) &&
-		      isset($filters->location->longitude->max)
-		){
-			foreach( $assets as $key=>&$asset ){
-				$lessor=$asset->getLessor();
-				if( is_null($lessor) ) continue;
-
-				$branches=$lessor->getBranches();
-				$hasBranchInBounds=false;
-				foreach( $branches as $branch ){
-					if( is_null($branch) ) continue;
-
-					$location=$branch->getLocation();
-					if( is_null($location) ) continue;
-					$lat=$location->getLatitude();
-					$long=$location->getLongitude();
-
-					if( $this->betweenPoints( 
-					       $lat, 
-					       $filters->location->latitude->min,  
-					       $filters->location->latitude->max  ) &&
-					    $this->betweenPoints( 
-					       $long, 
-					       $filters->location->longitude->min, 
-					       $filters->location->longitude->max )
-					){
-						$hasBranchInBounds=true;
-					}
-				}
-				if( ! $hasBranchInBounds ){
-					unset( $assets[$key] );
-				}
-			}
-		}
-	}
-	
 	private function betweenPoints( $actual, $minimum, $maximum ){
 		$minimum=$minimum >= 0 ? fmod($minimum, 360) : 360 + fmod($minimum, 360);
 		$maximum=$maximum >= 0 ? fmod($maximum, 360) : 360 + fmod($maximum, 360);
@@ -196,6 +141,7 @@ class AssetService implements AssetServiceInterface
 				5 
 			);
 			$this->assetMapper->initPrototypeArray( 5 );
+			// jih: pass in filters
 			$assets=$this->assetMapper->findByCategory($categories);
 			$this->assetMapper->setPrototypeArray($assets);
 		}

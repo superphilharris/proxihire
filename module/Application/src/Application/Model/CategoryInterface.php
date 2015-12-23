@@ -58,5 +58,19 @@ interface CategoryInterface
 	 * @return array|Application\Model\CategoryInterface
 	 */
 	public function getChildren();
+
+	/**
+	 * Returns the number of times that this category has been loaded from the 
+	 * database. A measure of the category's popularity.
+	 *
+	 * @return integer - the number of times that this category has been loaded
+	 */
+	public function getLoads();
+
+	/**
+	 * Increments the number of times that this category has been loaded from the 
+	 * database. A measure of the category's popularity
+	 */
+	public function incrementLoads();
 }
 ?>

@@ -44,7 +44,6 @@ class GeonameService implements GeonameServiceInterface
 
 	/**
 	 * {@inheritdoc}
-	 * jih: actual inheritdoc
 	 */
 	public function getClosestLocation(
 		$latitude,

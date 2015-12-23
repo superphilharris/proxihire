@@ -1,6 +1,8 @@
 <?php
 namespace Application\Model;
 
+use Application\Helper\ClassHelper;
+
 class AssetProperty extends AbstractModel implements AssetPropertyInterface
 {
 	private $id;
@@ -28,8 +30,7 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 	 */
 	public function setId($id)
 	{
-		// jih: make sure that everythig is in the interface.
-		// jih: all of these should be classhelpered.
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("integer"));
 		$this->id=$id;
 	}
 
@@ -46,8 +47,7 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 	 */
 	public function setDatatype($datatype)
 	{
-		// jih: make sure that everythig is in the interface.
-		// jih: all of these should be classhelpered.
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("Application\Model\DatatypeInterface"));
 		$this->datatype=$datatype;
 	}
 
@@ -64,8 +64,7 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 	 */
 	public function setAsset($asset)
 	{
-		// jih: make sure that everythig is in the interface.
-		// jih: all of these should be classhelpered.
+		ClassHelper::checkAllArguments(__METHOD__, func_get_args(), array("Application\Model\AssetInterface"));
 		$this->asset=$asset;
 	}
 
@@ -98,7 +97,6 @@ class AssetProperty extends AbstractModel implements AssetPropertyInterface
 	 */
 	public function setPropertyType($type)
 	{
-		// jih: this should be an object.
 		$this->datatype=$type;
 	}
 

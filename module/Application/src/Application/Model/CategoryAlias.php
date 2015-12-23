@@ -12,7 +12,7 @@ class CategoryAlias extends AbstractModel implements CategoryAliasInterface
 	 */
 	public function exchangeArray($data)
 	{
-		$this->id = isset($data['id']) ? (integer) $data['id'] : NULL; // jih: make sure that all models are typecasting
+		$this->id = isset($data['id']) ? (integer) $data['id'] : NULL; 
 		$this->alias = isset($data['alias']) ? (string) $data['alias'] : NULL;
 		$this->category_id = isset($data['category_id']) ? (string) $data['category_id'] : NULL;
 	}
