@@ -140,8 +140,6 @@ class AssetService implements AssetServiceInterface
 				$leafCategories, 
 				10 
 			);
-			$this->assetMapper->initPrototypeArray( 5 );
-			// jih: pass in filters
 			$assets=$this->assetMapper->findByCategory( $categories, $filters );
 			$this->assetMapper->setPrototypeArray($assets);
 		}

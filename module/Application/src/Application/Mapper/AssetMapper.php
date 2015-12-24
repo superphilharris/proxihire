@@ -127,7 +127,7 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 			$result->next();
 		}
 		$this->find($idArray);
-		return $this->prototypeArray;
+		return $this->getPrototypeArray();
 
 	}
 
