@@ -288,8 +288,30 @@ class ImporterServiceHelper {
 			if(property_exists($location, 'email')) $branch->email = $location->email;
 			if(property_exists($location, 'name')) 	$branch->name  = preg_replace('!\s+!', ' ', $location->name);
 			$branch->phone_number = $this->determinePhoneNumber($location);
+			
+			if(($branch->email === null OR $branch->phone_number === null) AND $branch->name != null AND !$this->isCategorizeOnly) {
+				$bingsBranch = $this->determineBranchFromBing($branch->name);
+				var_dump($bingsBranch);
+			}
 		}
 		return $branch;
+	}
+	
+	/**
+	 * This searches up a branch's contact details using bing, (google does not allow it easily)
+	 * then searches the page for a string with a '@' inside it,
+	 * and searches the page for an 0800 number, or another recognizable phone number format.
+	 * @param string $branchName
+	 * @return object with email and phone_number
+	 */
+	private function determineBranchFromBing($branchName){
+		$bingResults = file_get_contents('http://www.bing.com/search?q='.urlencode($branchName.' contact'));
+		var_dump("Requesting ".'http://www.bing.com/search?q='.urlencode($branchName.' contact'));
+		$anchorEnd = 0;
+		while(($anchorStart = strpos($bingResults, '<a href="', $anchorEnd)) > 0){
+			$anchorEnd = strpos($bingResults, '"', $anchorStart + 10);
+			var_dump(substr($bingResults, $anchorStart+9, $anchorEnd - $anchorStart - 9));
+		}
 	}
 	
 	/**
