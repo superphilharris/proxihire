@@ -404,7 +404,6 @@ $(document).ready(function(){
 		goCategory(suggestion);
 	}).bind('typeahead:autocomplete', function(ev, suggestion){
 		$('#mainSearchBar').blur();
-		// console.log("only one suggestion")
 		goCategory(suggestion);
 	}).bind('typeahead:cursorchange', function(ev, suggestion){
 		goCategoryAsync(suggestion);
