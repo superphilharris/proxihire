@@ -165,7 +165,7 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 	 */
 	public function getAssets($reload=false)
 	{
-		return $this->prototypeArray;
+		return $this->getPrototypeArray();
 	}
 
 	/**

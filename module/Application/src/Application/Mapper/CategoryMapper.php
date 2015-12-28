@@ -68,7 +68,7 @@ class CategoryMapper extends AbstractMapper implements CategoryMapperInterface
 			$result->next();
 		}
 		$this->find($idArray);
-		return $this->prototypeArray;
+		return $this->getPrototypeArray();
 	}
 
 	/**
