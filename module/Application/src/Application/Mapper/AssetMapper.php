@@ -96,7 +96,9 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 				$longitudeFilter="location.longitude_float BETWEEN ".(float)$filters->location->longitude->min." AND ".(float)$filters->location->longitude->max." ";
 			}
 
-			$sql="SELECT ".
+			$sql=
+			"SELECT * FROM (".
+				"SELECT ".
 					"$this->dbTable.*, ".
 					"3956*2*ASIN(SQRT(POWER(SIN((".$userLat."-location.latitude_float)*PI()/360),2) + COS(".$userLat."*PI()/180)*COS(location.latitude_float*PI()/180)*POWER(SIN((".$userLong."-location.longitude_float)*PI()/360),2))) AS distance ".
 				"FROM ".
@@ -108,7 +110,8 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 					"AND branch.location_id = location.location_id ".
 					"AND location.latitude_float BETWEEN ".$filters->location->latitude->min." AND ".$filters->location->latitude->max." ".
 					"AND $longitudeFilter".
-				"ORDER BY distance;";
+				"ORDER BY distance ".
+			") a GROUP BY a.asset_id;";
 		}else{
 			$sql="SELECT ".
 					"$this->dbTable.* ".

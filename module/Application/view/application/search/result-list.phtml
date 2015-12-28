@@ -15,7 +15,6 @@ $allProperties = getAllProperties($this->assetList);
 // 2. Display each of the assets
 foreach( $this->assetList as $asset ){
 	$closestBranch = $asset->getLessor()->getClosestBranch($userLocation);
-	
 	?>
 	
 	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getLessorId() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
