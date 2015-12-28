@@ -290,8 +290,9 @@ class ImporterServiceHelper {
 			$branch->phone_number = $this->determinePhoneNumber($location);
 			
 			if(($branch->email === null OR $branch->phone_number === null) AND $branch->name != null AND !$this->isCategorizeOnly) {
-				$bingsBranch = $this->determineBranchFromBing($branch->name);
-				var_dump($bingsBranch);
+				$bingsBranch = $this->determineBranchFromBing(preg_replace('/[^0-9A-Za-z ]/', '', $branch->name));
+				if(isset($bingsBranch['email']) AND $branch->email === null) 		$branch->email = $bingsBranch['email'];
+				if(isset($bingsBranch['phone']) AND $branch->phone_number === null) $branch->phone_number = $bingsBranch['phone'];
 			}
 		}
 		return $branch;
@@ -305,13 +306,79 @@ class ImporterServiceHelper {
 	 * @return object with email and phone_number
 	 */
 	private function determineBranchFromBing($branchName){
-		$bingResults = file_get_contents('http://www.bing.com/search?q='.urlencode($branchName.' contact'));
-		var_dump("Requesting ".'http://www.bing.com/search?q='.urlencode($branchName.' contact'));
+		// 1. Search Bing for the name and contact
+		$bingResults = file_get_contents('http://www.bing.com/search?q='.urlencode($branchName.' email phone number'));
 		$anchorEnd = 0;
+		$allAppropriateUrls = array();
+		
+		// 2. Rank all the results
+		$subRank = 9;
 		while(($anchorStart = strpos($bingResults, '<a href="', $anchorEnd)) > 0){
 			$anchorEnd = strpos($bingResults, '"', $anchorStart + 10);
-			var_dump(substr($bingResults, $anchorStart+9, $anchorEnd - $anchorStart - 9));
+			$url = substr($bingResults, $anchorStart+9, $anchorEnd - $anchorStart - 9);
+			if(strpos($url, 'http') === 0 AND count($allAppropriateUrls) <= 5){
+				$rank = 0;
+				$textStart  = strpos($bingResults, '<strong>', $anchorEnd);
+				$textEnd 	= strpos($bingResults, '</strong>', $textStart);
+				$linkText 	= strtolower(substr($bingResults, $textStart + 8, $textEnd - $textStart - 8));
+				foreach(explode(' ', strtolower($branchName)) as $branchNameWord){
+					if($this->isIn($linkText, $branchNameWord)) $rank += 2;
+				}
+				
+				// Give higher priority to ones with the name in the domain
+				$endOfDomainName = strpos($url, '/', 8);
+				if($endOfDomainName === false) $endOfDomainName = strlen($url);
+				$domainName = substr($url, 0, $endOfDomainName);
+				foreach(explode(' ', strtolower($branchName)) as $branchNameWord){
+					if($this->isIn($domainName, strtolower($branchNameWord))) $rank += 2;
+					elseif($this->isIn($url, strtolower($branchNameWord))) $rank += 1;
+				}
+				$allAppropriateUrls[$rank.'.'.$subRank] = $url;
+				$subRank --;
+				if($subRank < 0) break;
+			}
 		}
+		ksort($allAppropriateUrls, SORT_NUMERIC);
+		$allAppropriateUrls = array_reverse($allAppropriateUrls);
+		
+		// 3. Now for each of the results, lets see if they have the phone number / email address
+		foreach($allAppropriateUrls as $url){
+			$phoneAndEmail = $this->determineBranchFromUrl($url);
+			if(count($phoneAndEmail) > 0) return $phoneAndEmail;
+		}
+	}
+	
+	private function determineBranchFromUrl($url){
+		$webPage = @file_get_contents($url);
+		if($webPage === FALSE) return array();
+		$phoneNumbers = array();
+		$phoneAndEmail = array();
+		// 1. Find all Emails, and sort them based on their relevance
+		$emails = array();
+		$subRank = 9999;
+		if(preg_match_all('/[0-9a-zA-Z!#$%&\'*+-=?^_`}{|~]+@[a-zA-Z0-9.]+/', $webPage, $matches)){
+			foreach($matches[0] as $email){
+				$rank = 0;
+				if($this->isIn($email, 'hire')) 	$rank += 3;
+				if($this->isIn($email, 'contact')) 	$rank += 2;
+				if($this->isIn($email, 'info')) 	$rank += 2;
+				if($this->isIn($email, 'admin')) 	$rank += 1;
+				$emails[$rank.'.'.$subRank] = $email;
+				$subRank --;
+			}
+			ksort($emails, SORT_NUMERIC);
+			$emails = array_reverse($emails);
+			$phoneAndEmail['email'] = array_values($emails)[0];
+			
+
+			// 2. Try and find a phone number
+			if(preg_match('/0800[0-9 \-]+/', $webPage, $phoneMatches)) 		$phoneAndEmail['phone'] = $phoneMatches[0];
+			elseif(preg_match('/0508[0-9 \-]+/', $webPage, $phoneMatches)) 	$phoneAndEmail['phone'] = $phoneMatches[0];
+			elseif(preg_match('/\+64[0-9 \-]+/', $webPage, $phoneMatches)) 	$phoneAndEmail['phone'] = $phoneMatches[0];
+			elseif(preg_match('/0064[0-9 \-]+/', $webPage, $phoneMatches)) 	$phoneAndEmail['phone'] = $phoneMatches[0];
+			elseif(preg_match('/0[0-9 \-]+/', $webPage, $phoneMatches)) 	$phoneAndEmail['phone'] = $phoneMatches[0];
+		}
+		return $phoneAndEmail;
 	}
 	
 	/**
