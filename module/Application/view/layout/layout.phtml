@@ -89,7 +89,7 @@ echo $this->headScript()->prependFile($this->basePath('js/index.js'))
 						->prependFile($this->basePath('vendor/js/typeahead.js'))
 						->prependFile($this->basePath('vendor/js/bootstrap.min.js'))
 						->prependFile($this->basePath('vendor/js/history.js'))
-						->prependFile("//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js")
+						->prependFile($this->basePath('vendor/js/jquery.min.js'))
 						->prependFile($this->basePath('vendor/js/html5shiv.min.js'), 'text/javascript', array('conditional' => 'lt IE 9'));
 		?>
 </body>
