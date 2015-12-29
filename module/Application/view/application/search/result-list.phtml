@@ -14,72 +14,75 @@ $allProperties = getAllProperties($this->assetList);
 
 // 2. Display each of the assets
 foreach( $this->assetList as $asset ){
-	$closestBranch = $asset->getLessor()->getClosestBranch($userLocation);
-	?>
-	
-	<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $asset->getLessorId() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
-		<div class="panel-heading">
-			<table title="More details from <?php echo $asset->getLessor()->getName() ?>">
-				<tbody>
-					<tr>
-						<td>
-							<div class="assetSummaryTitle">
-								<b class="caret-right"></b><?php echo $asset->getUrl()->getTitle() ?>
-							</div>
-							<div class="assetExpandedTitle" style="display: none;">
-								<a class="assetHeadingLink" target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?> - <?php echo $asset->getUrl()->getDisplayPath() ?></a>
-							</div>
-						</td>
-						<td class="distanceToUser"><span><?php echo round($closestBranch->getLocation()->getDistanceTo($userLocation)/100)/10 ?><span class="propertyUnit">km</span></span></td>
-						<td class="lessorIcon"><img src="/img/<?php echo getIcon($asset->getLessor()) ?>" title="<?php echo $asset->getLessor()->getName() ?>"/></td>
-					</tr>
-				</tbody>
-			</table>
-			<div class="displayMoreContactDetails" style="display:none;">
-				<b class="caret" style="display:block; height:15px;"></b>
-			<?php 
-				if($closestBranch->getPhoneNumber() !== null){
-					echo '<a class="contactBranchButton" href="tel:'.$closestBranch->getPhoneNumber().'" title="Call '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/phone_30x30.png"/><div style="display:inline-block;line-height:15px; position:relative;top:5px;">Call<br/>'.$closestBranch->getDisplayPhoneNumber().'</div></a>';
-				}
-				if($closestBranch->getEmail() !== null){
-					echo '<a class="contactBranchButton" href="mailto:'.$closestBranch->getEmail().'?subject='.urlencode("proxihire.co.nz enquiry for ".$asset->getUrl()->getTitle()).'&body='.urlencode('Hi '.$closestBranch->getLocation()->getName().",\n\nI am interested in hiring the ".$asset->getUrl()->getTitle().".\n".$asset->getUrl()->getPath()."\n\nWhat are the hirage rates for this?\nAlso, is this currently available?\n\nRegards,\n").'" title="Email '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/email_30x30.png"/>Email</a>';
-				}
-				echo '<a class="contactBranchButton" target="_blank" href="https://www.google.com/maps/dir/'.$userLocation->getLatitude().','.$userLocation->getLongitude().'/'.$closestBranch->getLocation()->getLatitude().','.$closestBranch->getLocation()->getLongitude().'/" title="Directions to '.$asset->getLessor()->getName().'"><img class="contactButtonIcon" src="/img/directions_30x30.png"/>Directions</a>';
-			?>
-			</div>
-		</div>
-		<div>
-		</div>
-		<div class="panel-body">
-			<div class="assetImageWrapper"><img src="/img/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
-			
-			<div class="assetPropertiesSummaryWrapper ellipsis">
-				<div class="assetPropertiesSummary">
+	$assetLessor = $asset->getLessor();
+	if( is_object($assetLessor) AND method_exists($assetLessor, "getClosestBranch") ){
+		$closestBranch = $assetLessor->getClosestBranch($userLocation);
+		?>
+		
+		<div class="panel panel-default assetPanel" onmouseover="bounceMarker('<?php echo $assetLessor->getId() ?>')" data-assetid="<?php echo $asset->getId(); ?>">
+			<div class="panel-heading">
+				<table title="More details from <?php echo $assetLessor->getName() ?>">
+					<tbody>
+						<tr>
+							<td>
+								<div class="assetSummaryTitle">
+									<b class="caret-right"></b><?php echo $asset->getUrl()->getTitle() ?>
+								</div>
+								<div class="assetExpandedTitle" style="display: none;">
+									<a class="assetHeadingLink" target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>"><?php echo $asset->getUrl()->getTitle() ?> - <?php echo $asset->getUrl()->getDisplayPath() ?></a>
+								</div>
+							</td>
+							<td class="distanceToUser"><span><?php echo round($closestBranch->getLocation()->getDistanceTo($userLocation)/100)/10 ?><span class="propertyUnit">km</span></span></td>
+							<td class="lessorIcon"><img src="/img/<?php echo getIcon($assetLessor) ?>" title="<?php echo $assetLessor->getName() ?>"/></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="displayMoreContactDetails" style="display:none;">
+					<b class="caret" style="display:block; height:15px;"></b>
 				<?php 
-				foreach($asset->getProperties() as $property){
-					$propertyName 	= $property->getName();
-					list($value, $unit) = $property->getValueAndUnit();
-					if($value OR $unit){
-						if($propertyName === ""){
-							echo '<div><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>';
-						}else{
-							echo '<table><tbody><tr class="'.getCssPropertyName($propertyName).'_propertySummary propertyWrapper">
-									<td class="propertyNameAndColon"><span class="propertyName">'.ucwords($propertyName).'</span></td>
-									<td class="propertyValueAndUnit"><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></td>
-								</tr></tbody></table>';
-						}
+					if($closestBranch->getPhoneNumber() !== null){
+						echo '<a class="contactBranchButton" href="tel:'.$closestBranch->getPhoneNumber().'" title="Call '.$assetLessor->getName().'"><img class="contactButtonIcon" src="/img/phone_30x30.png"/><div style="display:inline-block;line-height:15px; position:relative;top:5px;">Call<br/>'.$closestBranch->getDisplayPhoneNumber().'</div></a>';
 					}
-				}
-				if($asset->getDescription() != null) echo '<div>'.$asset->getDescription().'</div>';
+					if($closestBranch->getEmail() !== null){
+						echo '<a class="contactBranchButton" href="mailto:'.$closestBranch->getEmail().'?subject='.urlencode("proxihire.co.nz enquiry for ".$asset->getUrl()->getTitle()).'&body='.urlencode('Hi '.$closestBranch->getLocation()->getName().",\n\nI am interested in hiring the ".$asset->getUrl()->getTitle().".\n".$asset->getUrl()->getPath()."\n\nWhat are the hirage rates for this?\nAlso, is this currently available?\n\nRegards,\n").'" title="Email '.$assetLessor->getName().'"><img class="contactButtonIcon" src="/img/email_30x30.png"/>Email</a>';
+					}
+					echo '<a class="contactBranchButton" target="_blank" href="https://www.google.com/maps/dir/'.$userLocation->getLatitude().','.$userLocation->getLongitude().'/'.$closestBranch->getLocation()->getLatitude().','.$closestBranch->getLocation()->getLongitude().'/" title="Directions to '.$assetLessor->getName().'"><img class="contactButtonIcon" src="/img/directions_30x30.png"/>Directions</a>';
 				?>
 				</div>
-				<a class="ellipsis_after" target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>">... more</a>
+			</div>
+			<div>
+			</div>
+			<div class="panel-body">
+				<div class="assetImageWrapper"><img src="/img/<?php echo $asset->getImageForSize(120, 120) ?>"/></div>
+				
+				<div class="assetPropertiesSummaryWrapper ellipsis">
+					<div class="assetPropertiesSummary">
+					<?php 
+					foreach($asset->getProperties() as $property){
+						$propertyName 	= $property->getName();
+						list($value, $unit) = $property->getValueAndUnit();
+						if($value OR $unit){
+							if($propertyName === ""){
+								echo '<div><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></div>';
+							}else{
+								echo '<table><tbody><tr class="'.getCssPropertyName($propertyName).'_propertySummary propertyWrapper">
+										<td class="propertyNameAndColon"><span class="propertyName">'.ucwords($propertyName).'</span></td>
+										<td class="propertyValueAndUnit"><span class="propertyValue">'.$value.'</span><span class="propertyUnit">'.$unit.'</span></td>
+									</tr></tbody></table>';
+							}
+						}
+					}
+					if($asset->getDescription() != null) echo '<div>'.$asset->getDescription().'</div>';
+					?>
+					</div>
+					<a class="ellipsis_after" target="_blank" href="<?php echo $asset->getUrl()->getPath() ?>">... more</a>
+				</div>
 			</div>
 		</div>
-	</div>
-	
-	
-	<?php
+		
+		
+		<?php
+	}
 }
 
 
