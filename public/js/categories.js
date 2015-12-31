@@ -1558,6 +1558,9 @@ categories = {
         		"children": [
          			{
         				"aliases": ["roulette mat"]
+        			},
+         			{
+        				"aliases": ["roulette wheel"]
         			}
         		]
         	}
