@@ -27,7 +27,7 @@ if(QueryString.location.latitude.user && QueryString.location.longitude.user){
 		CURRENT_LOCATION = oldLocation;
 		$(document).ready(function(){
 			if(CURRENT_CATEGORY != ""){
-				updateFromCategoryOrLocation(CURRENT_CATEGORY);
+				goLocationAndChangeGoogleMaps(oldLocation.latitude.user, oldLocation.longitude.user);
 			}
 		});
 	}
@@ -168,7 +168,7 @@ var googleMapsChangedBoundsTimeout = null;
 function setGoogleMapsBoundsAndClearTimeout(){
 	if(googleMap){
 		if (CURRENT_LOCATION.latitude.min && CURRENT_LOCATION.latitude.max){
-			if(changedBy10Percent(CURRENT_LOCATION.latitude.min,  CURRENT_LOCATION.latitude.max,  googleMap.getBounds().getNorthEast().lat(), googleMap.getBounds().getSouthWest().lat()) ||
+			if(changedBy10Percent(CURRENT_LOCATION.latitude.min,  CURRENT_LOCATION.latitude.max, googleMap.getBounds().getSouthWest().lat(),  googleMap.getBounds().getNorthEast().lat()) ||
 			   changedBy10Percent(CURRENT_LOCATION.longitude.min, CURRENT_LOCATION.longitude.max, googleMap.getBounds().getSouthWest().lng(), googleMap.getBounds().getNorthEast().lng())) {
 				googleMapsChangedBoundsTimeout = setTimeout(updateLocation, 2000);
 			}

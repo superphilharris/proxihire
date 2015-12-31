@@ -35,11 +35,10 @@ echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/x-icon', '
 		->headLink(array('rel' => "icon", 				'sizes' => "16x16", 	'href' => $this->basePath('img/favicon-16x16.png'),			'type' => 'image/png'))
 		->headLink(array('rel' => "manifest", 									'href' => $this->basePath('img/manifest.json')))
 		->prependStylesheet($this->basePath('css/styles.css'))
-		->prependStylesheet($this->basePath('css/bootstrap-slider.css'))
-		->prependStylesheet($this->basePath('css/styles.css'))
-		->prependStylesheet($this->basePath('css/typeaheadjs.css'))
+		->prependStylesheet($this->basePath('vendor/css/bootstrap-slider.css'))
+		->prependStylesheet($this->basePath('vendor/css/typeaheadjs.css'))
 		// ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
-		->prependStylesheet($this->basePath('css/bootstrap.min.css'))
+		->prependStylesheet($this->basePath('vendor/css/bootstrap.min.css'))
 
 ?>
 
@@ -85,13 +84,13 @@ echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/x-icon', '
 echo $this->headScript()->prependFile($this->basePath('js/index.js'))
 						->prependFile($this->basePath('js/googleMaps.js'))
 						->prependFile($this->basePath('js/categories.js'))
-						->prependFile($this->basePath('js/bootstrap-slider.js'))
-						->prependFile($this->basePath('js/typeahead.bloodhound.js'))
-						->prependFile($this->basePath('js/typeahead.js'))
-						->prependFile($this->basePath('js/bootstrap.min.js'))
-						->prependFile($this->basePath('js/history.js'))
-						->prependFile("//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js")
-						->prependFile($this->basePath('js/html5shiv.min.js'), 'text/javascript', array('conditional' => 'lt IE 9'));
+						->prependFile($this->basePath('vendor/js/bootstrap-slider.js'))
+						->prependFile($this->basePath('vendor/js/typeahead.bloodhound.js'))
+						->prependFile($this->basePath('vendor/js/typeahead.js'))
+						->prependFile($this->basePath('vendor/js/bootstrap.min.js'))
+						->prependFile($this->basePath('vendor/js/history.js'))
+						->prependFile($this->basePath('vendor/js/jquery.min.js'))
+						->prependFile($this->basePath('vendor/js/html5shiv.min.js'), 'text/javascript', array('conditional' => 'lt IE 9'));
 		?>
 </body>
 </html>

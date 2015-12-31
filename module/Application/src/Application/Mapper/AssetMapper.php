@@ -60,6 +60,15 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 			"object|null"
 		));
 
+		if( is_array($category) ){
+			$categoryList=array();
+			foreach( $category as $key => $cat ){
+				$categoryList[$key] = $cat->getName();
+			}
+		}else{
+			$categoryList = array($category->getName());
+		}
+
 		if( isset($filters->location) &&
 		    isset($filters->location->latitude) && 
 		      isset($filters->location->latitude->min) && 
@@ -87,31 +96,41 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 				$longitudeFilter="location.longitude_float BETWEEN ".(float)$filters->location->longitude->min." AND ".(float)$filters->location->longitude->max." ";
 			}
 
-			$sql="SELECT ".
+			$sql=
+			"SELECT * FROM (".
+				"SELECT ".
 					"$this->dbTable.*, ".
 					"3956*2*ASIN(SQRT(POWER(SIN((".$userLat."-location.latitude_float)*PI()/360),2) + COS(".$userLat."*PI()/180)*COS(location.latitude_float*PI()/180)*POWER(SIN((".$userLong."-location.longitude_float)*PI()/360),2))) AS distance ".
 				"FROM ".
 					"category,$this->dbTable,branch,location ".
 				"WHERE ".
-					"category.name_fulnam = '".$category->getName()."' ".
+					"category.name_fulnam IN ('".implode("','",$categoryList)."') ".
 					"AND category.category_id = $this->dbTable.category_id ".
 					"AND $this->dbTable.lessor_user_id = branch.user_id ".
 					"AND branch.location_id = location.location_id ".
 					"AND location.latitude_float BETWEEN ".$filters->location->latitude->min." AND ".$filters->location->latitude->max." ".
 					"AND $longitudeFilter".
-				"ORDER BY distance;";
+				"ORDER BY distance ".
+			") a GROUP BY a.asset_id;";
+		}else{
+			$sql="SELECT ".
+					"$this->dbTable.* ".
+				"FROM $this->dbTable,category ".
+				"WHERE category.name_fulnam IN ('".implode("','",$categoryList)."') ".
+					"AND asset.category_id = category.category_id;";
 
-			$statement = $this->dbAdapter->query($sql);
-			$result = $statement->execute();
-
-			$idArray=array();
-			while( $result->current() ){
-				array_push( $idArray,(int) $result->current()['asset_id'] );
-				$result->next();
-			}
-			$this->find($idArray);
-			return $this->prototypeArray;
 		}
+
+		$statement = $this->dbAdapter->query($sql);
+		$result = $statement->execute();
+
+		$idArray=array();
+		while( $result->current() ){
+			array_push( $idArray,(int) $result->current()['asset_id'] );
+			$result->next();
+		}
+		$this->find($idArray);
+		return $this->getPrototypeArray();
 
 	}
 
@@ -146,7 +165,7 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 	 */
 	public function getAssets($reload=false)
 	{
-		return $this->prototypeArray;
+		return $this->getPrototypeArray();
 	}
 
 	/**

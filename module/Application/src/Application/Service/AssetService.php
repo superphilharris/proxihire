@@ -138,11 +138,9 @@ class AssetService implements AssetServiceInterface
 			}
 			$categories = $this->categoryMapper->getPopularCategories( 
 				$leafCategories, 
-				5 
+				10 
 			);
-			$this->assetMapper->initPrototypeArray( 5 );
-			// jih: pass in filters
-			$assets=$this->assetMapper->findByCategory($categories);
+			$assets=$this->assetMapper->findByCategory( $categories, $filters );
 			$this->assetMapper->setPrototypeArray($assets);
 		}
 		$this->assetMapper->getUrls($this->urlMapper);

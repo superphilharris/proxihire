@@ -296,7 +296,12 @@ abstract class AbstractMapper
 	 * @return array|Application\Model\AbstractModel
 	 */
 	public function getPrototypeArray(){
-		return $this->prototypeArray;
+		foreach( $this->prototypeArray as $prototype ){
+			foreach( $prototype->getArrayCopy() as $field ){
+				if( $field != NULL ) return $this->prototypeArray;
+			}
+		}
+		return array();
 	}
 
 	/**
