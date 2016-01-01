@@ -1085,6 +1085,9 @@ categories = {
 			},
 			{
 				"aliases": ["truck"],
+				"properties": {
+					"axle": "integer"
+				},
 				"children": [
 				    {
 				    	"aliases": ["skeletal trailer", "semi trailer", "transporter truck", "double trailer"]
@@ -1155,15 +1158,18 @@ categories = {
 	},
 	{
 		"aliases": ["trailer"],
+		"properties": {
+			"axle": "integer"
+		},
 		"children": [
 			{
 				"aliases":["horse float", "livestock trailer"]
 			},
 			{
-				"aliases":["standard trailer", "axle trailer", "tandem trailer", "box trailer", "general trailer"]
+				"aliases":["standard trailer", "tandem trailer", "box trailer", "general trailer"]
 			},
 			{
-				"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "shuttle luggage trailer", "mover trailer"]
+				"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "luggage trailer", "mover trailer"]
 			},
 			{
 				"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer", "canvas covered trailer"]
@@ -1178,7 +1184,7 @@ categories = {
 				"aliases":["drop deck trailer", "low load trailer", "widener trailer", "flat deck trailer", "dog trailer", "tilt deck trailer"]
 			},
 			{
-				"aliases":["dump trailer", "tipper trailer"]
+				"aliases":["dump trailer", "tipper trailer", "bulky trailer", "box pull trailer"]
 			},
 			{
 				"aliases":["bike trailer"]
@@ -1193,7 +1199,7 @@ categories = {
 				"aliases":["event trailer"]
 			},
 			{
-				"aliases":["refrigerated trailer"]
+				"aliases":["refrigerated trailer", "fridge trailer"]
 			}
 		]
 	},{

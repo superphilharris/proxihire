@@ -16,6 +16,7 @@ class Datatype extends AbstractModel implements DatatypeInterface
 	const FORCE 			= 'force';
 	const FREQUENCY 		= 'frequency';
 	const LINEAL 			= 'lineal';
+	const INTEGER 			= 'integer';
 	const POWER_ELECTRICAL 	= 'power_electrical';
 	const POWER_MECHANICAL	= 'power_mechanical';
 	const PRESSURE 			= 'pressure';
@@ -70,6 +71,8 @@ class Datatype extends AbstractModel implements DatatypeInterface
 			case $this::FLOW:
 				return array(0.471947443, 'cfm');
 				break;
+			case $this::INTEGER:
+				return array(1, "");
 			case $this::POWER_MECHANICAL:
 				return array(1, "hp");
 			case $this::PRESSURE:
