@@ -1163,10 +1163,10 @@ categories = {
 				"aliases":["standard trailer", "axle trailer", "tandem trailer", "box trailer", "general trailer"]
 			},
 			{
-				"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "shuttle luggage trailer"]
+				"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "shuttle luggage trailer", "mover trailer"]
 			},
 			{
-				"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer"]
+				"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer", "canvas covered trailer"]
 			},
 			{
 				"aliases":["quad trailer", "quad transporter", "equipment trailer"]

@@ -211,17 +211,22 @@ class ImporterServiceHelper {
 		return $string;
 	}
 	
-	private function determinePhoneNumber($location){
+	private function determinePhoneNumber($location, $locale=null){
 		$phoneNumber = null;
 		if(property_exists($location, 'phone_number') AND trim($location->phone_number) !== ''){
 			$phoneNumber = trim($location->phone_number);
 			if(strpos($phoneNumber, '+64') === 0){
-				$phoneNumber = preg_replace("/[^0-9+]/", '', $phoneNumber);
-			}else{
-				throw new \Exception("Do not know how to deal with phone numbers like: '$phoneNumber'");
+				return preg_replace("/[^0-9+]/", '', $phoneNumber);
+			}elseif($locale === 'nz'){
+				if(strpos($phoneNumber, '64') === 0){ // Badly formatted phone number
+					return '+' . preg_replace("/[^0-9]/", '', $phoneNumber); 
+				}elseif(strpos($phoneNumber, '0') === 0){
+					return '+64' . preg_replace("/[^0-9]/", '', substr($phoneNumber, 1));
+				}
 			}
+			throw new \Exception("Do not know how to deal with phone numbers like: '$location->phone_number'.\nPlease add the country locale code to your scraper lessor and ensure that this routine deals with your locale.");
 		}
-		return $phoneNumber;
+		return null;
 	}
 	
 	
@@ -280,6 +285,7 @@ class ImporterServiceHelper {
 	 * @return stdClass
 	 */
 	public function determineBranch($location, $lessor){
+		$locale = (property_exists($lessor, 'locale'))? $lessor->locale : null;
 		$branch = $this->getLatitudeAndLongitude($location);
 		$branch->email 			= (property_exists($lessor, 'email'))? 			$lessor->email 			: null;
 		$branch->phone_number 	= (property_exists($lessor, 'phone_number'))? 	$lessor->phone_number 	: null;
@@ -287,7 +293,7 @@ class ImporterServiceHelper {
 		if(!is_string($location)){
 			if(property_exists($location, 'email')) $branch->email = $location->email;
 			if(property_exists($location, 'name')) 	$branch->name  = preg_replace('!\s+!', ' ', $location->name);
-			$branch->phone_number = $this->determinePhoneNumber($location);
+			$branch->phone_number = $this->determinePhoneNumber($location, $locale);
 			
 			if(($branch->email === null OR $branch->phone_number === null) AND $branch->name != null AND !$this->isCategorizeOnly) {
 				$bingsBranch = $this->determineBranchFromBing(preg_replace('/[^0-9A-Za-z ]/', '', $branch->name));
@@ -390,8 +396,10 @@ class ImporterServiceHelper {
 	 */
 	private function getLatitudeAndLongitude($location){
 		if (is_string($location)) 						return $this->getLatitudeAndLongitudeFromAddress($location);
-		elseif (property_exists($location, 'address'))	return $this->getLatitudeAndLongitudeFromAddress($location->address);
-		else 											return $location;
+		elseif (property_exists($location, 'address')){
+			if(is_string($location->address))			return $this->getLatitudeAndLongitudeFromAddress($location->address);
+			else										return $location->address;
+		}else 											return $location;
 	}
 	
 	private function getLatitudeAndLongitudeFromAddress($physicalAddress){
