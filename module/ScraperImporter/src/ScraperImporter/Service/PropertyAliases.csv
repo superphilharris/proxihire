@@ -1,6 +1,14 @@
 category,before,after
 acrow prop,min,min length
 acrow prop,max,max length
+compressor,cfm,free air delivered
+compressor,continuous work pressure,work pressure
+compressor,intermittent pressure,work pressure
+compressor,working pressure,work pressure
+compressor,output,work pressure
+compressor,power source,power
+compressor,engine,power
+compressor,output,free air delivered
 extension lead,lengths,length
 fencing,heights,height
 fencing,lengths,length

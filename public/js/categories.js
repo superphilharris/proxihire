@@ -126,7 +126,12 @@ categories = {
 						}
 					},
 					{
-						"aliases": ["compressor"]
+						"aliases": ["compressor"],
+						"properties": {
+							"work pressure": "pressure",
+							"free air delivered": "flow",
+							"power": "power_mechanical"
+						}
 					},
 					{
 						"aliases": ["desiccant air dryer"]
@@ -137,7 +142,11 @@ categories = {
 				"aliases": ["plumbing", "water flow"],
 				"children": [
 					{
-						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump", "slurry pump", "high head pump", "positive displacement pump"]
+						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump", "slurry pump", "high head pump", "positive displacement pump"],
+						"properties": {
+							"flow rate": "flow",
+							"outlet diameter": "lineal"
+						}
 					},
 					{
 						"aliases": ["centrifugal pump", "water pump", "rotary pump", "silenced pump", "priming pump"]
@@ -1295,6 +1304,9 @@ categories = {
         	},
         	{
         		"aliases": ["socket set"]
+        	},
+        	{
+        		"aliases": ["spring compressor"]
         	},
         	{
         		"aliases": ["specialized removal tools"],
