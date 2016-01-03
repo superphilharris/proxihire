@@ -1177,10 +1177,20 @@ categories = {
 				}
 			},
 			{
-				"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer", "canvas covered trailer"]
+				"aliases":["caged trailer","bin trailers", "rubbish trailer", "plant trailer", "agricultural trailer", "garden trailer", "canvas covered trailer"],
+				"properties": {
+					"axle": "integer",
+					"length": "lineal",
+					"width": "lineal",
+					"volume": "volume"
+				}
 			},
 			{
-				"aliases":["quad trailer", "quad transporter", "equipment trailer"]
+				"aliases":["quad trailer", "quad transporter", "equipment trailer"],
+				"properties": {
+					"width": "lineal",
+					"length": "lineal"
+				}
 			},
 			{
 				"aliases":["curtainside trailer"]

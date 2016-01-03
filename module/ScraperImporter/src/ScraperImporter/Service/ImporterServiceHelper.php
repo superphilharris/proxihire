@@ -493,7 +493,7 @@ class ImporterServiceHelper {
 	private function mkdir($dir){
 		if(file_exists($dir)) 				return true;
 		elseif(file_exists(dirname($dir))){
-			if(!mkdir($dir)) 				throw new Exception("Could not create directory. Please run: `sudo chown -R www-data:www-data ".dirname($dir));
+			if(!mkdir($dir)) 				throw new \Exception("Could not create directory. Please run: `sudo chown -R www-data:www-data ".dirname($dir));
 			else 							return true;
 		}else								return $this->mkdir(dirname($dir));
 		return false;
