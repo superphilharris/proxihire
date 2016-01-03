@@ -142,6 +142,9 @@ class ImporterServiceHelper {
 			}elseif($unit === 'cfm'){
 				$property['datatype']  = Datatype::FLOW;
 				$property['value_mxd'] = floatval($number) * 0.471947443; // Convert to ltr/sec
+			}elseif($unit === 'axle'){
+				$property['datatype']  = Datatype::INTEGER;
+				$property['value_mxd'] = floatval($number);
 	
 				// Key name matching - TODO: find better way of determining the following code
 			}elseif($this->isIn($key, 'angle')){
@@ -213,7 +216,7 @@ class ImporterServiceHelper {
 	
 	private function determinePhoneNumber($location, $locale=null){
 		$phoneNumber = null;
-		if(property_exists($location, 'phone_number') AND trim($location->phone_number) !== ''){
+		if($this->propertyExists($location, 'phone_number') AND trim($location->phone_number) !== ''){
 			$phoneNumber = trim($location->phone_number);
 			if(strpos($phoneNumber, '+64') === 0){
 				return preg_replace("/[^0-9+]/", '', $phoneNumber);
@@ -285,17 +288,17 @@ class ImporterServiceHelper {
 	 * @return stdClass
 	 */
 	public function determineBranch($location, $lessor){
-		$locale = (property_exists($lessor, 'locale'))? $lessor->locale : null;
+		$locale = ($this->propertyExists($lessor, 'locale'))? $lessor->locale : null;
 		$branch = $this->getLatitudeAndLongitude($location);
-		$branch->email 			= (property_exists($lessor, 'email'))? 			$lessor->email 			: null;
-		$branch->phone_number 	= (property_exists($lessor, 'phone_number'))? 	$lessor->phone_number 	: null;
-		$branch->name 			= (property_exists($lessor, 'name'))? 			$lessor->name 			: null;
+		$branch->email 			= ($this->propertyExists($lessor, 'email'))? 			$lessor->email 			: null;
+		$branch->phone_number 	= ($this->propertyExists($lessor, 'phone_number'))? 	$lessor->phone_number 	: null;
+		$branch->name 			= ($this->propertyExists($lessor, 'name'))? 			$lessor->name 			: null;
 		if(!is_string($location)){
-			if(property_exists($location, 'email')) $branch->email = $location->email;
-			if(property_exists($location, 'name')) 	$branch->name  = preg_replace('!\s+!', ' ', $location->name);
+			if($this->propertyExists($location, 'email')) 	$branch->email = $location->email;
+			if($this->propertyExists($location, 'name')) 	$branch->name  = preg_replace('!\s+!', ' ', $location->name);
 			$branch->phone_number = $this->determinePhoneNumber($location, $locale);
 			
-			if(($branch->email === null OR $branch->phone_number === null) AND $branch->name != null AND !$this->isCategorizeOnly) {
+			if((($branch->email === null AND !property_exists($location, 'email')) OR $branch->phone_number === null) AND $branch->name != null AND !$this->isCategorizeOnly) {
 				$bingsBranch = $this->determineBranchFromBing(preg_replace('/[^0-9A-Za-z ]/', '', $branch->name));
 				if(isset($bingsBranch['email']) AND $branch->email === null) 		$branch->email = $bingsBranch['email'];
 				if(isset($bingsBranch['phone']) AND $branch->phone_number === null) $branch->phone_number = $bingsBranch['phone'];
@@ -303,6 +306,7 @@ class ImporterServiceHelper {
 		}
 		return $branch;
 	}
+	
 	
 	/**
 	 * This searches up a branch's contact details using bing, (google does not allow it easily)
@@ -362,7 +366,7 @@ class ImporterServiceHelper {
 		// 1. Find all Emails, and sort them based on their relevance
 		$emails = array();
 		$subRank = 9999;
-		if(preg_match_all('/[0-9a-zA-Z!#$%&\'*+-=?^_`}{|~]+@[a-zA-Z0-9.]+/', $webPage, $matches)){
+		if(preg_match_all('/[0-9a-zA-Z!#$%&\*+\-=?^_`}{|~]+@[a-zA-Z0-9.]+/', $webPage, $matches)){
 			foreach($matches[0] as $email){
 				$rank = 0;
 				if($this->isIn($email, 'hire')) 	$rank += 3;
@@ -396,7 +400,7 @@ class ImporterServiceHelper {
 	 */
 	private function getLatitudeAndLongitude($location){
 		if (is_string($location)) 						return $this->getLatitudeAndLongitudeFromAddress($location);
-		elseif (property_exists($location, 'address')){
+		elseif ($this->propertyExists($location, 'address')){
 			if(is_string($location->address))			return $this->getLatitudeAndLongitudeFromAddress($location->address);
 			else										return $location->address;
 		}else 											return $location;
@@ -512,7 +516,9 @@ class ImporterServiceHelper {
 		if(count($mainProperties) > 0) {
 			$extractedProperties = null;
 			// Try different regex's to extract out common patterns
-			if(property_exists($mainProperties, 'length') AND property_exists($mainProperties, 'width') AND preg_match("/[0-9].* x [0-9.]+\s*[^\s]+/", $assetName, $result)) { // 4 x 6m
+			if(property_exists($mainProperties, 'length') AND property_exists($mainProperties, 'width') AND preg_match("/[0-9].* x [0-9.]+\s*[^\s]+/", $assetName, $result)) { // 4m x 6m
+				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
+			}elseif(property_exists($mainProperties, 'length') AND property_exists($mainProperties, 'width') AND preg_match("/[0-9.]+x[0-9.]+\s*[^\s]+/", $assetName, $result)) { // 4x6m
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[0]);
 			}elseif(preg_match("/([0-9].*)\((.*[0-9].*)\)/", $assetName, $result)){					// Try: 2.4 meters (8')
 				$extractedProperties = $this->determinePropertiesInternal("__key__", $result[1]);
@@ -558,8 +564,39 @@ class ImporterServiceHelper {
 		return $fixedProperties;
 	}
 	
+	private function convertIntegersInString($string){
+		$mappings = array(
+			"one" 		=> 1,
+			"two" 		=> 2,
+			"three" 	=> 3,
+			"four" 		=> 4,
+			"five"		=> 5,
+			"six" 		=> 6,
+			"seven"		=> 7,
+			"eight"		=> 8,
+			"nine"		=> 9,
+			"ten"		=> 10,
+			"eleven"	=> 11,
+			"single"	=> 1,
+			"double"	=> 2,
+			"tandem"	=> 2,
+			"triple"	=> 3
+		);
+		$factors = array(
+			"ten"		=> 10,
+			"hundred"	=> 100,
+			"thousand"	=> 1000,
+			"million"	=> 1000000,
+			"billion"	=> 1000000000
+		);
+		
+	}
+	
 	private function isIn($haystack, $needle){
 		return preg_match("/".$needle."/", $haystack);
+	}
+	private function propertyExists($value, $key){
+		return (property_exists($value, $key) AND trim($value->{$key}) != "");
 	}
 	
 	private function getNumberAndUnit($key, $value){
@@ -735,8 +772,9 @@ class ImporterServiceHelper {
 		$value = trim(strtolower($value), ": \t\n\r\0\x0B");
 	
 		// If this is an area, then grab the length, the width and the total area
-		if($this->isIn($value, "[0-9].* x [0-9]")){
-			$twoNumbers = explode(" x ", $value, 2);
+		if($this->isIn($value, "[0-9].* x [0-9]") OR $this->isIn($value,  '[0-9.]+x[0-9.]+\s*[^\s]+')){
+			if($this->isIn($value, "[0-9].* x [0-9]")) 	$twoNumbers = explode(" x ", $value, 2);
+			else 										$twoNumbers = explode('x', $value, 2);
 			$width  = $twoNumbers[0];
 			$length = $twoNumbers[1];
 			

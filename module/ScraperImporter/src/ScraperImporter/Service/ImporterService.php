@@ -90,6 +90,7 @@ class ImporterService implements ImporterServiceInterface
 			foreach($pages as $lessor){
 				if($lessor->item_type === "lessor"){
 					if(! in_array($lessor->name, $createdLessors)){
+						if(is_string($lessor->location)) $lessor->location = array($lessor->location);
 						$iconUrl = null;
 						if(property_exists($lessor, 'icon')){
 							$iconUrl = $this->helper->syncImage($lessor->icon, 'lessors');
