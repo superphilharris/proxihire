@@ -90,6 +90,7 @@ class ImporterService implements ImporterServiceInterface
 			foreach($pages as $lessor){
 				if($lessor->item_type === "lessor"){
 					if(! in_array($lessor->name, $createdLessors)){
+						if(is_string($lessor->location)) $lessor->location = array($lessor->location);
 						$iconUrl = null;
 						if(property_exists($lessor, 'icon')){
 							$iconUrl = $this->helper->syncImage($lessor->icon, 'lessors');
@@ -203,7 +204,7 @@ class ImporterService implements ImporterServiceInterface
 							if(isset($rate['duration_hrs'])){
 								$this->writeSQL("INSERT INTO asset_rate (asset_id, duration_hrs, price_dlr) VALUES (@last_asset_id, '".addslashes($rate['duration_hrs'])."', '".$rate['price_dlr']."');");
 							}else{
-								$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($property['name_fulnam'])."', d.datatype_id, '".addslashes($property['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$property['datatype']."';");
+								$this->writeSQL("INSERT INTO asset_property (asset_id, name_fulnam, datatype_id, value_mxd) SELECT @last_asset_id, '".addslashes($rate['name_fulnam'])."', d.datatype_id, '".addslashes($rate['value_mxd'])."' FROM datatype d WHERE d.datatype_abbr = '".$rate['datatype']."';");
 							}
 						}
 					}
