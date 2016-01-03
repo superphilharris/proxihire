@@ -687,22 +687,24 @@ class ImporterServiceHelper {
 		
 		// Get the time period
 		$timePeriod = strtolower(trim($result["duration_hrs"]));
+		$timePeriod = trim(str_replace('hire', '', $timePeriod), ' :');
 		if    ($timePeriod == "full month") 	$result["duration_hrs"] = 24 * 30;
 		elseif($timePeriod == "monthly") 		$result["duration_hrs"] = 24 * 30;
-		elseif($timePeriod == "month hire")		$result["duration_hrs"] = 24 * 30;
+		elseif($timePeriod == "month")			$result["duration_hrs"] = 24 * 30;
 		elseif($timePeriod == "fortnightly") 	$result["duration_hrs"] = 24 * 14;
-		elseif($timePeriod == "fortnight hire")	$result["duration_hrs"] = 24 * 14;
+		elseif($timePeriod == "fortnight")		$result["duration_hrs"] = 24 * 14;
 		elseif($timePeriod == "p/week") 		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "full week") 		$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "weekly") 		$result["duration_hrs"] = 24 * 7;
-		elseif($timePeriod == "week hire")		$result["duration_hrs"] = 24 * 7;
+		elseif($timePeriod == "week")			$result["duration_hrs"] = 24 * 7;
 		elseif($timePeriod == "full day") 		$result["duration_hrs"] = 24;
 		elseif($timePeriod == "daily") 			$result["duration_hrs"] = 24;
-		elseif($timePeriod == "day hire")		$result["duration_hrs"] = 24;
+		elseif($timePeriod == "day")			$result["duration_hrs"] = 24;
 		elseif($timePeriod == "half day") 		$result["duration_hrs"] = 12;
 		elseif($timePeriod == "1/2 day") 		$result["duration_hrs"] = 12;
-		elseif($timePeriod == "quick hire")		$result["duration_hrs"] = 12;
+		elseif($timePeriod == "quick")			$result["duration_hrs"] = 12;
 		else{
+			// throw new \Exception("Please add the rate for '".$timePeriod."' to list of possible durations.");
 			return array("datatype" => Datatype::STRING, "value_mxd" => $result["price_dlr"], "name_fulnam" => $timePeriod);
 		}
 		
