@@ -109,9 +109,8 @@ class AssetMapper extends AbstractMapper implements AssetMapperInterface
 					"AND $this->dbTable.lessor_user_id = branch.user_id ".
 					"AND branch.location_id = location.location_id ".
 					"AND location.latitude_float BETWEEN ".$filters->location->latitude->min." AND ".$filters->location->latitude->max." ".
-					"AND $longitudeFilter".
-				"ORDER BY distance ".
-			") a GROUP BY a.asset_id;";
+					"AND $longitudeFilter ".
+			") AS a GROUP BY a.asset_id ORDER BY a.distance;";
 		}else{
 			$sql="SELECT ".
 					"$this->dbTable.* ".
