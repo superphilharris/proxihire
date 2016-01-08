@@ -23,4 +23,8 @@ ladder,size,total height
 plug board,current ratings,max current
 power splitter box,power inlet,max current
 power splitter box,current rating,max current
-
+sludge pump,capacity,delivery volume
+sludge pump,flow rate,delivery volume
+sludge pump,discharge diameter,outlet diameter
+sludge pump,outlet size,outlet diameter
+sludge pump,outlet,outlet diameter

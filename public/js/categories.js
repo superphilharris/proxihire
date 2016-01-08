@@ -144,7 +144,7 @@ categories = {
 					{
 						"aliases": ["sludge pump", "submersible pump", "waterbed pump", "trash pump", "slurry pump", "high head pump", "positive displacement pump"],
 						"properties": {
-							"flow rate": "flow",
+							"delivery volume": "flow",
 							"outlet diameter": "lineal"
 						}
 					},
