@@ -917,6 +917,9 @@ categories = {
 									},
 									{
 										"aliases": ["butter knife"]
+									},
+									{
+										"aliases": ["cake knife"]
 									}
 								]
 							},

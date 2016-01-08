@@ -590,6 +590,7 @@ class ImporterServiceHelper {
 			"billion"	=> 1000000000
 		);
 		
+		
 	}
 	
 	private function isIn($haystack, $needle){
