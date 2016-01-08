@@ -3,16 +3,17 @@ namespace ScraperImporter\Service;
 
 use Application\Model\Datatype;
 
-class ImporterServiceHelper {
+class ImporterServiceHelper implements ImporterServiceInterface {
 	// The below 3 configurations are used to speed up the scraping for testing purposes.
-	const UPDATE_IMAGES 			= FALSE; // Whether we want to check to see whether they've changed the images on their server.
-	private $propertyAliases = array();
-	private $isCategorizeOnly 	= false; // Turn on if we are overusing the google api. Set to TRUE to speed up.
+	const UPDATE_IMAGES       = FALSE; // Whether we want to check to see whether they've changed the images on their server.
+	private $propertyAliases  = array();
+	private $isCategorizeOnly = false; // Turn on if we are overusing the google api. Set to TRUE to speed up.
 	const GOOGLE_API_KEY = "AIzaSyD6QGNeko6_RVm4dMCRdeQhx8oLb24GGxk";
 	
 	
 	/**
 	 * Determines the property name and value, using the name and value pair.
+	 *
 	 * Will also fix up the property name using the category and the values in the PropertyAliases.csv file
 	 * @param string $key
 	 * @param string $value
@@ -240,10 +241,7 @@ class ImporterServiceHelper {
 	
 
 	/**
-	 * Throws an exception that displays the problem a bit better when decoding json
-	 * @param unknown $json
-	 * @throws \Exception
-	 * @return mixed
+	 * {@inheritdoc}
 	 */
 	public function jsonDecode($json){
 		$array = json_decode($json);
@@ -258,9 +256,7 @@ class ImporterServiceHelper {
 		return $array;
 	}
 	/**
-	 * This fetches an image of a crawled site and puts it into the /public/img/assets/ folder
-	 * @param string $url
-	 * @return boolean
+	 * {@inheritdoc}
 	 */
 	public function syncImage($url, $type="assets"){
 		if(!$this->isCategorizeOnly AND $url !== null AND $url !== ""){
@@ -283,9 +279,7 @@ class ImporterServiceHelper {
 	}
 	
 	/**
-	 * This determines the latitude, longitude, email address and parses the phone number
-	 * @param stdClass $location
-	 * @return stdClass
+	 * {@inheritdoc}
 	 */
 	public function determineBranch($location, $lessor){
 		$locale = ($this->propertyExists($lessor, 'locale'))? $lessor->locale : null;
@@ -432,11 +426,7 @@ class ImporterServiceHelper {
 		return $latLong;
 	}
 	/**
-	 * Resizes and crops an image 
-	 * @param string $imagePath
-	 * @param integer $x
-	 * @param integer $y
-	 * @return string 	- the new image url
+	 * {@inheritdoc}
 	 */
 	public function resizeAndCropImage($imagePath, $x=120, $y=120){
 		if($this->isCategorizeOnly) return null;
@@ -459,10 +449,7 @@ class ImporterServiceHelper {
 	}
 	
 	/**
-	 * This puts a border around a favicon.ico and will also generate a marker for google maps.
-	 * The marker for google maps is the same, except that it ends in ico_marker.ico
-	 * @param string $iconPath
-	 * @return NULL|string
+	 * {@inheritdoc}
 	 */
 	public function createIcons($iconPath){
 		if($this->isCategorizeOnly) return null;
@@ -504,10 +491,7 @@ class ImporterServiceHelper {
 	
 	
 	/**
-	 * This routine attempt to extract out properties from the title of the asset.
-	 * @param string $assetName
-	 * @param array $mainProperties - the properties that we'd expect from this asset
-	 * @return array - the properties has
+	 * {@inheritdoc}
 	 */
 	public function extractPropertiesFromAssetName($assetName, $mainProperties){
 		if($this->isCategorizeOnly) return array();
@@ -566,32 +550,40 @@ class ImporterServiceHelper {
 	
 	private function convertIntegersInString($string){
 		$mappings = array(
-			"one" 		=> 1,
-			"two" 		=> 2,
-			"three" 	=> 3,
-			"four" 		=> 4,
-			"five"		=> 5,
-			"six" 		=> 6,
-			"seven"		=> 7,
-			"eight"		=> 8,
-			"nine"		=> 9,
-			"ten"		=> 10,
-			"eleven"	=> 11,
-			"single"	=> 1,
-			"double"	=> 2,
-			"tandem"	=> 2,
-			"triple"	=> 3
+			"one"      => 1,
+			"two"      => 2,
+			"three"    => 3,
+			"four"     => 4,
+			"five"     => 5,
+			"six"      => 6,
+			"seven"    => 7,
+			"eight"    => 8,
+			"nine"     => 9,
+			"ten"      => 10,
+			"eleven"   => 11,
+			"single"   => 1,
+			"double"   => 2,
+			"tandem"   => 2,
+			"triple"   => 3
 		);
 		$factors = array(
-			"ten"		=> 10,
-			"hundred"	=> 100,
-			"thousand"	=> 1000,
-			"million"	=> 1000000,
-			"billion"	=> 1000000000
+			"ten"      => 10,
+			"hundred"  => 100,
+			"thousand" => 1000,
+			"million"  => 1000000,
+			"billion"  => 1000000000
 		);
 		
 	}
 	
+	/**
+	 * Searches for an instance of the $neeedle within all elements of $haystack
+	 *
+	 * @param $haystack - Either a string or an array of strings. If any instance 
+	 *                    of $needle is in this, then count it as a match.
+	 * @param $needle   - A regular expression to search for
+	 * @return boolean  - True if a match found
+	 */
 	private function isIn($haystack, $needle){
 		return preg_match("/".$needle."/", $haystack);
 	}
@@ -640,6 +632,9 @@ class ImporterServiceHelper {
 		return $string;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function determineProperties($properties, $categoryName, $assetName, $mainProperties){
 		if($this->isCategorizeOnly) return array();
 		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainProperties);
@@ -711,6 +706,9 @@ class ImporterServiceHelper {
 		return $result;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function determineRates($rates){
 		if($this->isCategorizeOnly) return array();
 		$ratesOut = array();
@@ -770,6 +768,8 @@ class ImporterServiceHelper {
 	 */
 	private function determinePropertiesInternal($key, $value){
 		if($key === $value) $key = "";
+
+		// trim any unwanted prefix/suffix
 		$key   = trim(strtolower($key),   ":- \t\n\r\0\x0B");
 		$value = trim(strtolower($value), ": \t\n\r\0\x0B");
 	
@@ -860,10 +860,7 @@ class ImporterServiceHelper {
 	}
 
 	/**
-	 * Determines the category by looking at categories.js file
-	 * @param CategoryAliases $category
-	 * @param string $name
-	 * @return Ambigous Category|NULL
+	 * {@inheritdoc}
 	 */
 	public function determineCategory($category, $name){
 		$lowercaseName = $this->fixSpelling(strtolower($name));
