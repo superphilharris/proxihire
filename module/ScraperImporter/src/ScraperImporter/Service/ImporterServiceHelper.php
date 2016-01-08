@@ -140,6 +140,9 @@ class ImporterServiceHelper implements ImporterServiceInterface {
 			}elseif($unit === 'ltr/min' OR $unit === 'lit/min'){
 				$property['datatype']  = Datatype::FLOW;
 				$property['value_mxd'] = floatval($number) / 60; // Convert to ltr/sec
+			}elseif($unit === 'm3/min' OR $unit === 'm3/mim'){
+				$property['datatype']  = Datatype::FLOW;
+				$property['value_mxd'] = floatval($number) * 1000 / 60; // Convert to ltr/sec
 			}elseif($unit === 'cfm'){
 				$property['datatype']  = Datatype::FLOW;
 				$property['value_mxd'] = floatval($number) * 0.471947443; // Convert to ltr/sec
