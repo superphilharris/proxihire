@@ -1177,7 +1177,7 @@ categories = {
 				}
 			},
 			{
-				"aliases":["horse float", "livestock trailer", "stock trailer"]
+				"aliases":["horse float", "horsefloat", "livestock trailer", "stock trailer"]
 			},
 			{
 				"aliases":["shuttle trailer", "furniture trailer", "enclosed trailer", "luggage trailer", "mover trailer"],
