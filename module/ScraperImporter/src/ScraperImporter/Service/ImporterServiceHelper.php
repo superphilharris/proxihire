@@ -804,9 +804,14 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 		if(count($results) === 1){
 			$result = $results[0];
 			if($result['datatype'] === Datatype::STRING){
+				// If there is a colon, then the value could contain both the key 
+				// and the value
+				if(preg_match('/([A-Za-z].*)\:\s*([0-9].*)/', $value, $matches)){
+					$newResults = $this->determinePropertiesInternal($matches[1], $matches[2]);
+					if($newResults[0]['datatype'] !== Datatype::STRING) $results = $newResults;
 				// If we have not done anything except make it lower case, then 
 				// revert the determineProperties
-				if($key === $value){ 
+				}elseif($key === $value){ 
 					if(strtolower($result['value_mxd']) === trim($key)){
 						$result['value_mxd'] = ucfirst(trim($this->fixSpelling($key)));
 						return array($result);
@@ -814,11 +819,6 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 						$result['value_mxd'] = ucfirst($this->fixSpelling($result['value_mxd']));
 						return array($result);
 					}
-					
-				// If there is a colon, then the value could contain both the key and the value
-				}elseif(preg_match('/([A-Za-z].*)\:\s*([0-9].*)/', $value, $matches)){
-					$newResults = $this->determinePropertiesInternal($matches[1], $matches[2]);
-					if($newResults[0]['datatype'] !== Datatype::STRING) $results = $newResults;
 				}
 			}
 		}
