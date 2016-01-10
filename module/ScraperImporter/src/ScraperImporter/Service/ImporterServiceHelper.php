@@ -658,14 +658,28 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 		return false;
 	}
 	
-	private function isSamePropertyName($propertyName, $propertyAlias){
-		if($propertyName === $propertyAlias) return true;
-		else{
-			$shortPropertyName = str_replace('maximum', 'max', $propertyName);
-			$shortPropertyName = str_replace('minimum', 'min', $propertyName);
-			if($shortPropertyName === $propertyAlias) 	return true;
-			else 										return false;
-		}
+	/**
+	 * Compares a property to a potential property alias
+	 *
+	 * @param  $scrapedName   - The scraped name, once it has been cleaned up
+	 * @param  $propertyAlias - The alias to try to match the scraped name 
+	 *                          against
+	 * @param  $propertyName  - The property name, which is returned if the alias 
+	 *                          matches
+	 * @return string         - The aliased name. NULL if not a match
+	 */
+	private function getSamePropertyName($scrapedName, $propertyAlias, $propertyName){
+		$scrapedName   = strtolower( $scrapedName );
+		$propertyAlias = strtolower( $propertyAlias );
+		$propertyName  = strtolower( $propertyName );
+
+		$scrapedName = str_replace('maximum', 'max', $scrapedName);
+		$scrapedName = str_replace('minimum', 'min', $scrapedName);
+		if($scrapedName === $propertyAlias)          return $propertyName;
+
+		if( $scrapedName === "max ".$propertyAlias ) return "max ".$propertyName;
+		if( $scrapedName === "min ".$propertyAlias ) return "min ".$propertyName;
+		return NULL;
 	}
 	
 	/**
@@ -705,16 +719,17 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 			if($propertyAlias[0] === $categoryName){
 				$foundAnotherPropertyWithFixedName = false;
 				// First, see if this property matches the actual property name
-				foreach($propertiesOut as $siblingProperty){
-					if($this->isSamePropertyName(strtolower($siblingProperty['name_fulnam']), strtolower($propertyAlias[2]))){
+				foreach($propertiesOut as $property){
+					if(!is_null($this->getSamePropertyName($property['name_fulnam'], $propertyAlias[2], $propertyAlias[2]))){
 						$foundAnotherPropertyWithFixedName = true;
 					}
 				}
 				// If we haven't found another property with this fixed name, then try and fix this one
 				if(!$foundAnotherPropertyWithFixedName){
 					foreach($propertiesOut as $i => $property){
-						if($this->isSamePropertyName(strtolower($property['name_fulnam']), strtolower($propertyAlias[1]))){
-							$propertiesOut[$i]['name_fulnam'] = $propertyAlias[2];
+						$tmpName = $this->getSamePropertyName($property['name_fulnam'], $propertyAlias[1], $propertyAlias[2]);
+						if( !is_null( $tmpName ) ){
+							$propertiesOut[$i]['name_fulnam'] = $tmpName;
 						}
 					}
 				}
