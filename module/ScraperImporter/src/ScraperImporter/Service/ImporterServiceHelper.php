@@ -75,7 +75,7 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 			}elseif($unit === 'minutes' OR $unit === 'minute'){
 				$property['datatype']  = Datatype::TIME;
 				$property['value_mxd'] = floatval($number) * 60;
-			}elseif($unit === 'ft'){
+			}elseif($unit === 'ft'    OR $unit === "'"){
 				$property['datatype']  = Datatype::LINEAL;
 				$property['value_mxd'] = floatval($number) * 0.3048;
 			}elseif($unit === 'mm'){
@@ -201,30 +201,31 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	 * @return string
 	 */
 	private function fixSpelling($string){
-		$string = str_replace(' & ', 			' and ',		$string);
-		$string = str_replace('acroprop', 		'acrow prop',	$string);
-		$string = str_replace('bi fold', 		'bi-fold',		$string);
-		$string = str_replace('crow bar', 		'crowbar',		$string);
-		$string = str_replace('chain saw', 		'chainsaw',		$string);
-		$string = str_replace('excxavator', 	'excavator',	$string);
-		$string = str_replace('furiture', 		'furniture',	$string);
-		$string = str_replace('flexdrive', 		'flexi-drive',	$string);
-		$string = str_replace('flexidrive', 	'flexi-drive',	$string);
-		$string = str_replace('flexi drive', 	'flexi-drive',	$string);
-		$string = str_replace('fly wheel', 		'flywheel',		$string);
-		$string = str_replace('hight', 			'high',			$string);
-		$string = str_replace('lenght', 		'length', 		$string);
-		$string = str_replace('panle', 			'panel', 		$string);
-		$string = str_replace('pedistal', 		'pedestal', 	$string);
-		$string = str_replace('rptation', 		'rotation', 	$string);
-		$string = str_replace('skilsaw', 		'skillsaw',		$string);
-		$string = str_replace('scissorlift', 	'scissor lift',	$string);
-		$string = str_replace('tarpouline', 	'tarpaulin',	$string);
-		$string = str_replace('tea spoon', 		'teaspoon',		$string);
-		$string = str_replace('x box', 			'xbox',			$string);
-		$string = str_replace('wall paper', 	'wallpaper',	$string);
-		$string = str_replace('wheel barrow', 	'wheelbarrow', 	$string);
-		$string = str_replace('widht', 			'width', 		$string);
+		$string = str_replace(' & ',          ' and ',        $string);
+		$string = str_replace('acroprop',     'acrow prop',   $string);
+		$string = str_replace('bi fold',      'bi-fold',      $string);
+		$string = str_replace('crow bar',     'crowbar',      $string);
+		$string = str_replace('chain saw',    'chainsaw',     $string);
+		$string = str_replace('dimention',    'dimension',    $string);
+		$string = str_replace('excxavator',   'excavator',    $string);
+		$string = str_replace('furiture',     'furniture',    $string);
+		$string = str_replace('flexdrive',    'flexi-drive',  $string);
+		$string = str_replace('flexidrive',   'flexi-drive',  $string);
+		$string = str_replace('flexi drive',  'flexi-drive',  $string);
+		$string = str_replace('fly wheel',    'flywheel',     $string);
+		$string = str_replace('hight',        'high',         $string);
+		$string = str_replace('lenght',       'length',       $string);
+		$string = str_replace('panle',        'panel',        $string);
+		$string = str_replace('pedistal',     'pedestal',     $string);
+		$string = str_replace('rptation',     'rotation',     $string);
+		$string = str_replace('skilsaw',      'skillsaw',     $string);
+		$string = str_replace('scissorlift',  'scissor lift', $string);
+		$string = str_replace('tarpouline',   'tarpaulin',    $string);
+		$string = str_replace('tea spoon',    'teaspoon',     $string);
+		$string = str_replace('x box',        'xbox',         $string);
+		$string = str_replace('wall paper',   'wallpaper',    $string);
+		$string = str_replace('wheel barrow', 'wheelbarrow',  $string);
+		$string = str_replace('widht',        'width',        $string);
 		return $string;
 	}
 	
@@ -871,10 +872,74 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 		$key   = trim(strtolower($key),   ":- \t\n\r\0\x0B");
 		$value = trim(strtolower($value), ": \t\n\r\0\x0B");
 	
+		// If there is a min and max in the value, then strip them out.
+		if($this->isIn($value, "[0-9].* to .*[0-9]")){
+			if (!strpos($key, ' ')) $key = Porter::Stem($key);
+			$twoNumbers = explode(" to ", $value, 2);
+			$min = $twoNumbers[0];
+			$max = $twoNumbers[1];
+			// If the min or max has the units, then ensure that the other one is 
+			// updated too
+			if(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $min, $minUnits) AND floatval($min) == $min){
+				$min = $min.$maxUnits[1];
+			}elseif(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $min, $minUnits) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND floatval($max) == $max){
+				$max = $max.$minUnits[1];
+			}
+			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
+				
+		}
+		
+		if($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND $this->isIn($key, ' range')){
+			$key = str_replace('range', 'bound', $key);
+			$twoNumbers = explode("-", $value, 2);
+			$min = trim($twoNumbers[0]);
+			$max = trim($twoNumbers[1]);
+			// If the min or max has the units, then ensure that the other one is 
+			// updated too
+			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND floatval($min) == $min){
+				$min = $min.$maxUnits[1];
+			}elseif(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($max) == $max){ 
+				$min = $min.$maxUnits[1];
+			}
+			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
+		}
+		
+		if( $this->isIn($value, '[0-9.]+.*- *[0-9.]+') ){
+			$key = Porter::Stem($this->fixSpelling($key));
+			$twoNumbers = explode("-", $value, 2);
+			$min = trim($twoNumbers[0]);
+			$max = trim($twoNumbers[1]);
+			// If the min or max has the units, then ensure that the other one is 
+			// updated too
+			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
+				$min = $min.$maxUnits[1];
+			}elseif(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($max) == $max){ // If the min has the units, then put the units onto the max as well
+				$max = $max.$minUnits[1];
+			}
+			return array_merge($this->determinePropertiesInternal("min ".$key, $min), $this->determinePropertiesInternal("max ".$key, $max));
+		}
+		
+		// If there are actually 2 units in this value
+		if(preg_match('/([0-9.]+[^0-9]+),\s*([0-9].*)/', $value, $matches)){
+			$key = Porter::Stem($this->fixSpelling($key));
+			$unit1 = $matches[1];
+			$unit2 = $matches[2];
+			
+			$result1 = $this->determineProperty($key, $unit1);
+			$result2 = $this->determineProperty($key, $unit2);
+			if($result1['datatype'] !== $result2['datatype'] AND $result1['datatype'] !== Datatype::STRING AND $result2['datatype'] !== Datatype::STRING){
+				$result1['name_fulnam'] = $result1['name_fulnam'] . ' ' . Datatype::getDisplayName($result1['datatype']);
+				$result2['name_fulnam'] = $result2['name_fulnam'] . ' ' . Datatype::getDisplayName($result2['datatype']);
+				// TODO: could we use one of the extracted datatypes?
+				return array($result1, $result2);
+			}else return array($this->determineProperty($key, $value));
+		}
+		
 		// If this is an area, then grab the length, the width and the total area
 		if($this->isIn($value, "[0-9].* x [0-9]") OR $this->isIn($value,  '[0-9.]+x[0-9.]+\s*[^\s]+')){
 			// We *DON'T* want to limit the explodes to 2, as this disallows 
 			// L x W x H
+			$value = $this->fixValue($value);
 			if($this->isIn($value, "[0-9].* x [0-9]")) $dimensions = explode(" x ", $value );
 			else                                       $dimensions = explode('x',   $value );
 			$width     = $dimensions[0];
@@ -886,7 +951,6 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 				$height = $dimensions[2];
 				$heightResult = $this->determineProperty($key." height", $height);
 			}
-			
 			
 			// Now check to see how we should interpret the result - it may not be 
 			// area, but 2 other dimensions
@@ -916,65 +980,9 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 				return array($this->determineProperty($key, $value));
 			}
 			
-		// If there is a min and max in the value, then strip them out.
-		}elseif($this->isIn($value, "[0-9].* to .*[0-9]")){
-			if (!strpos($key, ' ')) $key = Porter::Stem($key);
-			$twoNumbers = explode(" to ", $value, 2);
-			$min = $twoNumbers[0];
-			$max = $twoNumbers[1];
-			// If the min or max has the units, then ensure that the other one is 
-			// updated too
-			if(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $min, $minUnits) AND floatval($min) == $min){
-				$min = $min.$maxUnits[1];
-			}elseif(preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $min, $minUnits) AND !preg_match('/[0-9\-.]+\s*([a-zA-Z\/ ]+)/', $max, $maxUnits) AND floatval($max) == $max){
-				$max = $max.$minUnits[1];
-			}
-			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
-				
-		}elseif($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND $this->isIn($key, ' range')){
-			$key = str_replace('range', 'bound', $key);
-			$twoNumbers = explode("-", $value, 2);
-			$min = trim($twoNumbers[0]);
-			$max = trim($twoNumbers[1]);
-			// If the min or max has the units, then ensure that the other one is 
-			// updated too
-			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND floatval($min) == $min){
-				$min = $min.$maxUnits[1];
-			}elseif(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($max) == $max){ 
-				$min = $min.$maxUnits[1];
-			}
-			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
-			
-		}elseif($this->isIn($value, '[0-9.]+.*- *[0-9.]+') AND !strpos($key, ' ')){
-			$key = Porter::Stem($this->fixSpelling($key));
-			$twoNumbers = explode("-", $value, 2);
-			$min = trim($twoNumbers[0]);
-			$max = trim($twoNumbers[1]);
-			// If the min or max has the units, then ensure that the other one is 
-			// updated too
-			if(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND floatval($min) == $min){ // If the max has the units, then put the units onto the min as well
-				$min = $min.$maxUnits[1];
-			}elseif(preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $min, $minUnits) AND !preg_match('/[0-9.]+([a-zA-Z\/\s]+)/', $max, $maxUnits) AND floatval($max) == $max){ // If the max has the units, then put the units onto the min as well
-				$min = $min.$maxUnits[1];
-			}
-			return array($this->determineProperty("min ".$key, $min), $this->determineProperty("max ".$key, $max));
+		}
 		
-		// If there are actually 2 units in this value
-		}elseif(preg_match('/([0-9.]+[^0-9]+),\s*([0-9].*)/', $value, $matches)){
-			$key = Porter::Stem($this->fixSpelling($key));
-			$unit1 = $matches[1];
-			$unit2 = $matches[2];
-			
-			$result1 = $this->determineProperty($key, $unit1);
-			$result2 = $this->determineProperty($key, $unit2);
-			if($result1['datatype'] !== $result2['datatype'] AND $result1['datatype'] !== Datatype::STRING AND $result2['datatype'] !== Datatype::STRING){
-				$result1['name_fulnam'] = $result1['name_fulnam'] . ' ' . Datatype::getDisplayName($result1['datatype']);
-				$result2['name_fulnam'] = $result2['name_fulnam'] . ' ' . Datatype::getDisplayName($result2['datatype']);
-				// TODO: could we use one of the extracted datatypes?
-				return array($result1, $result2);
-			}else return array($this->determineProperty($key, $value));
-		
-		}else return array($this->determineProperty($key, $value));
+		return array($this->determineProperty($key, $value));
 	}
 
 	/**
