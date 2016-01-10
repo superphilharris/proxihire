@@ -873,25 +873,40 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	
 		// If this is an area, then grab the length, the width and the total area
 		if($this->isIn($value, "[0-9].* x [0-9]") OR $this->isIn($value,  '[0-9.]+x[0-9.]+\s*[^\s]+')){
-			if($this->isIn($value, "[0-9].* x [0-9]")) $twoNumbers = explode(" x ", $value, 2);
-			else                                       $twoNumbers = explode('x',   $value, 2);
-			$width  = $twoNumbers[0];
-			$length = $twoNumbers[1];
+			// We *DON'T* want to limit the explodes to 2, as this disallows 
+			// L x W x H
+			if($this->isIn($value, "[0-9].* x [0-9]")) $dimensions = explode(" x ", $value );
+			else                                       $dimensions = explode('x',   $value );
+			$width     = $dimensions[0];
+			$length    = $dimensions[1];
+			$widthResult  = $this->determineProperty($key." width", $width);
+			$lengthResult = $this->determineProperty($key." length", $length);
+
+			if( count($dimensions) > 2 ){
+				$height = $dimensions[2];
+				$heightResult = $this->determineProperty($key." height", $height);
+			}
 			
-			$widthResult  = $this->determineProperty($key, $width);
-			$lengthResult = $this->determineProperty($key, $length);
 			
 			// Now check to see how we should interpret the result - it may not be 
 			// area, but 2 other dimensions
 			if($widthResult['datatype'] === Datatype::LINEAL OR $lengthResult['datatype'] === Datatype::LINEAL){
 				$this->giveBothValuesTheSameUnit($width, $length);
-				$widthResult  = $this->determineProperty($key, $width);
-				$lengthResult = $this->determineProperty($key, $length);
+				$widthResult  = $this->determineProperty($key." width", $width);
+				$lengthResult = $this->determineProperty($key." length", $length);
+				if( count($dimensions) > 2 ){
+					$this->giveBothValuesTheSameUnit($width, $height);
+					$heightResult = $this->determineProperty($key." height", $height);
+				}
 				
 				$areaResult = array('value_mxd' => $widthResult['value_mxd'] * $lengthResult['value_mxd']);
 				$areaResult['name_fulnam'] = 'area';
 				$areaResult['datatype']    = Datatype::AREA;
-				return array($widthResult, $lengthResult, $areaResult);
+				if( count($dimensions) > 2 ){
+					return array($widthResult, $lengthResult, $heightResult, $areaResult);
+				}else{
+					return array($widthResult, $lengthResult, $areaResult);
+				}
 			}elseif($widthResult['datatype'] === Datatype::STRING AND $lengthResult['datatype'] === Datatype::STRING){
 				return array($this->determineProperty($key, $value));
 			}else{
