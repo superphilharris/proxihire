@@ -201,12 +201,14 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	 * @return string
 	 */
 	private function fixSpelling($string){
-		$string = str_replace(' & ',          ' and ',      $string);
+		$string = str_replace(' & ',          ' and ',        $string);
 		$string = str_replace('acroprop',     'acrow prop',   $string);
 		$string = str_replace('bi fold',      'bi-fold',      $string);
 		$string = str_replace('crow bar',     'crowbar',      $string);
 		$string = str_replace('chain saw',    'chainsaw',     $string);
+		$string = str_replace('diamention',   'dimension',    $string);
 		$string = str_replace('dimention',    'dimension',    $string);
+		$string = str_replace('dimenion',     'dimension',    $string);
 		$string = str_replace('excxavator',   'excavator',    $string);
 		$string = str_replace('furiture',     'furniture',    $string);
 		$string = str_replace('flexdrive',    'flexi-drive',  $string);
