@@ -201,7 +201,7 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	 * @return string
 	 */
 	private function fixSpelling($string){
-		$string = str_replace(' & ',          ' and ',        $string);
+		$string = str_replace(' & ',          ' and ',      $string);
 		$string = str_replace('acroprop',     'acrow prop',   $string);
 		$string = str_replace('bi fold',      'bi-fold',      $string);
 		$string = str_replace('crow bar',     'crowbar',      $string);
@@ -704,6 +704,7 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 		foreach($this->propertyAliases as $propertyAlias){
 			if($propertyAlias[0] === $categoryName){
 				$foundAnotherPropertyWithFixedName = false;
+				// First, see if this property matches the actual property name
 				foreach($propertiesOut as $siblingProperty){
 					if($this->isSamePropertyName(strtolower($siblingProperty['name_fulnam']), strtolower($propertyAlias[2]))){
 						$foundAnotherPropertyWithFixedName = true;
