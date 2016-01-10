@@ -272,7 +272,7 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	 * {@inheritdoc}
 	 */
 	public function syncImage($url, $type="assets"){
-		if(!$this->isCategorizeOnly AND $url !== null AND $url !== ""){
+		if(!$this->isCategorizeOnly AND !empty($url)){
 			$urlComponents = parse_url($url);
 			if(isset($urlComponents['host']) AND isset($urlComponents['path'])){
 				$localImageRelativePath = $urlComponents['host'].$urlComponents['path'];
@@ -516,9 +516,16 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	
 	
 	/**
-	 * {@inheritdoc}
+	 * This routine attempts to extract out properties from the title of the 
+	 * asset.
+	 *
+	 * @param  string $assetName      - the scraped asset name
+	 * @param  array  $mainProperties - the properties that we'd expect from this 
+	 *                                  asset.
+	 * @return array                  - the properties; extracted from the asset 
+	 *                                  name, and in a standardized form.
 	 */
-	public function extractPropertiesFromAssetName($assetName, $mainProperties){
+	private function extractPropertiesFromAssetName($assetName, $mainProperties){
 		if($this->isCategorizeOnly) return array();
 		$fixedProperties = array();
 		// Extract out min and max, eg: "Ladder Extension 7-9m"
@@ -686,7 +693,7 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 		if($this->isCategorizeOnly) return array();
 		$propertiesOut = $this->extractPropertiesFromAssetName($assetName, $mainProperties);
 		foreach($properties as $propertyName => $propertyValue){
-			$newProperties = $this->determinePropertyWrapper($propertyName, $propertyValue, $categoryName);
+			$newProperties = $this->determinePropertyWrapper($propertyName, $propertyValue);
 			foreach($newProperties as $newProperty){
 				$propertiesOut[$newProperty['name_fulnam']] = $newProperty;
 			}
@@ -792,7 +799,7 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	 * @return array                - An array of all of the properties in a 
 	 *                                standardized form.
 	 */
-	private function determinePropertyWrapper($key, $value, $categoryName){
+	private function determinePropertyWrapper($key, $value ){
 		$results = $this->determinePropertiesInternal($key, $value);
 		if(count($results) === 1){
 			$result = $results[0];
