@@ -980,7 +980,7 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 				}
 				
 				$areaResult = array('value_mxd' => $widthResult['value_mxd'] * $lengthResult['value_mxd']);
-				$areaResult['name_fulnam'] = 'area';
+				$areaResult['name_fulnam'] = $key.' area';
 				$areaResult['datatype']    = Datatype::AREA;
 				if( count($dimensions) > 2 ){
 					return array($widthResult, $lengthResult, $heightResult, $areaResult);
