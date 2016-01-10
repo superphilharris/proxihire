@@ -297,17 +297,17 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	public function determineBranch($location, $lessor){
 		$locale = ($this->propertyExists($lessor, 'locale'))? $lessor->locale : null;
 		$branch = $this->getLatitudeAndLongitude($location);
-		$branch->email 			= ($this->propertyExists($lessor, 'email'))? 			$lessor->email 			: null;
-		$branch->phone_number 	= ($this->propertyExists($lessor, 'phone_number'))? 	$lessor->phone_number 	: null;
-		$branch->name 			= ($this->propertyExists($lessor, 'name'))? 			$lessor->name 			: null;
+		$branch->email        = ($this->propertyExists($lessor, 'email'))?        $lessor->email        : null;
+		$branch->phone_number = ($this->propertyExists($lessor, 'phone_number'))? $lessor->phone_number : null;
+		$branch->name         = ($this->propertyExists($lessor, 'name'))?         preg_replace('!\s+!', ' ', $lessor->name) : null;
 		if(!is_string($location)){
-			if($this->propertyExists($location, 'email')) 	$branch->email = $location->email;
-			if($this->propertyExists($location, 'name')) 	$branch->name  = preg_replace('!\s+!', ' ', $location->name);
+			if($this->propertyExists($location, 'email')) $branch->email = $location->email;
+			if($this->propertyExists($location, 'name'))  $branch->name  = preg_replace('!\s+!', ' ', $location->name);
 			$branch->phone_number = $this->determinePhoneNumber($location, $locale);
 			
 			if((($branch->email === null AND !property_exists($location, 'email')) OR $branch->phone_number === null) AND $branch->name != null AND !$this->isCategorizeOnly) {
 				$bingsBranch = $this->determineBranchFromBing(preg_replace('/[^0-9A-Za-z ]/', '', $branch->name));
-				if(isset($bingsBranch['email']) AND $branch->email === null) 		$branch->email = $bingsBranch['email'];
+				if(isset($bingsBranch['email']) AND $branch->email === null)       $branch->email = $bingsBranch['email'];
 				if(isset($bingsBranch['phone']) AND $branch->phone_number === null) $branch->phone_number = $bingsBranch['phone'];
 			}
 		}
@@ -866,24 +866,24 @@ class ImporterServiceHelper implements ImporterServiceHelperInterface {
 	
 		// If this is an area, then grab the length, the width and the total area
 		if($this->isIn($value, "[0-9].* x [0-9]") OR $this->isIn($value,  '[0-9.]+x[0-9.]+\s*[^\s]+')){
-			if($this->isIn($value, "[0-9].* x [0-9]")) 	$twoNumbers = explode(" x ", $value, 2);
-			else 										$twoNumbers = explode('x', $value, 2);
+			if($this->isIn($value, "[0-9].* x [0-9]")) $twoNumbers = explode(" x ", $value, 2);
+			else                                       $twoNumbers = explode('x',   $value, 2);
 			$width  = $twoNumbers[0];
 			$length = $twoNumbers[1];
 			
-			$widthResult  	= $this->determineProperty($key, $width);
-			$lengthResult 	= $this->determineProperty($key, $length);
+			$widthResult  = $this->determineProperty($key, $width);
+			$lengthResult = $this->determineProperty($key, $length);
 			
 			// Now check to see how we should interpret the result - it may not be 
 			// area, but 2 other dimensions
 			if($widthResult['datatype'] === Datatype::LINEAL OR $lengthResult['datatype'] === Datatype::LINEAL){
 				$this->giveBothValuesTheSameUnit($width, $length);
-				$widthResult  	= $this->determineProperty($key, $width);
-				$lengthResult 	= $this->determineProperty($key, $length);
+				$widthResult  = $this->determineProperty($key, $width);
+				$lengthResult = $this->determineProperty($key, $length);
 				
-				$areaResult 	= array('value_mxd' => $widthResult['value_mxd'] * $lengthResult['value_mxd']);
-				$areaResult['name_fulnam'] 		= 'area';
-				$areaResult['datatype'] 		= Datatype::AREA;
+				$areaResult = array('value_mxd' => $widthResult['value_mxd'] * $lengthResult['value_mxd']);
+				$areaResult['name_fulnam'] = 'area';
+				$areaResult['datatype']    = Datatype::AREA;
 				return array($widthResult, $lengthResult, $areaResult);
 			}elseif($widthResult['datatype'] === Datatype::STRING AND $lengthResult['datatype'] === Datatype::STRING){
 				return array($this->determineProperty($key, $value));
