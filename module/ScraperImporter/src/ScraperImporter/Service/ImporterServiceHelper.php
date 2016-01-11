@@ -127,6 +127,9 @@ class ImporterServiceHelper {
 			}elseif($unit === 'kw' OR $unit === 'kva'){
 				$property['datatype']  = Datatype::POWER_ELECTRICAL;
 				$property['value_mxd'] = floatval($number) * 1000;
+			}elseif($unit === 'va'){
+				$property['datatype']  = Datatype::POWER_ELECTRICAL;
+				$property['value_mxd'] = floatval($number);
 			}elseif($unit === 'volt' OR $unit === 'volts'){
 				$property['datatype']  = Datatype::VOLTAGE;
 				$property['value_mxd'] = floatval($number);
