@@ -17,6 +17,7 @@ fencing,panel length,length
 fencing,panel weight,weight
 fencing,gross weight,weight
 floor stripper,width,working width
+floor stripper,blade width,working width
 ladder,open height,total height
 ladder,extension size,total height
 ladder,size,total height
@@ -28,3 +29,11 @@ sludge pump,flow rate,delivery volume
 sludge pump,discharge diameter,outlet diameter
 sludge pump,outlet size,outlet diameter
 sludge pump,outlet,outlet diameter
+standard trailer,tray dimens length,box length
+standard trailer,internal capacity length,box length
+standard trailer,tray dimens width,box width
+standard trailer,internal capacity width,box width
+standard trailer,tray dimens height,box height
+standard trailer,internal capacity height,box height
+standard trailer,tray dimens area,box area
+standard trailer,internal capacity area,box area
